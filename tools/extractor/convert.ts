@@ -150,6 +150,7 @@ export const HATCH_KIND_ORDER: readonly HatchKind[] = [
   'dynamo',
   'maintenance',
   'muffler',
+  'steamIn',
 ];
 
 /** Block ids (from `src/data/blocks.ts`) used when a hatch of that kind is placed. */
@@ -162,6 +163,7 @@ export const DEFAULT_HATCH_BLOCKS: Readonly<Record<HatchKind, string>> = {
   dynamo: 'gt.hatch.dynamo',
   maintenance: 'gt.hatch.maintenance',
   muffler: 'gt.hatch.muffler',
+  steamIn: 'gt.hatch.steamInput',
 };
 
 export const DEFAULT_CONTROLLER_BLOCK = 'gt.controller';

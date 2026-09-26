@@ -1,0 +1,84 @@
+{
+  "id": "assembly-line",
+  "name": "Assembly Line",
+  "tier": "LuV",
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTEAssemblyLine.java",
+  "size": [5, 4, 3],
+  "layers": [
+    ["bbbbB", "iiiii", "bbbbB"],
+    ["ggggg", "mmmmm", "ggggg"],
+    ["~dddd", "lllll", "Gdddd"],
+    ["     ", "eeeee", "     "]
+  ],
+  "legend": {
+    "G": {
+      "blockId": "gt.casing.grate"
+    },
+    "d": {
+      "blockId": "gt.casing.grate"
+    },
+    "l": {
+      "blockId": "gt.casing.assembler"
+    },
+    "m": {
+      "blockId": "gt.casing.assemblyLine"
+    },
+    "g": {
+      "blockId": "gt.glass.reinforced"
+    },
+    "e": {
+      "blockId": "gt.casing.solidSteel",
+      "hatches": ["energy"],
+      "disallowFaces": {
+        "energy": ["east", "west", "down"]
+      }
+    },
+    "b": {
+      "blockId": "gt.casing.solidSteel",
+      "hatches": ["fluidIn", "maintenance"]
+    },
+    "B": {
+      "blockId": "gt.casing.solidSteel",
+      "hatches": ["fluidIn", "maintenance", "itemOut"]
+    },
+    "i": {
+      "blockId": "gt.hatch.inputBus"
+    }
+  },
+  "controller": {
+    "pos": [0, 2, 0],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "itemOut": "gt.hatch.outputBus",
+    "fluidIn": "gt.hatch.inputHatch",
+    "energy": "gt.hatch.energy",
+    "maintenance": "gt.hatch.maintenance"
+  },
+  "shareableHatches": ["fluidIn"],
+  "requiredHatches": {
+    "energy": {
+      "min": 1
+    },
+    "maintenance": {
+      "min": 1
+    },
+    "itemOut": {
+      "min": 1,
+      "max": 1
+    }
+  },
+  "defaultHatches": ["fluidIn", "itemOut", "energy", "maintenance"],
+  "wallshare": true,
+  "resize": {
+    "axis": "x",
+    "from": 3,
+    "to": 4,
+    "min": 5,
+    "max": 16,
+    "default": 16,
+    "label": "length"
+  },
+  "notes": "5 to 16 slices long (set Length), 4 high, 3 deep; one recipe input per slice in NEI order. Every slice has an input bus in the bottom centre (shown as fixed input bus blocks: in GT they face down, so they are fed from below, e.g. by ME interfaces under the floor), an Assembly Line Casing with glass on both sides, an Assembler Machine Casing and Grate Machine Casings (the front ones may be the data access hatch), and a Solid Steel casing on top that takes energy hatches (facing up, north or south). The bottom side casings take up to four input hatches (fluids) and the maintenance hatch; in GT these must face down too, which the planner cannot show on the ground, so it places them on the side. The output bus goes on the last slice and ends the line. Sharing: two lines back to back share their grate / glass / casing wall."
+}

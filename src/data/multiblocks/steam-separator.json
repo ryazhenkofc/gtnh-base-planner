@@ -1,0 +1,52 @@
+{
+  "id": "steam-separator",
+  "name": "Steam Separator",
+  "tier": "Steam",
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/steam/MTESteamCentrifuge.java",
+  "size": [5, 5, 5],
+  "layers": [
+    [" AAA ", "AAAAA", "AAAAA", "AAAAA", " AAA "],
+    [" A~A ", "AABAA", "ABDBA", "AABAA", " AAA "],
+    ["  A  ", " ACA ", "ACDCA", " ACA ", "  A  "],
+    ["     ", " ABA ", " BDB ", " ABA ", "     "],
+    [" AAA ", "AAAAA", "AAAAA", "AAAAA", " AAA "]
+  ],
+  "legend": {
+    "A": {
+      "blockId": "gt.casing.bronzePlated",
+      "hatches": ["steamIn", "itemIn", "itemOut", "fluidOut"]
+    },
+    "B": {
+      "blockId": "gt.casing.bronzeGearbox"
+    },
+    "C": {
+      "blockId": "gt.casing.bronzePipe"
+    },
+    "D": {
+      "blockId": "gt.casing.bronzeFirebox"
+    }
+  },
+  "controller": {
+    "pos": [2, 1, 0],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "steamIn": "gt.hatch.steamInput",
+    "itemIn": "gt.hatch.steamInputBus",
+    "itemOut": "gt.hatch.steamOutputBus",
+    "fluidOut": "gt.hatch.outputHatch"
+  },
+  "shareableHatches": ["steamIn", "itemIn", "itemOut", "fluidOut"],
+  "requiredHatches": {
+    "steamIn": {
+      "min": 1
+    },
+    "itemIn": {
+      "min": 1
+    }
+  },
+  "defaultHatches": ["steamIn", "itemIn", "itemOut"],
+  "wallshare": true,
+  "notes": "Steam multiblock: runs on steam from steam input hatches, no energy or maintenance hatch. Every tiered part (machine casing, gear box, pipe casing, firebox, frame) must be the same tier: bronze (shown) or steel (Solid Steel Machine Casing and steel parts; high-pressure steam, faster). Buses are steam input/output buses. Steam centrifuge (Steam Separator), 5x5x5, at least 60 machine casings. The casings take the steam input hatch, steam input and output buses and output hatches; GT also needs at least one output of any kind. Sharing: every hatch found during the structure check is added to each controller whose structure contains it, so steam hatches and buses in a shared wall serve both machines."
+}

@@ -14,6 +14,7 @@ const ALL_KINDS: HatchKind[] = [
   'dynamo',
   'maintenance',
   'muffler',
+  'steamIn',
 ];
 
 /** The block id used by most structure cells (used as the picker tile colour). */

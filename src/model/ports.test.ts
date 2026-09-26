@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { getMultiblock } from '../data/catalog';
-import { key, step, unitCells } from './geometry';
+import { key, rotateDir, step, unitCells } from './geometry';
 import { layoutCandidates, packUnits } from './layout';
 import { placeHatches } from './ports';
 import { catalog } from '../data/catalog';
@@ -275,8 +275,18 @@ describe('placeHatches', () => {
           }
           return true;
         };
+        // The build stands on its lowest layer, so a hatch there can never face down.
+        const ground = Math.min(...units.flatMap((u) => unitCells(def, u).map((c) => c.pos[1])));
         for (const h of placeHatches(def, units, def.defaultHatches).hatches) {
-          const outward = DIRS.some((d) => clearAhead(h.cell, d));
+          // ...nor a side its structure forbids for this kind.
+          const forbidden = new Set<Dir>();
+          for (const u of units)
+            for (const c of unitCells(def, u))
+              if (key(c.pos) === key(h.cell) && c.role === 'casing')
+                for (const d of def.legend[c.char]?.disallowFaces?.[h.kind] ?? [])
+                  forbidden.add(rotateDir(d, u.rotation));
+          const dirs = DIRS.filter((d) => !forbidden.has(d) && !(d === 'down' && h.cell[1] === ground));
+          const outward = dirs.some((d) => clearAhead(h.cell, d));
           if (outward) expect(clearAhead(h.cell, h.face), `${def.id} ${h.kind} at ${key(h.cell)}`).toBe(true);
         }
       }

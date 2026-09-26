@@ -10,6 +10,7 @@ export const HATCH_KINDS: readonly HatchKind[] = [
   'dynamo',
   'maintenance',
   'muffler',
+  'steamIn',
 ];
 
 const HORIZONTAL: readonly HorizontalDir[] = ['north', 'south', 'east', 'west'];
@@ -95,12 +96,17 @@ export function validateMultiblockDef(def: MultiblockDef, fileName?: string): st
     }
     if (!HORIZONTAL.includes(c.facing)) err(`controller.facing "${c.facing}" must be a horizontal direction`);
     else if (posOk) {
-      const onFace =
-        (c.facing === 'north' && pos[2] === 0) ||
-        (c.facing === 'south' && pos[2] === sz - 1) ||
-        (c.facing === 'west' && pos[0] === 0) ||
-        (c.facing === 'east' && pos[0] === sx - 1);
-      if (!onFace) err(`controller at ${pos.join(',')} is not on the ${c.facing} face of the box`);
+      // The controller is on the facing side of the box, or every cell between it and that side is open
+      // (air or not part of the structure), e.g. the rotor space in front of a Large Turbine.
+      const step = { north: [0, 0, -1], south: [0, 0, 1], west: [-1, 0, 0], east: [1, 0, 0] }[c.facing];
+      let [x, y, z] = [pos[0] + step[0], pos[1], pos[2] + step[2]];
+      let open = true;
+      while (open && x >= 0 && x < sx && z >= 0 && z < sz) {
+        open = [' ', '-'].includes([...(def.layers[y]?.[z] ?? '')][x] ?? ' ');
+        x += step[0];
+        z += step[2];
+      }
+      if (!open) err(`controller at ${pos.join(',')} does not face open space on the ${c.facing} side`);
     }
     if (!BLOCKS[c.blockId]) err(`controller.blockId "${c.blockId}" is not in BLOCKS`);
   }

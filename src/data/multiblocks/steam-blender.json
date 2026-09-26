@@ -1,0 +1,56 @@
+{
+  "id": "steam-blender",
+  "name": "Steam Blender",
+  "tier": "Steam",
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/steam/MTESteamMixer.java",
+  "size": [5, 4, 5],
+  "layers": [
+    [" AAA ", "AAAAA", "AAAAA", "AAAAA", " AAA "],
+    [" A~A ", "A D A", "ADBDA", "A D A", " AAA "],
+    ["  A  ", "     ", "A C A", "     ", "  A  "],
+    ["     ", "  A  ", " ABA ", "  A  ", "     "]
+  ],
+  "legend": {
+    "A": {
+      "blockId": "gt.casing.bronzePlated",
+      "hatches": ["steamIn", "itemIn", "itemOut", "fluidOut", "fluidIn"],
+      "disallowFaces": {
+        "steamIn": ["south", "east", "west", "up", "down"],
+        "itemIn": ["south", "east", "west", "up", "down"],
+        "itemOut": ["south", "east", "west", "up", "down"],
+        "fluidOut": ["south", "east", "west", "up", "down"],
+        "fluidIn": ["south", "east", "west", "up", "down"]
+      }
+    },
+    "B": {
+      "blockId": "gt.casing.bronzeGearbox"
+    },
+    "C": {
+      "blockId": "gt.casing.bronzePipe"
+    },
+    "D": {
+      "blockId": "gt.frame.bronze"
+    }
+  },
+  "controller": {
+    "pos": [2, 1, 0],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "steamIn": "gt.hatch.steamInput",
+    "itemIn": "gt.hatch.steamInputBus",
+    "itemOut": "gt.hatch.steamOutputBus",
+    "fluidIn": "gt.hatch.inputHatch",
+    "fluidOut": "gt.hatch.outputHatch"
+  },
+  "shareableHatches": ["steamIn", "itemIn", "itemOut", "fluidIn", "fluidOut"],
+  "requiredHatches": {
+    "steamIn": {
+      "min": 1
+    }
+  },
+  "defaultHatches": ["steamIn", "itemIn", "itemOut"],
+  "wallshare": true,
+  "notes": "Steam multiblock: runs on steam from steam input hatches, no energy or maintenance hatch. Every tiered part (machine casing, gear box, pipe casing, firebox, frame) must be the same tier: bronze (shown) or steel (Solid Steel Machine Casing and steel parts; high-pressure steam, faster). Buses are steam input/output buses. Steam mixer (Steam Blender), 5x4x5. Hatches and buses (steam, item, input and output hatches) must face north, the same way as the controller (GT allowOnly(NORTH)); the planner only turns them that way. GT needs a steam input hatch and at least one input and one output of any kind. GT still accepts the old 7x6x7 form; this is the current shape. Sharing: every hatch found during the structure check is added to each controller whose structure contains it, so steam hatches and buses in a shared wall serve both machines."
+}

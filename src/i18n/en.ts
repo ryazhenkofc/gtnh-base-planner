@@ -95,6 +95,7 @@ export const t = {
     dynamo: 'Dynamo',
     maintenance: 'Maintenance',
     muffler: 'Muffler',
+    steamIn: 'Steam in',
   } satisfies Record<HatchKind, string>,
 };
 

@@ -3,7 +3,7 @@
   "atlas": {
     "path": "textures/atlas.png",
     "width": 256,
-    "height": 80,
+    "height": 96,
     "tile": 16
   },
   "tiles": {
@@ -64,31 +64,62 @@
     "MACHINE_COIL_NAQUADAHALLOY": [96, 48, 16, 16],
     "REINFORCED_GLASS": [112, 48, 16, 16],
     "FRAME_STEEL": [128, 48, 16, 16],
-    "OVERLAY_FRONT_ELECTRIC_BLAST_FURNACE": [144, 48, 16, 16],
-    "OVERLAY_FRONT_VACUUM_FREEZER": [160, 48, 16, 16],
-    "OVERLAY_FRONT_IMPLOSION_COMPRESSOR": [176, 48, 16, 16],
-    "OVERLAY_FRONT_DISTILLATION_TOWER": [192, 48, 16, 16],
-    "OVERLAY_FRONT_MULTI_SMELTER": [208, 48, 16, 16],
-    "OVERLAY_FRONT_OIL_CRACKER": [224, 48, 16, 16],
-    "OVERLAY_FRONT_LARGE_BOILER": [240, 48, 16, 16],
-    "OVERLAY_FRONT_PYROLYSE_OVEN": [0, 64, 16, 16],
-    "OVERLAY_FRONT_LARGE_CHEMICAL_REACTOR": [16, 64, 16, 16],
-    "OVERLAY_PIPE_IN": [32, 64, 16, 16],
-    "OVERLAY_PIPE_OUT": [48, 64, 16, 16],
-    "ITEM_IN_SIGN": [64, 64, 16, 16],
-    "ITEM_OUT_SIGN": [80, 64, 16, 16],
-    "FLUID_IN_SIGN": [96, 64, 16, 16],
-    "FLUID_OUT_SIGN": [112, 64, 16, 16],
-    "OVERLAY_ENERGY_IN_LV": [128, 64, 16, 16],
-    "OVERLAY_ENERGY_OUT_LV": [144, 64, 16, 16],
-    "OVERLAY_MAINTENANCE": [160, 64, 16, 16],
-    "OVERLAY_MUFFLER": [176, 64, 16, 16]
+    "MACHINE_CASING_TURBINE_STEEL": [144, 48, 16, 16],
+    "MACHINE_CASING_TURBINE_STAINLESSSTEEL": [160, 48, 16, 16],
+    "MACHINE_CASING_TURBINE_TITANIUM": [176, 48, 16, 16],
+    "MACHINE_CASING_TURBINE_TUNGSTENSTEEL": [192, 48, 16, 16],
+    "MACHINE_CASING_PIPE_POLYBENZIMIDAZOLE": [208, 48, 16, 16],
+    "MACHINE_CASING_ENGINE_INTAKE": [224, 48, 16, 16],
+    "MACHINE_CASING_EXTREME_ENGINE_INTAKE": [240, 48, 16, 16],
+    "MACHINE_CASING_GRATE": [0, 64, 16, 16],
+    "MACHINE_CASING_ASSEMBLER": [16, 64, 16, 16],
+    "MACHINE_CASING_AUTOCLAVE": [32, 64, 16, 16],
+    "SC_TURBINE_CASING": [48, 64, 16, 16],
+    "FRAME_BRONZE": [64, 64, 16, 16],
+    "FRAME_IRON": [80, 64, 16, 16],
+    "FRAME_STAINLESSSTEEL": [96, 64, 16, 16],
+    "FRAME_TITANIUM": [112, 64, 16, 16],
+    "FRAME_POLYBENZIMIDAZOLE": [128, 64, 16, 16],
+    "FRAME_TUNGSTENSTEEL": [144, 64, 16, 16],
+    "FRAME_POLYTETRAFLUOROETHYLENE": [160, 64, 16, 16],
+    "FRAME_BLACKSTEEL": [176, 64, 16, 16],
+    "OVERLAY_FRONT_ELECTRIC_BLAST_FURNACE": [192, 64, 16, 16],
+    "OVERLAY_FRONT_VACUUM_FREEZER": [208, 64, 16, 16],
+    "OVERLAY_FRONT_IMPLOSION_COMPRESSOR": [224, 64, 16, 16],
+    "OVERLAY_FRONT_DISTILLATION_TOWER": [240, 64, 16, 16],
+    "OVERLAY_FRONT_MULTI_SMELTER": [0, 80, 16, 16],
+    "OVERLAY_FRONT_OIL_CRACKER": [16, 80, 16, 16],
+    "OVERLAY_FRONT_LARGE_BOILER": [32, 80, 16, 16],
+    "OVERLAY_FRONT_PYROLYSE_OVEN": [48, 80, 16, 16],
+    "OVERLAY_FRONT_LARGE_CHEMICAL_REACTOR": [64, 80, 16, 16],
+    "OVERLAY_PIPE_IN": [80, 80, 16, 16],
+    "OVERLAY_PIPE_OUT": [96, 80, 16, 16],
+    "ITEM_IN_SIGN": [112, 80, 16, 16],
+    "ITEM_OUT_SIGN": [128, 80, 16, 16],
+    "FLUID_IN_SIGN": [144, 80, 16, 16],
+    "FLUID_OUT_SIGN": [160, 80, 16, 16],
+    "OVERLAY_ENERGY_IN_LV": [176, 80, 16, 16],
+    "OVERLAY_ENERGY_OUT_LV": [192, 80, 16, 16],
+    "OVERLAY_MAINTENANCE": [208, 80, 16, 16],
+    "OVERLAY_MUFFLER": [224, 80, 16, 16]
   },
   "blocks": {
+    "gt.casing.assembler": {
+      "side": "MACHINE_CASING_ASSEMBLER"
+    },
+    "gt.casing.assemblyLine": {
+      "flat": true
+    },
     "gt.casing.bronzeFirebox": {
       "side": "MACHINE_CASING_FIREBOX_BRONZE",
       "top": "MACHINE_CASING_FIREBOX_BRONZE_TOP",
       "bottom": "MACHINE_CASING_FIREBOX_BRONZE_TOP"
+    },
+    "gt.casing.bronzeGearbox": {
+      "side": "MACHINE_CASING_GEARBOX_BRONZE"
+    },
+    "gt.casing.bronzePipe": {
+      "side": "MACHINE_CASING_PIPE_BRONZE"
     },
     "gt.casing.bronzePlated": {
       "side": "MACHINE_BRONZEPLATEDBRICKS"
@@ -99,17 +130,32 @@
     "gt.casing.cleanStainless": {
       "side": "MACHINE_CASING_CLEAN_STAINLESSSTEEL"
     },
+    "gt.casing.engineIntake": {
+      "side": "MACHINE_CASING_ENGINE_INTAKE"
+    },
+    "gt.casing.extremeEngineIntake": {
+      "side": "MACHINE_CASING_EXTREME_ENGINE_INTAKE"
+    },
     "gt.casing.firebricks": {
       "side": "MACHINE_CASING_DENSEBRICKS"
     },
     "gt.casing.frostProof": {
       "side": "MACHINE_CASING_FROST_PROOF"
     },
+    "gt.casing.grate": {
+      "side": "MACHINE_CASING_GRATE"
+    },
     "gt.casing.heatProof": {
       "side": "MACHINE_HEATPROOFCASING"
     },
     "gt.casing.itemPipeTin": {
       "side": "MACHINE_CASING_ITEM_PIPE_TIN"
+    },
+    "gt.casing.pbiPipe": {
+      "side": "MACHINE_CASING_PIPE_POLYBENZIMIDAZOLE"
+    },
+    "gt.casing.pressureContainment": {
+      "side": "MACHINE_CASING_AUTOCLAVE"
     },
     "gt.casing.ptfePipe": {
       "side": "MACHINE_CASING_PIPE_POLYTETRAFLUOROETHYLENE"
@@ -136,14 +182,48 @@
       "top": "MACHINE_CASING_FIREBOX_STEEL_TOP",
       "bottom": "MACHINE_CASING_FIREBOX_STEEL_TOP"
     },
+    "gt.casing.steelGearbox": {
+      "side": "MACHINE_CASING_GEARBOX_STEEL"
+    },
     "gt.casing.steelPipe": {
       "side": "MACHINE_CASING_PIPE_STEEL"
     },
     "gt.casing.steelSolid": {
       "side": "MACHINE_CASING_SOLID_STEEL"
     },
+    "gt.casing.titaniumFirebox": {
+      "side": "MACHINE_CASING_FIREBOX_TITANIUM",
+      "top": "MACHINE_CASING_FIREBOX_TITANIUM_TOP",
+      "bottom": "MACHINE_CASING_FIREBOX_TITANIUM_TOP"
+    },
+    "gt.casing.titaniumGearbox": {
+      "side": "MACHINE_CASING_GEARBOX_TITANIUM"
+    },
     "gt.casing.titaniumPipe": {
       "side": "MACHINE_CASING_PIPE_TITANIUM"
+    },
+    "gt.casing.tungstensteelFirebox": {
+      "side": "MACHINE_CASING_FIREBOX_TUNGSTENSTEEL",
+      "top": "MACHINE_CASING_FIREBOX_TUNGSTENSTEEL_TOP",
+      "bottom": "MACHINE_CASING_FIREBOX_TUNGSTENSTEEL_TOP"
+    },
+    "gt.casing.tungstensteelPipe": {
+      "side": "MACHINE_CASING_PIPE_TUNGSTENSTEEL"
+    },
+    "gt.casing.turbine": {
+      "side": "MACHINE_CASING_TURBINE_STEEL"
+    },
+    "gt.casing.turbineSC": {
+      "side": "SC_TURBINE_CASING"
+    },
+    "gt.casing.turbineStainless": {
+      "side": "MACHINE_CASING_TURBINE_STAINLESSSTEEL"
+    },
+    "gt.casing.turbineTitanium": {
+      "side": "MACHINE_CASING_TURBINE_TITANIUM"
+    },
+    "gt.casing.turbineTungstensteel": {
+      "side": "MACHINE_CASING_TURBINE_TUNGSTENSTEEL"
     },
     "gt.casing.ulv": {
       "side": "MACHINE_ULV_SIDE",
@@ -152,6 +232,9 @@
     },
     "gt.coil.cupronickel": {
       "side": "MACHINE_COIL_CUPRONICKEL"
+    },
+    "gt.coil.solenoid": {
+      "flat": true
     },
     "gt.cokeOvenBrick": {
       "side": "COKE_OVEN_CASING"
@@ -167,8 +250,32 @@
       "side": "MACHINE_CASING_SOLID_STEEL",
       "front": "OVERLAY_FRONT_ELECTRIC_BLAST_FURNACE"
     },
+    "gt.frame.blackSteel": {
+      "side": "FRAME_BLACKSTEEL"
+    },
+    "gt.frame.bronze": {
+      "side": "FRAME_BRONZE"
+    },
+    "gt.frame.iron": {
+      "side": "FRAME_IRON"
+    },
+    "gt.frame.pbi": {
+      "side": "FRAME_POLYBENZIMIDAZOLE"
+    },
+    "gt.frame.ptfe": {
+      "side": "FRAME_POLYTETRAFLUOROETHYLENE"
+    },
+    "gt.frame.stainless": {
+      "side": "FRAME_STAINLESSSTEEL"
+    },
     "gt.frame.steel": {
       "side": "FRAME_STEEL"
+    },
+    "gt.frame.titanium": {
+      "side": "FRAME_TITANIUM"
+    },
+    "gt.frame.tungstensteel": {
+      "side": "FRAME_TUNGSTENSTEEL"
     },
     "gt.glass.reinforced": {
       "side": "REINFORCED_GLASS"
@@ -212,6 +319,18 @@
       "side": "MACHINE_LV_SIDE",
       "top": "MACHINE_LV_TOP",
       "bottom": "MACHINE_LV_BOTTOM"
+    },
+    "gt.hatch.steamInput": {
+      "side": "MACHINE_BRONZEPLATEDBRICKS"
+    },
+    "gt.hatch.steamInputBus": {
+      "side": "MACHINE_BRONZEPLATEDBRICKS"
+    },
+    "gt.hatch.steamOutputBus": {
+      "side": "MACHINE_BRONZEPLATEDBRICKS"
+    },
+    "mc.ironBlock": {
+      "flat": true
     }
   },
   "hatchOverlays": {
@@ -222,6 +341,7 @@
     "energy": ["OVERLAY_ENERGY_IN_LV"],
     "dynamo": ["OVERLAY_ENERGY_OUT_LV"],
     "maintenance": ["OVERLAY_MAINTENANCE"],
-    "muffler": ["OVERLAY_MUFFLER"]
+    "muffler": ["OVERLAY_MUFFLER"],
+    "steamIn": ["OVERLAY_PIPE_IN", "FLUID_IN_SIGN"]
   }
 }

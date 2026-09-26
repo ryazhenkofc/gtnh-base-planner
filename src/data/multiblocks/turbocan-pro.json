@@ -1,0 +1,48 @@
+{
+  "id": "turbocan-pro",
+  "name": "TurboCan Pro",
+  "tier": "HV",
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTEMultiCanner.java",
+  "size": [7, 5, 7],
+  "layers": [
+    ["  AAA  ", " AAAAA ", "AAAAAAA", "AAAAAAA", "AAAAAAA", " AAAAA ", "  AAA  "],
+    ["       ", "  B B  ", " BAAAB ", "  A A  ", " BAAAB ", "  B B  ", "       "],
+    ["       ", "  B B  ", " BA~AB ", "  A A  ", " BAAAB ", "  B B  ", "       "],
+    ["       ", "  B B  ", " BAAAB ", "  A A  ", " BAAAB ", "  B B  ", "       "],
+    ["  AAA  ", " AAAAA ", "AAAAAAA", "AAAAAAA", "AAAAAAA", " AAAAA ", "  AAA  "]
+  ],
+  "legend": {
+    "A": {
+      "blockId": "gt.casing.solidSteel",
+      "hatches": ["itemIn", "itemOut", "maintenance", "energy", "fluidIn", "fluidOut"]
+    },
+    "B": {
+      "blockId": "gt.casing.steelPipe"
+    }
+  },
+  "controller": {
+    "pos": [3, 2, 2],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus",
+    "itemOut": "gt.hatch.outputBus",
+    "fluidIn": "gt.hatch.inputHatch",
+    "fluidOut": "gt.hatch.outputHatch",
+    "energy": "gt.hatch.energy",
+    "maintenance": "gt.hatch.maintenance"
+  },
+  "shareableHatches": ["itemIn", "itemOut", "fluidIn", "fluidOut"],
+  "requiredHatches": {
+    "energy": {
+      "min": 1
+    },
+    "maintenance": {
+      "min": 1
+    }
+  },
+  "defaultHatches": ["itemIn", "itemOut", "energy", "maintenance"],
+  "wallshare": true,
+  "notes": "7x5x7 (a round base and top joined by a hollow core ringed by Steel Pipe Casings). Solid Steel Machine Casings (at least 85) take every bus and hatch. The controller sits in the middle layer, two blocks back from the front edge. GT also needs at least one input and one output of any kind."
+}

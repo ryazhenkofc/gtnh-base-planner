@@ -1,0 +1,66 @@
+{
+  "id": "large-fluid-extractor",
+  "name": "Large Fluid Extractor",
+  "tier": "IV",
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTELargeFluidExtractor.java",
+  "size": [5, 9, 5],
+  "layers": [
+    ["cc~cc", "ccccc", "ccccc", "ccccc", "ccccc"],
+    ["fgggf", "ghhhg", "ghshg", "ghhhg", "fgggf"],
+    ["fgggf", "ghhhg", "ghshg", "ghhhg", "fgggf"],
+    ["fgggf", "ghhhg", "ghshg", "ghhhg", "fgggf"],
+    ["ccccc", "ccccc", "ccscc", "ccccc", "ccccc"],
+    ["     ", " f f ", "  s  ", " f f ", "     "],
+    ["     ", " f f ", "  s  ", " f f ", "     "],
+    ["     ", " f f ", "  s  ", " f f ", "     "],
+    ["     ", " ccc ", " ccc ", " ccc ", "     "]
+  ],
+  "legend": {
+    "c": {
+      "blockId": "gt.casing.robustTungstensteel",
+      "hatches": ["itemIn", "itemOut", "fluidOut", "energy", "maintenance"]
+    },
+    "g": {
+      "blockId": "gt.glass.reinforced"
+    },
+    "h": {
+      "blockId": "gt.coil.cupronickel"
+    },
+    "s": {
+      "blockId": "gt.coil.solenoid"
+    },
+    "f": {
+      "blockId": "gt.frame.blackSteel"
+    }
+  },
+  "controller": {
+    "pos": [2, 0, 0],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus",
+    "itemOut": "gt.hatch.outputBus",
+    "fluidOut": "gt.hatch.outputHatch",
+    "energy": "gt.hatch.energy",
+    "maintenance": "gt.hatch.maintenance"
+  },
+  "shareableHatches": ["itemIn", "itemOut", "fluidOut"],
+  "requiredHatches": {
+    "energy": {
+      "min": 1
+    },
+    "maintenance": {
+      "min": 1
+    },
+    "itemIn": {
+      "min": 1
+    },
+    "fluidOut": {
+      "min": 1
+    }
+  },
+  "defaultHatches": ["itemIn", "itemOut", "fluidOut", "energy", "maintenance"],
+  "wallshare": true,
+  "notes": "5x9x5 (the top four layers are a narrower 3x3 cap). Robust Tungstensteel Machine Casings take input and output buses, output hatches, energy and maintenance. Glass (tier limits energy), heating coils (tier sets speed) and a column of Solenoid Superconductor Coils (tier sets parallels) fill the middle; Black Steel frame boxes stand at the corners and on the cap."
+}

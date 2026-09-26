@@ -143,8 +143,9 @@ function buildShapes(def: MultiblockDef): Shape[] {
 
 /**
  * Can unit B (rotation rb, origin at offset d from unit A's origin) coexist with unit A (rotation ra)?
- * Overlapping cells must be casings of the same block on a wall-sharing def; controllers and air cells never
- * overlap anything, and neither controller's front cell may be covered by the other unit's blocks.
+ * Overlapping cells must be casings of the same block on a wall-sharing def, or air on air; controllers never
+ * overlap anything, air never overlaps a block, and neither controller's front cell may be covered by the
+ * other unit's blocks.
  */
 function pairOk(def: MultiblockDef, cache: DefCache, ra: number, rb: number, d: Vec3): boolean {
   const k = `${ra},${rb},${key(d)}`;
@@ -168,7 +169,7 @@ function computePairOk(wallshare: boolean, a: Shape, b: Shape, d: Vec3): boolean
         const ca = a.grid[gridIndex(a.size, x, y, z)];
         if (ca === EMPTY) continue;
         const cb = b.grid[gridIndex(b.size, x - d[0], y - d[1], z - d[2])];
-        if (cb === EMPTY) continue;
+        if (cb === EMPTY || (ca === AIR && cb === AIR)) continue;
         if (!wallshare || ca < CASING || ca !== cb) return false;
       }
   if (a.front) {

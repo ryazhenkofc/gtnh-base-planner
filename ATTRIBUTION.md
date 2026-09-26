@@ -82,8 +82,24 @@ the machine-metal colour in the atlas.
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_COIL_NAQUADAH.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_COIL_NAQUADAHALLOY.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/REINFORCED_GLASS.png`
-- `src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/frameGt.png` (stored as
-  `FRAME_STEEL.png`; tinted with the Steel material colour 0x808080)
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_TURBINE_STEEL.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_TURBINE_STAINLESSSTEEL.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_TURBINE_TITANIUM.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_TURBINE_TUNGSTENSTEEL.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_PIPE_POLYBENZIMIDAZOLE.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_ENGINE_INTAKE.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_EXTREME_ENGINE_INTAKE.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_GRATE.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_ASSEMBLER.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_AUTOCLAVE.png`
+- `src/main/resources/assets/goodgenerator/textures/blocks/supercriticalFluidTurbineCasing.png` (stored as
+  `SC_TURBINE_CASING.png`)
+- `src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/frameGt.png`, stored once per frame
+  material and tinted with that material's colour: `FRAME_STEEL.png` (Steel 0x808080), `FRAME_BRONZE.png`
+  (Bronze 0xff8000), `FRAME_IRON.png` (Iron 0xc8c8c8), `FRAME_STAINLESSSTEEL.png` (Stainless Steel 0xc8c8dc),
+  `FRAME_TITANIUM.png` (Titanium 0xdca0f0), `FRAME_POLYBENZIMIDAZOLE.png` (Polybenzimidazole 0x2d2d2d),
+  `FRAME_TUNGSTENSTEEL.png` (Tungstensteel 0x6464a0), `FRAME_POLYTETRAFLUOROETHYLENE.png`
+  (Polytetrafluoroethylene 0x646464) and `FRAME_BLACKSTEEL.png` (Black Steel 0x646464)
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_ELECTRIC_BLAST_FURNACE.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_VACUUM_FREEZER.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_IMPLOSION_COMPRESSOR.png`

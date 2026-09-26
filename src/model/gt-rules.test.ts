@@ -3,10 +3,11 @@ import { catalog } from '../data/catalog';
 import { defaultPlan } from '../state/store';
 import { createPipeline } from '../ui/pipeline';
 import { controllerFacing, key, localCells, rotateDir, step, toWorld } from './geometry';
+import { PIPE_KINDS } from './routing';
 import type { MultiblockDef, PlanLimits, Unit } from './types';
 
 /**
- * Game rules checked against GT5-Unofficial (master, 2026-09-26) on whole plans, pipes included.
+ * Game rules checked against GT5-Unofficial 5.09.54.133 (GT:NH 2.9.0-beta-3) on whole plans, pipes included.
  * See the structure definitions linked from each multiblock's `source`.
  */
 
@@ -77,7 +78,7 @@ describe('GT rules', () => {
         const { units, scene, pipes } = build(def.id, count, limits);
         const pipeCells = new Set(pipes.flatMap((n) => n.paths.flat().map(key)));
         for (const h of scene.hatches)
-          if (!['itemIn', 'itemOut', 'fluidIn', 'fluidOut'].includes(h.kind))
+          if (!(PIPE_KINDS as readonly string[]).includes(h.kind))
             expect(pipeCells.has(key(step(h.cell, h.face))), `${def.id} ${h.kind} at ${key(h.cell)}`).toBe(
               false,
             );

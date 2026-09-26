@@ -1,0 +1,64 @@
+{
+  "id": "large-gas-turbine",
+  "name": "Large Gas Turbine",
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/turbines/MTELargeTurbineGas.java",
+  "size": [3, 3, 7],
+  "layers": [
+    ["---", "CCC", " B ", " B ", "AEA", "AEA", "B B"],
+    ["---", "C~C", "BAB", "BAB", "EAE", "EAE", "BDB"],
+    ["---", "CCC", " B ", " B ", "AEA", "AEA", "B B"]
+  ],
+  "legend": {
+    "C": {
+      "blockId": "gt.casing.turbineStainless"
+    },
+    "B": {
+      "blockId": "gt.frame.stainless"
+    },
+    "A": {
+      "blockId": "gt.casing.itemPipeTin"
+    },
+    "D": {
+      "blockId": "gt.hatch.dynamo",
+      "hatches": ["dynamo"]
+    },
+    "E": {
+      "blockId": "gt.casing.turbineStainless",
+      "hatches": ["maintenance", "fluidIn", "fluidOut", "itemOut", "itemIn", "muffler"]
+    }
+  },
+  "controller": {
+    "pos": [1, 1, 1],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus",
+    "itemOut": "gt.hatch.outputBus",
+    "fluidIn": "gt.hatch.inputHatch",
+    "fluidOut": "gt.hatch.outputHatch",
+    "dynamo": "gt.hatch.dynamo",
+    "maintenance": "gt.hatch.maintenance",
+    "muffler": "gt.hatch.muffler"
+  },
+  "shareableHatches": ["fluidIn", "fluidOut", "itemIn", "itemOut"],
+  "requiredHatches": {
+    "maintenance": {
+      "min": 1,
+      "max": 1
+    },
+    "fluidIn": {
+      "min": 1
+    },
+    "dynamo": {
+      "min": 1,
+      "max": 1
+    },
+    "muffler": {
+      "min": 1
+    }
+  },
+  "defaultHatches": ["fluidIn", "dynamo", "maintenance", "muffler"],
+  "wallshare": true,
+  "notes": "3x3x6 plus the 3x3 of air in front of the controller where the rotor spins (kept free here). Built from Stainless Steel Turbine Casings, Stainless Steel frame boxes and Tin Item Pipe Casings. The front face is plain turbine casing; the hatch casings are the edge blocks of the two layers before the back, which takes the dynamo hatch in its centre. Exactly one maintenance hatch; a muffler is required (the gas turbine pollutes) and output hatches are optional. GT does not allow the turbine to be rotated or flipped. Sharing: side walls are identical, so turbines can share them; input and output hatches in a shared wall serve every turbine around them."
+}

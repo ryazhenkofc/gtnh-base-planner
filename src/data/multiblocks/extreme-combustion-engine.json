@@ -1,0 +1,76 @@
+{
+  "id": "extreme-combustion-engine",
+  "name": "Extreme Combustion Engine",
+  "tier": "IV",
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTEExtremeCombustionEngine.java",
+  "size": [10, 5, 5],
+  "layers": [
+    ["FEFEFEEEEF", "FEFEFEEEEF", "FEFEFEEEEF", "FEFEFEEEEF", "FEFEFEEEEF"],
+    ["H H H    H", "C~C CBBBBC", "CCC CBBBBC", "CCC CBBBBC", "H H H    H"],
+    ["H H H    H", "CCC CDDDDC", "CCCAAAAAAI", "CCC CDDDDC", "H H H    H"],
+    ["    H    H", "H H CGGGGC", "H H CGGGGC", "H H CGGGGC", "    H    H"],
+    ["          ", "    H----H", "    H----H", "    H----H", "          "]
+  ],
+  "legend": {
+    "A": {
+      "blockId": "gt.casing.steelGearbox"
+    },
+    "B": {
+      "blockId": "gt.casing.tungstensteelFirebox"
+    },
+    "C": {
+      "blockId": "gt.casing.robustTungstensteel",
+      "hatches": ["muffler", "maintenance"]
+    },
+    "D": {
+      "blockId": "gt.casing.turbineTungstensteel",
+      "hatches": ["fluidIn"]
+    },
+    "E": {
+      "blockId": "gt.casing.chemicallyInert"
+    },
+    "F": {
+      "blockId": "gt.casing.ptfePipe"
+    },
+    "G": {
+      "blockId": "gt.casing.extremeEngineIntake"
+    },
+    "H": {
+      "blockId": "gt.frame.ptfe"
+    },
+    "I": {
+      "blockId": "gt.hatch.dynamo",
+      "hatches": ["dynamo"]
+    }
+  },
+  "controller": {
+    "pos": [1, 1, 1],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "fluidIn": "gt.hatch.inputHatch",
+    "dynamo": "gt.hatch.dynamo",
+    "maintenance": "gt.hatch.maintenance",
+    "muffler": "gt.hatch.muffler"
+  },
+  "shareableHatches": ["fluidIn"],
+  "requiredHatches": {
+    "maintenance": {
+      "min": 1
+    },
+    "muffler": {
+      "min": 1
+    },
+    "fluidIn": {
+      "min": 1
+    },
+    "dynamo": {
+      "min": 1,
+      "max": 1
+    }
+  },
+  "defaultHatches": ["fluidIn", "dynamo", "maintenance", "muffler"],
+  "wallshare": true,
+  "notes": "GT:NH 2.9 structure: 10 long, 5 high, 5 deep. A 3x3 Robust Tungstensteel block around the controller (at least 30 casings in total) takes the maintenance hatch and muffler; the engine body has Extreme Engine Intake Casings on top (the air above them must stay free), Tungstensteel Turbine Casings that take input hatches (fuel, lubricant, liquid oxygen), Tungstensteel Firebox Casings, a Steel Gear Box shaft ending in the dynamo hatch at the far end, and a PTFE pipe / Chemically Inert floor. PTFE frame boxes stand at the front. The controller sits one block back from the front edge."
+}

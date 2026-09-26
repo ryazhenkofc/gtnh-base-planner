@@ -58,6 +58,7 @@ function sideCounts(def: MultiblockDef): number[][] {
 }
 
 function compatible(def: MultiblockDef, a: Occupant, b: Occupant): boolean {
+  if (a.role === 'air' && b.role === 'air') return true;
   return def.wallshare && a.role === 'casing' && b.role === 'casing' && a.blockId === b.blockId;
 }
 
@@ -96,8 +97,10 @@ function sortPairs(pairs: [number, number][]): [number, number][] {
  *
  * Merge the occupancy of all units (see `unitCells` in ./geometry):
  * - Overlapping casing cells with the same blockId (and wallshare enabled) count once.
- * - Any other overlap (different blocks, controller, air cell of another unit — including
- *   air on air) is a conflict. A conflict cell is counted once in the totals (controller first,
+ * - Air on air is fine: both structures only need the cell empty (e.g. the rotor space in front of two
+ *   Large Turbines side by side). It is not a block, so it saves nothing.
+ * - Any other overlap (different blocks, controller, air cell of another unit against a block) is a
+ *   conflict. A conflict cell is counted once in the totals (controller first,
  *   else the first unit's block), but it never counts as a saved block.
  * - `sharedWalls` lists only pairs with a full face contact (not edge/corner-only neighbours):
  *   the pair's whole overlap is a one-block-thick boundary plane of both units, free of
@@ -173,7 +176,7 @@ export function computeWallStats(def: MultiblockDef, units: Unit[], hatches: Hat
   let savedBlocks = 0;
   for (const [pk, entry] of cells) {
     // A valid merge is all casings of one block id: every occupant past the first is saved.
-    if (!entry.conflict) savedBlocks += entry.occupants.length - 1;
+    if (!entry.conflict && entry.occupants[0].role !== 'air') savedBlocks += entry.occupants.length - 1;
     const hatchBlock = hatchAt.get(pk);
     if (hatchBlock !== undefined) {
       bump(hatchBlock);

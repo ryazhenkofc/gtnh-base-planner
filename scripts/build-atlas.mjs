@@ -112,6 +112,54 @@ export const TILES = {
     path: 'src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/frameGt.png',
     tint: [128, 128, 128],
   },
+  // Turbine, engine and processing casings (GT:NH 2.9 catalog expansion)
+  MACHINE_CASING_TURBINE_STEEL: {},
+  MACHINE_CASING_TURBINE_STAINLESSSTEEL: {},
+  MACHINE_CASING_TURBINE_TITANIUM: {},
+  MACHINE_CASING_TURBINE_TUNGSTENSTEEL: {},
+  MACHINE_CASING_PIPE_POLYBENZIMIDAZOLE: {},
+  MACHINE_CASING_ENGINE_INTAKE: {},
+  MACHINE_CASING_EXTREME_ENGINE_INTAKE: {},
+  MACHINE_CASING_GRATE: {},
+  MACHINE_CASING_ASSEMBLER: {},
+  MACHINE_CASING_AUTOCLAVE: {},
+  // Supercritical Fluid Turbine Casing (GoodGenerator block, Casings.SCTurbineCasing)
+  SC_TURBINE_CASING: {
+    path: 'src/main/resources/assets/goodgenerator/textures/blocks/supercriticalFluidTurbineCasing.png',
+  },
+  // Frame boxes: the generic frame icon tinted with each material colour (GT Materials RGBA)
+  FRAME_BRONZE: {
+    path: 'src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/frameGt.png',
+    tint: [255, 128, 0],
+  },
+  FRAME_IRON: {
+    path: 'src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/frameGt.png',
+    tint: [200, 200, 200],
+  },
+  FRAME_STAINLESSSTEEL: {
+    path: 'src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/frameGt.png',
+    tint: [200, 200, 220],
+  },
+  FRAME_TITANIUM: {
+    path: 'src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/frameGt.png',
+    tint: [220, 160, 240],
+  },
+  FRAME_POLYBENZIMIDAZOLE: {
+    path: 'src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/frameGt.png',
+    tint: [45, 45, 45],
+  },
+  FRAME_TUNGSTENSTEEL: {
+    path: 'src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/frameGt.png',
+    tint: [100, 100, 160],
+  },
+  FRAME_POLYTETRAFLUOROETHYLENE: {
+    path: 'src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/frameGt.png',
+    tint: [100, 100, 100],
+  },
+  FRAME_BLACKSTEEL: {
+    path: 'src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/frameGt.png',
+    tint: [100, 100, 100],
+  },
   // Controller front overlays (drawn over the casing on the facing side)
   OVERLAY_FRONT_ELECTRIC_BLAST_FURNACE: {},
   OVERLAY_FRONT_VACUUM_FREEZER: {},
@@ -181,6 +229,46 @@ export const BLOCK_MAP = {
   },
   'gt.frame.steel': { side: 'FRAME_STEEL' },
 
+  'gt.casing.bronzeGearbox': { side: 'MACHINE_CASING_GEARBOX_BRONZE' },
+  'gt.casing.steelGearbox': { side: 'MACHINE_CASING_GEARBOX_STEEL' },
+  'gt.casing.titaniumGearbox': { side: 'MACHINE_CASING_GEARBOX_TITANIUM' },
+  'gt.casing.bronzePipe': { side: 'MACHINE_CASING_PIPE_BRONZE' },
+  'gt.casing.tungstensteelPipe': { side: 'MACHINE_CASING_PIPE_TUNGSTENSTEEL' },
+  'gt.casing.pbiPipe': { side: 'MACHINE_CASING_PIPE_POLYBENZIMIDAZOLE' },
+  'gt.casing.titaniumFirebox': {
+    side: 'MACHINE_CASING_FIREBOX_TITANIUM',
+    top: 'MACHINE_CASING_FIREBOX_TITANIUM_TOP',
+    bottom: 'MACHINE_CASING_FIREBOX_TITANIUM_TOP',
+  },
+  'gt.casing.tungstensteelFirebox': {
+    side: 'MACHINE_CASING_FIREBOX_TUNGSTENSTEEL',
+    top: 'MACHINE_CASING_FIREBOX_TUNGSTENSTEEL_TOP',
+    bottom: 'MACHINE_CASING_FIREBOX_TUNGSTENSTEEL_TOP',
+  },
+  'gt.casing.turbine': { side: 'MACHINE_CASING_TURBINE_STEEL' },
+  'gt.casing.turbineStainless': { side: 'MACHINE_CASING_TURBINE_STAINLESSSTEEL' },
+  'gt.casing.turbineTitanium': { side: 'MACHINE_CASING_TURBINE_TITANIUM' },
+  'gt.casing.turbineTungstensteel': { side: 'MACHINE_CASING_TURBINE_TUNGSTENSTEEL' },
+  'gt.casing.turbineSC': { side: 'SC_TURBINE_CASING' },
+  'gt.casing.engineIntake': { side: 'MACHINE_CASING_ENGINE_INTAKE' },
+  'gt.casing.extremeEngineIntake': { side: 'MACHINE_CASING_EXTREME_ENGINE_INTAKE' },
+  'gt.casing.grate': { side: 'MACHINE_CASING_GRATE' },
+  'gt.casing.assembler': { side: 'MACHINE_CASING_ASSEMBLER' },
+  // Pressure Containment Casing (BlockCasings10 meta 3)
+  'gt.casing.pressureContainment': { side: 'MACHINE_CASING_AUTOCLAVE' },
+  'gt.frame.bronze': { side: 'FRAME_BRONZE' },
+  'gt.frame.iron': { side: 'FRAME_IRON' },
+  'gt.frame.stainless': { side: 'FRAME_STAINLESSSTEEL' },
+  'gt.frame.titanium': { side: 'FRAME_TITANIUM' },
+  'gt.frame.pbi': { side: 'FRAME_POLYBENZIMIDAZOLE' },
+  'gt.frame.tungstensteel': { side: 'FRAME_TUNGSTENSTEEL' },
+  'gt.frame.ptfe': { side: 'FRAME_POLYTETRAFLUOROETHYLENE' },
+  'gt.frame.blackSteel': { side: 'FRAME_BLACKSTEEL' },
+  // Steam hatches and buses: bronze hull (the steam tier's casing) + kind overlay.
+  'gt.hatch.steamInput': { side: 'MACHINE_BRONZEPLATEDBRICKS' },
+  'gt.hatch.steamInputBus': { side: 'MACHINE_BRONZEPLATEDBRICKS' },
+  'gt.hatch.steamOutputBus': { side: 'MACHINE_BRONZEPLATEDBRICKS' },
+
   // Generic multiblock controller: solid steel casing + a standard GT multiblock front.
   'gt.controller': { side: 'MACHINE_CASING_SOLID_STEEL', front: 'OVERLAY_FRONT_ELECTRIC_BLAST_FURNACE' },
 
@@ -209,6 +297,7 @@ export const HATCH_OVERLAYS = {
   dynamo: ['OVERLAY_ENERGY_OUT_LV'],
   maintenance: ['OVERLAY_MAINTENANCE'],
   muffler: ['OVERLAY_MUFFLER'],
+  steamIn: ['OVERLAY_PIPE_IN', 'FLUID_IN_SIGN'],
 };
 
 export function tileSourcePath(name) {

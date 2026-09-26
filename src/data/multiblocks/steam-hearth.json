@@ -1,0 +1,52 @@
+{
+  "id": "steam-hearth",
+  "name": "Steam Hearth",
+  "tier": "Steam",
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/steam/MTESteamFurnaceMulti.java",
+  "size": [3, 3, 3],
+  "layers": [
+    ["ACA", "CAC", "ACA"],
+    ["A~A", "D D", "ADA"],
+    [" B ", "B B", " B "]
+  ],
+  "legend": {
+    "A": {
+      "blockId": "gt.casing.bronzePlated",
+      "hatches": ["steamIn", "itemIn", "itemOut"]
+    },
+    "B": {
+      "blockId": "gt.casing.bronzeGearbox"
+    },
+    "C": {
+      "blockId": "gt.casing.bronzePipe"
+    },
+    "D": {
+      "blockId": "gt.casing.bronzeFirebox"
+    }
+  },
+  "controller": {
+    "pos": [1, 1, 0],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "steamIn": "gt.hatch.steamInput",
+    "itemIn": "gt.hatch.steamInputBus",
+    "itemOut": "gt.hatch.steamOutputBus"
+  },
+  "shareableHatches": ["steamIn", "itemIn", "itemOut"],
+  "requiredHatches": {
+    "steamIn": {
+      "min": 1
+    },
+    "itemIn": {
+      "min": 1
+    },
+    "itemOut": {
+      "min": 1
+    }
+  },
+  "defaultHatches": ["steamIn", "itemIn", "itemOut"],
+  "wallshare": true,
+  "notes": "Steam multiblock: runs on steam from steam input hatches, no energy or maintenance hatch. Every tiered part (machine casing, gear box, pipe casing, firebox, frame) must be the same tier: bronze (shown) or steel (Solid Steel Machine Casing and steel parts; high-pressure steam, faster). Buses are steam input/output buses. Steam furnace (Steam Hearth), 3x3x3, at least 2 machine casings; gear boxes on top, fireboxes in the middle layer and pipe casings in the base. Sharing: every hatch found during the structure check is added to each controller whose structure contains it, so steam hatches and buses in a shared wall serve both machines."
+}

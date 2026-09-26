@@ -24,6 +24,7 @@ const HATCH_BLOCK: Record<HatchKind, string> = {
   dynamo: 'gt.hatch.dynamo',
   maintenance: 'gt.hatch.maintenance',
   muffler: 'gt.hatch.muffler',
+  steamIn: 'gt.hatch.steamInput',
 };
 
 function rows(): BlockVisual[][] {

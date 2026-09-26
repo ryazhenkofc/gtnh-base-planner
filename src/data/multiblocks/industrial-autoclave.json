@@ -1,0 +1,62 @@
+{
+  "id": "industrial-autoclave",
+  "name": "Industrial Autoclave",
+  "tier": "IV",
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTEMultiAutoclave.java",
+  "size": [7, 7, 9],
+  "layers": [
+    ["A A~A A", "  AAA  ", "  AAA  ", "  AAA  ", "  AAA  ", "  AAA  ", "  AAA  ", "  AAA  ", "A AAA A"],
+    ["AABBBAA", " AA AA ", " A   A ", " A   A ", " A   A ", " A   A ", " A   A ", " AA AA ", "AABBBAA"],
+    ["ABBBBBA", "A C C A", "A C C A", "A C C A", "A C C A", "A C C A", "A C C A", "A C C A", "ABBBBBA"],
+    ["ABBBBBA", "ACDEDCA", "ACDEDCA", "ACDEDCA", "ACDEDCA", "ACDEDCA", "ACDEDCA", "ACDEDCA", "ABBBBBA"],
+    ["ABBBBBA", "A C C A", "A C C A", "A C C A", "A C C A", "A C C A", "A C C A", "A C C A", "ABBBBBA"],
+    [" ABBBA ", " AA AA ", " A   A ", " A   A ", " A   A ", " A   A ", " A   A ", " AA AA ", " ABBBA "],
+    ["  AAA  ", "  AFA  ", "  AFA  ", "  AFA  ", "  AFA  ", "  AFA  ", "  AFA  ", "  AFA  ", "  AAA  "]
+  ],
+  "legend": {
+    "A": {
+      "blockId": "gt.casing.pressureContainment",
+      "hatches": ["itemIn", "itemOut", "fluidIn", "fluidOut", "maintenance", "energy"]
+    },
+    "B": {
+      "blockId": "gt.glass.reinforced"
+    },
+    "C": {
+      "blockId": "gt.frame.ptfe"
+    },
+    "D": {
+      "blockId": "gt.casing.bronzePipe"
+    },
+    "E": {
+      "blockId": "gt.casing.itemPipeTin"
+    },
+    "F": {
+      "blockId": "gt.coil.cupronickel"
+    }
+  },
+  "controller": {
+    "pos": [3, 0, 0],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus",
+    "itemOut": "gt.hatch.outputBus",
+    "fluidIn": "gt.hatch.inputHatch",
+    "fluidOut": "gt.hatch.outputHatch",
+    "energy": "gt.hatch.energy",
+    "maintenance": "gt.hatch.maintenance"
+  },
+  "shareableHatches": ["itemIn", "itemOut", "fluidIn", "fluidOut"],
+  "requiredHatches": {
+    "energy": {
+      "min": 1
+    },
+    "maintenance": {
+      "min": 1
+    }
+  },
+  "defaultHatches": ["itemIn", "itemOut", "fluidIn", "energy", "maintenance"],
+  "wallshare": true,
+  "notes": "7x7x9. A long pressure vessel of Pressure Containment Casings (at least 128) that take every bus and hatch, with glass ends, heating coils along the top (coil tier sets speed), PTFE frame boxes, and pipe casings inside: fluid pipe casings (bronze shown; tier sets parallels) and item pipe casings (tin shown). GT also needs at least one input and one output of any kind."
+}

@@ -1,0 +1,57 @@
+{
+  "id": "large-tungstensteel-boiler",
+  "name": "Large Tungstensteel Boiler",
+  "tier": "EV",
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTELargeBoilerTungstenSteel.java",
+  "size": [3, 5, 3],
+  "layers": [
+    ["f~f", "fff", "fff"],
+    ["ccc", "cPc", "ccc"],
+    ["ccc", "cPc", "ccc"],
+    ["ccc", "cPc", "ccc"],
+    ["ccc", "ccc", "ccc"]
+  ],
+  "legend": {
+    "c": {
+      "blockId": "gt.casing.robustTungstensteel",
+      "hatches": ["fluidOut"]
+    },
+    "f": {
+      "blockId": "gt.casing.tungstensteelFirebox",
+      "hatches": ["maintenance", "fluidIn", "itemIn", "muffler"]
+    },
+    "P": {
+      "blockId": "gt.casing.tungstensteelPipe"
+    }
+  },
+  "controller": {
+    "pos": [1, 0, 0],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus",
+    "fluidIn": "gt.hatch.inputHatch",
+    "fluidOut": "gt.hatch.outputHatch",
+    "maintenance": "gt.hatch.maintenance",
+    "muffler": "gt.hatch.muffler"
+  },
+  "shareableHatches": ["itemIn", "fluidIn", "fluidOut"],
+  "requiredHatches": {
+    "maintenance": {
+      "min": 1
+    },
+    "muffler": {
+      "min": 1
+    },
+    "fluidIn": {
+      "min": 1
+    },
+    "fluidOut": {
+      "min": 1
+    }
+  },
+  "defaultHatches": ["itemIn", "fluidIn", "fluidOut", "maintenance", "muffler"],
+  "wallshare": true,
+  "notes": "3x5x3. Bottom layer: firebox casings (at least 3) with the controller in the front centre; they take the maintenance hatch, input hatches (water, liquid fuel), input buses (solid fuel) and the muffler. Above: Robust Tungstensteel Machine Casings (at least 24) that take output hatches (steam), around three pipe casings in the centre. Sharing: hatches in a shared wall serve every boiler whose structure contains them, so water inputs and steam outputs are marked shareable; maintenance and mufflers are not (each boiler needs its own)."
+}

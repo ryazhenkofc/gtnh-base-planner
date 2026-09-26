@@ -233,12 +233,19 @@ describe('computeWallStats', () => {
     expect(s.conflicts).toEqual([]);
   });
 
+  it('lets air meet air: turbines share a side wall across their rotor space', () => {
+    const turbine = getMultiblock('large-steam-turbine')!;
+    const s = computeWallStats(turbine, [u(0, [0, 0, 0]), u(1, [2, 0, 0])], []);
+    expect(s.conflicts).toEqual([]);
+    expect(s.sharedWalls).toEqual([[0, 1]]);
+  });
+
   it('never pairs a unit with itself when ids repeat', () => {
     const s = computeWallStats(coke, [u(0, [0, 0, 0]), u(0, [0, 0, 0])], []);
     expect(s.conflicts).toEqual([]);
     expect(s.sharedWalls).toEqual([]);
-    // Only the controller and the air cell clash; identical bricks merge.
-    expect(keys(s.conflictCells)).toEqual(['1,1,0', '1,1,1']);
+    // Only the controllers clash; identical bricks merge and air on air is fine.
+    expect(keys(s.conflictCells)).toEqual(['1,1,0']);
   });
 
   it('is pure and deterministic', () => {

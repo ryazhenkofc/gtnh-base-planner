@@ -2,7 +2,7 @@ import { controllerFacing, rotateDir, step, unitCells } from './geometry';
 import type { Dir, HatchKind, HatchPlacement, MultiblockDef, RouteNet, Unit, Vec3 } from './types';
 
 /** Hatch kinds that get pipe/conveyor networks. */
-export const PIPE_KINDS = ['itemIn', 'itemOut', 'fluidIn', 'fluidOut'] as const;
+export const PIPE_KINDS = ['itemIn', 'itemOut', 'fluidIn', 'fluidOut', 'steamIn'] as const;
 
 /** Hatch kinds that get cable networks (energy in, dynamo out). */
 export const CABLE_KINDS = ['energy', 'dynamo'] as const;

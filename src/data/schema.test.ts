@@ -94,10 +94,10 @@ describe('validateMultiblockDef', () => {
   it('rejects a controller that does not face out of the box', () => {
     const d = clone(base);
     d.controller = { ...d.controller, facing: 'south' };
-    expect(validateMultiblockDef(d).join()).toMatch(/not on the south face/);
+    expect(validateMultiblockDef(d).join()).toMatch(/does not face open space on the south side/);
     const east = clone(base);
     east.controller = { ...east.controller, facing: 'east' };
-    expect(validateMultiblockDef(east).join()).toMatch(/not on the east face/);
+    expect(validateMultiblockDef(east).join()).toMatch(/does not face open space on the east side/);
   });
 
   it('rejects unknown block ids', () => {

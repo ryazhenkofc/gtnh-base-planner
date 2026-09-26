@@ -10,6 +10,7 @@ export const HATCH_PRIORITY: readonly HatchKind[] = [
   'maintenance',
   'energy',
   'dynamo',
+  'steamIn',
   'itemIn',
   'fluidIn',
   'itemOut',

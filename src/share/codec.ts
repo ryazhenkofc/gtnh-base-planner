@@ -56,6 +56,7 @@ export const HATCH_KINDS: readonly HatchKind[] = [
   'dynamo',
   'maintenance',
   'muffler',
+  'steamIn',
 ];
 
 export const ID_RE = /^[a-z0-9_-]+$/;

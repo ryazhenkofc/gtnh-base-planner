@@ -14,9 +14,12 @@ export type HorizontalDir = 'north' | 'south' | 'east' | 'west';
 /** Quarter turns clockwise around +Y when seen from above (east -> south -> west -> north). */
 export type Rotation = 0 | 1 | 2 | 3;
 
-/** Kinds of hatches/buses a multiblock can take. Coke Oven uses one hatch block in 3 modes. */
+/**
+ * Kinds of hatches/buses a multiblock can take. Coke Oven uses one hatch block in 3 modes. `steamIn` is the
+ * steam input hatch of steam multiblocks, kept apart from `fluidIn` because both can be on one machine.
+ */
 export type HatchKind =
-  'itemIn' | 'itemOut' | 'fluidIn' | 'fluidOut' | 'energy' | 'dynamo' | 'maintenance' | 'muffler';
+  'itemIn' | 'itemOut' | 'fluidIn' | 'fluidOut' | 'energy' | 'dynamo' | 'maintenance' | 'muffler' | 'steamIn';
 
 export type ViewMode = 'simple' | 'detailed';
 
