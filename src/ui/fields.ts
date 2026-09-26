@@ -41,3 +41,13 @@ export function parseLimit(text: string): number | null | undefined {
 export function formatLimit(value: number | null): string {
   return value === null ? '' : String(value);
 }
+
+/**
+ * Parse a height / length typed by the user: a number rounded to an integer, or `null` when the text is not
+ * a number. The multiblock snaps it to a size it can take.
+ */
+export function parseSize(text: string): number | null {
+  const s = text.trim();
+  if (!/^[-+]?\d+(\.\d+)?$/.test(s)) return null;
+  return Math.round(Number(s));
+}

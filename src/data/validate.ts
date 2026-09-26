@@ -186,5 +186,37 @@ export function validateMultiblockDef(def: MultiblockDef, fileName?: string): st
 
   if (typeof def.wallshare !== 'boolean') err('wallshare must be a boolean');
 
+  if (def.resize !== undefined) checkResize(def, err, fileName !== undefined);
+
   return errors;
+}
+
+/**
+ * A `resize` rule must describe a slab inside the box and sizes the JSON can grow to. A JSON file holds the
+ * smallest form; an expanded def (`sizedDef`) keeps the rule at any valid size.
+ */
+function checkResize(def: MultiblockDef, err: (msg: string) => void, isFile: boolean): void {
+  const r = def.resize!;
+  const a = { x: 0, y: 1, z: 2 }[r.axis];
+  if (a === undefined) {
+    err(`resize.axis "${r.axis}" must be x, y or z`);
+    return;
+  }
+  if (!['height', 'length'].includes(r.label)) err(`resize.label "${r.label}" must be height or length`);
+  const len = def.size[a];
+  if (![r.from, r.to, r.min, r.max, r.default].every(isInt)) {
+    err('resize.from, to, min, max and default must be integers');
+    return;
+  }
+  if (r.from < 0 || r.to <= r.from || r.to > len)
+    err(`resize slab [${r.from}, ${r.to}) is not inside the box`);
+  const t = r.to - r.from;
+  if (isFile && r.min !== len) err(`resize.min ${r.min} must equal size along ${r.axis} (${len})`);
+  else if (len < r.min || len > r.max || (len - r.min) % t !== 0)
+    err(`size along ${r.axis} (${len}) is not a size resize allows`);
+  if (r.max < r.min || (r.max - r.min) % t !== 0) err(`resize.max ${r.max} must be min plus whole slabs`);
+  if (r.default < r.min || r.default > r.max || (r.default - r.min) % t !== 0)
+    err(`resize.default ${r.default} must be a valid size between min and max`);
+  const c = def.controller?.pos[a];
+  if (c !== undefined && c >= r.from && c < r.to) err('resize slab must not contain the controller');
 }

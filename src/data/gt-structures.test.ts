@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { HatchKind, MultiblockDef } from '../model/types';
+import { sizedDef } from '../model/resize';
 import { catalog } from './catalog';
 
 /**
@@ -26,8 +27,12 @@ const [IB, OB, IH, OH, MA, EN, MU]: HatchKind[] = [
   'muffler',
 ];
 
-/** `transposed`: shape[layer from top][z][x] (StructureLib `transpose(...)`); else shape[z][row from top][x]. */
-const GT: Record<string, { transposed: boolean; shape: string[][]; el: Record<string, Cat> }> = {
+/**
+ * `transposed`: shape[layer from top][z][x] (StructureLib `transpose(...)`); else shape[z][row from top][x].
+ * Resizable multiblocks give the shape as a function of their size (height / length).
+ */
+type Shape = string[][] | ((size: number) => string[][]);
+const GT: Record<string, { transposed: boolean; shape: Shape; el: Record<string, Cat> }> = {
   'big-barrel-brewery': {
     transposed: false,
     shape: [
@@ -75,11 +80,10 @@ const GT: Record<string, { transposed: boolean; shape: string[][]; el: Record<st
   // Base piece, three ring layers with an air core, and the top ring closed by a casing (height 5).
   'distillation-tower': {
     transposed: true,
-    shape: [
+    // Base, then STRUCTURE_PIECE_LAYER up to the top layer, whose centre is a casing.
+    shape: (h) => [
       ['lll', 'lcl', 'lll'],
-      ['lll', 'l-l', 'lll'],
-      ['lll', 'l-l', 'lll'],
-      ['lll', 'l-l', 'lll'],
+      ...Array.from({ length: h - 2 }, () => ['lll', 'l-l', 'lll']),
       ['b~b', 'bbb', 'bbb'],
     ],
     el: {
@@ -262,17 +266,21 @@ describe('catalog structures match GT5-Unofficial', () => {
     expect(catalog.map((d) => d.id).sort()).toEqual(Object.keys(GT).sort());
   });
 
-  for (const def of catalog) {
-    it(def.id, () => {
-      const { transposed, shape, el } = GT[def.id];
-      const gt = gtCells(transposed, shape);
-      const ours = new Map<string, string>();
-      def.layers.forEach((layer, y) =>
-        layer.forEach((row, z) => [...row].forEach((ch, x) => ours.set(`${x},${y},${z}`, ch))),
-      );
-      expect([...ours.keys()].sort()).toEqual([...gt.keys()].sort());
-      const wrong = [...ours].filter(([k, ch]) => !sameCell(gtCat(gt.get(k)!, el), ourCat(ch, def)));
-      expect(wrong.map(([k, ch]) => `${k}: "${ch}" vs GT "${gt.get(k)}"`)).toEqual([]);
-    });
+  for (const raw of catalog) {
+    const r = raw.resize;
+    const sizes = r ? [...new Set([r.min, r.default, r.max])] : [undefined];
+    for (const size of sizes)
+      it(size === undefined ? raw.id : `${raw.id} (${r!.label} ${size})`, () => {
+        const def = sizedDef(raw, size);
+        const { transposed, shape, el } = GT[def.id];
+        const gt = gtCells(transposed, typeof shape === 'function' ? shape(size!) : shape);
+        const ours = new Map<string, string>();
+        def.layers.forEach((layer, y) =>
+          layer.forEach((row, z) => [...row].forEach((ch, x) => ours.set(`${x},${y},${z}`, ch))),
+        );
+        expect([...ours.keys()].sort()).toEqual([...gt.keys()].sort());
+        const wrong = [...ours].filter(([k, ch]) => !sameCell(gtCat(gt.get(k)!, el), ourCat(ch, def)));
+        expect(wrong.map(([k, ch]) => `${k}: "${ch}" vs GT "${gt.get(k)}"`)).toEqual([]);
+      });
   }
 });

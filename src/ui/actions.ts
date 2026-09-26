@@ -1,4 +1,5 @@
 import { getMultiblock } from '../data/catalog';
+import { effectiveSize } from '../model/resize';
 import type { HatchKind, PlanLimits, PlanState } from '../model/types';
 import { defaultPlan, plan, selectedUnits } from '../state/store';
 import { clampCount } from './fields';
@@ -24,12 +25,28 @@ export function withLimit(p: PlanState, axis: keyof PlanLimits, value: number | 
   return { ...withoutManual(p), limits: { ...p.limits, [axis]: value } };
 }
 
-/** Switch multiblock: keep count, limits and colours; take the new default hatches; drop manual units. */
+/**
+ * New height / length for a resizable multiblock, snapped to a size it can take. Units change shape, so a
+ * manual layout is dropped. Plans of fixed-size multiblocks are returned unchanged.
+ */
+export function withSize(p: PlanState, n: number): PlanState {
+  const def = getMultiblock(p.multiblockId);
+  const size = def ? effectiveSize(def, n) : undefined;
+  if (size === undefined || (size === (p.size ?? def?.resize?.default) && !p.manualUnits)) return p;
+  return { ...withoutManual(p), size };
+}
+
+/**
+ * Switch multiblock: keep count, limits and colours; take the new default hatches and size; drop manual
+ * units.
+ */
 export function withMultiblock(p: PlanState, id: string): PlanState {
   if (p.multiblockId === id) return p;
   const def = getMultiblock(id);
   if (!def) return p;
-  return { ...withoutManual(p), multiblockId: id, enabledHatches: [...def.defaultHatches] };
+  const next: PlanState = { ...withoutManual(p), multiblockId: id, enabledHatches: [...def.defaultHatches] };
+  delete next.size;
+  return next;
 }
 
 export function withHatchToggled(p: PlanState, kind: HatchKind): PlanState {
@@ -52,6 +69,7 @@ export function withDefaultColors(p: PlanState): PlanState {
 // Store wrappers
 
 export const setCount = (n: number) => plan.update((p) => withCount(p, n));
+export const setSize = (n: number) => plan.update((p) => withSize(p, n));
 export const setLimit = (axis: keyof PlanLimits, v: number | null) =>
   plan.update((p) => withLimit(p, axis, v));
 export const toggleHatch = (k: HatchKind) => plan.update((p) => withHatchToggled(p, k));

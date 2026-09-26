@@ -2,9 +2,9 @@
   import { t } from '../i18n/en';
   import type { MultiblockDef, PlanLimits } from '../model/types';
   import { plan, showCables, showPipes, xray } from '../state/store';
-  import { resetColors, resetPlan, setHatchColor, setLimit, toggleHatch } from './actions';
+  import { resetColors, resetPlan, setHatchColor, setLimit, setSize, toggleHatch } from './actions';
   import { hatchKindsOf } from './catalogView';
-  import { formatLimit, parseLimit } from './fields';
+  import { formatLimit, parseLimit, parseSize } from './fields';
   import { notify } from './notices';
   import NumberField from './NumberField.svelte';
   import { mergeColors } from './pipeline';
@@ -23,6 +23,13 @@
   ];
 
   const kinds = $derived(def ? hatchKindsOf(def) : []);
+  const resize = $derived(def?.resize);
+  const sizeLabel = $derived(resize?.label === 'length' ? t.length : t.height);
+
+  function commitSize(text: string) {
+    const n = parseSize(text);
+    if (n !== null) setSize(n);
+  }
   const colors = $derived(mergeColors($plan.colors));
 
   function commitLimit(axis: keyof PlanLimits, text: string) {
@@ -59,6 +66,22 @@
     <span class="title">{t.settings}</span>
     <button class="link" onclick={onclose}>{t.close}</button>
   </div>
+
+  {#if resize}
+    <section>
+      <h2>{t.size}</h2>
+      <label class="limit">
+        <span>{sizeLabel}</span>
+        <NumberField
+          value={String($plan.size ?? resize.default)}
+          label={sizeLabel}
+          testid="size"
+          oncommit={commitSize}
+        />
+      </label>
+      <p class="hint">{t.sizeHint(resize.min, resize.max)}</p>
+    </section>
+  {/if}
 
   <section>
     <h2>{t.limits}</h2>

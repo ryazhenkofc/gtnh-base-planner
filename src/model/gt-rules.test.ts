@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { catalog, getMultiblock } from '../data/catalog';
+import { catalog } from '../data/catalog';
 import { defaultPlan } from '../state/store';
 import { createPipeline } from '../ui/pipeline';
 import { controllerFacing, key, localCells, rotateDir, step, toWorld } from './geometry';
@@ -12,11 +12,11 @@ import type { MultiblockDef, PlanLimits, Unit } from './types';
 
 const NO_LIMITS: PlanLimits = { x: null, y: null, z: null };
 
-function build(id: string, count: number, limits = NO_LIMITS) {
-  const r = createPipeline()({ ...defaultPlan(id), count, limits }, true);
-  if (!r.scene || !r.hatches || !r.pack) throw new Error(`${id}: ${r.error}`);
+function build(id: string, count: number, limits = NO_LIMITS, size?: number) {
+  const r = createPipeline()({ ...defaultPlan(id), count, limits, size }, true);
+  if (!r.scene || !r.hatches || !r.pack || !r.def) throw new Error(`${id}: ${r.error}`);
   return {
-    def: getMultiblock(id)!,
+    def: r.def,
     units: r.pack.units,
     hatches: r.hatches,
     scene: r.scene,
@@ -38,17 +38,24 @@ const PLANS: [number, PlanLimits][] = [
 
 describe('GT rules', () => {
   it('Distillation Tower: an output hatch on every layer, never facing up or down', () => {
-    for (const [count, limits] of PLANS) {
-      const { def, units, scene } = build('distillation-tower', count, limits);
-      const outs = scene.hatches.filter((h) => h.kind === 'fluidOut');
-      for (const h of outs) expect(['up', 'down']).not.toContain(h.face);
-      for (const u of units)
-        for (const layer of ['1', '2', '3', '4'])
-          expect(
-            outs.some((h) => h.unitIds.includes(u.id) && charAt(def, u, key(h.cell)) === layer),
-            `unit ${u.id} layer ${layer} (${count} units)`,
-          ).toBe(true);
-    }
+    for (const height of [3, 5, 12])
+      for (const [count, limits] of PLANS) {
+        const { def, units, scene } = build('distillation-tower', count, limits, height);
+        expect(def.size[1]).toBe(height);
+        const outs = scene.hatches.filter((h) => h.kind === 'fluidOut');
+        for (const h of outs) expect(['up', 'down']).not.toContain(h.face);
+        const regionAt = (u: Unit, cell: string) => def.legend[charAt(def, u, cell) ?? '']?.region;
+        // Every layer above the base: the ring copies and the top.
+        for (const u of units)
+          for (let y = 1; y < height; y++) {
+            const layer = regionAt(u, key(toWorld(def, u, [0, y, 0])));
+            expect(layer, `height ${height} layer ${y}`).toBeDefined();
+            expect(
+              outs.some((h) => h.unitIds.includes(u.id) && regionAt(u, key(h.cell)) === layer),
+              `unit ${u.id} layer ${y} (${count} units, height ${height})`,
+            ).toBe(true);
+          }
+      }
   });
 
   it('Oil Cracking Unit: an input hatch on a side column and one in the middle', () => {

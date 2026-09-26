@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import type { MultiblockDef } from '../model/types';
 import { localCells } from '../model/geometry';
+import { resizeSteps, sizedDef } from '../model/resize';
 import { catalog, getMultiblock } from './catalog';
 import { validateMultiblockDef } from './validate';
 
@@ -28,6 +29,11 @@ describe('multiblock catalog', () => {
   describe.each(entries)('$file', ({ file, def }) => {
     it('passes validation', () => {
       expect(validateMultiblockDef(def, file)).toEqual([]);
+    });
+
+    it('passes validation at every size it can take', () => {
+      for (const n of def.resize ? resizeSteps(def.resize) : [])
+        expect(validateMultiblockDef(sizedDef(def, n))).toEqual([]);
     });
 
     it('has a GT source link', () => {

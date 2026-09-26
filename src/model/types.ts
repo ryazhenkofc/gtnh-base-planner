@@ -46,6 +46,28 @@ export interface HatchRequirement {
 }
 
 /**
+ * How a multiblock grows along one local axis (GT `beginVariableStructureBlock`), e.g. Distillation Tower
+ * height or Assembly Line length. The JSON holds the smallest form (`size[axis] === min`), with one copy of
+ * the repeating slab `[from, to)`; a size of `n` inserts `(n - min) / (to - from)` more copies right after
+ * it (see `sizedDef` in `src/model/resize.ts`). A slab cell with a `region` gets a numbered region per copy
+ * (`layer` -> `layer1`, `layer2`, ...), and `requiredHatches.*.regions` naming it expand to match.
+ */
+export interface ResizeRule {
+  axis: 'x' | 'y' | 'z';
+  /** First local index of the repeating slab. */
+  from: number;
+  /** One past its last local index. */
+  to: number;
+  /** Smallest and largest total size along `axis`; `min` is the size in the JSON. */
+  min: number;
+  max: number;
+  /** Size a new plan starts with. */
+  default: number;
+  /** What the size is called in the UI. */
+  label: 'height' | 'length';
+}
+
+/**
  * A multiblock definition (one JSON file in `src/data/multiblocks/`).
  *
  * `layers[y][z]` is a string of length `size[0]`; character `x` is the cell at local (x, y, z).
@@ -80,6 +102,8 @@ export interface MultiblockDef {
   defaultHatches: HatchKind[];
   /** Whether casings of two units may overlap (shared walls) when the blocks match. */
   wallshare: boolean;
+  /** Present when the structure has a variable size (see `ResizeRule`). */
+  resize?: ResizeRule;
   notes?: string;
 }
 
@@ -123,6 +147,11 @@ export interface PlanState {
   colors: Partial<Record<HatchKind, string>>;
   /** When set, units are placed exactly here instead of auto-packing. */
   manualUnits?: Unit[];
+  /**
+   * Size along the multiblock's `resize` axis (height / length). Only for resizable multiblocks; absent
+   * means `resize.default`.
+   */
+  size?: number;
 }
 
 export interface PackResult {

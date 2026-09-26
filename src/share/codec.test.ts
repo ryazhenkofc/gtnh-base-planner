@@ -33,6 +33,18 @@ describe('encodePlan / decodePlan', () => {
     expect(await decodePlan(encoded)).toEqual(plan);
   });
 
+  it('round-trips a size and snaps it to one the multiblock can take', async () => {
+    const plan = { ...defaultPlan('distillation-tower'), size: 9 };
+    expect(await decodePlan(await encodePlan(plan))).toEqual(plan);
+    // Old links have no size: the default applies.
+    const old = defaultPlan('distillation-tower');
+    expect((await decodePlan(await encodePlan(old))).size).toBeUndefined();
+    expect(validatePlanState({ ...old, size: 40 }).size).toBe(12);
+    // Fixed-size multiblocks drop it.
+    expect(validatePlanState({ ...defaultPlan(), size: 5 }).size).toBeUndefined();
+    expect(() => validatePlanState({ ...old, size: 1.5 })).toThrow(PlanFormatError);
+  });
+
   it('round-trips a 60-unit manual plan under the Discord limit', async () => {
     const plan = manualPlan(60);
     const encoded = await encodePlan(plan);

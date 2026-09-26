@@ -1,4 +1,5 @@
 import { getMultiblock } from '../data/catalog';
+import { effectiveSize } from '../model/resize';
 import type { HatchKind, PlanLimits, PlanState, Rotation, Unit, Vec3 } from '../model/types';
 import {
   MAX_PAYLOAD_BYTES,
@@ -30,6 +31,8 @@ export { MAX_PAYLOAD_BYTES, PlanFormatError } from './binary';
  *   c  { "<bit>": "rrggbb" }    colour overrides; omitted when empty
  *   u  [x, y, z, r, ...]        manual units (origin + rotation); omitted in auto mode
  *   i  [id, ...]                manual unit ids; omitted when they are 0, 1, 2, ...
+ *   s  size                     height / length of a resizable multiblock; omitted = `resize.default`
+ *                               (so a multiblock's `resize.default` must never change)
  */
 
 export const PLAN_VERSION = 1;
@@ -39,6 +42,8 @@ export const MAX_COUNT = 200;
 export const MAX_LIMIT = MAX_COUNT;
 export const MAX_COORD = 512;
 export const MAX_UNIT_ID = 1_000_000;
+/** Largest `size` accepted from input; the multiblock's own `resize.max` clamps it further. */
+export const MAX_SIZE = 64;
 const DEFAULT_COUNT = 4;
 
 /** Stable order of hatch kinds; the index is the bit used in share links. Append only. */
@@ -135,10 +140,12 @@ function validateUnit(value: unknown, index: number): Unit {
 /**
  * Strict validation of untrusted input (JSON files, links, localStorage):
  * known multiblock id, count 1..200, integer limits (units per axis) 1..200 or null, known hatch kinds, `#rrggbb` colours,
- * manual units with integer coordinates within ±512 and rotation 0..3. Throws with a readable message.
+ * manual units with integer coordinates within ±512 and rotation 0..3, an integer size 1..64. Throws with a
+ * readable message.
  *
  * Returns a fresh, normalised copy: hatch kinds in `HATCH_KINDS` order, lower-case colours,
- * an empty `manualUnits` list becomes `undefined`, unknown top-level keys are dropped.
+ * an empty `manualUnits` list becomes `undefined`, unknown top-level keys are dropped, and `size` is
+ * snapped to one the multiblock can take (dropped when it cannot be resized).
  */
 export function validatePlanState(input: unknown): PlanState {
   const obj = expectObject(input, 'Plan');
@@ -198,6 +205,12 @@ export function validatePlanState(input: unknown): PlanState {
     }
     if (units.length > 0) plan.manualUnits = units;
   }
+
+  const sizeRaw = field(obj, 'size');
+  if (sizeRaw !== undefined && sizeRaw !== null) {
+    const size = effectiveSize(getMultiblock(multiblockId)!, expectInt(sizeRaw, 'Size', 1, MAX_SIZE));
+    if (size !== undefined) plan.size = size;
+  }
   return plan;
 }
 
@@ -214,9 +227,10 @@ interface CompactPlan {
   c?: Record<string, string>;
   u?: number[];
   i?: number[];
+  s?: number;
 }
 
-const COMPACT_KEYS = new Set(['v', 'm', 'n', 'l', 'h', 'c', 'u', 'i']);
+const COMPACT_KEYS = new Set(['v', 'm', 'n', 'l', 'h', 'c', 'u', 'i', 's']);
 
 function hatchMask(kinds: readonly HatchKind[]): number {
   let mask = 0;
@@ -247,6 +261,7 @@ function toCompact(plan: PlanState): CompactPlan {
     out.u = plan.manualUnits.flatMap((u) => [u.origin[0], u.origin[1], u.origin[2], u.rotation]);
     if (plan.manualUnits.some((u, i) => u.id !== i)) out.i = plan.manualUnits.map((u) => u.id);
   }
+  if (plan.size !== undefined) out.s = plan.size;
   return out;
 }
 
@@ -316,6 +331,8 @@ function fromCompact(input: unknown): PlanState {
   } else if (ids !== undefined) {
     throw new PlanFormatError('Unit ids without units.');
   }
+  const size = field(obj, 's');
+  if (size !== undefined) plan.size = size;
   return validatePlanState(plan);
 }
 

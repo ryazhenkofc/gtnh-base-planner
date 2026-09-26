@@ -3,6 +3,7 @@ import { getMultiblock } from '../data/catalog';
 import { DEFAULT_HATCH_COLORS } from '../model/colors';
 import { layoutCandidates, packUnits } from '../model/layout';
 import { resolveLayout } from '../model/plan';
+import { effectiveSize, sizedDef } from '../model/resize';
 import { placeHatches } from '../model/ports';
 import { CABLE_KINDS, PIPE_KINDS, routePipes, withPipeFaces, type RoutedKind } from '../model/routing';
 import { buildSceneModel } from '../model/scene';
@@ -93,7 +94,10 @@ export function createPipeline(deps: PipelineDeps = defaultDeps) {
   let lastResult: PipelineResult | undefined;
 
   return function run(p: PlanState, pipesOn: boolean, cablesOn = false): PipelineResult {
-    const def = deps.getMultiblock(p.multiblockId);
+    const raw = deps.getMultiblock(p.multiblockId);
+    const size = raw ? effectiveSize(raw, p.size) : undefined;
+    // A resizable multiblock is built at the plan's height / length.
+    const def = raw ? sizedDef(raw, size) : undefined;
     const empty: PipelineResult = {
       def,
       pack: null,
@@ -106,7 +110,7 @@ export function createPipeline(deps: PipelineDeps = defaultDeps) {
     };
     if (!def) return { ...empty, error: `Unknown multiblock "${p.multiblockId}"` };
 
-    const layoutKey = JSON.stringify([def.id, p.count, p.limits, p.manualUnits ?? null]);
+    const layoutKey = JSON.stringify([def.id, size ?? null, p.count, p.limits, p.manualUnits ?? null]);
     const hatchKey = layoutKey + JSON.stringify(p.enabledHatches);
     const kinds: RoutedKind[] = [...(pipesOn ? PIPE_KINDS : []), ...(cablesOn ? CABLE_KINDS : [])];
     const pipesKey = hatchKey + kinds.join();

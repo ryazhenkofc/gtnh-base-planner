@@ -7,10 +7,21 @@ import {
   withHatchToggled,
   withLimit,
   withMultiblock,
+  withSize,
 } from './actions';
 import { samePlan } from './session';
 
 describe('plan transforms', () => {
+  it('sets a size only on resizable multiblocks, snapped, and drops it when switching', () => {
+    const dt = defaultPlan('distillation-tower');
+    expect(withSize(dt, 5)).toBe(dt); // the default
+    expect(withSize(dt, 8).size).toBe(8);
+    expect(withSize(dt, 99).size).toBe(12);
+    const coke = defaultPlan();
+    expect(withSize(coke, 8)).toBe(coke);
+    expect(withMultiblock(withSize(dt, 8), 'coke-oven').size).toBeUndefined();
+  });
+
   it('clamps the count and drops a manual layout', () => {
     const p = {
       ...defaultPlan(),
