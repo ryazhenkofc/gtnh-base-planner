@@ -38,9 +38,11 @@ const CLEAR_AHEAD = 16;
 
 /**
  * Above this many cells in the (padded) bounding box, the outside flood fill is skipped and any face
- * whose neighbour is not a structure cell counts as open. Only hit by far-apart manual layouts.
+ * whose neighbour is not a structure cell counts as open (about 7 bytes a cell below it). The routing
+ * grid stops at `MAX_GRID_CELLS`, so any build it can route stays below this; only far-apart manual
+ * layouts reach it.
  */
-const FLOOD_LIMIT = 1_000_000;
+const FLOOD_LIMIT = 8_000_000;
 
 /** A cell where every unit containing it has a casing of the same block (hatch-able in principle). */
 interface Site {
