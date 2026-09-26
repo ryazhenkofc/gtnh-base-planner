@@ -119,8 +119,15 @@ the machine-metal colour in the atlas.
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_ENERGY_OUT_LV.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_MAINTENANCE.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_MUFFLER.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/HV_SIDE_CYCLOTRON_SOLENOID.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/HV_TOP_CYCLOTRON_SOLENOID.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_STRIPES_A.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_SCHEST.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_STANK.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_ENERGY_OUT.png`
 
 Texture paths were located through `Textures.BlockIcons` (`src/main/java/gregtech/api/enums/Textures.java`), the
 casing blocks (`BlockCasings1/2/3/4/8/10/11/12.java`, `BlockCasingsNH.java`), `MTECokeOven.java`,
-`MTEHatchCokeOven.java`, `MTEBrickedBlastFurnace.java`, `MTEPyrolyseOven.java` and the Steel material definition
+`MTEHatchCokeOven.java`, `MTEBrickedBlastFurnace.java`, `MTEPyrolyseOven.java`, `BlockCyclotronCoils.java`,
+`MTEAssemblyLine.java` and the Steel material definition
 (`MaterialsInit.java`).

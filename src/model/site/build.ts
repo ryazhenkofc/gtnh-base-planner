@@ -517,7 +517,15 @@ export function createSiteBuilder() {
       const res = resourceOf(pp.port.resource);
       const k = key(pp.cell);
       if (voxelMap.has(k)) voxelMap.get(k)!.conflict = true;
-      else voxelMap.set(k, { pos: pp.cell, blockId: `site.port.${res.kind}`, kind: 'casing', unitIds: [] });
+      // A port shows its front (chest, tank or energy output) towards the site, like a controller.
+      else
+        voxelMap.set(k, {
+          pos: pp.cell,
+          blockId: `site.port.${res.kind}`,
+          kind: 'controller',
+          facing: pp.faces[0],
+          unitIds: [],
+        });
     }
     const voxels = [...voxelMap.values()];
 

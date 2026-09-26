@@ -181,6 +181,15 @@ export const TILES = {
   OVERLAY_ENERGY_OUT_LV: {},
   OVERLAY_MAINTENANCE: {},
   OVERLAY_MUFFLER: {},
+  // Solenoid Superconductor Coil (sSolenoidCoilCasings = BlockCyclotronCoils; HV tier shown)
+  HV_SIDE_CYCLOTRON_SOLENOID: {},
+  HV_TOP_CYCLOTRON_SOLENOID: {},
+  // Sites: hazard stripes for placeholder multiblocks, and the fronts of boundary ports (Super Chest,
+  // Super Tank and the energy output overlay of a battery buffer).
+  MACHINE_CASING_STRIPES_A: {},
+  OVERLAY_SCHEST: {},
+  OVERLAY_STANK: {},
+  OVERLAY_ENERGY_OUT: {},
 };
 
 /**
@@ -254,6 +263,13 @@ export const BLOCK_MAP = {
   'gt.casing.extremeEngineIntake': { side: 'MACHINE_CASING_EXTREME_ENGINE_INTAKE' },
   'gt.casing.grate': { side: 'MACHINE_CASING_GRATE' },
   'gt.casing.assembler': { side: 'MACHINE_CASING_ASSEMBLER' },
+  // Assembling Line Casing is sBlockCasings2 meta 5, which GT draws with the tungstensteel gearbox icon.
+  'gt.casing.assemblyLine': { side: 'MACHINE_CASING_GEARBOX_TUNGSTENSTEEL' },
+  'gt.coil.solenoid': {
+    side: 'HV_SIDE_CYCLOTRON_SOLENOID',
+    top: 'HV_TOP_CYCLOTRON_SOLENOID',
+    bottom: 'HV_TOP_CYCLOTRON_SOLENOID',
+  },
   // Pressure Containment Casing (BlockCasings10 meta 3)
   'gt.casing.pressureContainment': { side: 'MACHINE_CASING_AUTOCLAVE' },
   'gt.frame.bronze': { side: 'FRAME_BRONZE' },
@@ -283,6 +299,28 @@ export const BLOCK_MAP = {
   'gt.hatch.muffler': { side: 'MACHINE_LV_SIDE', top: 'MACHINE_LV_TOP', bottom: 'MACHINE_LV_BOTTOM' },
   // Site stand-in for any GT single-block machine: an LV machine hull.
   'site.singleblock': { side: 'MACHINE_LV_SIDE', top: 'MACHINE_LV_TOP', bottom: 'MACHINE_LV_BOTTOM' },
+  // Site placeholder for a multiblock that is not transcribed yet: hazard-striped casing.
+  'site.placeholder': { side: 'MACHINE_CASING_STRIPES_A' },
+  // Site boundary ports: an HV hull with the front of a Super Chest (items), a Super Tank (fluids) or a
+  // battery buffer's energy output (power), facing into the site.
+  'site.port.item': {
+    side: 'MACHINE_HV_SIDE',
+    top: 'MACHINE_HV_TOP',
+    bottom: 'MACHINE_HV_BOTTOM',
+    front: 'OVERLAY_SCHEST',
+  },
+  'site.port.fluid': {
+    side: 'MACHINE_HV_SIDE',
+    top: 'MACHINE_HV_TOP',
+    bottom: 'MACHINE_HV_BOTTOM',
+    front: 'OVERLAY_STANK',
+  },
+  'site.port.power': {
+    side: 'MACHINE_HV_SIDE',
+    top: 'MACHINE_HV_TOP',
+    bottom: 'MACHINE_HV_BOTTOM',
+    front: 'OVERLAY_ENERGY_OUT',
+  },
 };
 
 /**

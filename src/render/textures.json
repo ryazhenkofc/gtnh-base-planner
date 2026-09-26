@@ -3,7 +3,7 @@
   "atlas": {
     "path": "textures/atlas.png",
     "width": 256,
-    "height": 96,
+    "height": 112,
     "tile": 16
   },
   "tiles": {
@@ -101,14 +101,20 @@
     "OVERLAY_ENERGY_IN_LV": [176, 80, 16, 16],
     "OVERLAY_ENERGY_OUT_LV": [192, 80, 16, 16],
     "OVERLAY_MAINTENANCE": [208, 80, 16, 16],
-    "OVERLAY_MUFFLER": [224, 80, 16, 16]
+    "OVERLAY_MUFFLER": [224, 80, 16, 16],
+    "HV_SIDE_CYCLOTRON_SOLENOID": [240, 80, 16, 16],
+    "HV_TOP_CYCLOTRON_SOLENOID": [0, 96, 16, 16],
+    "MACHINE_CASING_STRIPES_A": [16, 96, 16, 16],
+    "OVERLAY_SCHEST": [32, 96, 16, 16],
+    "OVERLAY_STANK": [48, 96, 16, 16],
+    "OVERLAY_ENERGY_OUT": [64, 96, 16, 16]
   },
   "blocks": {
     "gt.casing.assembler": {
       "side": "MACHINE_CASING_ASSEMBLER"
     },
     "gt.casing.assemblyLine": {
-      "flat": true
+      "side": "MACHINE_CASING_GEARBOX_TUNGSTENSTEEL"
     },
     "gt.casing.bronzeFirebox": {
       "side": "MACHINE_CASING_FIREBOX_BRONZE",
@@ -234,7 +240,9 @@
       "side": "MACHINE_COIL_CUPRONICKEL"
     },
     "gt.coil.solenoid": {
-      "flat": true
+      "side": "HV_SIDE_CYCLOTRON_SOLENOID",
+      "top": "HV_TOP_CYCLOTRON_SOLENOID",
+      "bottom": "HV_TOP_CYCLOTRON_SOLENOID"
     },
     "gt.cokeOvenBrick": {
       "side": "COKE_OVEN_CASING"
@@ -333,16 +341,25 @@
       "flat": true
     },
     "site.placeholder": {
-      "flat": true
+      "side": "MACHINE_CASING_STRIPES_A"
     },
     "site.port.fluid": {
-      "flat": true
+      "side": "MACHINE_HV_SIDE",
+      "top": "MACHINE_HV_TOP",
+      "bottom": "MACHINE_HV_BOTTOM",
+      "front": "OVERLAY_STANK"
     },
     "site.port.item": {
-      "flat": true
+      "side": "MACHINE_HV_SIDE",
+      "top": "MACHINE_HV_TOP",
+      "bottom": "MACHINE_HV_BOTTOM",
+      "front": "OVERLAY_SCHEST"
     },
     "site.port.power": {
-      "flat": true
+      "side": "MACHINE_HV_SIDE",
+      "top": "MACHINE_HV_TOP",
+      "bottom": "MACHINE_HV_BOTTOM",
+      "front": "OVERLAY_ENERGY_OUT"
     },
     "site.singleblock": {
       "side": "MACHINE_LV_SIDE",
