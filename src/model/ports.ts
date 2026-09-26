@@ -81,6 +81,10 @@ interface Entry {
   waste: number;
   /** 1 when the face used would wall in a pipe (see `walledIn`), else 0. */
   walled: number;
+  /** 0 when the face used looks into open space, 1 when into a gap or recess. */
+  open: number;
+  /** Hatches of other kinds around the cell the face looks into. */
+  crowded: number;
   /** Index of the open face used, into the site's `faces`. */
   face: number;
   /** That face's position in `FACE_ORDER` (sides before top before bottom). */
@@ -90,8 +94,19 @@ interface Entry {
 /** Negative when `a` is the better pick: higher score, then less waste, then a better face, then lower cell. */
 function compareEntries(a: Entry, b: Entry): number {
   return (
-    b.score - a.score || a.waste - b.waste || a.walled - b.walled || a.faceRank - b.faceRank || a.i - b.i
+    b.score - a.score ||
+    a.waste - b.waste ||
+    a.walled - b.walled ||
+    a.open - b.open ||
+    a.crowded - b.crowded ||
+    a.faceRank - b.faceRank ||
+    a.i - b.i
   );
+}
+
+/** 0 for a face rank that looks into open space, 1 for one into a gap or recess (see `Site.faces`). */
+function openRank(rank: number): number {
+  return rank < FACE_ORDER.length ? 0 : 1;
 }
 
 /** Binary heap with the best entry (by `compareEntries`) on top. */
@@ -260,7 +275,11 @@ function legendKinds(
 function findSites(
   def: MultiblockDef,
   units: readonly Unit[],
-): { sites: Site[]; openAround: ((k: CellKey) => (CellKey | null)[]) | null } {
+): {
+  sites: Site[];
+  openAround: ((k: CellKey) => (CellKey | null)[]) | null;
+  nearby: ((k: CellKey) => number[]) | null;
+} {
   interface Entry {
     pos: Vec3;
     key: CellKey;
@@ -294,6 +313,14 @@ function findSites(
   const dense = Number.isFinite(volume) && volume <= FLOOD_LIMIT;
   const keyOf = dense ? (p: Vec3): CellKey => boxIndex(box, p) : packCell;
 
+  /** Structure cells. */
+  const solidDense = dense ? new Uint8Array(volume) : null;
+  const solidKeys = dense ? null : new Set<CellKey>();
+  /**
+   * Cells where every unit covering them allows some hatch. A cell another unit first covered with
+   * something else (air, a controller, a casing without hatches) never gets one: no hatch kind is allowed
+   * by all of them.
+   */
   const byKey = new Map<CellKey, Entry>();
   /** Cells in front of controllers: kept free for the player, so no hatch faces them. */
   const controllerFronts = new Set<CellKey>();
@@ -308,15 +335,22 @@ function findSites(
       if (pos[1] < ground) ground = pos[1];
       if (cell.role === 'controller') controllerFronts.add(keyOf(step(pos, controllerFacing(def, unit))));
       const k = keyOf(pos);
-      const casing = cell.role === 'casing';
-      const allowed = casing ? (cell.hatches ?? []) : [];
+      const covered = solidDense ? solidDense[k as number] === 1 : solidKeys!.has(k);
+      if (solidDense) solidDense[k as number] = 1;
+      else solidKeys!.add(k);
+      const allowed = cell.role === 'casing' ? (cell.hatches ?? []) : [];
       let entry = byKey.get(k);
+      if (allowed.length === 0) {
+        if (entry) entry.ok = false;
+        continue;
+      }
       if (!entry) {
+        if (covered) continue;
         entry = {
           pos,
           key: k,
           ids: [unit.id],
-          ok: casing,
+          ok: true,
           blockId: cell.blockId,
           kinds: legendKinds(def, cell.char, allowed),
           regions: NO_REGIONS,
@@ -325,11 +359,10 @@ function findSites(
         byKey.set(k, entry);
       } else {
         if (!entry.ids.includes(unit.id)) entry.ids.push(unit.id);
-        if (!casing || cell.blockId !== entry.blockId) entry.ok = false;
+        if (cell.blockId !== entry.blockId) entry.ok = false;
         if ([...entry.kinds].some((kind) => !allowed.includes(kind)))
           entry.kinds = new Set([...entry.kinds].filter((kind) => allowed.includes(kind)));
       }
-      if (!casing) continue;
       const legend = def.legend[cell.char];
       if (legend?.region !== undefined) {
         if (entry.regions === NO_REGIONS) entry.regions = new Map();
@@ -353,13 +386,29 @@ function findSites(
   let isOutside: (p: Vec3, k: CellKey) => boolean;
   let clearAhead: (p: Vec3, k: CellKey, face: number) => boolean;
   let openAround: ((k: CellKey) => (CellKey | null)[]) | null = null;
-  if (dense) {
-    const solid = new Uint8Array(volume);
-    for (const k of byKey.keys()) solid[k as number] = 1;
+  let nearby: ((k: CellKey) => number[]) | null = null;
+  if (solidDense) {
+    const solid = solidDense;
     const outside = outsideCells(box, solid, ground);
     const steps = boxSteps(box);
     solidAt = (_p, k) => solid[k as number] === 1;
     isOutside = (p, k) => p[1] >= ground && outside[k as number] === 1;
+    nearby = (k) => {
+      const i = k as number;
+      const x = i % box.nx;
+      const z = ((i - x) / box.nx) % box.nz;
+      const y = (i - x - z * box.nx) / (box.nx * box.nz);
+      const out: number[] = [];
+      for (let dy = -1; dy <= 1; dy++)
+        for (let dz = -1; dz <= 1; dz++)
+          for (let dx = -1; dx <= 1; dx++) {
+            if (dx === 0 && dy === 0 && dz === 0) continue;
+            const [ax, ay, az] = [x + dx, y + dy, z + dz];
+            if (ax < 0 || ay < 0 || az < 0 || ax >= box.nx || ay >= box.ny || az >= box.nz) continue;
+            out.push((ay * box.nz + az) * box.nx + ax);
+          }
+      return out;
+    };
     openAround = (k) => {
       const i = k as number;
       const x = i % box.nx;
@@ -405,14 +454,15 @@ function findSites(
       return true;
     };
   } else {
-    solidAt = (_p, k) => byKey.has(k);
-    isOutside = (p, k) => p[1] >= ground && !byKey.has(k);
+    const solid = solidKeys!;
+    solidAt = (_p, k) => solid.has(k);
+    isOutside = (p, k) => p[1] >= ground && !solid.has(k);
     clearAhead = (p, _k, face) => {
       const dir = FACE_ORDER[face];
       if (dir === 'down' && p[1] - (CLEAR_AHEAD - 1) < ground) return false;
       for (let n = 1, q = p; n < CLEAR_AHEAD; n++) {
         q = step(q, dir);
-        if (byKey.has(packCell(q))) return false;
+        if (solid.has(packCell(q))) return false;
       }
       return true;
     };
@@ -442,7 +492,7 @@ function findSites(
       blocked: e.blocked,
     });
   }
-  return { sites: sites.sort((a, b) => comparePos(a.pos, b.pos)), openAround };
+  return { sites: sites.sort((a, b) => comparePos(a.pos, b.pos)), openAround, nearby };
 }
 
 /**
@@ -490,7 +540,7 @@ export function placeHatches(
 }
 
 function place(def: MultiblockDef, units: readonly Unit[], kinds: HatchKind[]): HatchResult {
-  const { sites, openAround } = findSites(def, units);
+  const { sites, openAround, nearby } = findSites(def, units);
   const unitIds = sortedIds(units);
   const shareable = new Set(def.shareableHatches ?? []);
   const used = new Set<CellKey>();
@@ -522,6 +572,19 @@ function place(def: MultiblockDef, units: readonly Unit[], kinds: HatchKind[]): 
     }
     return false;
   };
+  const close = new Map<CellKey, number[]>();
+  /** Hatches of other kinds facing the 26 cells around the empty cell `k`: their pipes compete for room. */
+  const crowd = (k: CellKey, kind: HatchKind): number => {
+    if (!nearby) return 0;
+    let list = close.get(k);
+    if (!list) close.set(k, (list = nearby(k)));
+    let n = 0;
+    for (const c of list) {
+      const other = fronts.get(c);
+      if (other !== undefined && other !== kind) n++;
+    }
+    return n;
+  };
   const hatches: HatchPlacement[] = [];
   const unplaced: HatchResult['unplaced'] = [];
 
@@ -550,21 +613,39 @@ function place(def: MultiblockDef, units: readonly Unit[], kinds: HatchKind[]): 
         }
         if (score === 0) return null;
         const blocked = c.blocked.get(kind);
-        // The best open face, preferring one whose pipe keeps a way out (and leaves one to its neighbours).
+        // The best open face: one whose pipe keeps a way out (and leaves one to its neighbours), then one
+        // facing open space, then the one with the fewest hatches of other kinds around, then by side.
         let face = -1;
         let walled = 1;
+        let crowded = Infinity;
         for (let fi = 0; fi < c.faces.length; fi++) {
           const f = c.faces[fi];
           if ((fronts.get(f.front) ?? kind) !== kind || blocked?.has(f.dir)) continue;
-          if (face < 0) face = fi;
-          if (!walledIn(f.front, kind)) {
+          const w = walledIn(f.front, kind) ? 1 : 0;
+          const n = crowd(f.front, kind);
+          const better =
+            face < 0 ||
+            w < walled ||
+            (w === walled &&
+              (openRank(f.rank) < openRank(c.faces[face].rank) ||
+                (openRank(f.rank) === openRank(c.faces[face].rank) && n < crowded)));
+          if (better) {
             face = fi;
-            walled = 0;
-            break;
+            walled = w;
+            crowded = n;
           }
         }
         if (face < 0) return null;
-        return { i, score, waste: c.unitIds.length - score, walled, face, faceRank: c.faces[face].rank };
+        return {
+          i,
+          score,
+          waste: c.unitIds.length - score,
+          walled,
+          open: openRank(c.faces[face].rank),
+          crowded,
+          face,
+          faceRank: c.faces[face].rank,
+        };
       };
 
       // Greedy pick of the best candidate, via a lazy max-heap. A candidate's rank only ever gets worse
