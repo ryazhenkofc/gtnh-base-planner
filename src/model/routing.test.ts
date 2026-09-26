@@ -310,6 +310,69 @@ describe('routePipes', () => {
     expect(airborne(nets).length).toBeLessThanOrEqual(3);
   });
 
+  it('reworks finished networks branch by branch: never dearer, still one piece per kind', () => {
+    const bendCount = (nets: RouteNet[]) =>
+      nets.reduce(
+        (n, net) =>
+          n +
+          net.paths.reduce((m, p) => {
+            let b = 0;
+            for (let i = 2; i < p.length; i++)
+              if ([0, 1, 2].some((a) => p[i][a] - p[i - 1][a] !== p[i - 1][a] - p[i - 2][a])) b++;
+            return m + b;
+          }, 0),
+        0,
+      );
+    const cost = (nets: RouteNet[]) =>
+      nets.reduce((n, r) => n + r.length, 0) + DEFAULT_TURN_COST * bendCount(nets);
+    let gained = 0;
+    for (const [id, count] of [
+      ['vacuum-freezer', 12],
+      ['steam-squasher', 12],
+      ['electric-blast-furnace', 12],
+      ['coke-oven', 4],
+    ] as const) {
+      const r = createPipeline()({ ...defaultPlan(id), count }, true, true);
+      const kinds = [...PIPE_KINDS, ...CABLE_KINDS];
+      const args = [r.def!, r.pack!.units, r.hatches!.hatches] as const;
+      const plain = routePipes(...args, { kinds, refine: false });
+      const nets = routePipes(...args, { kinds });
+      expect(cost(nets), id).toBeLessThanOrEqual(cost(plain));
+      gained += cost(plain) - cost(nets);
+      const owner = new Map<string, string>();
+      nets.forEach((n, i) => {
+        expect(n.connected, id).toBe(plain[i].connected);
+        expectContiguous(n);
+        const cells = new Set(n.paths.flat().map(key));
+        expect(cells.size, id).toBe(n.length);
+        for (const c of cells) {
+          expect(owner.get(c) ?? n.kind, `${id}: ${c}`).toBe(n.kind);
+          owner.set(c, n.kind);
+        }
+        // One connected piece: a flood fill over the net's cells reaches all of them.
+        const start = [...cells][0];
+        const reached = new Set([start]);
+        const queue = [start];
+        while (queue.length) {
+          const [x, y, z] = queue.pop()!.split(',').map(Number);
+          for (const d of [
+            [1, 0, 0],
+            [-1, 0, 0],
+            [0, 1, 0],
+            [0, -1, 0],
+            [0, 0, 1],
+            [0, 0, -1],
+          ]) {
+            const k = key([x + d[0], y + d[1], z + d[2]]);
+            if (cells.has(k) && !reached.has(k)) reached.add(k) && queue.push(k);
+          }
+        }
+        expect(reached.size, `${id} ${n.kind}`).toBe(cells.size);
+      });
+    }
+    expect(gained).toBeGreaterThan(0);
+  }, 30_000);
+
   it('turns hatches to the side their pipe attaches to', () => {
     const hatches = shellHatches();
     const nets = routePipes(shell(), [shellUnit], hatches);
