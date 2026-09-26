@@ -331,6 +331,23 @@
     },
     "mc.ironBlock": {
       "flat": true
+    },
+    "site.placeholder": {
+      "flat": true
+    },
+    "site.port.fluid": {
+      "flat": true
+    },
+    "site.port.item": {
+      "flat": true
+    },
+    "site.port.power": {
+      "flat": true
+    },
+    "site.singleblock": {
+      "side": "MACHINE_LV_SIDE",
+      "top": "MACHINE_LV_TOP",
+      "bottom": "MACHINE_LV_BOTTOM"
     }
   },
   "hatchOverlays": {

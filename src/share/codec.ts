@@ -69,18 +69,18 @@ const MAX_ID_LENGTH = 64;
 
 type PlainObject = Record<string, unknown>;
 
-function isPlainObject(value: unknown): value is PlainObject {
+export function isPlainObject(value: unknown): value is PlainObject {
   if (typeof value !== 'object' || value === null || Array.isArray(value)) return false;
   const proto: unknown = Object.getPrototypeOf(value);
   return proto === Object.prototype || proto === null;
 }
 
-function expectObject(value: unknown, what: string): PlainObject {
+export function expectObject(value: unknown, what: string): PlainObject {
   if (!isPlainObject(value)) throw new PlanFormatError(`${what} must be an object.`);
   return value;
 }
 
-function expectArray(value: unknown, what: string, maxLength: number): unknown[] {
+export function expectArray(value: unknown, what: string, maxLength: number): unknown[] {
   if (!Array.isArray(value) || Object.getPrototypeOf(value) !== Array.prototype) {
     throw new PlanFormatError(`${what} must be a list.`);
   }
@@ -89,21 +89,21 @@ function expectArray(value: unknown, what: string, maxLength: number): unknown[]
 }
 
 /** Reads an own data property; rejects getters and other non-data descriptors. */
-function field(obj: object, key: string): unknown {
+export function field(obj: object, key: string): unknown {
   const desc = Object.getOwnPropertyDescriptor(obj, key);
   if (!desc) return undefined;
   if (!('value' in desc)) throw new PlanFormatError(`"${key}" is not plain data.`);
   return desc.value;
 }
 
-function expectInt(value: unknown, what: string, min: number, max: number): number {
+export function expectInt(value: unknown, what: string, min: number, max: number): number {
   if (typeof value !== 'number' || !Number.isInteger(value) || value < min || value > max) {
     throw new PlanFormatError(`${what} must be a whole number from ${min} to ${max}.`);
   }
   return value;
 }
 
-function expectHatchKind(value: unknown, what: string): HatchKind {
+export function expectHatchKind(value: unknown, what: string): HatchKind {
   if (typeof value !== 'string' || !(HATCH_KINDS as readonly string[]).includes(value)) {
     throw new PlanFormatError(`${what} is not a known hatch kind.`);
   }

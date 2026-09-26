@@ -173,6 +173,8 @@ export interface HatchPlacement {
   face: Dir;
   /** Units served by this hatch (length > 1 = shared). */
   unitIds: number[];
+  /** Site view: id of the net (`RouteNet.id`) this hatch belongs to. */
+  net?: number;
 }
 
 export interface HatchResult {
@@ -211,6 +213,12 @@ export interface RouteNet {
    * hatch through any open side; this can differ from the face chosen when the hatch was placed.
    */
   attachments?: { cell: Vec3; face: Dir }[];
+  /** Site view: net id (hatches with the same `net` get stubs to it), colour and faded look. */
+  id?: number;
+  color?: string;
+  dim?: boolean;
+  /** Site view: directed steps between neighbouring cells, for flow arrows. */
+  flows?: [Vec3, Vec3][];
 }
 
 export type VoxelKind = 'casing' | 'controller' | 'hatch';
@@ -234,4 +242,10 @@ export interface SceneModel {
   bounds: { min: Vec3; max: Vec3 };
   /** Hatch colours to use in both view modes. */
   colors: Record<HatchKind, string>;
+  /** Site view: discs on hatch and port faces; replaces the discs derived from hatch voxels. */
+  markers?: { pos: Vec3; face: Dir; color: string }[];
+  /** Site view: text above groups and ports (`pos` in world units, not cells; `color` draws a swatch). */
+  labels?: { pos: [number, number, number]; text: string; color?: string; small?: boolean }[];
+  /** Site view: the ground area, drawn as a grid from (0, 0) to `size` on y = 0. */
+  site?: { size: [number, number] };
 }

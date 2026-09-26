@@ -1,0 +1,193 @@
+import type { Rotation } from '../types';
+import type { SiteGroup, SiteState } from './types';
+
+/**
+ * Auto-arrange: place groups on the site in flow order, west to east.
+ *
+ * 1. Group graph from the links (group → group). Back edges of cycles (recycling loops) are ignored.
+ * 2. Layers by longest path: a group sits one column east of everything that feeds it.
+ * 3. Within a column, groups are ordered by the barycenter of their neighbours (a few sweeps both ways),
+ *    which keeps crossings down.
+ * 4. Columns are stacked north to south with `corridor` free blocks between groups and around the
+ *    edges; the west and east edges keep one more block for the boundary ports. A column that is too deep
+ *    for the site is split into several columns.
+ *
+ * `sizeOf` gives a group's local footprint [x, z] (before rotation). Pure and deterministic.
+ */
+
+export interface ArrangeResult {
+  groups: SiteGroup[];
+  /** Whether every group fits on the site. */
+  fits: boolean;
+  /** Smallest [width, depth] this arrangement needs. */
+  needed: [number, number];
+}
+
+export function arrangeSite(
+  site: SiteState,
+  sizeOf: (id: string) => [number, number] | undefined,
+): ArrangeResult {
+  const ids = site.groups.map((g) => g.id);
+  const index = new Map(ids.map((id, i) => [id, i]));
+  const succ = ids.map(() => new Set<number>());
+  for (const l of site.links) {
+    if (!('group' in l.from) || !('group' in l.to)) continue;
+    const a = index.get(l.from.group);
+    const b = index.get(l.to.group);
+    if (a !== undefined && b !== undefined && a !== b) succ[a].add(b);
+  }
+
+  // Break cycles (recycling loops) with the greedy ordering of Eades, Lin and Smyth: peel off sinks to the
+  // right and sources to the left; when neither is left, move the most source-like group left. Links from
+  // boundary ports count towards "source", links to them towards "sink", so a loop is cut where it returns
+  // to the start of the chain, not at its start. Edges pointing backwards in that order are dropped.
+  const portBias = ids.map(() => 0);
+  for (const l of site.links) {
+    const to = 'group' in l.to ? index.get(l.to.group) : undefined;
+    const from = 'group' in l.from ? index.get(l.from.group) : undefined;
+    if ('port' in l.from && to !== undefined) portBias[to]++;
+    if ('port' in l.to && from !== undefined) portBias[from]--;
+  }
+  const pre = ids.map(() => new Set<number>());
+  succ.forEach((ws, v) => ws.forEach((w) => pre[w].add(v)));
+  const alive = new Set(ids.keys());
+  const left: number[] = [];
+  const right: number[] = [];
+  const degree = (v: number, set: Set<number>[]) => [...set[v]].filter((w) => alive.has(w)).length;
+  while (alive.size > 0) {
+    for (let found = true; found;) {
+      found = false;
+      for (const v of [...alive].sort((a, b) => b - a))
+        if (degree(v, succ) === 0) {
+          right.unshift(v);
+          alive.delete(v);
+          found = true;
+        }
+    }
+    for (let found = true; found;) {
+      found = false;
+      for (const v of [...alive].sort((a, b) => a - b))
+        if (degree(v, pre) === 0) {
+          left.push(v);
+          alive.delete(v);
+          found = true;
+        }
+    }
+    if (alive.size === 0) break;
+    let best = -1;
+    let bestScore = -Infinity;
+    for (const v of [...alive].sort((a, b) => a - b)) {
+      const sc = degree(v, succ) - degree(v, pre) + portBias[v];
+      if (sc > bestScore) {
+        best = v;
+        bestScore = sc;
+      }
+    }
+    left.push(best);
+    alive.delete(best);
+  }
+  const rank = new Map([...left, ...right].map((v, i) => [v, i]));
+  const dag = ids.map((_, v) =>
+    [...succ[v]].filter((w) => rank.get(w)! > rank.get(v)!).sort((a, b) => a - b),
+  );
+  const pred = ids.map(() => [] as number[]);
+  dag.forEach((ws, v) => ws.forEach((w) => pred[w].push(v)));
+
+  // Longest-path layers (topological order by repeated relaxation; the graph is small).
+  const layer = new Array<number>(ids.length).fill(0);
+  for (let changed = true, guard = 0; changed && guard <= ids.length; guard++) {
+    changed = false;
+    for (let v = 0; v < ids.length; v++)
+      for (const w of dag[v])
+        if (layer[w] < layer[v] + 1) {
+          layer[w] = layer[v] + 1;
+          changed = true;
+        }
+  }
+  const columns: number[][] = [];
+  layer.forEach((l, v) => (columns[l] ??= []).push(v));
+  const cols = columns.filter((c) => c && c.length > 0);
+
+  // Barycenter ordering.
+  const position = new Map<number, number>();
+  const place = () => cols.forEach((c) => c.forEach((v, i) => position.set(v, i)));
+  place();
+  const bary = (v: number, nbrs: number[]) =>
+    nbrs.length ? nbrs.reduce((s, n) => s + (position.get(n) ?? 0), 0) / nbrs.length : (position.get(v) ?? 0);
+  for (let sweep = 0; sweep < 4; sweep++) {
+    const down = sweep % 2 === 0;
+    const order = down
+      ? cols.map((_, i) => i).slice(1)
+      : cols
+          .map((_, i) => i)
+          .reverse()
+          .slice(1);
+    for (const ci of order) {
+      const c = cols[ci];
+      const key = new Map(c.map((v) => [v, bary(v, down ? pred[v] : dag[v])]));
+      c.sort((a, b) => key.get(a)! - key.get(b)! || a - b);
+      c.forEach((v, i) => position.set(v, i));
+    }
+  }
+
+  const [w, d] = site.size;
+  const gap = site.corridor;
+  // One block for the boundary ports, then the corridor.
+  const edge = 1 + Math.max(1, gap);
+  const depth = Math.max(1, d - 2 * Math.max(1, gap));
+  const foot = (v: number, r: Rotation): [number, number] => {
+    const s = sizeOf(ids[v]) ?? [3, 3];
+    return r % 2 === 0 ? s : [s[1], s[0]];
+  };
+
+  /** Rotations for a column: as they are, all narrow (min x), or all short (min z); the first that fits. */
+  const chooseRotations = (c: number[]): Rotation[] => {
+    const options: Rotation[][] = [
+      c.map((v) => site.groups[v].rotation),
+      c.map((v) => (foot(v, 0)[0] <= foot(v, 1)[0] ? 0 : 1) as Rotation),
+      c.map((v) => (foot(v, 0)[1] <= foot(v, 1)[1] ? 0 : 1) as Rotation),
+    ];
+    const total = (rs: Rotation[]) => c.reduce((s, v, i) => s + foot(v, rs[i])[1], 0) + gap * (c.length - 1);
+    return options.find((rs) => total(rs) <= depth) ?? options[2];
+  };
+
+  const out = site.groups.map((g) => ({ ...g }));
+  let x = edge;
+  let maxZ = 0;
+  for (const c of cols) {
+    const rots = chooseRotations(c);
+    // Split into sub-columns that fit the depth.
+    const subs: { v: number; r: Rotation }[][] = [[]];
+    let used = 0;
+    c.forEach((v, i) => {
+      const fz = foot(v, rots[i])[1];
+      const cur = subs[subs.length - 1];
+      if (cur.length > 0 && used + gap + fz > depth) {
+        subs.push([]);
+        used = 0;
+      }
+      subs[subs.length - 1].push({ v, r: rots[i] });
+      used += (subs[subs.length - 1].length > 1 ? gap : 0) + fz;
+    });
+    for (const sub of subs) {
+      const width = Math.max(...sub.map((e) => foot(e.v, e.r)[0]));
+      const height = sub.reduce((s, e) => s + foot(e.v, e.r)[1], 0) + gap * (sub.length - 1);
+      // Centre the column in the depth when it fits, else start at the corridor.
+      let z = Math.max(Math.max(1, gap), Math.floor((d - height) / 2));
+      for (const e of sub) {
+        const [fx, fz] = foot(e.v, e.r);
+        out[e.v].rotation = e.r;
+        out[e.v].origin = [x + Math.floor((width - fx) / 2), z];
+        z += fz + gap;
+        maxZ = Math.max(maxZ, z - gap);
+      }
+      x += width + gap;
+    }
+  }
+  const neededW = cols.length ? x - gap + edge : 0;
+  const neededD = maxZ + Math.max(1, gap);
+  // Centre the chain along X when there is room, so the pipes to both edges' ports stay short.
+  const shift = Math.max(0, Math.floor((w - neededW) / 2));
+  if (shift > 0) for (const g of out) g.origin = [g.origin[0] + shift, g.origin[1]];
+  return { groups: out, fits: neededW <= w && neededD <= d, needed: [neededW, neededD] };
+}

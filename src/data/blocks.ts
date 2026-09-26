@@ -85,6 +85,12 @@ const list: BlockInfo[] = [
   { id: 'gt.hatch.steamInput', name: 'Steam Input Hatch', color: '#8a6a3e' },
   { id: 'gt.hatch.steamInputBus', name: 'Steam Input Bus', color: '#8a6a3e' },
   { id: 'gt.hatch.steamOutputBus', name: 'Steam Output Bus', color: '#8a6a3e' },
+  // Site stand-ins (src/data/generic.ts) and boundary ports
+  { id: 'site.singleblock', name: 'Single-block Machine', color: '#7c848c' },
+  { id: 'site.placeholder', name: 'Placeholder Casing', color: '#c7b3d9' },
+  { id: 'site.port.item', name: 'Item Port', color: '#d9a441' },
+  { id: 'site.port.fluid', name: 'Fluid Port', color: '#4f9fcf' },
+  { id: 'site.port.power', name: 'Power Port', color: '#d8c04a' },
 ];
 
 export const BLOCKS: Readonly<Record<string, BlockInfo>> = Object.fromEntries(list.map((b) => [b.id, b]));
