@@ -49,9 +49,12 @@ test('top bar, picker, count, settings and view mode', async ({ page }) => {
   await expect(page.getByTestId('count')).toHaveValue('5');
   await page.getByTestId('count-dec').click();
   await expect(page.getByTestId('count')).toHaveValue('4');
-  await page.getByTestId('count').fill('250');
+  await page.getByTestId('count').fill('2500');
   await page.getByTestId('count').press('Enter');
-  await expect(page.getByTestId('count')).toHaveValue('200');
+  await expect(page.getByTestId('count')).toHaveValue('2000');
+  await page.getByTestId('count').fill('4');
+  await page.getByTestId('count').press('Enter');
+  await expect(page.getByTestId('count')).toHaveValue('4');
 
   // Settings drawer + limit field keeps what is typed
   await page.getByTestId('settings-toggle').click();

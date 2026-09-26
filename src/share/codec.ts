@@ -37,10 +37,10 @@ export { MAX_PAYLOAD_BYTES, PlanFormatError } from './binary';
 
 export const PLAN_VERSION = 1;
 export const MIN_COUNT = 1;
-export const MAX_COUNT = 200;
+export const MAX_COUNT = 2000;
 /** Limits count units per axis, so they never need to exceed the unit count. */
 export const MAX_LIMIT = MAX_COUNT;
-export const MAX_COORD = 512;
+export const MAX_COORD = 4096;
 export const MAX_UNIT_ID = 1_000_000;
 /** Largest `size` accepted from input; the multiblock's own `resize.max` clamps it further. */
 export const MAX_SIZE = 64;
@@ -140,7 +140,7 @@ function validateUnit(value: unknown, index: number): Unit {
 
 /**
  * Strict validation of untrusted input (JSON files, links, localStorage):
- * known multiblock id, count 1..200, integer limits (units per axis) 1..200 or null, known hatch kinds, `#rrggbb` colours,
+ * known multiblock id, count 1..MAX_COUNT, integer limits (units per axis) 1..MAX_LIMIT or null, known hatch kinds, `#rrggbb` colours,
  * manual units with integer coordinates within ±512 and rotation 0..3, an integer size 1..64. Throws with a
  * readable message.
  *

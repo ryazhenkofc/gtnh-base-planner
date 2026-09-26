@@ -27,8 +27,8 @@ describe('plan transforms', () => {
       ...defaultPlan(),
       manualUnits: [{ id: 0, origin: [0, 0, 0] as const, rotation: 0 as const }],
     };
-    const next = withCount(p, 500);
-    expect(next.count).toBe(200);
+    const next = withCount(p, 5000);
+    expect(next.count).toBe(2000);
     expect(next.manualUnits).toBeUndefined();
     expect(p.manualUnits).toHaveLength(1);
   });

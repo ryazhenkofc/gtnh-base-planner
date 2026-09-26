@@ -6,6 +6,7 @@
   import { appMode, flowAnimation, isolate, site, siteGroup, siteNet } from '../state/site';
   import { plan, selectedUnits, viewMode, xray } from '../state/store';
   import { selectMultiblock } from './actions';
+  import { COUNT_SLOW } from './fields';
   import ImportDialog from './ImportDialog.svelte';
   import Legend from './Legend.svelte';
   import { clearSlot, notify } from './notices';
@@ -67,6 +68,8 @@
         notify(t.placedFewer(pack.placed, pack.requested, pack.reason), 6000, 'pack');
       else if (loosened) notify(t.spacedOut(pipes !== null), 5000, 'pack');
       else clearSlot('pack');
+      if (pack && pack.requested > COUNT_SLOW) notify(t.manyUnits(pack.requested), 8000, 'count');
+      else clearSlot('count');
     }
     if (hatches !== lastHatches) {
       if (hatches?.unplaced.length) notify(t.unplacedHatches(hatches.unplaced.length), 6000, 'hatches');
