@@ -9,7 +9,7 @@ It is a layout tool, not a recipe or production-chain calculator. Structures fol
 
 ## Features
 
-- **Catalog of 37 multiblocks** with a picker: steam machines (Steam Separator, Grinder, Squasher, Presser, Hearth, Blender, Purifier, Fuser), Coke Oven, EBF, Vacuum Freezer, Distillation Tower, Pyrolyse Oven, Large Boilers, Large Turbines, combustion engines, Assembly Line, Large Fluid Extractor, Industrial Autoclave and more. Almost every GT multiblock can share walls in game (structure checks do not claim casings), so the catalog is limited only by what has been transcribed.
+- **Catalog of 38 multiblocks** with a picker: steam machines (Steam Separator, Grinder, Squasher, Presser, Hearth, Blender, Purifier, Fuser), Coke Oven, EBF, Vacuum Freezer, Distillation Tower, Pyrolyse Oven, Large Boilers, Large Turbines, combustion engines, Assembly Line, Large Fluid Extractor, Industrial Autoclave, Industrial Centrifuge and more. Almost every GT multiblock can share walls in game (structure checks do not claim casings), so the catalog is limited only by what has been transcribed.
 - **Adjustable sizes** for multiblocks GT builds in variable size: Distillation Tower height (3 to 12) and Assembly Line length (5 to 16).
 - **Auto-packing** of N units with optional limits counted in multiblocks (at most N along X, N layers, N along Z); controllers always face outward, and rows that cannot share a back wall get a one-block walkway. Example: 15 Pyrolyse Ovens with X 5, Layers 1, Z 3 give three rows of five.
 - **Shared walls**: blocks that coincide in the same cell are counted once; incompatible overlaps are highlighted.

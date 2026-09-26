@@ -39,6 +39,16 @@ describe('machine mapping', () => {
     expect(multiblockForName('Oil Cracker')).toBe('oil-cracking-unit');
   });
 
+  it('shows machines missing from the catalog as placeholders', () => {
+    const data = JSON.parse(text);
+    data.recipes.find((r: { id: string }) => r.id === 'gt:centrifuge:co').machineType = 'Mega Blast Furnace';
+    const p = parseGtnhProject(JSON.stringify(data));
+    expect(importRows(p).find((r) => r.node.id === 'n5')!.proposed).toEqual({ type: 'placeholder' });
+    const { site, report } = buildSiteFromGtnh(p);
+    expect(report.placeholders).toEqual(['Mega Blast Furnace']);
+    expect(site.groups.find((g) => g.multiblockId === 'placeholder')?.label).toBe('Mega Blast Furnace');
+  });
+
   it('proposes a machine per node', () => {
     const rows = importRows(parseGtnhProject(text));
     const by = Object.fromEntries(rows.map((r) => [r.node.id, r]));
@@ -50,7 +60,7 @@ describe('machine mapping', () => {
     expect(by.n2.count).toBe(3);
     expect(by.n3.count).toBe(1);
     expect(by.n4.proposed).toEqual({ type: 'single' });
-    expect(by.n5.proposed).toEqual({ type: 'placeholder' });
+    expect(by.n5.proposed).toEqual({ type: 'multiblock', id: 'industrial-centrifuge' });
     expect(by.n6.proposed).toEqual({ type: 'skip' });
     expect(by.n7).toBeUndefined();
     expect(by.n8.proposed).toEqual({ type: 'multiblock', id: 'large-gas-turbine' });
@@ -64,7 +74,7 @@ describe('buildSiteFromGtnh', () => {
     expect(report).toMatchObject({
       groups: 6,
       aspects: 1,
-      placeholders: ['Industrial Centrifuge'],
+      placeholders: [],
       truncated: false,
     });
     expect(site.groups.map((g) => g.multiblockId)).toEqual([
@@ -72,7 +82,7 @@ describe('buildSiteFromGtnh', () => {
       'electric-blast-furnace',
       'vacuum-freezer',
       'single-block',
-      'placeholder',
+      'industrial-centrifuge',
       'large-gas-turbine',
     ]);
     const name = (k: string) => site.resources[k]?.name;
@@ -113,7 +123,7 @@ describe('buildSiteFromGtnh', () => {
       ]),
       { size: [12, 12] },
     );
-    expect(site.groups.map((g) => g.multiblockId)).not.toContain('placeholder');
+    expect(site.groups.map((g) => g.multiblockId)).not.toContain('industrial-centrifuge');
     expect(report.skipped).toBe(3); // n4 by choice, n6 (Thaumcraft) and n7 (disabled)
     expect(site.size[0]).toBeGreaterThan(12);
     // With the electrolyzer skipped, magnesium enters and magnesium chloride leaves through ports.

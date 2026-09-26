@@ -1,0 +1,55 @@
+{
+  "id": "industrial-centrifuge",
+  "name": "Industrial Centrifuge",
+  "tier": "MV",
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTEIndustrialCentrifuge.java",
+  "size": [5, 5, 5],
+  "layers": [
+    [" CCC ", " AAA ", "  C  ", "  C  ", " AAA "],
+    ["C   C", "ACCCA", " BBB ", " BBB ", "ACCCA"],
+    ["C   C", "AC~CA", "CBBBC", "CBBBC", "ACCCA"],
+    ["C   C", "ACCCA", " BBB ", " BBB ", "ACCCA"],
+    [" CCC ", " AAA ", "  C  ", "  C  ", " AAA "]
+  ],
+  "legend": {
+    "C": {
+      "blockId": "gtpp.casing.centrifuge",
+      "hatches": ["itemIn", "itemOut", "fluidIn", "fluidOut", "maintenance", "energy", "muffler"]
+    },
+    "A": {
+      "blockId": "gt.frame.eglinSteel"
+    },
+    "B": {
+      "blockId": "gtpp.casing.largeSieveGrate"
+    }
+  },
+  "controller": {
+    "pos": [2, 2, 1],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus",
+    "itemOut": "gt.hatch.outputBus",
+    "fluidIn": "gt.hatch.inputHatch",
+    "fluidOut": "gt.hatch.outputHatch",
+    "energy": "gt.hatch.energy",
+    "maintenance": "gt.hatch.maintenance",
+    "muffler": "gt.hatch.muffler"
+  },
+  "shareableHatches": ["itemIn", "itemOut", "fluidIn", "fluidOut"],
+  "requiredHatches": {
+    "energy": {
+      "min": 1
+    },
+    "maintenance": {
+      "min": 1
+    },
+    "muffler": {
+      "min": 1
+    }
+  },
+  "defaultHatches": ["itemIn", "itemOut", "energy", "maintenance", "muffler"],
+  "wallshare": true,
+  "notes": "GT:NH 2.9 rewrite of the Industrial Centrifuge (structure by Ducked), 5x5x5. Front slice: a ring of Centrifuge Casings the controller looks through. Second slice: the controller in the centre of a 3x3 of Centrifuge Casings, Eglin Steel Frame Boxes on the rim. Two middle slices: 3x3 Large Sieve Grates with a Centrifuge Casing on each side. Back slice: 3x3 Centrifuge Casings framed like the second. Any Centrifuge Casing (at least 6) takes input/output buses and hatches, energy, maintenance and muffler hatches; GT requires energy, maintenance, a muffler, at least one input and one output. Sharing: GT5u adds every hatch it finds during the structure check to that controller's lists with no ownership check, so buses and hatches in a shared wall serve every controller around them; energy, maintenance and muffler hatches are not marked shareable. The older GT++ 3x3x3 version is MTEIndustrialCentrifugeLegacy."
+}

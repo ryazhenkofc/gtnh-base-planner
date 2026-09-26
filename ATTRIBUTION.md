@@ -99,7 +99,8 @@ the machine-metal colour in the atlas.
   (Bronze 0xff8000), `FRAME_IRON.png` (Iron 0xc8c8c8), `FRAME_STAINLESSSTEEL.png` (Stainless Steel 0xc8c8dc),
   `FRAME_TITANIUM.png` (Titanium 0xdca0f0), `FRAME_POLYBENZIMIDAZOLE.png` (Polybenzimidazole 0x2d2d2d),
   `FRAME_TUNGSTENSTEEL.png` (Tungstensteel 0x6464a0), `FRAME_POLYTETRAFLUOROETHYLENE.png`
-  (Polytetrafluoroethylene 0x646464) and `FRAME_BLACKSTEEL.png` (Black Steel 0x646464)
+  (Polytetrafluoroethylene 0x646464), `FRAME_BLACKSTEEL.png` (Black Steel 0x646464) and `FRAME_EGLINSTEEL.png`
+  (Eglin Steel 0x8b4513, GT++)
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_ELECTRIC_BLAST_FURNACE.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_VACUUM_FREEZER.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_IMPLOSION_COMPRESSOR.png`
@@ -125,9 +126,12 @@ the machine-metal colour in the atlas.
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_SCHEST.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_STANK.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_ENERGY_OUT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/LARGE_SIEVE_GRATE.png`
+- `src/main/resources/assets/miscutils/textures/blocks/TileEntities/MACHINE_CASING_CENTRIFUGE.png`
 
 Texture paths were located through `Textures.BlockIcons` (`src/main/java/gregtech/api/enums/Textures.java`), the
 casing blocks (`BlockCasings1/2/3/4/8/10/11/12.java`, `BlockCasingsNH.java`), `MTECokeOven.java`,
 `MTEHatchCokeOven.java`, `MTEBrickedBlastFurnace.java`, `MTEPyrolyseOven.java`, `BlockCyclotronCoils.java`,
-`MTEAssemblyLine.java` and the Steel material definition
+`MTEAssemblyLine.java`, `MTEIndustrialCentrifuge.java`, `GregtechMetaCasingBlocks.java`,
+`GregtechMetaCasingBlocks2.java`, the Eglin Steel material (`MaterialsAlloy.java`) and the Steel material definition
 (`MaterialsInit.java`).

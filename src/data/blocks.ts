@@ -85,6 +85,10 @@ const list: BlockInfo[] = [
   { id: 'gt.hatch.steamInput', name: 'Steam Input Hatch', color: '#8a6a3e' },
   { id: 'gt.hatch.steamInputBus', name: 'Steam Input Bus', color: '#8a6a3e' },
   { id: 'gt.hatch.steamOutputBus', name: 'Steam Output Bus', color: '#8a6a3e' },
+  // Industrial Centrifuge (GT:NH 2.9)
+  { id: 'gtpp.casing.centrifuge', name: 'Centrifuge Casing', color: '#7e5f29' },
+  { id: 'gtpp.casing.largeSieveGrate', name: 'Large Sieve Grate', color: '#6a5252' },
+  { id: 'gt.frame.eglinSteel', name: 'Eglin Steel Frame Box', color: '#8b4513' },
   // Site stand-ins (src/data/generic.ts) and boundary ports
   { id: 'site.singleblock', name: 'Single-block Machine', color: '#7c848c' },
   { id: 'site.placeholder', name: 'Placeholder Casing', color: '#c7b3d9' },

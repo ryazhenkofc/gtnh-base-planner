@@ -181,6 +181,16 @@ export const TILES = {
   OVERLAY_ENERGY_OUT_LV: {},
   OVERLAY_MAINTENANCE: {},
   OVERLAY_MUFFLER: {},
+  // Industrial Centrifuge (GT:NH 2.9): GT++ Centrifuge Casing (blockCasingsMisc meta 0), Large Sieve Grate
+  // (blockCasings2Misc meta 6) and Eglin Steel frame boxes (frame icon tinted with the Eglin Steel colour).
+  MACHINE_CASING_CENTRIFUGE: {
+    path: 'src/main/resources/assets/miscutils/textures/blocks/TileEntities/MACHINE_CASING_CENTRIFUGE.png',
+  },
+  LARGE_SIEVE_GRATE: {},
+  FRAME_EGLINSTEEL: {
+    path: 'src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/frameGt.png',
+    tint: [139, 69, 19],
+  },
   // Solenoid Superconductor Coil (sSolenoidCoilCasings = BlockCyclotronCoils; HV tier shown)
   HV_SIDE_CYCLOTRON_SOLENOID: {},
   HV_TOP_CYCLOTRON_SOLENOID: {},
@@ -263,6 +273,9 @@ export const BLOCK_MAP = {
   'gt.casing.extremeEngineIntake': { side: 'MACHINE_CASING_EXTREME_ENGINE_INTAKE' },
   'gt.casing.grate': { side: 'MACHINE_CASING_GRATE' },
   'gt.casing.assembler': { side: 'MACHINE_CASING_ASSEMBLER' },
+  'gtpp.casing.centrifuge': { side: 'MACHINE_CASING_CENTRIFUGE' },
+  'gtpp.casing.largeSieveGrate': { side: 'LARGE_SIEVE_GRATE' },
+  'gt.frame.eglinSteel': { side: 'FRAME_EGLINSTEEL' },
   // Assembling Line Casing is sBlockCasings2 meta 5, which GT draws with the tungstensteel gearbox icon.
   'gt.casing.assemblyLine': { side: 'MACHINE_CASING_GEARBOX_TUNGSTENSTEEL' },
   'gt.coil.solenoid': {

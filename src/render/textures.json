@@ -102,12 +102,15 @@
     "OVERLAY_ENERGY_OUT_LV": [192, 80, 16, 16],
     "OVERLAY_MAINTENANCE": [208, 80, 16, 16],
     "OVERLAY_MUFFLER": [224, 80, 16, 16],
-    "HV_SIDE_CYCLOTRON_SOLENOID": [240, 80, 16, 16],
-    "HV_TOP_CYCLOTRON_SOLENOID": [0, 96, 16, 16],
-    "MACHINE_CASING_STRIPES_A": [16, 96, 16, 16],
-    "OVERLAY_SCHEST": [32, 96, 16, 16],
-    "OVERLAY_STANK": [48, 96, 16, 16],
-    "OVERLAY_ENERGY_OUT": [64, 96, 16, 16]
+    "MACHINE_CASING_CENTRIFUGE": [240, 80, 16, 16],
+    "LARGE_SIEVE_GRATE": [0, 96, 16, 16],
+    "FRAME_EGLINSTEEL": [16, 96, 16, 16],
+    "HV_SIDE_CYCLOTRON_SOLENOID": [32, 96, 16, 16],
+    "HV_TOP_CYCLOTRON_SOLENOID": [48, 96, 16, 16],
+    "MACHINE_CASING_STRIPES_A": [64, 96, 16, 16],
+    "OVERLAY_SCHEST": [80, 96, 16, 16],
+    "OVERLAY_STANK": [96, 96, 16, 16],
+    "OVERLAY_ENERGY_OUT": [112, 96, 16, 16]
   },
   "blocks": {
     "gt.casing.assembler": {
@@ -264,6 +267,9 @@
     "gt.frame.bronze": {
       "side": "FRAME_BRONZE"
     },
+    "gt.frame.eglinSteel": {
+      "side": "FRAME_EGLINSTEEL"
+    },
     "gt.frame.iron": {
       "side": "FRAME_IRON"
     },
@@ -336,6 +342,12 @@
     },
     "gt.hatch.steamOutputBus": {
       "side": "MACHINE_BRONZEPLATEDBRICKS"
+    },
+    "gtpp.casing.centrifuge": {
+      "side": "MACHINE_CASING_CENTRIFUGE"
+    },
+    "gtpp.casing.largeSieveGrate": {
+      "side": "LARGE_SIEVE_GRATE"
     },
     "mc.ironBlock": {
       "flat": true

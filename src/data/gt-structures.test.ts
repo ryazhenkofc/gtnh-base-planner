@@ -138,6 +138,21 @@ const GT: Record<string, { transposed: boolean; shape: Shape; el: Record<string,
     ],
     el: { C: casing('gt.casing.solidSteel', IB, OB, MA, EN, MU) },
   },
+  'industrial-centrifuge': {
+    transposed: false,
+    shape: [
+      [' CCC ', 'C   C', 'C   C', 'C   C', ' CCC '],
+      [' AAA ', 'ACCCA', 'AC~CA', 'ACCCA', ' AAA '],
+      ['  C  ', ' BBB ', 'CBBBC', ' BBB ', '  C  '],
+      ['  C  ', ' BBB ', 'CBBBC', ' BBB ', '  C  '],
+      [' AAA ', 'ACCCA', 'ACCCA', 'ACCCA', ' AAA '],
+    ],
+    el: {
+      C: casing('gtpp.casing.centrifuge', IB, OB, MA, EN, MU, IH, OH),
+      A: casing('gt.frame.eglinSteel'),
+      B: casing('gtpp.casing.largeSieveGrate'),
+    },
+  },
   // `x`: a hatch, the casing, or the one required heating coil.
   'large-chemical-reactor': {
     transposed: true,
