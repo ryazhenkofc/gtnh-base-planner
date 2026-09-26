@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { getMultiblock } from '../data/catalog';
 import { controllerFacing, key, step, unitBounds, unitCells } from './geometry';
-import { packUnits } from './layout';
+import { layoutCandidates, loosenings, packUnits } from './layout';
 import type { MultiblockDef, PlanLimits, Unit, Vec3 } from './types';
 
 const coke = getMultiblock('coke-oven')!;
@@ -299,5 +299,45 @@ describe('packUnits', () => {
       }
       expect(best).toBeLessThan(50);
     }
+  });
+});
+
+describe('loosenings', () => {
+  const volume = (def: MultiblockDef, units: Unit[]) => footprint(def, units).reduce((a, b) => a * b, 1);
+
+  it('keeps the arrangement and opens walkways and gaps, most compact first', () => {
+    const def = getMultiblock('implosion-compressor')!;
+    const limits: PlanLimits = { x: 6, y: null, z: 6 };
+    const base = packUnits(def, 100, limits).units;
+    const looser = [...loosenings(def, base)];
+    expect(looser.length).toBeGreaterThan(3);
+    const seen = new Set([JSON.stringify(base)]);
+    let last = volume(def, base);
+    for (const units of looser) {
+      expect(units).toHaveLength(100);
+      expect(problems(def, units)).toEqual([]);
+      expect(perAxis(units)).toEqual(perAxis(base));
+      const v = volume(def, units);
+      expect(v).toBeGreaterThan(volume(def, base));
+      expect(v).toBeGreaterThanOrEqual(last);
+      last = v;
+      const k = JSON.stringify(units);
+      expect(seen.has(k)).toBe(false);
+      seen.add(k);
+    }
+    // The loosest one leaves two blocks between all units along X and Z.
+    const gaps = (a: 0 | 2) => {
+      const xs = [...new Set(looser[looser.length - 1].map((u) => u.origin[a]))].sort((p, q) => p - q);
+      return new Set(xs.slice(1).map((x, i) => x - xs[i]));
+    };
+    expect(gaps(0)).toEqual(new Set([5]));
+    expect(gaps(2)).toEqual(new Set([5]));
+  });
+
+  it('also loosens layouts from layoutCandidates, but not other ones', () => {
+    const [first] = layoutCandidates(coke, 6, NO_LIMITS);
+    expect([...loosenings(coke, first)].length).toBeGreaterThan(0);
+    const manual: Unit[] = first.map((u) => ({ ...u }));
+    expect([...loosenings(coke, manual)]).toEqual([]);
   });
 });

@@ -1,4 +1,14 @@
-import type { HatchKind, HatchResult, MultiblockDef, PackResult, PlanLimits, Unit } from './types';
+import type { RouteOptions } from './routing';
+import type {
+  HatchKind,
+  HatchPlacement,
+  HatchResult,
+  MultiblockDef,
+  PackResult,
+  PlanLimits,
+  RouteNet,
+  Unit,
+} from './types';
 
 export interface LayoutDeps {
   placeHatches: (def: MultiblockDef, units: Unit[], enabled: HatchKind[]) => HatchResult;
@@ -70,4 +80,73 @@ function sameLayout(a: Unit[], b: Unit[]): boolean {
       u.origin[1] === b[i].origin[1] &&
       u.origin[2] === b[i].origin[2],
   );
+}
+
+export interface RoutedLayoutDeps extends LayoutDeps {
+  routePipes: (
+    def: MultiblockDef,
+    units: Unit[],
+    hatches: HatchPlacement[],
+    opts: RouteOptions,
+  ) => RouteNet[];
+  /** Looser versions of a layout (same arrangement, wider walkways and gaps), most compact first. */
+  loosenings: (def: MultiblockDef, units: Unit[]) => Iterable<Unit[]>;
+}
+
+export interface ResolvedRoutedLayout extends ResolvedLayout {
+  /** The pipe and cable networks of the chosen layout. */
+  pipes: RouteNet[];
+}
+
+/** How many looser layouts to route before settling for the one with the fewest unconnected hatches. */
+export const MAX_ROUTED_TRIES = 12;
+
+/** Hatches the networks leave unconnected. */
+export function unconnected(nets: readonly RouteNet[]): number {
+  return nets.reduce((n, r) => n + r.total - r.connected, 0);
+}
+
+/**
+ * `resolveLayout`, then make sure every routed hatch gets its pipe or cable: when the chosen layout leaves
+ * some hatch unconnected (typically a one-block walkway between rows of units that cannot hold a line per
+ * kind), walk its `loosenings` from the most compact and take the first one on which every hatch is
+ * placed (no more unplaced than before) and connected. At most `maxTries` looser layouts are routed, the
+ * loosest always among them; if none connects everything, the layout with the fewest unplaced, then
+ * unconnected hatches wins (the most compact on ties). Deterministic.
+ */
+export function resolveRoutedLayout(
+  def: MultiblockDef,
+  base: PackResult,
+  enabled: HatchKind[],
+  limits: PlanLimits,
+  opts: RouteOptions,
+  deps: RoutedLayoutDeps,
+  maxTries = MAX_ROUTED_TRIES,
+): ResolvedRoutedLayout {
+  const start = resolveLayout(def, base, enabled, limits, deps);
+  const route = (units: Unit[], hatches: HatchResult) => deps.routePipes(def, units, hatches.hatches, opts);
+  const first = route(start.pack.units, start.hatches);
+  let best = { units: start.pack.units, hatches: start.hatches, pipes: first, missing: unconnected(first) };
+  if (best.missing > 0 && maxTries > 0) {
+    const looser = [...deps.loosenings(def, start.pack.units)];
+    // The first tries in order, then the loosest (most room for pipes) if it was not reached.
+    const tries =
+      looser.length <= maxTries ? looser : [...looser.slice(0, maxTries - 1), looser[looser.length - 1]];
+    for (const units of tries) {
+      const hatches = deps.placeHatches(def, units, enabled);
+      if (hatches.unplaced.length > best.hatches.unplaced.length) continue;
+      const pipes = route(units, hatches);
+      const missing = unconnected(pipes);
+      if (hatches.unplaced.length < best.hatches.unplaced.length || missing < best.missing)
+        best = { units, hatches, pipes, missing };
+      if (best.missing === 0) break;
+    }
+  }
+  if (best.units === start.pack.units) return { ...start, pipes: best.pipes };
+  return {
+    pack: { ...base, units: best.units },
+    hatches: best.hatches,
+    loosened: true,
+    pipes: best.pipes,
+  };
 }

@@ -1,8 +1,8 @@
 import { derived } from 'svelte/store';
 import { getMultiblock } from '../data/catalog';
 import { DEFAULT_HATCH_COLORS } from '../model/colors';
-import { layoutCandidates, packUnits } from '../model/layout';
-import { resolveLayout } from '../model/plan';
+import { layoutCandidates, loosenings, packUnits } from '../model/layout';
+import { resolveLayout, resolveRoutedLayout } from '../model/plan';
 import { effectiveSize, sizedDef } from '../model/resize';
 import { placeHatches } from '../model/ports';
 import { CABLE_KINDS, PIPE_KINDS, routePipes, withPipeFaces, type RoutedKind } from '../model/routing';
@@ -28,6 +28,8 @@ export interface PipelineDeps {
   placeHatches: typeof placeHatches;
   /** Looser layouts to try when the compact one cannot fit every hatch. */
   layoutCandidates: typeof layoutCandidates;
+  /** Looser versions of a layout, tried when pipes or cables leave a hatch unconnected. */
+  loosenings: typeof loosenings;
   computeWallStats: typeof computeWallStats;
   routePipes: typeof routePipes;
   buildSceneModel: typeof buildSceneModel;
@@ -38,6 +40,7 @@ export const defaultDeps: PipelineDeps = {
   packUnits,
   placeHatches,
   layoutCandidates,
+  loosenings,
   computeWallStats,
   routePipes,
   buildSceneModel,
@@ -86,7 +89,13 @@ export function mergeColors(overrides: PlanState['colors']): Record<HatchKind, s
  */
 export function createPipeline(deps: PipelineDeps = defaultDeps) {
   const layoutStage = stage<PackResult>('packUnits');
-  const hatchStage = stage<{ pack: PackResult; hatches: HatchResult; loosened: boolean }>('placeHatches');
+  const hatchStage = stage<{
+    pack: PackResult;
+    hatches: HatchResult;
+    loosened: boolean;
+    /** Networks already routed while choosing the layout (pipes or cables on, auto layout). */
+    pipes?: RouteNet[];
+  }>('placeHatches');
   const statsStage = stage<WallStats>('computeWallStats');
   const pipesStage = stage<RouteNet[] | null>('routePipes');
   const sceneStage = stage<SceneModel>('buildSceneModel');
@@ -111,8 +120,10 @@ export function createPipeline(deps: PipelineDeps = defaultDeps) {
     if (!def) return { ...empty, error: `Unknown multiblock "${p.multiblockId}"` };
 
     const layoutKey = JSON.stringify([def.id, size ?? null, p.count, p.limits, p.manualUnits ?? null]);
-    const hatchKey = layoutKey + JSON.stringify(p.enabledHatches);
     const kinds: RoutedKind[] = [...(pipesOn ? PIPE_KINDS : []), ...(cablesOn ? CABLE_KINDS : [])];
+    // With pipes or cables on, an auto layout is chosen so that every hatch gets connected.
+    const routedLayout = kinds.length > 0 && !p.manualUnits;
+    const hatchKey = layoutKey + JSON.stringify(p.enabledHatches) + (routedLayout ? kinds.join() : '');
     const pipesKey = hatchKey + kinds.join();
     const colors = mergeColors(p.colors);
     const sceneKey = pipesKey + JSON.stringify(colors);
@@ -132,7 +143,9 @@ export function createPipeline(deps: PipelineDeps = defaultDeps) {
       return deps.packUnits(def, p.count, p.limits);
     });
     if (!pack.ok) return finish({ ...empty, error: pack.error });
-    // Hatches may loosen the layout (gaps between units) when the compact one leaves no room for them.
+    const packed = pack.value;
+    // Hatches may loosen the layout (gaps between units) when the compact one leaves no room for them,
+    // and so may pipes and cables when they cannot reach every hatch.
     const placed = hatchStage(hatchKey, () =>
       p.manualUnits
         ? {
@@ -140,8 +153,18 @@ export function createPipeline(deps: PipelineDeps = defaultDeps) {
             hatches: deps.placeHatches(def, pack.value.units, p.enabledHatches),
             loosened: false,
           }
-        : resolveLayout(def, pack.value, p.enabledHatches, p.limits, deps),
+        : routedLayout
+          ? routedOrPlain()
+          : resolveLayout(def, pack.value, p.enabledHatches, p.limits, deps),
     );
+    // A routing failure still renders the build: its error then comes from the pipes stage.
+    function routedOrPlain() {
+      try {
+        return resolveRoutedLayout(def!, packed, p.enabledHatches, p.limits, { kinds }, deps);
+      } catch {
+        return resolveLayout(def!, packed, p.enabledHatches, p.limits, deps);
+      }
+    }
     if (!placed.ok) return finish({ ...empty, pack: pack.value, error: placed.error });
     const units = placed.value.pack.units;
     const hatchResult = placed.value.hatches;
@@ -153,8 +176,9 @@ export function createPipeline(deps: PipelineDeps = defaultDeps) {
       return finish({ ...empty, pack: layout, loosened, hatches: hatchResult, error: stats.error });
 
     // Pipes and cables are optional: a routing failure still renders the build without them.
+    const routed = placed.value.pipes;
     const pipes = pipesStage(pipesKey, () =>
-      kinds.length > 0 ? deps.routePipes(def, units, hatchResult.hatches, { kinds }) : null,
+      kinds.length > 0 ? (routed ?? deps.routePipes(def, units, hatchResult.hatches, { kinds })) : null,
     );
     const pipeNets = pipes.ok ? pipes.value : null;
 
