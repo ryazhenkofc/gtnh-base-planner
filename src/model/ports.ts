@@ -1,4 +1,13 @@
-import { controllerFacing, localCells, packCell, rotateDir, step, toWorld, type CellKey } from './geometry';
+import {
+  controllerFacing,
+  localCells,
+  packCell,
+  rotateDir,
+  rotateLocal,
+  rotatedSize,
+  step,
+  type CellKey,
+} from './geometry';
 import type { Dir, HatchKind, HatchPlacement, HatchResult, MultiblockDef, Unit, Vec3 } from './types';
 
 /**
@@ -40,16 +49,16 @@ interface Site {
   /** Unit ids whose structure contains this cell, ascending. */
   unitIds: number[];
   /** Hatch kinds every containing unit allows here. */
-  kinds: Set<HatchKind>;
+  kinds: ReadonlySet<HatchKind>;
   /**
    * Open faces, best first, with the key of the empty cell in front of each. `rank` orders them: faces
    * with open space ahead (see `CLEAR_AHEAD`) before faces into a gap or recess, then `FACE_ORDER`.
    */
   faces: { dir: Dir; front: CellKey; rank: number }[];
   /** Per containing unit, the legend region of this cell (see `LegendEntry.region`). */
-  regions: Map<number, string>;
+  regions: ReadonlyMap<number, string>;
   /** World-frame sides a hatch of a kind must not face here (`LegendEntry.disallowFaces`, any unit). */
-  blocked: Map<HatchKind, Set<Dir>>;
+  blocked: ReadonlyMap<HatchKind, ReadonlySet<Dir>>;
 }
 
 /** How many hatches of one kind each unit wants (`target`) and may have at most (`max`). */
@@ -143,148 +152,259 @@ function allUnplaced(def: MultiblockDef, units: readonly Unit[], kinds: HatchKin
   return { hatches: [], unplaced };
 }
 
-/**
- * Returns a predicate telling whether an empty cell is reachable from outside the build (not a
- * sealed pocket, not underground). Flood-fills the empty cells of the bounding box grown by one block;
- * everything below `ground` (the lowest structure layer) is solid ground.
- */
-function outsideTest(solid: ReadonlyMap<CellKey, Vec3>, ground: number): (p: Vec3) => boolean {
-  const notSolid = (p: Vec3): boolean => p[1] >= ground && !solid.has(packCell(p));
-  let min: [number, number, number] = [Infinity, Infinity, Infinity];
-  let max: [number, number, number] = [-Infinity, -Infinity, -Infinity];
-  for (const p of solid.values()) {
-    min = [Math.min(min[0], p[0]), Math.min(min[1], p[1]), Math.min(min[2], p[2])];
-    max = [Math.max(max[0], p[0]), Math.max(max[1], p[1]), Math.max(max[2], p[2])];
-  }
-  const ox = min[0] - 1;
-  const oy = min[1] - 1;
-  const oz = min[2] - 1;
-  const nx = max[0] - min[0] + 3;
-  const ny = max[1] - min[1] + 3;
-  const nz = max[2] - min[2] + 3;
-  const volume = nx * ny * nz;
-  if (!Number.isFinite(volume) || volume > FLOOD_LIMIT) return notSolid;
+/** Dense box of cells (the build's bounding box grown by one block), indexed x fastest, then z, then y. */
+interface Box {
+  ox: number;
+  oy: number;
+  oz: number;
+  nx: number;
+  ny: number;
+  nz: number;
+}
 
-  const idx = (x: number, y: number, z: number): number => (y * nz + z) * nx + x;
-  const blocked = new Uint8Array(volume);
-  for (const p of solid.values()) blocked[idx(p[0] - ox, p[1] - oy, p[2] - oz)] = 1;
+function boxIndex(b: Box, p: Vec3): number {
+  const x = p[0] - b.ox;
+  const y = p[1] - b.oy;
+  const z = p[2] - b.oz;
+  if (x < 0 || y < 0 || z < 0 || x >= b.nx || y >= b.ny || z >= b.nz) return -1;
+  return (y * b.nz + z) * b.nx + x;
+}
+
+/** Index step of one block in each `FACE_ORDER` direction. */
+function boxSteps(b: Box): number[] {
+  const { nx, nz } = b;
+  return FACE_ORDER.map((d) => {
+    const [x, y, z] = step([0, 0, 0], d);
+    return (y * nz + z) * nx + x;
+  });
+}
+
+/**
+ * Marks the empty cells of the box that are reachable from outside the build (not a sealed pocket, not
+ * underground): a flood fill from a padded corner at ground level. Everything below `ground` (the lowest
+ * structure layer) is solid ground.
+ */
+function outsideCells(b: Box, solid: Uint8Array, ground: number): Uint8Array {
+  const { nx, ny, nz } = b;
+  const volume = nx * ny * nz;
+  const blocked = solid.slice();
   // The padding layer under the build is ground.
-  for (let z = 0; z < nz; z++) for (let x = 0; x < nx; x++) blocked[idx(x, 0, z)] = 1;
+  for (let y = 0; y < Math.min(ny, ground - b.oy); y++) blocked.fill(1, y * nx * nz, (y + 1) * nx * nz);
   const outside = new Uint8Array(volume);
   const queue = new Int32Array(volume);
   let head = 0;
   let tail = 0;
-  const start = idx(0, 1, 0); // padded corner at ground level, never solid
+  const start = (Math.max(0, ground - b.oy) * nz + 0) * nx + 0; // padded corner at ground level, never solid
   outside[start] = 1;
   queue[tail++] = start;
+  const layer = nx * nz;
   while (head < tail) {
     const i = queue[head++];
     const x = i % nx;
-    const z = Math.floor(i / nx) % nz;
-    const y = Math.floor(i / (nx * nz));
-    const visit = (j: number): void => {
-      if (!blocked[j] && !outside[j]) {
-        outside[j] = 1;
-        queue[tail++] = j;
-      }
-    };
-    if (x > 0) visit(i - 1);
-    if (x < nx - 1) visit(i + 1);
-    if (z > 0) visit(i - nx);
-    if (z < nz - 1) visit(i + nx);
-    if (y > 0) visit(i - nx * nz);
-    if (y < ny - 1) visit(i + nx * nz);
+    const z = ((i - x) / nx) % nz;
+    const y = (i - x - z * nx) / layer;
+    if (x > 0 && !blocked[i - 1] && !outside[i - 1]) ((outside[i - 1] = 1), (queue[tail++] = i - 1));
+    if (x < nx - 1 && !blocked[i + 1] && !outside[i + 1]) ((outside[i + 1] = 1), (queue[tail++] = i + 1));
+    if (z > 0 && !blocked[i - nx] && !outside[i - nx]) ((outside[i - nx] = 1), (queue[tail++] = i - nx));
+    if (z < nz - 1 && !blocked[i + nx] && !outside[i + nx]) ((outside[i + nx] = 1), (queue[tail++] = i + nx));
+    if (y > 0 && !blocked[i - layer] && !outside[i - layer])
+      ((outside[i - layer] = 1), (queue[tail++] = i - layer));
+    if (y < ny - 1 && !blocked[i + layer] && !outside[i + layer])
+      ((outside[i + layer] = 1), (queue[tail++] = i + layer));
   }
-  return (p: Vec3): boolean => {
-    const x = p[0] - ox;
-    const y = p[1] - oy;
-    const z = p[2] - oz;
-    if (p[1] < ground) return false;
-    if (x < 0 || y < 0 || z < 0 || x >= nx || y >= ny || z >= nz) return true;
-    return outside[idx(x, y, z)] === 1;
-  };
+  return outside;
 }
 
-/** All hatch-able structure cells with at least one open face, sorted by position. */
+const NO_REGIONS: ReadonlyMap<number, string> = new Map();
+const NO_BLOCKED: ReadonlyMap<HatchKind, Set<Dir>> = new Map();
+
+/** Per def: the rotated local offset of every structure cell, per rotation. */
+const offsetCache = new WeakMap<MultiblockDef, Vec3[][]>();
+
+function rotatedOffsets(def: MultiblockDef): Vec3[][] {
+  let out = offsetCache.get(def);
+  if (!out) {
+    const cells = localCells(def);
+    out = ([0, 1, 2, 3] as const).map((r) => cells.map((c) => rotateLocal(def, c.local, r)));
+    offsetCache.set(def, out);
+  }
+  return out;
+}
+
+/** Per def: the hatch kinds each legend char allows, as one shared set per char. */
+const kindsCache = new WeakMap<MultiblockDef, Map<string, ReadonlySet<HatchKind>>>();
+
+function legendKinds(
+  def: MultiblockDef,
+  char: string,
+  allowed: readonly HatchKind[],
+): ReadonlySet<HatchKind> {
+  let byChar = kindsCache.get(def);
+  if (!byChar) kindsCache.set(def, (byChar = new Map()));
+  let set = byChar.get(char);
+  if (!set) byChar.set(char, (set = new Set(allowed)));
+  return set;
+}
+
+/**
+ * All hatch-able structure cells with at least one open face, sorted by position. Works on a dense box of
+ * cells; above `FLOOD_LIMIT` cells (only far-apart manual layouts) it falls back to maps, where any face
+ * whose neighbour is not a structure cell counts as open.
+ */
 function findSites(def: MultiblockDef, units: readonly Unit[]): Site[] {
-  const byKey = new Map<
-    CellKey,
-    {
-      pos: Vec3;
-      ids: number[];
-      ok: boolean;
-      blockId?: string;
-      kinds: Set<HatchKind>;
-      regions: Map<number, string>;
-      blocked: Map<HatchKind, Set<Dir>>;
-    }
-  >();
+  interface Entry {
+    pos: Vec3;
+    key: CellKey;
+    ids: number[];
+    ok: boolean;
+    blockId?: string;
+    kinds: ReadonlySet<HatchKind>;
+    regions: ReadonlyMap<number, string>;
+    blocked: ReadonlyMap<HatchKind, Set<Dir>>;
+  }
   const cells = localCells(def);
+  const offsets = rotatedOffsets(def);
+  let lo: [number, number, number] = [Infinity, Infinity, Infinity];
+  let hi: [number, number, number] = [-Infinity, -Infinity, -Infinity];
+  for (const u of units) {
+    const size = rotatedSize(def, u.rotation);
+    for (let a = 0; a < 3; a++) {
+      lo[a] = Math.min(lo[a], u.origin[a]);
+      hi[a] = Math.max(hi[a], u.origin[a] + size[a]);
+    }
+  }
+  const box: Box = {
+    ox: lo[0] - 1,
+    oy: lo[1] - 1,
+    oz: lo[2] - 1,
+    nx: hi[0] - lo[0] + 2,
+    ny: hi[1] - lo[1] + 2,
+    nz: hi[2] - lo[2] + 2,
+  };
+  const volume = box.nx * box.ny * box.nz;
+  const dense = Number.isFinite(volume) && volume <= FLOOD_LIMIT;
+  const keyOf = dense ? (p: Vec3): CellKey => boxIndex(box, p) : packCell;
+
+  const byKey = new Map<CellKey, Entry>();
   /** Cells in front of controllers: kept free for the player, so no hatch faces them. */
   const controllerFronts = new Set<CellKey>();
+  let ground = Infinity;
   for (const unit of units) {
-    for (const cell of cells) {
-      const pos = toWorld(def, unit, cell.local);
-      if (cell.role === 'controller') controllerFronts.add(packCell(step(pos, controllerFacing(def, unit))));
-      const k = packCell(pos);
-      const allowed = cell.role === 'casing' ? (cell.hatches ?? []) : [];
+    const rotated = offsets[unit.rotation];
+    const [ux, uy, uz] = unit.origin;
+    for (let ci = 0; ci < cells.length; ci++) {
+      const cell = cells[ci];
+      const off = rotated[ci];
+      const pos: Vec3 = [ux + off[0], uy + off[1], uz + off[2]];
+      if (pos[1] < ground) ground = pos[1];
+      if (cell.role === 'controller') controllerFronts.add(keyOf(step(pos, controllerFacing(def, unit))));
+      const k = keyOf(pos);
+      const casing = cell.role === 'casing';
+      const allowed = casing ? (cell.hatches ?? []) : [];
       let entry = byKey.get(k);
       if (!entry) {
         entry = {
           pos,
+          key: k,
           ids: [unit.id],
-          ok: cell.role === 'casing',
+          ok: casing,
           blockId: cell.blockId,
-          kinds: new Set(allowed),
-          regions: new Map(),
-          blocked: new Map(),
+          kinds: legendKinds(def, cell.char, allowed),
+          regions: NO_REGIONS,
+          blocked: NO_BLOCKED,
         };
         byKey.set(k, entry);
       } else {
         if (!entry.ids.includes(unit.id)) entry.ids.push(unit.id);
-        if (cell.role !== 'casing' || cell.blockId !== entry.blockId) entry.ok = false;
-        for (const kind of [...entry.kinds]) if (!allowed.includes(kind)) entry.kinds.delete(kind);
+        if (!casing || cell.blockId !== entry.blockId) entry.ok = false;
+        if ([...entry.kinds].some((kind) => !allowed.includes(kind)))
+          entry.kinds = new Set([...entry.kinds].filter((kind) => allowed.includes(kind)));
       }
-      const legend = cell.role === 'casing' ? def.legend[cell.char] : undefined;
-      if (legend?.region !== undefined) entry.regions.set(unit.id, legend.region);
-      for (const [kind, dirs] of Object.entries(legend?.disallowFaces ?? {}) as [HatchKind, Dir[]][]) {
-        let set = entry.blocked.get(kind);
-        if (!set) entry.blocked.set(kind, (set = new Set()));
-        for (const d of dirs) set.add(rotateDir(d, unit.rotation));
+      if (!casing) continue;
+      const legend = def.legend[cell.char];
+      if (legend?.region !== undefined) {
+        if (entry.regions === NO_REGIONS) entry.regions = new Map();
+        (entry.regions as Map<number, string>).set(unit.id, legend.region);
+      }
+      if (legend?.disallowFaces) {
+        if (entry.blocked === NO_BLOCKED) entry.blocked = new Map();
+        const blocked = entry.blocked as Map<HatchKind, Set<Dir>>;
+        for (const [kind, dirs] of Object.entries(legend.disallowFaces) as [HatchKind, Dir[]][]) {
+          let set = blocked.get(kind);
+          if (!set) blocked.set(kind, (set = new Set()));
+          for (const d of dirs) set.add(rotateDir(d, unit.rotation));
+        }
       }
     }
   }
 
-  const solid = new Map<CellKey, Vec3>();
-  let ground = Infinity;
-  for (const [k, e] of byKey) {
-    solid.set(k, e.pos);
-    ground = Math.min(ground, e.pos[1]);
+  // Solid cells, and which empty ones the outside reaches (the build stands on the ground: nothing opens
+  // below its lowest layer).
+  let solidAt: (p: Vec3, k: CellKey) => boolean;
+  let isOutside: (p: Vec3, k: CellKey) => boolean;
+  let clearAhead: (p: Vec3, k: CellKey, face: number) => boolean;
+  if (dense) {
+    const solid = new Uint8Array(volume);
+    for (const k of byKey.keys()) solid[k as number] = 1;
+    const outside = outsideCells(box, solid, ground);
+    const steps = boxSteps(box);
+    solidAt = (_p, k) => solid[k as number] === 1;
+    isOutside = (p, k) => p[1] >= ground && outside[k as number] === 1;
+    clearAhead = (p, k, face) => {
+      const dir = FACE_ORDER[face];
+      const v = step([0, 0, 0], dir);
+      // Cells left inside the box along this direction; beyond it nothing is solid.
+      const left =
+        v[0] > 0
+          ? box.nx - 1 - (p[0] - box.ox)
+          : v[0] < 0
+            ? p[0] - box.ox
+            : v[1] > 0
+              ? box.ny - 1 - (p[1] - box.oy)
+              : v[1] < 0
+                ? p[1] - box.oy
+                : v[2] > 0
+                  ? box.nz - 1 - (p[2] - box.oz)
+                  : p[2] - box.oz;
+      const s = steps[face];
+      let i = k as number;
+      for (let n = 1; n < CLEAR_AHEAD && n <= left; n++) {
+        i += s;
+        if (solid[i] === 1) return false;
+      }
+      return true;
+    };
+  } else {
+    solidAt = (_p, k) => byKey.has(k);
+    isOutside = (p, k) => p[1] >= ground && !byKey.has(k);
+    clearAhead = (p, _k, face) => {
+      const dir = FACE_ORDER[face];
+      for (let n = 1, q = p; n < CLEAR_AHEAD; n++) {
+        q = step(q, dir);
+        if (byKey.has(packCell(q))) return false;
+      }
+      return true;
+    };
   }
-  // The build stands on the ground: nothing opens below its lowest layer.
-  const isOutside = outsideTest(solid, ground);
 
   const sites: Site[] = [];
-  for (const [k, e] of byKey) {
+  for (const e of byKey.values()) {
     if (!e.ok || e.kinds.size === 0) continue;
     const faces: Site['faces'] = [];
-    FACE_ORDER.forEach((dir, order) => {
+    for (let order = 0; order < FACE_ORDER.length; order++) {
+      const dir = FACE_ORDER[order];
       const front = step(e.pos, dir);
-      const fk = packCell(front);
-      if (solid.has(fk) || controllerFronts.has(fk) || !isOutside(front)) return;
-      let clear = true;
-      for (let n = 1, p = front; n < CLEAR_AHEAD && clear; n++) {
-        p = step(p, dir);
-        if (solid.has(packCell(p))) clear = false;
-      }
+      const fk = keyOf(front);
+      if (solidAt(front, fk) || controllerFronts.has(fk) || !isOutside(front, fk)) continue;
+      const clear = clearAhead(front, fk, order);
       faces.push({ dir, front: fk, rank: (clear ? 0 : FACE_ORDER.length) + order });
-    });
+    }
     if (faces.length === 0) continue;
     faces.sort((a, b) => a.rank - b.rank);
     sites.push({
       pos: e.pos,
-      key: k,
-      unitIds: [...e.ids].sort((a, b) => a - b),
+      key: e.key,
+      unitIds: e.ids.length > 1 ? [...e.ids].sort((a, b) => a - b) : e.ids,
       kinds: e.kinds,
       faces,
       regions: e.regions,
