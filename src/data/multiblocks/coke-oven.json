@@ -1,0 +1,25 @@
+{
+  "id": "coke-oven",
+  "name": "Coke Oven",
+  "tier": "Steam",
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/master/src/main/java/gregtech/common/tileentities/machines/multi/MTECokeOven.java",
+  "size": [3, 3, 3],
+  "layers": [
+    ["CCC", "CCC", "CCC"],
+    ["C~C", "C-C", "CCC"],
+    ["CCC", "CCC", "CCC"]
+  ],
+  "legend": {
+    "C": { "blockId": "gt.cokeOvenBrick", "hatches": ["itemIn", "itemOut", "fluidOut"] }
+  },
+  "controller": { "pos": [1, 1, 0], "facing": "north", "blockId": "gt.cokeOvenController" },
+  "hatchBlocks": {
+    "itemIn": "gt.cokeOvenHatch",
+    "itemOut": "gt.cokeOvenHatch",
+    "fluidOut": "gt.cokeOvenHatch"
+  },
+  "shareableHatches": ["itemIn", "itemOut", "fluidOut"],
+  "defaultHatches": ["itemIn", "itemOut", "fluidOut"],
+  "wallshare": true,
+  "notes": "GT:NH 2.9+ Coke Oven. One Coke Oven Hatch type with three screwdriver modes (Input, Output Items, Output Fluids); a hatch keeps a list of controllers, so one hatch can serve several ovens. Hatches may replace any brick."
+}

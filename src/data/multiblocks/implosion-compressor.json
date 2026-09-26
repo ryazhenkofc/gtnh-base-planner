@@ -1,0 +1,36 @@
+{
+  "id": "implosion-compressor",
+  "name": "Implosion Compressor",
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/master/src/main/java/gregtech/common/tileentities/machines/multi/MTEImplosionCompressor.java",
+  "size": [3, 3, 3],
+  "layers": [
+    ["CCC", "CCC", "CCC"],
+    ["C~C", "C-C", "CCC"],
+    ["CCC", "CCC", "CCC"]
+  ],
+  "legend": {
+    "C": {
+      "blockId": "gt.casing.solidSteel",
+      "hatches": ["itemIn", "itemOut", "maintenance", "energy", "muffler"]
+    }
+  },
+  "controller": { "pos": [1, 1, 0], "facing": "north", "blockId": "gt.controller" },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus",
+    "itemOut": "gt.hatch.outputBus",
+    "energy": "gt.hatch.energy",
+    "maintenance": "gt.hatch.maintenance",
+    "muffler": "gt.hatch.muffler"
+  },
+  "shareableHatches": ["itemIn", "itemOut"],
+  "requiredHatches": {
+    "itemIn": { "min": 1 },
+    "itemOut": { "min": 1 },
+    "energy": { "min": 1 },
+    "maintenance": { "min": 1 },
+    "muffler": { "min": 1 }
+  },
+  "defaultHatches": ["itemIn", "itemOut", "energy", "maintenance", "muffler"],
+  "wallshare": true,
+  "notes": "3x3x3 hollow cube of Solid Steel Machine Casings (at least 16) with the controller in the front centre of the middle layer. Input bus, output bus, energy, maintenance and muffler hatches may replace any casing; no fluid hatches. Sharing: GT5u adds every hatch it finds during the structure check to that controller's lists with no ownership check, so buses in a shared wall serve every controller around them. Energy, maintenance and muffler hatches are not marked shareable: several controllers draining one energy hatch starve each other, maintenance repair flags are cleared by the first controller that reads them, and each machine needs its own muffler."
+}

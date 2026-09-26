@@ -1,0 +1,197 @@
+import { get, writable } from 'svelte/store';
+import { t } from '../i18n/en';
+import type { PlanState } from '../model/types';
+import { encodePlan } from '../share/codec';
+import {
+  clearHash,
+  loadStoredPlan,
+  planFromJson,
+  planToJson,
+  readHashPlan,
+  saveStoredPlan,
+} from '../share/persist';
+import { plan, selectedUnits } from '../state/store';
+import { notify, warnOnce } from './notices';
+import { shareApi } from './shareApi';
+
+/** A shared plan from the URL waiting for the user's OPEN / KEEP MINE answer. */
+export const pendingShared = writable<PlanState | null>(null);
+/** Share link shown in a selectable field when the clipboard is unavailable. */
+export const shareFallback = writable<string | null>(null);
+
+export const SAVE_DEBOUNCE_MS = 300;
+
+/** Stable comparison of two plans (key order independent). Prefers the share unit's `plansEqual`. */
+export function samePlan(a: PlanState, b: PlanState): boolean {
+  if (shareApi.plansEqual) {
+    try {
+      return shareApi.plansEqual(a, b);
+    } catch (err) {
+      warnOnce('plansEqual', err);
+    }
+  }
+  return canonical(a) === canonical(b);
+}
+
+function canonical(value: unknown): string {
+  if (Array.isArray(value)) return '[' + value.map(canonical).join(',') + ']';
+  if (value && typeof value === 'object') {
+    const entries = Object.entries(value as Record<string, unknown>)
+      .filter(([, v]) => v !== undefined)
+      .sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0));
+    return '{' + entries.map(([k, v]) => JSON.stringify(k) + ':' + canonical(v)).join(',') + '}';
+  }
+  return JSON.stringify(value);
+}
+
+function safeClearHash(): void {
+  try {
+    clearHash();
+  } catch (err) {
+    warnOnce('clearHash', err);
+  }
+}
+
+function applyPlan(next: PlanState): void {
+  selectedUnits.set([]);
+  plan.set(next);
+}
+
+/** Load the stored plan and the `#p=` link; returns once the initial plan is in the store. */
+export async function initSession(): Promise<void> {
+  let stored: PlanState | null = null;
+  try {
+    stored = loadStoredPlan();
+  } catch (err) {
+    warnOnce('loadStoredPlan', err);
+  }
+  if (stored) applyPlan(stored);
+
+  // Any `p=` / legacy `plan=` parameter counts as a link attempt worth reporting and clearing.
+  const hasHash = /(^#|&)(p|plan)=/.test(location.hash);
+  let shared: PlanState | null = null;
+  try {
+    shared = await readHashPlan();
+  } catch (err) {
+    warnOnce('readHashPlan', err);
+    // The share unit's PlanFormatError carries a readable message; anything else gets the generic one.
+    const readable = err instanceof Error && err.name === 'PlanFormatError' ? err.message : null;
+    if (hasHash) notify(readable ?? t.sharedInvalid, 8000);
+  }
+  if (!shared) {
+    if (hasHash) safeClearHash();
+    return;
+  }
+  if (!stored || samePlan(shared, stored)) {
+    applyPlan(shared);
+    safeClearHash();
+  } else {
+    pendingShared.set(shared);
+  }
+}
+
+export function answerShared(open: boolean): void {
+  const shared = get(pendingShared);
+  if (open && shared) applyPlan(shared);
+  pendingShared.set(null);
+  safeClearHash();
+}
+
+/** Save the plan 300 ms after the last change. Returns an unsubscribe function that flushes. */
+export function startAutosave(): () => void {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  let latest: PlanState | undefined;
+  const flush = () => {
+    if (timer !== undefined) clearTimeout(timer);
+    timer = undefined;
+    if (!latest) return;
+    try {
+      // The share unit returns false when storage is full or blocked.
+      if ((saveStoredPlan(latest) as unknown) === false) saveFailed();
+    } catch (err) {
+      warnOnce('saveStoredPlan', err);
+    }
+    latest = undefined;
+  };
+  const unsubscribe = plan.subscribe((p) => {
+    latest = p;
+    if (timer !== undefined) clearTimeout(timer);
+    timer = setTimeout(flush, SAVE_DEBOUNCE_MS);
+  });
+  const onHide = () => flush();
+  window.addEventListener('pagehide', onHide);
+  return () => {
+    window.removeEventListener('pagehide', onHide);
+    unsubscribe();
+    flush();
+  };
+}
+
+let saveWarned = false;
+function saveFailed(): void {
+  warnOnce('saveStoredPlan', 'not saved');
+  if (saveWarned) return;
+  saveWarned = true;
+  notify(t.saveFailed, 8000);
+}
+
+/** Fallback share URL: the current page without its hash, plus `#p=<code>`. */
+export function shareUrl(code: string): string {
+  return location.href.split('#')[0] + '#p=' + code;
+}
+
+// A fallback link shown for an older plan would share the wrong thing.
+plan.subscribe(() => shareFallback.set(null));
+
+export async function copyShareLink(): Promise<void> {
+  shareFallback.set(null);
+  let url: string;
+  try {
+    const p = get(plan);
+    url = shareApi.planHashUrl ? await shareApi.planHashUrl(p) : shareUrl(await encodePlan(p));
+  } catch (err) {
+    warnOnce('encodePlan', err);
+    notify(t.linkFailed);
+    return;
+  }
+  try {
+    if (!navigator.clipboard) throw new Error('clipboard unavailable');
+    await navigator.clipboard.writeText(url);
+    notify(t.linkCopied);
+  } catch (err) {
+    warnOnce('clipboard', err);
+    shareFallback.set(url);
+  }
+}
+
+export function downloadJson(): void {
+  try {
+    const p = get(plan);
+    if (shareApi.downloadPlanJson) {
+      shareApi.downloadPlanJson(p, `gtnh-plan-${p.multiblockId}.json`);
+      return;
+    }
+    const blob = new Blob([planToJson(p)], { type: 'application/json' });
+    const href = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = href;
+    a.download = `gtnh-plan-${p.multiblockId}.json`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(href), 1000);
+  } catch (err) {
+    warnOnce('planToJson', err);
+    notify(t.jsonSaveFailed);
+  }
+}
+
+export async function openJsonFile(file: File): Promise<void> {
+  try {
+    applyPlan(shareApi.readPlanFile ? await shareApi.readPlanFile(file) : planFromJson(await file.text()));
+    notify(t.jsonLoaded);
+  } catch (err) {
+    warnOnce('planFromJson', err);
+    notify(t.jsonFailed(err instanceof Error ? err.message : String(err)), 6000);
+  }
+}

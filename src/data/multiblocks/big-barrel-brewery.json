@@ -1,0 +1,41 @@
+{
+  "id": "big-barrel-brewery",
+  "name": "Big Barrel Brewery",
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/master/src/main/java/gregtech/common/tileentities/machines/multi/MTEIndustrialBrewery.java",
+  "size": [3, 5, 3],
+  "layers": [
+    ["F F", "   ", "F F"],
+    ["WWW", "WWW", "WWW"],
+    ["W~W", "G G", "WGW"],
+    ["WWW", "G G", "WGW"],
+    ["WWW", "WWW", "WWW"]
+  ],
+  "legend": {
+    "W": {
+      "blockId": "gt.casing.reinforcedWooden",
+      "hatches": ["itemIn", "itemOut", "fluidIn", "fluidOut", "maintenance", "energy"]
+    },
+    "G": { "blockId": "gt.glass.reinforced" },
+    "F": { "blockId": "gt.frame.steel" }
+  },
+  "controller": { "pos": [1, 2, 0], "facing": "north", "blockId": "gt.controller" },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus",
+    "itemOut": "gt.hatch.outputBus",
+    "fluidIn": "gt.hatch.inputHatch",
+    "fluidOut": "gt.hatch.outputHatch",
+    "energy": "gt.hatch.energy",
+    "maintenance": "gt.hatch.maintenance"
+  },
+  "shareableHatches": ["itemIn", "itemOut", "fluidIn", "fluidOut"],
+  "requiredHatches": {
+    "itemIn": { "min": 1 },
+    "fluidIn": { "min": 1 },
+    "fluidOut": { "min": 1 },
+    "energy": { "min": 1 },
+    "maintenance": { "min": 1 }
+  },
+  "defaultHatches": ["itemIn", "fluidIn", "fluidOut", "energy", "maintenance"],
+  "wallshare": true,
+  "notes": "GT:NH Big Barrel Brewery (class MTEIndustrialBrewery). A 3x4x3 barrel of Reinforced Wooden Casings (at least 14) on four Steel Frame Box legs, with the controller in the front centre of the third layer from the ground. Glass windows (any tiered glass; Reinforced Glass shown) sit in the side walls and the back. The two interior cells are not checked. Hatches may replace any wooden casing. The left and right faces are identical (casings, glass window, leg), so barrels can share side walls. Sharing: GT5u adds every hatch it finds during the structure check to each controller whose structure contains it, so item and fluid IO in a shared wall serves both barrels. Energy and maintenance are not marked shareable (energy starvation; maintenance flags are cleared by the first reader)."
+}

@@ -1,0 +1,25 @@
+{
+  "$comment": "Dump block identity -> planner block id (src/data/blocks.ts). Keys are '<registry_name>:<meta>' or '<registry_name>:*' (any meta). Metas are from GT5-Unofficial master (gregtech/common/blocks/BlockCasings*.java). Every value must exist in src/data/blocks.ts (enforced by convert.test.ts).",
+  "blocks": {
+    "gregtech:gt.blockcasings:0": "gt.casing.ulv",
+    "gregtech:gt.blockcasings:10": "gt.casing.bronzePlated",
+    "gregtech:gt.blockcasings:11": "gt.casing.heatProof",
+
+    "gregtech:gt.blockcasings2:0": "gt.casing.solidSteel",
+    "gregtech:gt.blockcasings2:1": "gt.casing.frostProof",
+
+    "gregtech:gt.blockcasings3:13": "gt.casing.bronzeFirebox",
+    "gregtech:gt.blockcasings3:14": "gt.casing.steelFirebox",
+
+    "gregtech:gt.blockcasings4:0": "gt.casing.robustTungstensteel",
+    "gregtech:gt.blockcasings4:1": "gt.casing.cleanStainless",
+    "gregtech:gt.blockcasings4:2": "gt.casing.stableTitanium",
+
+    "gregtech:gt.blockcasings5:0": "gt.coil.cupronickel",
+
+    "gregtech:gt.blockcasings8:0": "gt.casing.chemicallyInert",
+    "gregtech:gt.blockcasings8:1": "gt.casing.ptfePipe",
+
+    "IC2:blockAlloyGlass:0": "gt.glass.reinforced"
+  }
+}

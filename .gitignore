@@ -1,0 +1,11 @@
+# Local editor and desktop launch settings
+/.claude/
+/.vscode/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+node_modules/
+dist/
+test-results/
+playwright-report/

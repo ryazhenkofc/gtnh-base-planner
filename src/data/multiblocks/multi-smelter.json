@@ -1,0 +1,36 @@
+{
+  "id": "multi-smelter",
+  "name": "Multi Smelter",
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/master/src/main/java/gregtech/common/tileentities/machines/multi/MTEMultiFurnace.java",
+  "size": [3, 3, 3],
+  "layers": [
+    ["b~b", "bbb", "bbb"],
+    ["KKK", "K-K", "KKK"],
+    ["ccc", "cmc", "ccc"]
+  ],
+  "legend": {
+    "b": { "blockId": "gt.casing.heatProof", "hatches": ["itemIn", "itemOut", "energy", "maintenance"] },
+    "K": { "blockId": "gt.coil.cupronickel" },
+    "c": { "blockId": "gt.casing.heatProof", "hatches": ["maintenance"] },
+    "m": { "blockId": "gt.hatch.muffler", "hatches": ["muffler"] }
+  },
+  "controller": { "pos": [1, 0, 0], "facing": "north", "blockId": "gt.controller" },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus",
+    "itemOut": "gt.hatch.outputBus",
+    "energy": "gt.hatch.energy",
+    "maintenance": "gt.hatch.maintenance",
+    "muffler": "gt.hatch.muffler"
+  },
+  "shareableHatches": ["itemIn", "itemOut"],
+  "requiredHatches": {
+    "itemIn": { "min": 1 },
+    "itemOut": { "min": 1 },
+    "energy": { "min": 1 },
+    "maintenance": { "min": 1 },
+    "muffler": { "min": 1, "max": 1 }
+  },
+  "defaultHatches": ["itemIn", "itemOut", "energy", "maintenance", "muffler"],
+  "wallshare": true,
+  "notes": "3x3x3. Bottom layer: Heat Proof Machine Casings that take input and output buses, energy and maintenance, with the controller in the front centre. Middle layer: a ring of 8 heating coils (any tier; Cupronickel shown, the tier sets parallels) around an air core. Top layer: Heat Proof casings that only take a maintenance hatch, with a mandatory muffler hatch in the centre. Sharing: GT5u adds every hatch it finds during the structure check to each controller whose structure contains it, so buses in a shared bottom wall serve both smelters. Energy, maintenance and muffler hatches are not marked shareable (energy starvation; maintenance flags are cleared by the first reader; each machine needs its own muffler)."
+}

@@ -1,0 +1,27 @@
+Files in this directory (_meta.json, gregtech_machine_1000.json, gregtech_machine_1001.json) are
+copied from gtnh-process-line-solver:
+
+  https://github.com/MrBruh/gtnh-process-line-solver
+  path: data/multiblocks/
+  commit: cb5feeee64a09168581dbe6476305632923e80ef
+
+Copyright 2026 The gtnh_solver authors.
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use these files except
+in compliance with the License. You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is
+distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+implied. See the License for the specific language governing permissions and limitations under the
+License.
+
+Modifications: whitespace only (reformatted with Prettier to match this repository's style). The
+JSON content is unchanged.
+
+Upstream note (data/multiblocks/README.md, paraphrased): the two controller files are hand-authored,
+illustrative fixtures that conform to dump schema v2. The shapes are true to GTNH (Electric Blast
+Furnace 3x3x4 with two coil layers; Vacuum Freezer 3x3x3), but block metas, hatch_slots kinds and
+_meta.json provenance are placeholders. They also anchor offsets at the minimum corner, whereas a
+real dump puts the controller at d = [0, 0, 0].

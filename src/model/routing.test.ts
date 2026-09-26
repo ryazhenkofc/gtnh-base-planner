@@ -1,0 +1,312 @@
+import { describe, expect, it } from 'vitest';
+import { getMultiblock } from '../data/catalog';
+import { key, unitCells } from './geometry';
+import { DEFAULT_TURN_COST, MAX_GRID_CELLS, routePipes, withPipeFaces } from './routing';
+import { catalog } from '../data/catalog';
+import { createPipeline } from '../ui/pipeline';
+import { defaultPlan } from '../state/store';
+import type { Dir, HatchKind, HatchPlacement, MultiblockDef, RouteNet, Unit, Vec3 } from './types';
+
+const coke = getMultiblock('coke-oven')!;
+
+function oven(id: number, origin: Vec3): Unit {
+  return { id, origin, rotation: 0 };
+}
+
+function hatch(kind: HatchKind, cell: Vec3, face: Dir, unitIds: number[]): HatchPlacement {
+  return { kind, cell, face, unitIds };
+}
+
+function net(nets: RouteNet[], kind: HatchKind): RouteNet {
+  const n = nets.find((r) => r.kind === kind);
+  if (!n) throw new Error(`no ${kind} network`);
+  return n;
+}
+
+function pipeCells(n: RouteNet): Set<string> {
+  return new Set(n.paths.flat().map(key));
+}
+
+function solidKeys(def: MultiblockDef, units: Unit[]): Set<string> {
+  return new Set(units.flatMap((u) => unitCells(def, u).map((c) => key(c.pos))));
+}
+
+/** Every consecutive pair of a polyline is face-adjacent. */
+function expectContiguous(n: RouteNet): void {
+  for (const path of n.paths)
+    for (let i = 1; i < path.length; i++) {
+      const a = path[i - 1];
+      const b = path[i];
+      const d = Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1]) + Math.abs(a[2] - b[2]);
+      expect(d).toBe(1);
+    }
+}
+
+/** 5x5x5 hollow shell whose inside is not part of the structure: a sealed pocket. */
+function shell(withCore = false): MultiblockDef {
+  const wall = 'CCCCC';
+  const ring = 'C   C';
+  const core = withCore ? 'C C C' : ring;
+  return {
+    id: 'shell',
+    name: 'Shell',
+    size: [5, 5, 5],
+    layers: [
+      [wall, wall, wall, wall, wall],
+      ['C~CCC', ring, ring, ring, wall],
+      [wall, ring, core, ring, wall],
+      [wall, ring, ring, ring, wall],
+      [wall, wall, wall, wall, wall],
+    ],
+    legend: { C: { blockId: 'test.casing', hatches: ['itemIn'] } },
+    controller: { pos: [1, 1, 0], facing: 'north', blockId: 'test.controller' },
+    hatchBlocks: { itemIn: 'test.hatch' },
+    shareableHatches: [],
+    defaultHatches: ['itemIn'],
+    wallshare: false,
+  };
+}
+
+const shellUnit: Unit = { id: 1, origin: [0, 0, 0], rotation: 0 };
+
+function shellHatches(): HatchPlacement[] {
+  return [
+    hatch('itemIn', [2, 2, 0], 'south', [1]), // faces into the pocket
+    hatch('itemIn', [2, 2, 4], 'south', [1]), // faces outside
+    hatch('itemIn', [0, 0, 0], 'east', [1]), // faces into a casing block
+  ];
+}
+
+describe('routePipes', () => {
+  it('returns nothing without routed hatches', () => {
+    const units = [oven(1, [0, 0, 0])];
+    expect(routePipes(coke, units, [])).toEqual([]);
+    expect(routePipes(coke, units, [hatch('energy', [1, 2, 1], 'up', [1])])).toEqual([]);
+  });
+
+  it('single oven: one terminal, length 1', () => {
+    const units = [oven(1, [0, 0, 0])];
+    const nets = routePipes(coke, units, [hatch('itemIn', [1, 2, 1], 'up', [1])]);
+    expect(nets).toEqual([
+      {
+        kind: 'itemIn',
+        paths: [[[1, 3, 1]]],
+        length: 1,
+        connected: 1,
+        total: 1,
+        attachments: [{ cell: [1, 2, 1], face: 'up' }],
+      },
+    ]);
+  });
+
+  it('dedupes identical terminals of one kind', () => {
+    const units = [oven(1, [0, 0, 0])];
+    const h = hatch('itemOut', [1, 2, 1], 'up', [1]);
+    const [n] = routePipes(coke, units, [h, { ...h }]);
+    expect(n.total).toBe(1);
+    expect(n.length).toBe(1);
+  });
+
+  it('two ovens with same-kind hatches on the same side connect in a straight line', () => {
+    const units = [oven(1, [0, 0, 0]), oven(2, [4, 0, 0])];
+    const hatches = [hatch('itemIn', [1, 2, 1], 'up', [1]), hatch('itemIn', [5, 2, 1], 'up', [2])];
+    const n = net(routePipes(coke, units, hatches), 'itemIn');
+    expect(n.connected).toBe(2);
+    expect(n.total).toBe(2);
+    expect(n.length).toBe(5);
+    expect(n.paths).toEqual([
+      [
+        [1, 3, 1],
+        [2, 3, 1],
+        [3, 3, 1],
+        [4, 3, 1],
+        [5, 3, 1],
+      ],
+    ]);
+  });
+
+  it('routes kinds around each other and never through structures', () => {
+    const units = [oven(1, [0, 0, 0]), oven(2, [4, 0, 0])];
+    const hatches = [
+      hatch('itemIn', [1, 2, 1], 'up', [1]),
+      hatch('itemIn', [5, 2, 1], 'up', [2]),
+      // itemOut must cross the itemIn line running along z = 1 on top.
+      hatch('itemOut', [1, 2, 0], 'up', [1]),
+      hatch('itemOut', [5, 2, 2], 'up', [2]),
+    ];
+    const nets = routePipes(coke, units, hatches);
+    expect(nets.map((n) => n.kind)).toEqual(['itemIn', 'itemOut']);
+    const a = net(nets, 'itemIn');
+    const b = net(nets, 'itemOut');
+    expect(a.connected).toBe(2);
+    expect(b.connected).toBe(2);
+    expect(a.length).toBe(5);
+    // Direct Manhattan route would be 7 cells; the detour around the itemIn line costs 2 more.
+    expect(b.length).toBe(9);
+    expectContiguous(a);
+    expectContiguous(b);
+    const aCells = pipeCells(a);
+    const solids = solidKeys(coke, units);
+    for (const c of pipeCells(b)) expect(aCells.has(c)).toBe(false);
+    for (const c of [...aCells, ...pipeCells(b)]) expect(solids.has(c)).toBe(false);
+  });
+
+  it('never routes through another kind’s terminal', () => {
+    const units = [oven(1, [0, 0, 0]), oven(2, [4, 0, 0])];
+    const hatches = [
+      // fluidOut terminal (3,3,1) sits right on the straight itemIn route; its hatch block fills the gap.
+      hatch('fluidOut', [3, 2, 1], 'up', [1]),
+      hatch('itemIn', [1, 2, 1], 'up', [1]),
+      hatch('itemIn', [5, 2, 1], 'up', [2]),
+    ];
+    const n = net(routePipes(coke, units, hatches), 'itemIn');
+    expect(n.connected).toBe(2);
+    expect(pipeCells(n).has(key([3, 3, 1]))).toBe(false);
+    expect(n.length).toBe(7);
+  });
+
+  it('attaches through another open side when the placed face looks into a pocket or a block', () => {
+    const n = net(routePipes(shell(), [shellUnit], shellHatches()), 'itemIn');
+    expect(n.total).toBe(3);
+    expect(n.connected).toBe(3);
+    const faces = new Map(n.attachments!.map((a) => [a.cell.join(), a.face]));
+    expect(faces.get('2,2,0')).not.toBe('south'); // not into the sealed pocket
+    expect(faces.get('2,2,4')).toBe('south'); // its placed face was already outside
+    expect(faces.get('0,0,0')).not.toBe('east'); // not into the casing next to it
+    // No pipe inside the pocket.
+    for (const p of n.paths.flat()) expect(p.every((c) => c >= 1 && c <= 3)).toBe(false);
+    expectContiguous(n);
+  });
+
+  it('reports a hatch with no way out as not connected', () => {
+    // A block floating inside the sealed pocket: every side of it opens into the pocket.
+    const def = shell(true);
+    const hatches = [...shellHatches(), hatch('itemIn', [2, 2, 2], 'up', [1])];
+    const n = net(routePipes(def, [shellUnit], hatches), 'itemIn');
+    expect(n.total).toBe(4);
+    expect(n.connected).toBe(3);
+    expect(n.attachments!.some((a) => a.cell.join() === '2,2,2')).toBe(false);
+  });
+
+  it('skips routing instead of allocating a huge grid for far-apart units', () => {
+    const units = [oven(1, [-512, -512, -512]), oven(2, [512, 512, 512])];
+    const hatches = [
+      hatch('itemIn', [-511, -510, -511], 'up', [1]),
+      hatch('itemIn', [513, 514, 513], 'up', [2]),
+      hatch('fluidOut', [513, 513, 512], 'north', [2]),
+    ];
+    expect(1037 ** 3).toBeGreaterThan(MAX_GRID_CELLS);
+    const t0 = performance.now();
+    const nets = routePipes(coke, units, hatches);
+    expect(performance.now() - t0).toBeLessThan(100);
+    expect(nets).toEqual([
+      { kind: 'itemIn', paths: [], length: 0, connected: 0, total: 2 },
+      { kind: 'fluidOut', paths: [], length: 0, connected: 0, total: 1 },
+    ]);
+  });
+
+  it('prices bends: straighter pipes than plain BFS, all terminals, about as many blocks', () => {
+    const bends = (nets: RouteNet[]): number => {
+      let n = 0;
+      for (const net of nets)
+        for (const p of net.paths)
+          for (let i = 2; i < p.length; i++) {
+            const a = [0, 1, 2].map((c) => p[i - 1][c] - p[i - 2][c]).join();
+            const b = [0, 1, 2].map((c) => p[i][c] - p[i - 1][c]).join();
+            if (a !== b) n++;
+          }
+      return n;
+    };
+    const sum = (nets: RouteNet[], f: (n: RouteNet) => number) => nets.reduce((s, n) => s + f(n), 0);
+    let bfsBends = 0;
+    let turnBends = 0;
+    for (const def of catalog)
+      for (const count of [12, 60]) {
+        const r = createPipeline()({ ...defaultPlan(def.id), count }, false);
+        const units = r.pack!.units;
+        const hatches = r.hatches!.hatches;
+        const bfs = routePipes(def, units, hatches, { turnCost: 0 });
+        const turn = routePipes(def, units, hatches);
+        expect(turn).toEqual(routePipes(def, units, hatches, { turnCost: DEFAULT_TURN_COST }));
+        for (const n of turn) expectContiguous(n);
+        // Kinds are routed one after another, so either may block the other now and then: never worse.
+        expect(sum(turn, (n) => n.connected)).toBeGreaterThanOrEqual(sum(bfs, (n) => n.connected));
+        expect(sum(turn, (n) => n.length)).toBeLessThanOrEqual(Math.ceil(sum(bfs, (n) => n.length) * 1.05));
+        expect(bends(turn)).toBeLessThanOrEqual(bends(bfs));
+        bfsBends += bends(bfs);
+        turnBends += bends(turn);
+      }
+    // Across the catalog the penalty removes a large share of the bends.
+    expect(turnBends).toBeLessThan(bfsBends * 0.7);
+  });
+
+  it('turns hatches to the side their pipe attaches to', () => {
+    const hatches = shellHatches();
+    const nets = routePipes(shell(), [shellUnit], hatches);
+    const turned = withPipeFaces(hatches, nets);
+    for (const h of turned) {
+      const a = nets[0].attachments!.find((x) => x.cell.join() === h.cell.join())!;
+      expect(h.face).toBe(a.face);
+    }
+    expect(turned[1]).toBe(hatches[1]); // unchanged hatches are passed through
+    expect(withPipeFaces(hatches, null)).toBe(hatches);
+    expect(withPipeFaces(hatches, [])).toBe(hatches);
+  });
+
+  it('never lays pipes below the build', () => {
+    for (const def of catalog)
+      for (const count of [4, 12]) {
+        const r = createPipeline()({ ...defaultPlan(def.id), count }, true);
+        const ground = Math.min(...r.scene!.voxels.map((v) => v.pos[1]));
+        for (const n of r.pipes ?? [])
+          for (const p of n.paths.flat()) expect(p[1]).toBeGreaterThanOrEqual(ground);
+      }
+  });
+
+  it('is deterministic and does not mutate inputs', () => {
+    const units = Object.freeze([oven(1, [0, 0, 0]), oven(2, [4, 0, 0])].map((u) => Object.freeze(u)));
+    const hatches = Object.freeze(
+      [hatch('itemIn', [1, 2, 1], 'up', [1]), hatch('itemIn', [5, 2, 1], 'up', [2])].map((h) =>
+        Object.freeze(h),
+      ),
+    );
+    const a = routePipes(coke, units as Unit[], hatches as HatchPlacement[]);
+    const b = routePipes(coke, units as Unit[], hatches as HatchPlacement[]);
+    expect(a).toEqual(b);
+  });
+
+  it('routes 60 ovens with 3 kinds quickly', () => {
+    const units: Unit[] = [];
+    const hatches: HatchPlacement[] = [];
+    let id = 0;
+    for (let j = 0; j < 2; j++)
+      for (let i = 0; i < 30; i++) {
+        const x = 2 * i;
+        // Rows two blocks apart: one row's fluid outputs never face the next row's controllers.
+        const z = 5 * j;
+        units.push(oven(++id, [x, 0, z]));
+        hatches.push(hatch('itemIn', [x + 1, 2, z + 1], 'up', [id]));
+        hatches.push(hatch('itemOut', [x + 1, 0, z], 'north', [id]));
+        hatches.push(hatch('fluidOut', [x + 1, 1, z + 2], 'south', [id]));
+      }
+    routePipes(coke, units, hatches); // warm-up (JIT, def cache)
+    const t0 = performance.now();
+    const nets = routePipes(coke, units, hatches);
+    const ms = performance.now() - t0;
+    expect(ms).toBeLessThan(100);
+    expect(nets.map((n) => n.kind)).toEqual(['itemIn', 'itemOut', 'fluidOut']);
+    const solids = solidKeys(coke, units);
+    const seen = new Set<string>();
+    for (const n of nets) {
+      expect(n.total).toBe(60);
+      expect(n.connected).toBe(60);
+      expect(pipeCells(n).size).toBe(n.length);
+      expectContiguous(n);
+      for (const c of pipeCells(n)) {
+        expect(solids.has(c)).toBe(false);
+        expect(seen.has(c)).toBe(false);
+        seen.add(c);
+      }
+    }
+  });
+});

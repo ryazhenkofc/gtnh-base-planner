@@ -1,0 +1,13 @@
+import type { HatchKind } from './types';
+
+/** Default hatch colours (SIMPLE view and legend). */
+export const DEFAULT_HATCH_COLORS: Record<HatchKind, string> = {
+  itemIn: '#f2a33a',
+  itemOut: '#e5533d',
+  fluidIn: '#3fa7d6',
+  fluidOut: '#2f6fd1',
+  energy: '#e8c547',
+  dynamo: '#b98ce0',
+  maintenance: '#6fbf73',
+  muffler: '#8a8f96',
+};

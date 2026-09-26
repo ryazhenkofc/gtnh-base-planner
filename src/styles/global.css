@@ -1,0 +1,111 @@
+/* Minimal: pure white, tiny grey uppercase text, controls are text links. */
+:root {
+  --bg: #ffffff;
+  --text: #111111;
+  --muted: #9a9a9a;
+  --faint: #c8c8c8;
+  --line: #ececec;
+  --gutter: 28px;
+  --bar-h: 56px;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 11px;
+  line-height: 1.5;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (max-width: 640px) {
+  :root {
+    --gutter: 16px;
+    --bar-h: 76px;
+    font-size: 10px;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+button,
+input {
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: inherit;
+}
+
+/* A control that is just text. Hover = black; `.active` = black + underline. */
+.link {
+  appearance: none;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  padding: 4px 0;
+  margin: 0;
+  cursor: pointer;
+  color: var(--muted);
+  text-decoration: none;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+}
+.link:hover,
+.link.active {
+  color: var(--text);
+}
+.link.active {
+  text-decoration-line: underline;
+}
+.link:disabled {
+  color: var(--faint);
+  cursor: default;
+}
+
+/* Text fields look like plain text until focused. */
+.field {
+  appearance: none;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  padding: 4px 0;
+  margin: 0;
+  outline: none;
+  color: var(--text);
+  text-align: center;
+}
+.field::placeholder {
+  color: var(--faint);
+}
+.field:focus {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+}
+
+:focus-visible {
+  outline: 1px solid var(--text);
+  outline-offset: 3px;
+}
+.field:focus-visible {
+  outline: none;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

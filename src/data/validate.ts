@@ -1,0 +1,190 @@
+import type { Dir, HatchKind, HorizontalDir, MultiblockDef } from '../model/types';
+import { BLOCKS } from './blocks';
+
+export const HATCH_KINDS: readonly HatchKind[] = [
+  'itemIn',
+  'itemOut',
+  'fluidIn',
+  'fluidOut',
+  'energy',
+  'dynamo',
+  'maintenance',
+  'muffler',
+];
+
+const HORIZONTAL: readonly HorizontalDir[] = ['north', 'south', 'east', 'west'];
+const DIRS: readonly Dir[] = [...HORIZONTAL, 'up', 'down'];
+const RESERVED = new Set(['~', '-', ' ']);
+const ID_RE = /^[a-z0-9-]+$/;
+
+function isHatchKind(k: unknown): k is HatchKind {
+  return typeof k === 'string' && (HATCH_KINDS as readonly string[]).includes(k);
+}
+
+function isInt(n: unknown): n is number {
+  return typeof n === 'number' && Number.isInteger(n);
+}
+
+/**
+ * Checks a multiblock definition for structural consistency.
+ * Returns a list of human-readable problems; an empty list means the def is valid.
+ * Pass `fileName` (base name without `.json`) to also check that it matches `def.id`.
+ */
+export function validateMultiblockDef(def: MultiblockDef, fileName?: string): string[] {
+  const errors: string[] = [];
+  const err = (msg: string) => errors.push(msg);
+
+  // id / name
+  if (typeof def.id !== 'string' || !ID_RE.test(def.id)) err(`id "${def.id}" must match ${ID_RE}`);
+  if (fileName !== undefined && fileName !== def.id)
+    err(`id "${def.id}" does not match file name "${fileName}"`);
+  if (typeof def.name !== 'string' || def.name.trim() === '') err('name must be a non-empty string');
+  if (def.source !== undefined && !/^https?:\/\//.test(def.source)) err('source must be an http(s) URL');
+
+  // size and layers
+  const size = def.size;
+  const sizeOk = Array.isArray(size) && size.length === 3 && size.every((n) => isInt(n) && n >= 1);
+  if (!sizeOk) {
+    err(`size must be three positive integers, got ${JSON.stringify(size)}`);
+    return errors;
+  }
+  const [sx, sy, sz] = size;
+  const legend = def.legend ?? {};
+
+  for (const ch of Object.keys(legend)) {
+    if (ch.length !== 1) err(`legend key "${ch}" must be a single character`);
+    if (RESERVED.has(ch)) err(`legend key "${ch}" is reserved`);
+  }
+
+  const controllers: [number, number, number][] = [];
+  if (!Array.isArray(def.layers) || def.layers.length !== sy) {
+    err(`layers has ${def.layers?.length} entries, expected size[1] = ${sy}`);
+  } else {
+    def.layers.forEach((layer, y) => {
+      if (!Array.isArray(layer) || layer.length !== sz) {
+        err(`layer ${y} has ${layer?.length} rows, expected size[2] = ${sz}`);
+        return;
+      }
+      layer.forEach((row, z) => {
+        if (typeof row !== 'string' || row.length !== sx) {
+          err(`layer ${y} row ${z} has length ${row?.length}, expected size[0] = ${sx}`);
+          return;
+        }
+        [...row].forEach((ch, x) => {
+          if (ch === '~') controllers.push([x, y, z]);
+          else if (!RESERVED.has(ch) && !(ch in legend))
+            err(`unknown char "${ch}" at ${x},${y},${z} (not in legend)`);
+        });
+      });
+    });
+  }
+
+  // controller
+  const c = def.controller;
+  if (!c) {
+    err('controller is missing');
+  } else {
+    if (controllers.length !== 1) err(`expected exactly one "~", found ${controllers.length}`);
+    const pos = c.pos;
+    const posOk = Array.isArray(pos) && pos.length === 3 && pos.every(isInt);
+    if (!posOk) err(`controller.pos must be three integers, got ${JSON.stringify(pos)}`);
+    else if (controllers.length === 1) {
+      const [x, y, z] = controllers[0];
+      if (pos[0] !== x || pos[1] !== y || pos[2] !== z)
+        err(`controller.pos ${pos.join(',')} does not match "~" at ${x},${y},${z}`);
+    }
+    if (!HORIZONTAL.includes(c.facing)) err(`controller.facing "${c.facing}" must be a horizontal direction`);
+    else if (posOk) {
+      const onFace =
+        (c.facing === 'north' && pos[2] === 0) ||
+        (c.facing === 'south' && pos[2] === sz - 1) ||
+        (c.facing === 'west' && pos[0] === 0) ||
+        (c.facing === 'east' && pos[0] === sx - 1);
+      if (!onFace) err(`controller at ${pos.join(',')} is not on the ${c.facing} face of the box`);
+    }
+    if (!BLOCKS[c.blockId]) err(`controller.blockId "${c.blockId}" is not in BLOCKS`);
+  }
+
+  // legend entries
+  const allowed = new Set<HatchKind>();
+  const regions = new Map<string, Set<HatchKind>>();
+  for (const [ch, entry] of Object.entries(legend)) {
+    if (!BLOCKS[entry.blockId]) err(`legend "${ch}" blockId "${entry.blockId}" is not in BLOCKS`);
+    if (entry.hatches !== undefined) {
+      if (!Array.isArray(entry.hatches) || entry.hatches.length === 0)
+        err(`legend "${ch}" hatches must be a non-empty array when present`);
+      else
+        for (const k of entry.hatches) {
+          if (!isHatchKind(k)) err(`legend "${ch}" has invalid hatch kind "${k}"`);
+          else allowed.add(k);
+        }
+    }
+    for (const [k, dirs] of Object.entries(entry.disallowFaces ?? {})) {
+      if (!isHatchKind(k) || !entry.hatches?.includes(k))
+        err(`legend "${ch}" disallowFaces.${k} but the cell does not allow "${k}"`);
+      if (!Array.isArray(dirs) || dirs.some((d) => !DIRS.includes(d)))
+        err(`legend "${ch}" disallowFaces.${k} must list directions`);
+    }
+    if (entry.region !== undefined) {
+      if (typeof entry.region !== 'string' || entry.region === '')
+        err(`legend "${ch}" region must be a name`);
+      else {
+        const kinds = regions.get(entry.region) ?? new Set<HatchKind>();
+        for (const k of entry.hatches ?? []) kinds.add(k);
+        regions.set(entry.region, kinds);
+      }
+    }
+  }
+
+  // hatch blocks
+  const hatchBlocks = def.hatchBlocks ?? {};
+  for (const [k, id] of Object.entries(hatchBlocks)) {
+    if (!isHatchKind(k)) err(`hatchBlocks has invalid hatch kind "${k}"`);
+    if (typeof id !== 'string' || !BLOCKS[id]) err(`hatchBlocks.${k} "${id}" is not in BLOCKS`);
+  }
+  for (const k of allowed)
+    if (!hatchBlocks[k]) err(`hatch kind "${k}" is allowed but has no hatchBlocks entry`);
+
+  // hatch kind lists
+  const checkList = (name: string, list: unknown) => {
+    if (!Array.isArray(list)) {
+      err(`${name} must be an array`);
+      return [] as HatchKind[];
+    }
+    const seen = new Set<string>();
+    for (const k of list) {
+      if (!isHatchKind(k)) err(`${name} has invalid hatch kind "${k}"`);
+      else if (!allowed.has(k)) err(`${name} lists "${k}" but no legend cell allows it`);
+      if (seen.has(k)) err(`${name} lists "${k}" twice`);
+      seen.add(k);
+    }
+    return list.filter(isHatchKind);
+  };
+  checkList('shareableHatches', def.shareableHatches);
+  const defaults = checkList('defaultHatches', def.defaultHatches);
+
+  // required hatches
+  for (const [k, req] of Object.entries(def.requiredHatches ?? {})) {
+    if (!isHatchKind(k)) {
+      err(`requiredHatches has invalid hatch kind "${k}"`);
+      continue;
+    }
+    if (!allowed.has(k)) err(`requiredHatches.${k} but no legend cell allows it`);
+    if (!req || !isInt(req.min) || req.min < 0) err(`requiredHatches.${k}.min must be an integer >= 0`);
+    if (req?.max !== undefined && (!isInt(req.max) || req.max < (req.min ?? 0)))
+      err(`requiredHatches.${k}.max must be an integer >= min`);
+    for (const r of req?.regions ?? []) {
+      if (!regions.get(r)?.has(k))
+        err(`requiredHatches.${k}.regions lists "${r}" but no cell of it allows "${k}"`);
+    }
+    if (req?.regions && req.regions.length > (req.max ?? Infinity))
+      err(`requiredHatches.${k}.regions needs more hatches than max allows`);
+    // Only enabled kinds are placed, so a required kind must be enabled by default.
+    if (req && req.min >= 1 && !defaults.includes(k))
+      err(`requiredHatches.${k}.min >= 1 but "${k}" is not in defaultHatches`);
+  }
+
+  if (typeof def.wallshare !== 'boolean') err('wallshare must be a boolean');
+
+  return errors;
+}

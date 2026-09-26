@@ -1,0 +1,38 @@
+{
+  "id": "large-heat-exchanger",
+  "name": "Large Heat Exchanger",
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/master/src/main/java/gregtech/common/tileentities/machines/multi/MTEHeatExchanger.java",
+  "size": [3, 4, 3],
+  "layers": [
+    ["c~c", "cHc", "ccc"],
+    ["ccc", "cPc", "ccc"],
+    ["ccc", "cPc", "ccc"],
+    ["ccc", "cOc", "ccc"]
+  ],
+  "legend": {
+    "c": {
+      "blockId": "gt.casing.stableTitanium",
+      "hatches": ["itemIn", "itemOut", "fluidIn", "fluidOut", "maintenance"]
+    },
+    "P": { "blockId": "gt.casing.titaniumPipe" },
+    "H": { "blockId": "gt.hatch.inputHatch", "hatches": ["fluidIn"] },
+    "O": { "blockId": "gt.hatch.outputHatch", "hatches": ["fluidOut"] }
+  },
+  "controller": { "pos": [1, 0, 0], "facing": "north", "blockId": "gt.controller" },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus",
+    "itemOut": "gt.hatch.outputBus",
+    "fluidIn": "gt.hatch.inputHatch",
+    "fluidOut": "gt.hatch.outputHatch",
+    "maintenance": "gt.hatch.maintenance"
+  },
+  "shareableHatches": ["fluidIn", "fluidOut"],
+  "requiredHatches": {
+    "fluidIn": { "min": 2 },
+    "fluidOut": { "min": 2 },
+    "maintenance": { "min": 1 }
+  },
+  "defaultHatches": ["fluidIn", "fluidOut", "maintenance"],
+  "wallshare": true,
+  "notes": "3x4x3 of Stable Titanium Machine Casings (at least 20) around two Titanium Pipe Casings. The bottom centre must be the hot fluid input hatch (H) and the top centre the cold fluid output hatch (O); these two belong to one exchanger each. Distilled water input and steam output hatches may go on any casing (so at least 2 input and 2 output hatches in total). No energy hatch. Sharing: GT5u adds every hatch it finds during the structure check to each controller whose structure contains it, so a water input or steam output hatch in a shared side wall serves both exchangers. The hot input and cold output sit in the top and bottom centres and never lie in a shared side wall. Maintenance is not marked shareable, because its repair flags are cleared by the first controller that reads them."
+}

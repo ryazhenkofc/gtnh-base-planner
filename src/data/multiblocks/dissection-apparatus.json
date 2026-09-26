@@ -1,0 +1,35 @@
+{
+  "id": "dissection-apparatus",
+  "name": "Dissection Apparatus",
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/master/src/main/java/gregtech/common/tileentities/machines/multi/MTEIndustrialExtractor.java",
+  "size": [5, 5, 5],
+  "layers": [
+    ["CC~CC", "CCCCC", "CCCCC", "CCCCC", "CCCCC"],
+    ["C   C", " PPP ", " PPP ", " PPP ", "C   C"],
+    ["C   C", " GGG ", " GPG ", " GGG ", "C   C"],
+    ["C   C", " PPP ", " PPP ", " PPP ", "C   C"],
+    ["CCCCC", "CCCCC", "CCCCC", "CCCCC", "CCCCC"]
+  ],
+  "legend": {
+    "C": { "blockId": "gt.casing.cleanStainless", "hatches": ["itemIn", "itemOut", "energy", "maintenance"] },
+    "P": { "blockId": "gt.casing.itemPipeTin" },
+    "G": { "blockId": "gt.glass.reinforced" }
+  },
+  "controller": { "pos": [2, 0, 0], "facing": "north", "blockId": "gt.controller" },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus",
+    "itemOut": "gt.hatch.outputBus",
+    "energy": "gt.hatch.energy",
+    "maintenance": "gt.hatch.maintenance"
+  },
+  "shareableHatches": ["itemIn", "itemOut"],
+  "requiredHatches": {
+    "itemIn": { "min": 1 },
+    "itemOut": { "min": 1 },
+    "energy": { "min": 1 },
+    "maintenance": { "min": 1 }
+  },
+  "defaultHatches": ["itemIn", "itemOut", "energy", "maintenance"],
+  "wallshare": true,
+  "notes": "GT:NH Dissection Apparatus (industrial extractor, class MTEIndustrialExtractor). 5x5x5: a solid Clean Stainless Steel floor and roof joined by four corner pillars (at least 45 casings), around a 3x3x3 core of item pipe casings and glass. The item pipe casings can be any tier (Tin shown) and set the parallels. The glass can be any tiered glass (Reinforced Glass shown). Blank cells are not checked. Input and output buses, energy and maintenance hatches may replace any casing. All four side faces are the same (pillars, floor and roof edges), so units can share side walls. Sharing: GT5u adds every hatch it finds during the structure check to each controller whose structure contains it, so buses in a shared wall serve both machines. Energy and maintenance are not marked shareable (energy starvation; maintenance flags are cleared by the first reader)."
+}

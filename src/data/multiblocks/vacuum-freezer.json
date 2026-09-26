@@ -1,0 +1,34 @@
+{
+  "id": "vacuum-freezer",
+  "name": "Vacuum Freezer",
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/master/src/main/java/gregtech/common/tileentities/machines/multi/MTEVacuumFreezer.java",
+  "size": [3, 3, 3],
+  "layers": [
+    ["CCC", "CCC", "CCC"],
+    ["C~C", "C-C", "CCC"],
+    ["CCC", "CCC", "CCC"]
+  ],
+  "legend": {
+    "C": {
+      "blockId": "gt.casing.frostProof",
+      "hatches": ["itemIn", "itemOut", "fluidIn", "fluidOut", "maintenance", "energy"]
+    }
+  },
+  "controller": { "pos": [1, 1, 0], "facing": "north", "blockId": "gt.controller" },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus",
+    "itemOut": "gt.hatch.outputBus",
+    "fluidIn": "gt.hatch.inputHatch",
+    "fluidOut": "gt.hatch.outputHatch",
+    "energy": "gt.hatch.energy",
+    "maintenance": "gt.hatch.maintenance"
+  },
+  "shareableHatches": ["itemIn", "itemOut", "fluidIn", "fluidOut"],
+  "requiredHatches": {
+    "energy": { "min": 1 },
+    "maintenance": { "min": 1 }
+  },
+  "defaultHatches": ["itemIn", "itemOut", "energy", "maintenance"],
+  "wallshare": true,
+  "notes": "3x3x3 hollow cube of Frost Proof Machine Casings (at least 16) with the controller in the front centre of the middle layer. Hatches may replace any casing. GT also requires at least one input (bus or hatch) and one output of any kind. Sharing: GT5u adds every hatch it finds during the structure check to that controller's lists with no ownership check, so item and fluid buses and hatches in a shared wall serve every controller around them. Energy and maintenance are not marked shareable: several controllers draining one energy hatch starve each other, and maintenance repair flags are cleared by the first controller that reads them."
+}
