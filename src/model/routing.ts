@@ -490,8 +490,9 @@ export function routePipes(
   const kinds = opts.kinds ?? PIPE_KINDS;
   const solids: Vec3[] = [];
   let ground = Infinity;
-  for (const u of units)
-    for (const c of unitCells(def, u)) {
+  const cellsOf = units.map((u) => unitCells(def, u));
+  for (const list of cellsOf)
+    for (const c of list) {
       solids.push(c.pos);
       ground = Math.min(ground, c.pos[1]);
     }
@@ -527,24 +528,28 @@ export function routePipes(
   // Cells that must stay free: in front of each controller (the player opens it there), and in front of
   // every hatch that is not routed here: a muffler only vents into air (GT stops the machine otherwise), an
   // energy or dynamo hatch without a routed cable takes its cable there, a maintenance hatch needs the player.
-  for (const u of units)
-    for (const c of unitCells(def, u))
+  units.forEach((u, ui) => {
+    for (const c of cellsOf[ui])
       if (c.role === 'controller') reserve(g, step(c.pos, controllerFacing(def, u)));
+  });
   for (const h of hatches) if (!isRouted(h.kind)) reserve(g, step(h.cell, h.face));
 
   // Sides a hatch may not be turned to (e.g. Distillation Tower layer outputs never face up or down).
   const blocked = new Map<string, Set<Dir>>();
   const hatchAt = new Map(hatches.map((h) => [h.cell.join(), h.kind]));
-  for (const u of units)
-    for (const c of unitCells(def, u)) {
-      const kind = hatchAt.get(c.pos.join());
-      const dirs = kind && c.role === 'casing' ? def.legend[c.char]?.disallowFaces?.[kind] : undefined;
-      if (!kind || !dirs) continue;
-      const id = `${kind}|${c.pos.join()}`;
-      let set = blocked.get(id);
-      if (!set) blocked.set(id, (set = new Set()));
-      for (const d of dirs) set.add(rotateDir(d, u.rotation));
-    }
+  const turnable = Object.values(def.legend).some((l) => l.disallowFaces);
+  if (turnable)
+    units.forEach((u, ui) => {
+      for (const c of cellsOf[ui]) {
+        const kind = hatchAt.get(c.pos.join());
+        const dirs = kind && c.role === 'casing' ? def.legend[c.char]?.disallowFaces?.[kind] : undefined;
+        if (!kind || !dirs) continue;
+        const id = `${kind}|${c.pos.join()}`;
+        let set = blocked.get(id);
+        if (!set) blocked.set(id, (set = new Set()));
+        for (const d of dirs) set.add(rotateDir(d, u.rotation));
+      }
+    });
 
   // The cell in front of each hatch's placed face stays reserved for its kind, so every hatch keeps at
   // least that way in; its other open sides are free for any pipe.
