@@ -1,0 +1,54 @@
+{
+  "id": "nanometer-encasement-wrapper",
+  "name": "Nanometer Encasement Wrapper",
+  "generated": true,
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/nanochip/modules/MTEEncasementWrapperModule.java",
+  "size": [10, 6, 7],
+  "layers": [
+    ["    CDBDC ", "   CA   AC", "   D     D", "   B     B", "   D     D", "   CA   AC", "    CDBDC "],
+    ["    CDBDC ", "   CA C AC", "   D AAA D", "   BCAAACB", "   D AAA D", "   CA C AC", "    CDBDC "],
+    ["    CDBDC ", "   CA   AC", "   D     D", "   B     B", "   D     D", "   CA   AC", "    CDBDC "],
+    [" VVVVVBD  ", "VPPPPPV A ", "VPPPPPVA D", "VPPPPPVACB", "VPPPPPVA D", "VPPPPPV A ", " VVVVVBD  "],
+    ["     DBD  ", " ZZZZZ  A ", " ZZZZZ   D", " ZZZZZ   B", " ZZZZZ   D", " ZZZZZ  A ", "     DBD  "],
+    [" VV~VV    ", "VPPPPPVB  ", "VPPPPPVAB ", "VPPPPPVAB ", "VPPPPPVAB ", "VPPPPPVB  ", " VVVVV    "]
+  ],
+  "legend": {
+    "V": {
+      "blockId": "gt5u.gtBlockcasings12.1",
+      "hatches": ["itemIn", "fluidIn", "fluidOut"]
+    },
+    "D": {
+      "blockId": "gt5u.gtBlockglass1.8"
+    },
+    "B": {
+      "blockId": "gt5u.gtBlockcasings12.2"
+    },
+    "C": {
+      "blockId": "gt.frame.quantium"
+    },
+    "P": {
+      "blockId": "gt5u.gtBlockcasings12.1"
+    },
+    "Z": {
+      "blockId": "gt5u.gtBlockcasings12.2"
+    },
+    "A": {
+      "blockId": "gt5u.gtBlockcasings12.1"
+    }
+  },
+  "controller": {
+    "pos": [3, 5, 0],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus",
+    "fluidIn": "gt.hatch.inputHatch",
+    "fluidOut": "gt.hatch.outputHatch"
+  },
+  "shareableHatches": ["itemIn", "fluidIn", "fluidOut"],
+  "requiredHatches": {},
+  "defaultHatches": ["itemIn"],
+  "wallshare": true,
+  "notes": "Generated from MTEEncasementWrapperModule (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+}

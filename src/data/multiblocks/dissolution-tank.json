@@ -1,0 +1,52 @@
+{
+  "id": "dissolution-tank",
+  "name": "Dissolution Tank",
+  "generated": true,
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gtnhlanth/common/tileentity/MTEDissolutionTank.java",
+  "size": [5, 5, 5],
+  "layers": [
+    ["s   s", "     ", "     ", "     ", "s   s"],
+    ["ss~ss", "shhhs", "shhhs", "shhhs", "sssss"],
+    ["sgggs", "g---g", "g---g", "g---g", "sgggs"],
+    ["sgggs", "g---g", "g---g", "g---g", "sgggs"],
+    [" sss ", "sssss", "sssss", "sssss", " sss "]
+  ],
+  "legend": {
+    "s": {
+      "blockId": "gt.casing.cleanStainless",
+      "hatches": ["itemIn", "itemOut", "fluidIn", "fluidOut", "energy", "maintenance"]
+    },
+    "g": {
+      "blockId": "gt.glass.reinforced"
+    },
+    "h": {
+      "blockId": "gt.casing.heatProof"
+    }
+  },
+  "controller": {
+    "pos": [2, 1, 0],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus",
+    "itemOut": "gt.hatch.outputBus",
+    "fluidIn": "gt.hatch.inputHatch",
+    "fluidOut": "gt.hatch.outputHatch",
+    "energy": "gt.hatch.energy",
+    "maintenance": "gt.hatch.maintenance"
+  },
+  "shareableHatches": ["itemIn", "itemOut", "fluidIn", "fluidOut"],
+  "requiredHatches": {
+    "energy": {
+      "min": 1
+    },
+    "maintenance": {
+      "min": 1,
+      "max": 1
+    }
+  },
+  "defaultHatches": ["itemIn", "itemOut", "energy", "maintenance"],
+  "wallshare": true,
+  "notes": "Generated from MTEDissolutionTank (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+}

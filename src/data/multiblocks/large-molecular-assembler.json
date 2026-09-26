@@ -1,0 +1,46 @@
+{
+  "id": "large-molecular-assembler",
+  "name": "Large Molecular Assembler",
+  "generated": true,
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTELargeMolecularAssembler.java",
+  "size": [5, 5, 5],
+  "layers": [
+    ["CC~CC", "CGGGC", "CGGGC", "CGGGC", "CCCCC"],
+    ["CGGGC", "G---G", "G---G", "G---G", "CGGGC"],
+    ["CGGGC", "G---G", "G---G", "G---G", "CGGGC"],
+    ["CGGGC", "G---G", "G---G", "G---G", "CGGGC"],
+    ["CCCCC", "CGGGC", "CGGGC", "CGGGC", "CCCCC"]
+  ],
+  "legend": {
+    "C": {
+      "blockId": "gt.casing.robustTungstensteel",
+      "hatches": ["itemIn", "energy", "maintenance"]
+    },
+    "G": {
+      "blockId": "gt.glass.reinforced"
+    }
+  },
+  "controller": {
+    "pos": [2, 0, 0],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus",
+    "energy": "gt.hatch.energy",
+    "maintenance": "gt.hatch.maintenance"
+  },
+  "shareableHatches": ["itemIn"],
+  "requiredHatches": {
+    "energy": {
+      "min": 1
+    },
+    "maintenance": {
+      "min": 1,
+      "max": 1
+    }
+  },
+  "defaultHatches": ["itemIn", "energy", "maintenance"],
+  "wallshare": true,
+  "notes": "Generated from MTELargeMolecularAssembler (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+}

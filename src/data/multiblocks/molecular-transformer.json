@@ -1,0 +1,62 @@
+{
+  "id": "molecular-transformer",
+  "name": "Molecular Transformer",
+  "generated": true,
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTEIndustrialMolecularTransformer.java",
+  "size": [7, 9, 7],
+  "layers": [
+    ["  CCC  ", " CCCCC ", "CCCCCCC", "CCCCCCC", "CCCCCCC", " CCCCC ", "  CCC  "],
+    ["   ~   ", "  CCC  ", " CCDCC ", "CBDDDBC", " CCDCC ", "  CCC  ", "   C   "],
+    ["       ", "   A   ", "  ADA  ", " BDDDB ", "  ADA  ", "   A   ", "       "],
+    ["       ", "   A   ", "  ADA  ", " BDDDB ", "  ADA  ", "   A   ", "       "],
+    ["       ", "   A   ", "  ADA  ", " BDDDB ", "  ADA  ", "   A   ", "       "],
+    ["       ", "   A   ", "  ADA  ", " BDDDB ", "  ADA  ", "   A   ", "       "],
+    ["       ", "   A   ", "  ADA  ", " BDDDB ", "  ADA  ", "   A   ", "       "],
+    ["   C   ", "  CCC  ", " CCDCC ", "CBDDDBC", " CCDCC ", "  CCC  ", "   C   "],
+    ["  CCC  ", " CCCCC ", "CCCCCCC", "CCCCCCC", "CCCCCCC", " CCCCC ", "  CCC  "]
+  ],
+  "legend": {
+    "C": {
+      "blockId": "gt5u.blockSpecialMultiCasings.11",
+      "hatches": ["itemIn", "itemOut", "energy", "maintenance", "muffler"]
+    },
+    "A": {
+      "blockId": "gt.glass.reinforced"
+    },
+    "D": {
+      "blockId": "gt5u.speedingPipe.0"
+    },
+    "B": {
+      "blockId": "gt5u.gtBlockcasings8.7"
+    }
+  },
+  "controller": {
+    "pos": [3, 1, 0],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus",
+    "itemOut": "gt.hatch.outputBus",
+    "energy": "gt.hatch.energy",
+    "maintenance": "gt.hatch.maintenance",
+    "muffler": "gt.hatch.muffler"
+  },
+  "shareableHatches": ["itemIn", "itemOut"],
+  "requiredHatches": {
+    "energy": {
+      "min": 1
+    },
+    "maintenance": {
+      "min": 1,
+      "max": 1
+    },
+    "muffler": {
+      "min": 1,
+      "max": 1
+    }
+  },
+  "defaultHatches": ["itemIn", "itemOut", "energy", "maintenance", "muffler"],
+  "wallshare": true,
+  "notes": "Generated from MTEIndustrialMolecularTransformer (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+}

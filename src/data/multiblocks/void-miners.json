@@ -1,0 +1,46 @@
+{
+  "id": "void-miners",
+  "name": "Void Miners",
+  "generated": true,
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/bwcrossmod/galacticgreg/MTEVoidMiners.java",
+  "size": [7, 9, 7],
+  "layers": [
+    ["  E E  ", " BBBBB ", "EB   BE", " B C B ", "EB   BE", " BBBBB ", "  E E  "],
+    ["  D D  ", " BA~AB ", " A   A ", " B C B ", " A   A ", " BABAB ", "       "],
+    ["       ", " B   B ", "  DAD  ", "  ACA  ", "  DAD  ", " B   B ", "       "],
+    ["       ", "       ", "   B   ", "  BCB  ", "   B   ", "       ", "       "],
+    ["       ", "       ", "   B   ", "  BCB  ", "   B   ", "       ", "       "],
+    ["       ", "       ", "   B   ", "  BCB  ", "   B   ", "       ", "       "],
+    ["       ", "       ", "       ", "   B   ", "       ", "       ", "       "],
+    ["       ", "       ", "       ", "   B   ", "       ", "       ", "       "],
+    ["       ", "       ", "       ", "   B   ", "       ", "       ", "       "]
+  ],
+  "legend": {
+    "B": {
+      "blockId": "gt5u.gtBlockcasings8.2"
+    },
+    "C": {
+      "blockId": "gt.frame.adamantium"
+    },
+    "D": {
+      "blockId": "gt5u.bWBlockCasingsAdvanced.31850"
+    },
+    "A": {
+      "blockId": "gt5u.gtBlockcasings11.7"
+    },
+    "E": {
+      "blockId": "gt5u.bWBlockCasings.31850"
+    }
+  },
+  "controller": {
+    "pos": [3, 1, 1],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {},
+  "shareableHatches": [],
+  "requiredHatches": {},
+  "defaultHatches": [],
+  "wallshare": true,
+  "notes": "Generated from MTEVoidMiners (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+}

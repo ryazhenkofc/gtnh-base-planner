@@ -1,0 +1,52 @@
+{
+  "id": "full-board-immersion-device",
+  "name": "Full-Board Immersion Device",
+  "generated": true,
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/nanochip/modules/MTEBoardProcessorModule.java",
+  "size": [10, 4, 7],
+  "layers": [
+    ["    B   B ", "   DDD DDD", "   D DDD D", "   D DAD D", "   D DDD D", "   DDD DDD", "    B   B "],
+    [" VVVVV  A ", "VPPPPPVDDD", "VPPPPPVD D", "VPPPPPVD D", "VPPPPPVD D", "VPPPPPVDDD", " VVVVV  A "],
+    ["    A   A ", " ZZZZZ CCC", " ZZZZZCCBC", " ZZZZZCCBC", " ZZZZZCCBC", " ZZZZZ CCC", "    A   A "],
+    [" VV~VV    ", "VPPPPPV A ", "VPPPPPVA  ", "VPPPPPV   ", "VPPPPPVA  ", "VPPPPPV A ", " VVVVV    "]
+  ],
+  "legend": {
+    "V": {
+      "blockId": "gt5u.gtBlockcasings12.1",
+      "hatches": ["itemIn", "fluidIn", "fluidOut"]
+    },
+    "A": {
+      "blockId": "gt.frame.octiron"
+    },
+    "B": {
+      "blockId": "gt5u.gtBlockcasings12.1"
+    },
+    "P": {
+      "blockId": "gt5u.gtBlockcasings12.1"
+    },
+    "Z": {
+      "blockId": "gt5u.gtBlockcasings12.2"
+    },
+    "C": {
+      "blockId": "gt5u.gtBlockcasings12.2"
+    },
+    "D": {
+      "blockId": "gt5u.gtBlockglass1.8"
+    }
+  },
+  "controller": {
+    "pos": [3, 3, 0],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus",
+    "fluidIn": "gt.hatch.inputHatch",
+    "fluidOut": "gt.hatch.outputHatch"
+  },
+  "shareableHatches": ["itemIn", "fluidIn", "fluidOut"],
+  "requiredHatches": {},
+  "defaultHatches": ["itemIn"],
+  "wallshare": true,
+  "notes": "Generated from MTEBoardProcessorModule (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+}

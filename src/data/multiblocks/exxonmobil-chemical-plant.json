@@ -1,0 +1,53 @@
+{
+  "id": "exxonmobil-chemical-plant",
+  "name": "ExxonMobil Chemical Plant",
+  "generated": true,
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gtPlusPlus/xmod/gregtech/common/tileentities/machines/multi/production/chemplant/MTEChemicalPlant.java",
+  "size": [7, 7, 7],
+  "layers": [
+    ["CCC~CCC", "CMMMMMC", "CMMMMMC", "CMMMMMC", "CMMMMMC", "CMMMMMC", "CCCCCCC"],
+    ["C     C", " MMMMM ", " MHHHM ", " MHHHM ", " MHHHM ", " MMMMM ", "C     C"],
+    ["C     C", "       ", "  PPP  ", "  PPP  ", "  PPP  ", "       ", "C     C"],
+    ["C     C", "       ", "  HHH  ", "  HHH  ", "  HHH  ", "       ", "C     C"],
+    ["C     C", "       ", "  PPP  ", "  PPP  ", "  PPP  ", "       ", "C     C"],
+    ["C     C", " MMMMM ", " MHHHM ", " MHHHM ", " MHHHM ", " MMMMM ", "C     C"],
+    ["CCCCCCC", "CCCCCCC", "CCCCCCC", "CCCCCCC", "CCCCCCC", "CCCCCCC", "CCCCCCC"]
+  ],
+  "legend": {
+    "C": {
+      "blockId": "gt5u.specialHatch",
+      "hatches": ["itemIn", "itemOut", "fluidIn", "fluidOut", "maintenance"]
+    },
+    "M": {
+      "blockId": "gt5u.gtBlockcasings.0"
+    },
+    "H": {
+      "blockId": "gt.coil.cupronickel"
+    },
+    "P": {
+      "blockId": "gt.casing.solidSteel"
+    }
+  },
+  "controller": {
+    "pos": [3, 0, 0],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus",
+    "itemOut": "gt.hatch.outputBus",
+    "fluidIn": "gt.hatch.inputHatch",
+    "fluidOut": "gt.hatch.outputHatch",
+    "maintenance": "gt.hatch.maintenance"
+  },
+  "shareableHatches": ["itemIn", "itemOut", "fluidIn", "fluidOut"],
+  "requiredHatches": {
+    "maintenance": {
+      "min": 1,
+      "max": 1
+    }
+  },
+  "defaultHatches": ["itemIn", "itemOut", "maintenance"],
+  "wallshare": true,
+  "notes": "Generated from MTEChemicalPlant (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+}

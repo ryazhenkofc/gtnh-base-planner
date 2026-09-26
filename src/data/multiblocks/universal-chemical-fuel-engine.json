@@ -1,0 +1,167 @@
+{
+  "id": "universal-chemical-fuel-engine",
+  "name": "Universal Chemical Fuel Engine",
+  "generated": true,
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTEUniversalChemicalFuelEngine.java",
+  "size": [7, 7, 13],
+  "layers": [
+    [
+      "       ",
+      "  FEF  ",
+      "  EEE  ",
+      "  FEF  ",
+      "  EEE  ",
+      "  FEF  ",
+      "  EEE  ",
+      "  FEF  ",
+      "  EEE  ",
+      "  FEF  ",
+      "  EEE  ",
+      "  FEF  ",
+      "       "
+    ],
+    [
+      "  BBB  ",
+      " FBBBF ",
+      "  CBC  ",
+      " FBBBF ",
+      "  CBC  ",
+      " FBBBF ",
+      "  CBC  ",
+      " FBBBF ",
+      "  CBC  ",
+      " FBBBF ",
+      "  CBC  ",
+      " FBBBF ",
+      "  BBB  "
+    ],
+    [
+      "  B~B  ",
+      " EB BE ",
+      "  B B  ",
+      " EB BE ",
+      "  B B  ",
+      " EB BE ",
+      "  B B  ",
+      " EB BE ",
+      "  B B  ",
+      " EB BE ",
+      "  B B  ",
+      " EB BE ",
+      "  BGB  "
+    ],
+    [
+      "  BBB  ",
+      " FBBBF ",
+      "  BBB  ",
+      " FBBBF ",
+      "  BBB  ",
+      " FBBBF ",
+      "  BBB  ",
+      " FBBBF ",
+      "  BBB  ",
+      " FBBBF ",
+      "  BBB  ",
+      " FBBBF ",
+      "  BBB  "
+    ],
+    [
+      "       ",
+      "FAFEFAF",
+      " D   D ",
+      "FAFEFAF",
+      " D   D ",
+      "FAFEFAF",
+      " D   D ",
+      "FAFEFAF",
+      " D   D ",
+      "FAFEFAF",
+      " D   D ",
+      "FAFEFAF",
+      "       "
+    ],
+    [
+      "       ",
+      "FB   BF",
+      " D   D ",
+      "FB   BF",
+      " D   D ",
+      "FB   BF",
+      " D   D ",
+      "FB   BF",
+      " D   D ",
+      "FB   BF",
+      " D   D ",
+      "FB   BF",
+      "       "
+    ],
+    [
+      "       ",
+      "B     B",
+      "       ",
+      "B     B",
+      "       ",
+      "B     B",
+      "       ",
+      "B     B",
+      "       ",
+      "B     B",
+      "       ",
+      "B     B",
+      "       "
+    ]
+  ],
+  "legend": {
+    "B": {
+      "blockId": "gt.casing.stableTitanium",
+      "hatches": ["fluidIn", "maintenance", "muffler"]
+    },
+    "F": {
+      "blockId": "gt.frame.ptfe"
+    },
+    "A": {
+      "blockId": "gt.casing.titaniumPipe"
+    },
+    "E": {
+      "blockId": "gt.casing.chemicallyInert"
+    },
+    "D": {
+      "blockId": "gt.casing.engineIntake"
+    },
+    "C": {
+      "blockId": "gt.casing.titaniumFirebox"
+    },
+    "G": {
+      "blockId": "gt.hatch.dynamo",
+      "hatches": ["dynamo"]
+    }
+  },
+  "controller": {
+    "pos": [3, 2, 0],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "fluidIn": "gt.hatch.inputHatch",
+    "dynamo": "gt.hatch.dynamo",
+    "maintenance": "gt.hatch.maintenance",
+    "muffler": "gt.hatch.muffler"
+  },
+  "shareableHatches": ["fluidIn"],
+  "requiredHatches": {
+    "dynamo": {
+      "min": 1
+    },
+    "maintenance": {
+      "min": 1,
+      "max": 1
+    },
+    "muffler": {
+      "min": 1,
+      "max": 1
+    }
+  },
+  "defaultHatches": ["fluidIn", "dynamo", "maintenance", "muffler"],
+  "wallshare": true,
+  "notes": "Generated from MTEUniversalChemicalFuelEngine (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+}

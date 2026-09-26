@@ -1,0 +1,59 @@
+{
+  "id": "neutron-activator",
+  "name": "Neutron Activator",
+  "generated": true,
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/goodgenerator/blocks/tileEntity/MTENeutronActivator.java",
+  "size": [5, 6, 5],
+  "layers": [
+    ["XX~XX", "XDDDX", "XDDDX", "XDDDX", "XXXXX"],
+    ["F   F", " GGG ", " GPG ", " GGG ", "F   F"],
+    ["F   F", " GGG ", " GPG ", " GGG ", "F   F"],
+    ["F   F", " GGG ", " GPG ", " GGG ", "F   F"],
+    ["F   F", " GGG ", " GPG ", " GGG ", "F   F"],
+    ["CCCCC", "CDDDC", "CDDDC", "CDDDC", "CCCCC"]
+  ],
+  "legend": {
+    "C": {
+      "blockId": "gt.casing.cleanStainless",
+      "hatches": ["itemIn", "fluidIn", "maintenance"]
+    },
+    "F": {
+      "blockId": "gt.frame.steel"
+    },
+    "X": {
+      "blockId": "gt.casing.cleanStainless",
+      "hatches": ["itemOut", "fluidOut", "maintenance"]
+    },
+    "D": {
+      "blockId": "gt5u.gtBlockcasings2.6"
+    },
+    "G": {
+      "blockId": "gt.glass.reinforced"
+    },
+    "P": {
+      "blockId": "gt5u.speedingPipe.0"
+    }
+  },
+  "controller": {
+    "pos": [2, 0, 0],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus",
+    "itemOut": "gt.hatch.outputBus",
+    "fluidIn": "gt.hatch.inputHatch",
+    "fluidOut": "gt.hatch.outputHatch",
+    "maintenance": "gt.hatch.maintenance"
+  },
+  "shareableHatches": ["itemIn", "itemOut", "fluidIn", "fluidOut"],
+  "requiredHatches": {
+    "maintenance": {
+      "min": 1,
+      "max": 1
+    }
+  },
+  "defaultHatches": ["itemIn", "itemOut", "maintenance"],
+  "wallshare": true,
+  "notes": "Generated from MTENeutronActivator (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+}

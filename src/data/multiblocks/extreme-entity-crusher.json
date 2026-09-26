@@ -1,0 +1,59 @@
+{
+  "id": "extreme-entity-crusher",
+  "name": "Extreme Entity Crusher",
+  "generated": true,
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/kubatech/tileentity/gregtech/multiblock/MTEExtremeEntityCrusher.java",
+  "size": [5, 7, 5],
+  "layers": [
+    ["CC~CC", "CCCCC", "CCCCC", "CCCCC", "CCCCC"],
+    ["fgggf", "gsssg", "gsssg", "gsssg", "fgggf"],
+    ["fgggf", "g---g", "g---g", "g---g", "fgggf"],
+    ["fgggf", "g---g", "g---g", "g---g", "fgggf"],
+    ["fgggf", "g---g", "g---g", "g---g", "fgggf"],
+    ["fgggf", "g---g", "g---g", "g---g", "fgggf"],
+    ["ccccc", "ccccc", "ccccc", "ccccc", "ccccc"]
+  ],
+  "legend": {
+    "c": {
+      "blockId": "gt.casing.solidSteel"
+    },
+    "f": {
+      "blockId": "gt.frame.steel"
+    },
+    "g": {
+      "blockId": "gt.glass.reinforced"
+    },
+    "s": {
+      "blockId": "ext.extraUtilitiesSpikeBaseDiamond"
+    },
+    "C": {
+      "blockId": "gt.casing.solidSteel",
+      "hatches": ["itemIn", "itemOut", "fluidOut", "energy", "maintenance"]
+    }
+  },
+  "controller": {
+    "pos": [2, 0, 0],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus",
+    "itemOut": "gt.hatch.outputBus",
+    "fluidOut": "gt.hatch.outputHatch",
+    "energy": "gt.hatch.energy",
+    "maintenance": "gt.hatch.maintenance"
+  },
+  "shareableHatches": ["itemIn", "itemOut", "fluidOut"],
+  "requiredHatches": {
+    "energy": {
+      "min": 1
+    },
+    "maintenance": {
+      "min": 1,
+      "max": 1
+    }
+  },
+  "defaultHatches": ["itemIn", "itemOut", "energy", "maintenance"],
+  "wallshare": true,
+  "notes": "Generated from MTEExtremeEntityCrusher (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+}

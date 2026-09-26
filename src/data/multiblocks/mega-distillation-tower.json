@@ -1,0 +1,419 @@
+{
+  "id": "mega-distillation-tower",
+  "name": "Mega Distillation Tower",
+  "generated": true,
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTEMegaDistillationTower.java",
+  "size": [15, 30, 9],
+  "layers": [
+    [
+      " GEEG111GE111E ",
+      " EEEEE1EEEE1EE ",
+      "EEEEEE1EEEE1EEE",
+      "1EEEEE1EEEE1EE1",
+      "111111111111111",
+      "1EEEEE1EEEE1EE1",
+      "EEEEEE1EEEE1EEE",
+      " EEEEE1EEEE1EE ",
+      " GEEG111GE111E "
+    ],
+    [
+      " GEEG111GEGGGE ",
+      " E  C   C  D E ",
+      "EE           EE",
+      "G   C   C     G",
+      "G             G",
+      "G   C   C     G",
+      "EE         D EE",
+      " E  C   C    E ",
+      " GEEG111GEGGGE "
+    ],
+    [
+      " G11G1~1G1GGG1 ",
+      " 1  CCCCC  D 1 ",
+      "11         D 11",
+      "G   CCCCC  D  G",
+      "G          DD G",
+      "G   CCCCC  D  G",
+      "11         D 11",
+      " 1  CCCCC    1 ",
+      " G11G111G1GGG1 "
+    ],
+    [
+      " GEEG111GEGGGE ",
+      " E         D E ",
+      "EE           EE",
+      "G             G",
+      "G           D G",
+      "G             G",
+      "EE           EE",
+      " E           E ",
+      " GEEG111GEGGGE "
+    ],
+    [
+      "  EEG111GE111  ",
+      " EEEE   EEEDEE ",
+      "EEEE     EEEEEE",
+      "1EE       EEBE1",
+      "111       1BDB1",
+      "1EE       EEBE1",
+      "EEEE     EE1EEE",
+      " EEEE   EEE1EE ",
+      "  EEG111GE111  "
+    ],
+    [
+      "     GGG   G   ",
+      "    GEAEG GDG  ",
+      " F GE   EGEGEF ",
+      " FGE     EGEBE ",
+      " FAA     AGBDB ",
+      " FGE     EGEBE ",
+      " F GE   EG   F ",
+      "    GEAEG      ",
+      "     GGG       "
+    ],
+    [
+      "               ",
+      "     EAE   D   ",
+      " F  E   E    F ",
+      "7  E     E  B B",
+      "7HHHHHH  A BDBB",
+      "7  E     E  B B",
+      " F  E   E    F ",
+      "     EAE       ",
+      "               "
+    ],
+    [
+      "               ",
+      "     GGG   D   ",
+      " F  G   G    F ",
+      "7HHHHHH  G  BBB",
+      "3CCCCCCH G BDD2",
+      "7HHHHHH  G  BBB",
+      " F  G   G    F ",
+      "     GGG       ",
+      "               "
+    ],
+    [
+      "               ",
+      "     EAE DDD   ",
+      " F  E   E    F ",
+      "7  E  H  E  B B",
+      "7HHHHHCH A BDBB",
+      "7  E  H  E  B B",
+      " F  E   E    F ",
+      "     EAE       ",
+      "               "
+    ],
+    [
+      "               ",
+      "     EAE D     ",
+      " F  E   E    F ",
+      " F E  H  E  BF ",
+      " FFA HCH A BDB ",
+      " F E  H  E  BF ",
+      " F  E   E    F ",
+      "     EAE       ",
+      "               "
+    ],
+    [
+      "               ",
+      "     GGG D     ",
+      "    G   G      ",
+      "   G  H  G  B  ",
+      "   G HCH G BDB ",
+      "   G  H  G  B  ",
+      "    G   G      ",
+      "     GGG       ",
+      "               "
+    ],
+    [
+      "        FFF    ",
+      "     EAEFDF    ",
+      "    E F EFFFFF ",
+      "   E  H  EFFBFF",
+      "   AFHCHFAFBDBF",
+      "   E  H  EFFBFF",
+      "    E F E  FFF ",
+      "     EAE       ",
+      "               "
+    ],
+    [
+      "               ",
+      "     EAE D     ",
+      "    E   E      ",
+      "   E  H  E  H  ",
+      "   A HCH A HCHH",
+      "   E  H  E  H  ",
+      "    E   E      ",
+      "     EAE       ",
+      "               "
+    ],
+    [
+      "               ",
+      "     GGG D     ",
+      "    G   G      ",
+      "   G  H  G  HHH",
+      "   G HCH G HCC4",
+      "   G  H  G  HHH",
+      "    G   G      ",
+      "     GGG       ",
+      "               "
+    ],
+    [
+      "               ",
+      "     EAE D     ",
+      "    E   E      ",
+      "   E  H  E  H  ",
+      "   A HCH A HCHH",
+      "   E  H  E  H  ",
+      "    E   E      ",
+      "     EAE       ",
+      "               "
+    ],
+    [
+      "               ",
+      "     EAE D     ",
+      "    E   E      ",
+      "   E  H  E  HHH",
+      "   A HCH A HCC5",
+      "   E  H  E  HHH",
+      "    E   E      ",
+      "     EAE       ",
+      "               "
+    ],
+    [
+      "               ",
+      "     GGG D     ",
+      "    G   G      ",
+      "   G  H  G  H  ",
+      "   G HCH G HCHH",
+      "   G  H  G  H  ",
+      "    G   G      ",
+      "     GGG       ",
+      "               "
+    ],
+    [
+      "        FFF    ",
+      "     EAEFDF    ",
+      "    E F EFFFFF ",
+      "   E  H  EFFHFF",
+      "   AFHCHFAFHCHF",
+      "   E  H  EFFHFF",
+      "    E F E  FFF ",
+      "     EAE       ",
+      "               "
+    ],
+    [
+      "               ",
+      "     EAE D     ",
+      "    E   E      ",
+      "   E  H  E  H  ",
+      "   A HCH A HCHH",
+      "   E  H  E  H  ",
+      "    E   E      ",
+      "     EAE       ",
+      "               "
+    ],
+    [
+      "      DDDD     ",
+      "     GDG D     ",
+      "    G   G      ",
+      "   G  H  G  HHH",
+      "   G HCH G HCC6",
+      "   G  H  G  HHH",
+      "    G   G      ",
+      "     GGG       ",
+      "               "
+    ],
+    [
+      "               ",
+      "     EAE       ",
+      "    E   E      ",
+      "   E  H  E  H  ",
+      "   A HCH A HCHH",
+      "   E  H  E  H  ",
+      "    E   E      ",
+      "     EAE       ",
+      "               "
+    ],
+    [
+      "               ",
+      "     EAE       ",
+      "    E   E      ",
+      "   E  H  E  H  ",
+      "   A HCH A HCH ",
+      "   E  H  E  H  ",
+      "    E   E      ",
+      "     EAE       ",
+      "               "
+    ],
+    [
+      "               ",
+      "     GGG       ",
+      "    G   G      ",
+      "   G  H  G  H  ",
+      "   G HCH G HCH ",
+      "   G  H  G  H  ",
+      "    G   G      ",
+      "     GGG       ",
+      "               "
+    ],
+    [
+      "               ",
+      "     EAE       ",
+      "    EEEEE  FFF ",
+      "   EE H EEFFHFF",
+      "   AEHCHEAFHCHF",
+      "   EE H EEFFHFF",
+      "    EEEEE  FFF ",
+      "     EAE       ",
+      "               "
+    ],
+    [
+      "               ",
+      "      A        ",
+      "     EEE       ",
+      "    EEHEE   H  ",
+      "   AEHCHEA HCH ",
+      "    EEHEE   H  ",
+      "     EEE       ",
+      "      A        ",
+      "               "
+    ],
+    [
+      "               ",
+      "               ",
+      "      A        ",
+      "     AHA    H  ",
+      "    AHCHA  HCH ",
+      "     AHA    H  ",
+      "      A        ",
+      "               ",
+      "               "
+    ],
+    [
+      "               ",
+      "               ",
+      "               ",
+      "      H     H  ",
+      "     HCH   HCH ",
+      "      H     H  ",
+      "               ",
+      "               ",
+      "               "
+    ],
+    [
+      "               ",
+      "               ",
+      "               ",
+      "      H     H  ",
+      "     HCHHHHHCH ",
+      "      H     H  ",
+      "               ",
+      "               ",
+      "               "
+    ],
+    [
+      "               ",
+      "               ",
+      "               ",
+      "      HHHHHHH  ",
+      "     HCCCCCCCH ",
+      "      HHHHHHH  ",
+      "               ",
+      "               ",
+      "               "
+    ],
+    [
+      "               ",
+      "               ",
+      "               ",
+      "               ",
+      "      HHHHHHH  ",
+      "               ",
+      "               ",
+      "               ",
+      "               "
+    ]
+  ],
+  "legend": {
+    "1": {
+      "blockId": "gt5u.gtBlockcasings14.5",
+      "hatches": ["itemIn", "energy", "maintenance"]
+    },
+    "2": {
+      "blockId": "gt.casing.steelPipe",
+      "hatches": ["itemOut"]
+    },
+    "3": {
+      "blockId": "gt.casing.bronzePipe",
+      "hatches": ["fluidIn"]
+    },
+    "4": {
+      "blockId": "gt.casing.bronzePipe",
+      "hatches": ["fluidOut"]
+    },
+    "5": {
+      "blockId": "gt.casing.bronzePipe",
+      "hatches": ["fluidOut"]
+    },
+    "6": {
+      "blockId": "gt.casing.bronzePipe",
+      "hatches": ["fluidOut"]
+    },
+    "7": {
+      "blockId": "gt.casing.bronzePlated",
+      "hatches": ["fluidIn"]
+    },
+    "D": {
+      "blockId": "gt.casing.steelPipe"
+    },
+    "F": {
+      "blockId": "gt.frame.stainless"
+    },
+    "G": {
+      "blockId": "gt.sheetmetal.naquadah"
+    },
+    "E": {
+      "blockId": "gt.casing.cleanStainless"
+    },
+    "A": {
+      "blockId": "gt5u.gtBlockcasings14.5"
+    },
+    "C": {
+      "blockId": "gt.casing.bronzePipe"
+    },
+    "H": {
+      "blockId": "gt.casing.bronzePlated"
+    },
+    "B": {
+      "blockId": "gt.casing.solidSteel"
+    }
+  },
+  "controller": {
+    "pos": [6, 2, 0],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus",
+    "itemOut": "gt.hatch.outputBus",
+    "fluidIn": "gt.hatch.inputHatch",
+    "fluidOut": "gt.hatch.outputHatch",
+    "energy": "gt.hatch.energy",
+    "maintenance": "gt.hatch.maintenance"
+  },
+  "shareableHatches": ["itemIn", "itemOut", "fluidIn", "fluidOut"],
+  "requiredHatches": {
+    "energy": {
+      "min": 1
+    },
+    "maintenance": {
+      "min": 1,
+      "max": 1
+    }
+  },
+  "defaultHatches": ["itemIn", "itemOut", "energy", "maintenance"],
+  "wallshare": true,
+  "notes": "Generated from MTEMegaDistillationTower (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+}

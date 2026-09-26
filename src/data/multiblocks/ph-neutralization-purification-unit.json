@@ -1,0 +1,62 @@
+{
+  "id": "ph-neutralization-purification-unit",
+  "name": "pH Neutralization Purification Unit",
+  "generated": true,
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/purification/MTEPurificationUnitPhAdjustment.java",
+  "size": [15, 6, 5],
+  "layers": [
+    ["EAAAE     EAAAE", "AAAAA     AAAAA", "AAAAABRBRBAAAAA", "AAAAA     AAAAA", "EAAAE     EAAAE"],
+    ["EAGAE     EAHAE", "A   ABB~BBA   A", "G             H", "A   AIIIIIA   A", "EAGAE     EAHAE"],
+    ["EAGAE     EAHAE", "A   A     A   A", "G   ABBBBBA   H", "A   A     A   A", "EAGAE     EAHAE"],
+    ["EAGAE     EAHAE", "A   A     A   A", "G   A     A   H", "A   A     A   A", "EAGAE     EAHAE"],
+    ["EAAAE     EAAAE", "A   A     A   A", "A   A     A   A", "A   A     A   A", "EAAAE     EAAAE"],
+    ["E   E     E   E", " AAA       AAA ", " AXA       AYA ", " AAA       AAA ", "E   E     E   E"]
+  ],
+  "legend": {
+    "E": {
+      "blockId": "gt.frame.naquadahAlloy"
+    },
+    "A": {
+      "blockId": "gt5u.gtBlockcasings9.8"
+    },
+    "G": {
+      "blockId": "gt.glass.reinforced"
+    },
+    "H": {
+      "blockId": "gt.glass.reinforced"
+    },
+    "B": {
+      "blockId": "gt5u.gtBlockcasings9.7"
+    },
+    "X": {
+      "blockId": "gt.hatch.inputBus",
+      "hatches": ["itemIn"]
+    },
+    "Y": {
+      "blockId": "gt.hatch.inputHatch",
+      "hatches": ["fluidIn"]
+    },
+    "R": {
+      "blockId": "gt5u.specialHatch"
+    },
+    "I": {
+      "blockId": "gt5u.gtBlockcasings9.7",
+      "hatches": ["fluidIn", "fluidOut"]
+    }
+  },
+  "controller": {
+    "pos": [7, 1, 1],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus",
+    "fluidIn": "gt.hatch.inputHatch",
+    "fluidOut": "gt.hatch.outputHatch"
+  },
+  "shareableHatches": ["itemIn", "fluidIn", "fluidOut"],
+  "requiredHatches": {},
+  "defaultHatches": ["itemIn"],
+  "wallshare": true,
+  "notes": "Generated from MTEPurificationUnitPhAdjustment (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+}

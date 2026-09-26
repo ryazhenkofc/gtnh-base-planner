@@ -37,7 +37,10 @@ test('top bar, picker, count, settings and view mode', async ({ page }) => {
   const picker = page.getByTestId('picker');
   await expect(picker).toBeVisible();
   await page.screenshot({ path: 'e2e/screenshots/ui-picker.png' });
-  await picker.getByTestId('picker-item').filter({ hasText: 'Coke Oven' }).click();
+  await picker
+    .getByTestId('picker-item')
+    .filter({ has: page.getByText('Coke Oven', { exact: true }) })
+    .click();
   await expect(picker).toBeHidden();
   await expect(name).toHaveText(/coke oven/i);
 

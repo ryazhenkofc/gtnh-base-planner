@@ -3,116 +3,361 @@
   "atlas": {
     "path": "textures/atlas.png",
     "width": 256,
-    "height": 112,
+    "height": 320,
     "tile": 16
   },
   "tiles": {
-    "COKE_OVEN_CASING": [0, 0, 16, 16],
-    "COKE_OVEN_OVERLAY_INACTIVE": [16, 0, 16, 16],
-    "MACHINE_HEATPROOFCASING": [32, 0, 16, 16],
-    "MACHINE_CASING_FROST_PROOF": [48, 0, 16, 16],
-    "MACHINE_CASING_SOLID_STEEL": [64, 0, 16, 16],
-    "MACHINE_CASING_CLEAN_STAINLESSSTEEL": [80, 0, 16, 16],
-    "MACHINE_CASING_STABLE_TITANIUM": [96, 0, 16, 16],
-    "MACHINE_CASING_ROBUST_TUNGSTENSTEEL": [112, 0, 16, 16],
-    "MACHINE_CASING_CHEMICALLY_INERT": [128, 0, 16, 16],
-    "MACHINE_CASING_PIPE_POLYTETRAFLUOROETHYLENE": [144, 0, 16, 16],
-    "MACHINE_CASING_PIPE_BRONZE": [160, 0, 16, 16],
-    "MACHINE_CASING_PIPE_STEEL": [176, 0, 16, 16],
-    "MACHINE_CASING_PIPE_TITANIUM": [192, 0, 16, 16],
-    "MACHINE_CASING_PIPE_TUNGSTENSTEEL": [208, 0, 16, 16],
-    "MACHINE_CASING_GEARBOX_BRONZE": [224, 0, 16, 16],
-    "MACHINE_CASING_GEARBOX_STEEL": [240, 0, 16, 16],
-    "MACHINE_CASING_GEARBOX_TITANIUM": [0, 16, 16, 16],
-    "MACHINE_CASING_GEARBOX_TUNGSTENSTEEL": [16, 16, 16, 16],
-    "MACHINE_BRONZEPLATEDBRICKS": [32, 16, 16, 16],
-    "MACHINE_CASING_DENSEBRICKS": [48, 16, 16, 16],
-    "MACHINE_CASING_BRICKEDBLASTFURNACE_INACTIVE": [64, 16, 16, 16],
-    "MACHINE_CASING_ITEM_PIPE_TIN": [80, 16, 16, 16],
-    "CASING_REINFORCED_WOOD": [96, 16, 16, 16],
-    "CASING_REINFORCED_WOOD_TOP": [112, 16, 16, 16],
-    "MACHINE_CASING_FIREBOX_BRONZE": [128, 16, 16, 16],
-    "MACHINE_CASING_FIREBOX_BRONZE_TOP": [144, 16, 16, 16],
-    "MACHINE_CASING_FIREBOX_STEEL": [160, 16, 16, 16],
-    "MACHINE_CASING_FIREBOX_STEEL_TOP": [176, 16, 16, 16],
-    "MACHINE_CASING_FIREBOX_TITANIUM": [192, 16, 16, 16],
-    "MACHINE_CASING_FIREBOX_TITANIUM_TOP": [208, 16, 16, 16],
-    "MACHINE_CASING_FIREBOX_TUNGSTENSTEEL": [224, 16, 16, 16],
-    "MACHINE_CASING_FIREBOX_TUNGSTENSTEEL_TOP": [240, 16, 16, 16],
-    "MACHINE_ULV_SIDE": [0, 32, 16, 16],
-    "MACHINE_ULV_TOP": [16, 32, 16, 16],
-    "MACHINE_ULV_BOTTOM": [32, 32, 16, 16],
-    "MACHINE_LV_SIDE": [48, 32, 16, 16],
-    "MACHINE_LV_TOP": [64, 32, 16, 16],
-    "MACHINE_LV_BOTTOM": [80, 32, 16, 16],
-    "MACHINE_MV_SIDE": [96, 32, 16, 16],
-    "MACHINE_MV_TOP": [112, 32, 16, 16],
-    "MACHINE_MV_BOTTOM": [128, 32, 16, 16],
-    "MACHINE_HV_SIDE": [144, 32, 16, 16],
-    "MACHINE_HV_TOP": [160, 32, 16, 16],
-    "MACHINE_HV_BOTTOM": [176, 32, 16, 16],
-    "MACHINE_EV_SIDE": [192, 32, 16, 16],
-    "MACHINE_EV_TOP": [208, 32, 16, 16],
-    "MACHINE_EV_BOTTOM": [224, 32, 16, 16],
-    "MACHINE_COIL_CUPRONICKEL": [240, 32, 16, 16],
-    "MACHINE_COIL_KANTHAL": [0, 48, 16, 16],
-    "MACHINE_COIL_NICHROME": [16, 48, 16, 16],
-    "MACHINE_COIL_TUNGSTENSTEEL": [32, 48, 16, 16],
-    "MACHINE_COIL_HSSG": [48, 48, 16, 16],
-    "MACHINE_COIL_HSSS": [64, 48, 16, 16],
-    "MACHINE_COIL_NAQUADAH": [80, 48, 16, 16],
-    "MACHINE_COIL_NAQUADAHALLOY": [96, 48, 16, 16],
-    "REINFORCED_GLASS": [112, 48, 16, 16],
-    "FRAME_STEEL": [128, 48, 16, 16],
-    "MACHINE_CASING_TURBINE_STEEL": [144, 48, 16, 16],
-    "MACHINE_CASING_TURBINE_STAINLESSSTEEL": [160, 48, 16, 16],
-    "MACHINE_CASING_TURBINE_TITANIUM": [176, 48, 16, 16],
-    "MACHINE_CASING_TURBINE_TUNGSTENSTEEL": [192, 48, 16, 16],
-    "MACHINE_CASING_PIPE_POLYBENZIMIDAZOLE": [208, 48, 16, 16],
-    "MACHINE_CASING_ENGINE_INTAKE": [224, 48, 16, 16],
-    "MACHINE_CASING_EXTREME_ENGINE_INTAKE": [240, 48, 16, 16],
-    "MACHINE_CASING_GRATE": [0, 64, 16, 16],
-    "MACHINE_CASING_ASSEMBLER": [16, 64, 16, 16],
-    "MACHINE_CASING_AUTOCLAVE": [32, 64, 16, 16],
-    "SC_TURBINE_CASING": [48, 64, 16, 16],
-    "FRAME_BRONZE": [64, 64, 16, 16],
-    "FRAME_IRON": [80, 64, 16, 16],
-    "FRAME_STAINLESSSTEEL": [96, 64, 16, 16],
-    "FRAME_TITANIUM": [112, 64, 16, 16],
-    "FRAME_POLYBENZIMIDAZOLE": [128, 64, 16, 16],
-    "FRAME_TUNGSTENSTEEL": [144, 64, 16, 16],
-    "FRAME_POLYTETRAFLUOROETHYLENE": [160, 64, 16, 16],
-    "FRAME_BLACKSTEEL": [176, 64, 16, 16],
-    "OVERLAY_FRONT_ELECTRIC_BLAST_FURNACE": [192, 64, 16, 16],
-    "OVERLAY_FRONT_VACUUM_FREEZER": [208, 64, 16, 16],
-    "OVERLAY_FRONT_IMPLOSION_COMPRESSOR": [224, 64, 16, 16],
-    "OVERLAY_FRONT_DISTILLATION_TOWER": [240, 64, 16, 16],
-    "OVERLAY_FRONT_MULTI_SMELTER": [0, 80, 16, 16],
-    "OVERLAY_FRONT_OIL_CRACKER": [16, 80, 16, 16],
-    "OVERLAY_FRONT_LARGE_BOILER": [32, 80, 16, 16],
-    "OVERLAY_FRONT_PYROLYSE_OVEN": [48, 80, 16, 16],
-    "OVERLAY_FRONT_LARGE_CHEMICAL_REACTOR": [64, 80, 16, 16],
-    "OVERLAY_PIPE_IN": [80, 80, 16, 16],
-    "OVERLAY_PIPE_OUT": [96, 80, 16, 16],
-    "ITEM_IN_SIGN": [112, 80, 16, 16],
-    "ITEM_OUT_SIGN": [128, 80, 16, 16],
-    "FLUID_IN_SIGN": [144, 80, 16, 16],
-    "FLUID_OUT_SIGN": [160, 80, 16, 16],
-    "OVERLAY_ENERGY_IN_LV": [176, 80, 16, 16],
-    "OVERLAY_ENERGY_OUT_LV": [192, 80, 16, 16],
-    "OVERLAY_MAINTENANCE": [208, 80, 16, 16],
-    "OVERLAY_MUFFLER": [224, 80, 16, 16],
-    "MACHINE_CASING_CENTRIFUGE": [240, 80, 16, 16],
-    "LARGE_SIEVE_GRATE": [0, 96, 16, 16],
-    "FRAME_EGLINSTEEL": [16, 96, 16, 16],
-    "HV_SIDE_CYCLOTRON_SOLENOID": [32, 96, 16, 16],
-    "HV_TOP_CYCLOTRON_SOLENOID": [48, 96, 16, 16],
-    "MACHINE_CASING_STRIPES_A": [64, 96, 16, 16],
-    "OVERLAY_SCHEST": [80, 96, 16, 16],
-    "OVERLAY_STANK": [96, 96, 16, 16],
-    "OVERLAY_ENERGY_OUT": [112, 96, 16, 16]
+    "FRAME_ADAMANTIUM": [0, 0, 16, 16],
+    "FRAME_AQUATICSTEEL": [16, 0, 16, 16],
+    "FRAME_BEDROCKIUM": [32, 0, 16, 16],
+    "FRAME_CALLISTOICE": [48, 0, 16, 16],
+    "FRAME_DAMASCUSSTEEL": [64, 0, 16, 16],
+    "FRAME_DRACONIUMAWAKENED": [80, 0, 16, 16],
+    "FRAME_DURANIUM": [96, 0, 16, 16],
+    "FRAME_ENRICHEDHOLMIUM": [112, 0, 16, 16],
+    "FRAME_GOLD": [128, 0, 16, 16],
+    "FRAME_HSSS": [144, 0, 16, 16],
+    "FRAME_INCONEL690": [160, 0, 16, 16],
+    "FRAME_INFINITY": [176, 0, 16, 16],
+    "FRAME_INFINITYCATALYST": [192, 0, 16, 16],
+    "FRAME_IRIDIUM": [208, 0, 16, 16],
+    "FRAME_KEVLAR": [224, 0, 16, 16],
+    "FRAME_LEAGRISIUM": [240, 0, 16, 16],
+    "FRAME_MARAGING350": [0, 16, 16, 16],
+    "FRAME_NAQUADAH": [16, 16, 16, 16],
+    "FRAME_NAQUADAHALLOY": [32, 16, 16, 16],
+    "FRAME_NAQUADRIA": [48, 16, 16, 16],
+    "FRAME_NEODYMIUMMAGNETIC": [64, 16, 16, 16],
+    "FRAME_NEUTRONIUM": [80, 16, 16, 16],
+    "FRAME_OCTIRON": [96, 16, 16, 16],
+    "FRAME_OSMIRIDIUM": [112, 16, 16, 16],
+    "FRAME_PIKYONIUM": [128, 16, 16, 16],
+    "FRAME_POLYVINYLCHLORIDE": [144, 16, 16, 16],
+    "FRAME_POTIN": [160, 16, 16, 16],
+    "FRAME_PRISMATICNAQUADAH": [176, 16, 16, 16],
+    "FRAME_QUANTIUM": [192, 16, 16, 16],
+    "FRAME_RADOXPOLYMER": [208, 16, 16, 16],
+    "FRAME_REDSTEEL": [224, 16, 16, 16],
+    "FRAME_STABALLOY": [240, 16, 16, 16],
+    "FRAME_STELLARALLOY": [0, 32, 16, 16],
+    "FRAME_SUPERCONDUCTORUHVBASE": [16, 32, 16, 16],
+    "FRAME_SUPERCONDUCTORZPMBASE": [32, 32, 16, 16],
+    "FRAME_TANTALUMCARBIDE": [48, 32, 16, 16],
+    "FRAME_TUNGSTEN": [64, 32, 16, 16],
+    "FRAME_TUNGSTENCARBIDE": [80, 32, 16, 16],
+    "FRAME_VIBRANTALLOY": [96, 32, 16, 16],
+    "MISCUTILS_MACHINE_CASING_STABLE_RED_STEEL": [112, 32, 16, 16],
+    "MISCUTILS_MACHINE_CASING_STABLE_HASTELLOY_X": [128, 32, 16, 16],
+    "MACHINE_CASING_RADIATIONPROOF": [144, 32, 16, 16],
+    "MISCUTILS_MACHINE_CASING_STABLE_TANTALLOY61": [160, 32, 16, 16],
+    "MISCUTILS_MACHINE_TOP": [176, 32, 16, 16],
+    "CUTTING_FACTORY_FRAME": [192, 32, 16, 16],
+    "MISCUTILS_STERILECASING": [208, 32, 16, 16],
+    "MISCUTILS_MACHINE_CASING_STABLE_HASTELLOY_N": [224, 32, 16, 16],
+    "MISCUTILS_MACHINE_CASING_FLUID_INCOLOY_DS": [240, 32, 16, 16],
+    "MISCUTILS_MACHINE_CASING_STABLE_GRISIUM": [0, 48, 16, 16],
+    "INDUSTRIAL_SIEVE_CASING": [16, 48, 16, 16],
+    "SUB_STATION_EXTERNAL_CASING": [32, 48, 16, 16],
+    "CYCLOTRON_COIL": [48, 48, 16, 16],
+    "AQUATIC_CASING": [64, 48, 16, 16],
+    "INCONEL_REINFORCED_CASING": [80, 48, 16, 16],
+    "MISCUTILS_MACHINE_CASING_ADVANCED_CRYOGENIC": [96, 48, 16, 16],
+    "MISCUTILS_MACHINE_CASING_ADVANCED_VOLCANUS": [112, 48, 16, 16],
+    "MISCUTILS_MACHINE_CASING_FUSION_3": [128, 48, 16, 16],
+    "MISCUTILS_MACHINE_CASING_FUSION_COIL_II": [144, 48, 16, 16],
+    "CONTAINMENT_CASING": [160, 48, 16, 16],
+    "MULTI_USE_CASING": [176, 48, 16, 16],
+    "MISCUTILS_CASING_AMAZON": [192, 48, 16, 16],
+    "MISCUTILS_MACHINE_CASING_FUSION_4": [208, 48, 16, 16],
+    "MISCUTILS_MACHINE_CASING_FUSION_COIL_III": [224, 48, 16, 16],
+    "INTEGRAL_FRAMEWORK_EV": [240, 48, 16, 16],
+    "CASING_REDOX_EV": [0, 64, 16, 16],
+    "MOLECULAR_CONTAINMENT_CASING": [16, 64, 16, 16],
+    "CASING_REDOX_UV": [32, 64, 16, 16],
+    "PARTICLE_CONTAINMENT_CASING": [48, 64, 16, 16],
+    "MISCUTILS_MACHINE_CASING_STABLE_TALONITE": [64, 64, 16, 16],
+    "MISCUTILS_MACHINE_CASING_FLOTATION": [80, 64, 16, 16],
+    "RESONANCECHAMBER_III": [96, 64, 16, 16],
+    "MODULATOR_3": [112, 64, 16, 16],
+    "GOODGENERATOR_1": [128, 64, 16, 16],
+    "GOODGENERATOR_2": [144, 64, 16, 16],
+    "GOODGENERATOR_3": [160, 64, 16, 16],
+    "GOODGENERATOR_4": [176, 64, 16, 16],
+    "GOODGENERATOR_5": [192, 64, 16, 16],
+    "GTNHLANTH_CASING_COOLANT_DELIVERY": [208, 64, 16, 16],
+    "GTNHLANTH_CASING_ELECTRODE": [224, 64, 16, 16],
+    "GOODGENERATOR_ESSENTIAFILTERCASING": [240, 64, 16, 16],
+    "GOODGENERATOR_FIELDRESTRICTINGGLASS": [0, 80, 16, 16],
+    "GTNHLANTH_CASING_FOCUS_HOLDER": [16, 80, 16, 16],
+    "GTNHLANTH_CASING_FOCUS_MANIPULATOR": [32, 80, 16, 16],
+    "MACHINE_CASING_MINING_BLACKPLUTONIUM": [48, 80, 16, 16],
+    "MACHINE_DIM_TRANS_CASING": [64, 80, 16, 16],
+    "MACHINE_DIM_INJECTOR": [80, 80, 16, 16],
+    "MACHINE_DIM_BRIDGE": [96, 80, 16, 16],
+    "MACHINE_COIL_SUPERCONDUCTOR": [112, 80, 16, 16],
+    "MACHINE_IV_SIDE": [128, 80, 16, 16],
+    "MACHINE_LUV_SIDE": [144, 80, 16, 16],
+    "MACHINE_CASING_EMS": [160, 80, 16, 16],
+    "MACHINE_CASING_LASER": [176, 80, 16, 16],
+    "HEATING_DUCT_CASING": [192, 80, 16, 16],
+    "EXTREME_DENSITY_CASING": [208, 80, 16, 16],
+    "RADIATION_ABSORBENT_CASING": [224, 80, 16, 16],
+    "MASS_SOLIDIFIER_CASING": [240, 80, 16, 16],
+    "MASS_SOLIDIFIER_RADIATOR_CASING": [0, 96, 16, 16],
+    "BLOCK_QUARK_CONTAINMENT_CASING": [16, 96, 16, 16],
+    "COMPRESSOR_CASING": [32, 96, 16, 16],
+    "COMPRESSOR_PIPE_CASING": [48, 96, 16, 16],
+    "NEUTRONIUM_CASING": [64, 96, 16, 16],
+    "NEUTRONIUM_ACTIVE_CASING": [80, 96, 16, 16],
+    "NEUTRONIUM_STABLE_CASING": [96, 96, 16, 16],
+    "COOLANT_DUCT_CASING": [112, 96, 16, 16],
+    "MACHINE_CASING_ITEM_PIPE_BRASS": [128, 96, 16, 16],
+    "MACHINE_CASING_ITEM_PIPE_BLACK_PLUTONIUM": [144, 96, 16, 16],
+    "NANOCHIP_MESH_INTERFACE_CASING": [160, 96, 16, 16],
+    "MIXING_CASING": [176, 96, 16, 16],
+    "FORMING_CORE": [192, 96, 16, 16],
+    "ALGAE_CASING": [208, 96, 16, 16],
+    "NANOCHIP_REINFORCEMENT_CASING": [224, 96, 16, 16],
+    "SPINMATRON_CASING": [240, 96, 16, 16],
+    "MACHINE_CASING_CABLE": [0, 112, 16, 16],
+    "MACHINE_CASING_GRAPHITE_MODERATOR": [16, 112, 16, 16],
+    "NAQUADAH_REACTOR_CASING": [32, 112, 16, 16],
+    "MACHINE_CASING_INSULATED_FLUID_PIPE": [48, 112, 16, 16],
+    "MACHINE_CASING_BERYLLIUM_INTEGRATED_REACTOR": [64, 112, 16, 16],
+    "MACHINE_CASING_REFINED_GRAPHITE": [80, 112, 16, 16],
+    "MACHINE_CASING_HEARTH_SIDE": [96, 112, 16, 16],
+    "MACHINE_CASING_FRIDGE_SIDE": [112, 112, 16, 16],
+    "MACHINE_CASING_NAQUADAH_REINFORCED_DISTILLATION": [128, 112, 16, 16],
+    "MACHINE_CASING_PUMP": [144, 112, 16, 16],
+    "MACHINE_CASING_MOTOR": [160, 112, 16, 16],
+    "MACHINE_CASING_PROCESSOR": [176, 112, 16, 16],
+    "MACHINE_CASING_VENT": [192, 112, 16, 16],
+    "MACHINE_CASING_MINING_OSMIRIDIUM": [208, 112, 16, 16],
+    "MACHINE_CASING_FUSION": [224, 112, 16, 16],
+    "MACHINE_CASING_FUSION_COIL": [240, 112, 16, 16],
+    "MACHINE_CASING_FUSION_2": [0, 128, 16, 16],
+    "MACHINE_COIL_CUPRONICKEL_BACKGROUND": [16, 128, 16, 16],
+    "MACHINE_COIL_NAQUADAH_BACKGROUND": [32, 128, 16, 16],
+    "MACHINE_COIL_AWAKENEDDRACONIUM_BACKGROUND": [48, 128, 16, 16],
+    "MACHINE_CASING_TANK_10": [64, 128, 16, 16],
+    "MACHINE_CASING_RADIANT_NAQUADAH_ALLOY": [80, 128, 16, 16],
+    "MACHINE_CASING_PCB_TIER_1": [96, 128, 16, 16],
+    "MACHINE_CASING_PCB_TIER_2": [112, 128, 16, 16],
+    "MACHINE_CASING_MINING_NEUTRONIUM": [128, 128, 16, 16],
+    "MACHINE_CASING_ADVANCEDRADIATIONPROOF": [144, 128, 16, 16],
+    "MACHINE_CASING_IRIDIUM": [160, 128, 16, 16],
+    "MACHINE_CASING_MAGICAL": [176, 128, 16, 16],
+    "MACHINE_CASING_VENT_T2": [192, 128, 16, 16],
+    "MACHINE_CASING_OZONE": [208, 128, 16, 16],
+    "MACHINE_CASING_PLASMA_HEATER": [224, 128, 16, 16],
+    "NAQUADRIA_REINFORCED_WATER_PLANT_CASING": [240, 128, 16, 16],
+    "UV_BACKLIGHT_STERILIZER_CASING": [0, 144, 16, 16],
+    "BLOCK_QUARK_PIPE": [16, 144, 16, 16],
+    "BLOCK_QUARK_RELEASE_CHAMBER": [32, 144, 16, 16],
+    "PRIMITIVE_WOODEN_CASING_SIDE": [48, 144, 16, 16],
+    "MACHINE_CASING_INDUSTRIAL_WATER_PLANT": [64, 144, 16, 16],
+    "WATER_PLANT_CONCRETE_CASING": [80, 144, 16, 16],
+    "MACHINE_CASING_NAQUADAH_REINFORCED_WATER_PLANT": [96, 144, 16, 16],
+    "MACHINE_CASING_EXTREME_CORROSION_RESISTANT": [112, 144, 16, 16],
+    "MACHINE_CASING_HIGH_PRESSURE_RESISTANT": [128, 144, 16, 16],
+    "EM_INNER_SPACETIME_REINFORCED_EOH_CASING": [144, 144, 16, 16],
+    "EM_OUTER_SPACETIME_REINFORCED_EOH_CASING": [160, 144, 16, 16],
+    "EM_POWER_INFINITE": [176, 144, 16, 16],
+    "TM_TESLA_TOROID": [192, 144, 16, 16],
+    "MV_SIDE_CYCLOTRON_SOLENOID": [208, 144, 16, 16],
+    "UHV_SIDE_CYCLOTRON_SOLENOID": [224, 144, 16, 16],
+    "UEV_SIDE_CYCLOTRON_SOLENOID": [240, 144, 16, 16],
+    "MACHINE_UEV_BOTTOM": [0, 160, 16, 16],
+    "GTNHINTERGALACTIC_BASECASING": [16, 160, 16, 16],
+    "GTNHINTERGALACTIC_INTERNALSTRUCTURE": [32, 160, 16, 16],
+    "EM_POWER": [48, 160, 16, 16],
+    "EM_PC": [64, 160, 16, 16],
+    "EM_PC_VENT": [80, 160, 16, 16],
+    "EM_PC_ADV": [96, 160, 16, 16],
+    "EM_CASING": [112, 160, 16, 16],
+    "EM_COIL": [128, 160, 16, 16],
+    "CONCRETE_LIGHT_STONE": [144, 160, 16, 16],
+    "NANOCHIP_GLASS": [160, 160, 16, 16],
+    "VACUUM_CASING_SIDE": [176, 160, 16, 16],
+    "MACHINE_CASING_QFT_COIL": [192, 160, 16, 16],
+    "MISCUTILS_MACHINE_CASING_GRINDING_FACTORY": [208, 160, 16, 16],
+    "FORCEFIELDGLASS": [224, 160, 16, 16],
+    "MISCUTILS_MACHINE_CASING_GEARBOX_T1": [240, 160, 16, 16],
+    "SPARGE_TOWER_EXTERIOR_CASING": [0, 176, 16, 16],
+    "STURDY_PRINTER_CASING": [16, 176, 16, 16],
+    "FORGE_CASING": [32, 176, 16, 16],
+    "EM_DIM_0": [48, 176, 16, 16],
+    "STABILITY_CASING_0": [64, 176, 16, 16],
+    "EM_FIELD_0": [80, 176, 16, 16],
+    "GOODGENERATOR_0": [96, 176, 16, 16],
+    "GOODGENERATOR_MAGICCASING": [112, 176, 16, 16],
+    "GOODGENERATOR_MAR_CASING": [128, 176, 16, 16],
+    "MISCUTILS_MACHINE_CASING_STABLE_STELLITE": [144, 176, 16, 16],
+    "MISCUTILS_MACHINE_CASING_STABLE_ZERON100": [160, 176, 16, 16],
+    "MISCUTILS_MACHINE_CASING_FIREBOX_STABALLOY": [176, 176, 16, 16],
+    "MISCUTILS_MACHINE_CASING_STABLE_ZIRCONIUM_CARBIDE": [192, 176, 16, 16],
+    "MISCUTILS_MACHINE_CASING_STABLE_POTIN": [208, 176, 16, 16],
+    "MISCUTILS_MACHINE_CASING_STABLE_MARAGINGSTEEL": [224, 176, 16, 16],
+    "MATTER_GENERATION_COIL": [240, 176, 16, 16],
+    "MATTER_FABRICATOR_CASING": [0, 192, 16, 16],
+    "GTNHLANTH_CASING_NIOBIUM_CAVITY": [16, 192, 16, 16],
+    "GOODGENERATOR_PRESSURERESISTANTWALLS": [32, 192, 16, 16],
+    "GOODGENERATOR_RADIATIONPROTECTIONSTEELFRAME": [48, 192, 16, 16],
+    "BLOCK_IRON_FENCE": [64, 192, 16, 16],
+    "BLOCK_NAQUADAHPREIN": [80, 192, 16, 16],
+    "BLOCK_PLASCRETE": [96, 192, 16, 16],
+    "BLOCK_TSREIN": [112, 192, 16, 16],
+    "GTNHLANTH_CASING_SHIELDED_ACCELERATOR": [128, 192, 16, 16],
+    "LASER_PLATE": [144, 192, 16, 16],
+    "GOODGENERATOR_SPEEDINGPIPE_SIDE": [160, 192, 16, 16],
+    "GTNHINTERGALACTIC_CABLEPART": [176, 192, 16, 16],
+    "GTNHLANTH_CASING_TARGET_HOLDER": [192, 192, 16, 16],
+    "GTNHLANTH_CASING_TARGET_RECEPTACLE": [208, 192, 16, 16],
+    "COKE_OVEN_CASING": [224, 192, 16, 16],
+    "COKE_OVEN_OVERLAY_INACTIVE": [240, 192, 16, 16],
+    "MACHINE_HEATPROOFCASING": [0, 208, 16, 16],
+    "MACHINE_CASING_FROST_PROOF": [16, 208, 16, 16],
+    "MACHINE_CASING_SOLID_STEEL": [32, 208, 16, 16],
+    "MACHINE_CASING_CLEAN_STAINLESSSTEEL": [48, 208, 16, 16],
+    "MACHINE_CASING_STABLE_TITANIUM": [64, 208, 16, 16],
+    "MACHINE_CASING_ROBUST_TUNGSTENSTEEL": [80, 208, 16, 16],
+    "MACHINE_CASING_CHEMICALLY_INERT": [96, 208, 16, 16],
+    "MACHINE_CASING_PIPE_POLYTETRAFLUOROETHYLENE": [112, 208, 16, 16],
+    "MACHINE_CASING_PIPE_BRONZE": [128, 208, 16, 16],
+    "MACHINE_CASING_PIPE_STEEL": [144, 208, 16, 16],
+    "MACHINE_CASING_PIPE_TITANIUM": [160, 208, 16, 16],
+    "MACHINE_CASING_PIPE_TUNGSTENSTEEL": [176, 208, 16, 16],
+    "MACHINE_CASING_GEARBOX_BRONZE": [192, 208, 16, 16],
+    "MACHINE_CASING_GEARBOX_STEEL": [208, 208, 16, 16],
+    "MACHINE_CASING_GEARBOX_TITANIUM": [224, 208, 16, 16],
+    "MACHINE_CASING_GEARBOX_TUNGSTENSTEEL": [240, 208, 16, 16],
+    "MACHINE_BRONZEPLATEDBRICKS": [0, 224, 16, 16],
+    "MACHINE_CASING_DENSEBRICKS": [16, 224, 16, 16],
+    "MACHINE_CASING_BRICKEDBLASTFURNACE_INACTIVE": [32, 224, 16, 16],
+    "MACHINE_CASING_ITEM_PIPE_TIN": [48, 224, 16, 16],
+    "CASING_REINFORCED_WOOD": [64, 224, 16, 16],
+    "CASING_REINFORCED_WOOD_TOP": [80, 224, 16, 16],
+    "MACHINE_CASING_FIREBOX_BRONZE": [96, 224, 16, 16],
+    "MACHINE_CASING_FIREBOX_BRONZE_TOP": [112, 224, 16, 16],
+    "MACHINE_CASING_FIREBOX_STEEL": [128, 224, 16, 16],
+    "MACHINE_CASING_FIREBOX_STEEL_TOP": [144, 224, 16, 16],
+    "MACHINE_CASING_FIREBOX_TITANIUM": [160, 224, 16, 16],
+    "MACHINE_CASING_FIREBOX_TITANIUM_TOP": [176, 224, 16, 16],
+    "MACHINE_CASING_FIREBOX_TUNGSTENSTEEL": [192, 224, 16, 16],
+    "MACHINE_CASING_FIREBOX_TUNGSTENSTEEL_TOP": [208, 224, 16, 16],
+    "MACHINE_ULV_SIDE": [224, 224, 16, 16],
+    "MACHINE_ULV_TOP": [240, 224, 16, 16],
+    "MACHINE_ULV_BOTTOM": [0, 240, 16, 16],
+    "MACHINE_LV_SIDE": [16, 240, 16, 16],
+    "MACHINE_LV_TOP": [32, 240, 16, 16],
+    "MACHINE_LV_BOTTOM": [48, 240, 16, 16],
+    "MACHINE_MV_SIDE": [64, 240, 16, 16],
+    "MACHINE_MV_TOP": [80, 240, 16, 16],
+    "MACHINE_MV_BOTTOM": [96, 240, 16, 16],
+    "MACHINE_HV_SIDE": [112, 240, 16, 16],
+    "MACHINE_HV_TOP": [128, 240, 16, 16],
+    "MACHINE_HV_BOTTOM": [144, 240, 16, 16],
+    "MACHINE_EV_SIDE": [160, 240, 16, 16],
+    "MACHINE_EV_TOP": [176, 240, 16, 16],
+    "MACHINE_EV_BOTTOM": [192, 240, 16, 16],
+    "MACHINE_COIL_CUPRONICKEL": [208, 240, 16, 16],
+    "MACHINE_COIL_KANTHAL": [224, 240, 16, 16],
+    "MACHINE_COIL_NICHROME": [240, 240, 16, 16],
+    "MACHINE_COIL_TUNGSTENSTEEL": [0, 256, 16, 16],
+    "MACHINE_COIL_HSSG": [16, 256, 16, 16],
+    "MACHINE_COIL_HSSS": [32, 256, 16, 16],
+    "MACHINE_COIL_NAQUADAH": [48, 256, 16, 16],
+    "MACHINE_COIL_NAQUADAHALLOY": [64, 256, 16, 16],
+    "REINFORCED_GLASS": [80, 256, 16, 16],
+    "FRAME_STEEL": [96, 256, 16, 16],
+    "MACHINE_CASING_TURBINE_STEEL": [112, 256, 16, 16],
+    "MACHINE_CASING_TURBINE_STAINLESSSTEEL": [128, 256, 16, 16],
+    "MACHINE_CASING_TURBINE_TITANIUM": [144, 256, 16, 16],
+    "MACHINE_CASING_TURBINE_TUNGSTENSTEEL": [160, 256, 16, 16],
+    "MACHINE_CASING_PIPE_POLYBENZIMIDAZOLE": [176, 256, 16, 16],
+    "MACHINE_CASING_ENGINE_INTAKE": [192, 256, 16, 16],
+    "MACHINE_CASING_EXTREME_ENGINE_INTAKE": [208, 256, 16, 16],
+    "MACHINE_CASING_GRATE": [224, 256, 16, 16],
+    "MACHINE_CASING_ASSEMBLER": [240, 256, 16, 16],
+    "MACHINE_CASING_AUTOCLAVE": [0, 272, 16, 16],
+    "SC_TURBINE_CASING": [16, 272, 16, 16],
+    "FRAME_BRONZE": [32, 272, 16, 16],
+    "FRAME_IRON": [48, 272, 16, 16],
+    "FRAME_STAINLESSSTEEL": [64, 272, 16, 16],
+    "FRAME_TITANIUM": [80, 272, 16, 16],
+    "FRAME_POLYBENZIMIDAZOLE": [96, 272, 16, 16],
+    "FRAME_TUNGSTENSTEEL": [112, 272, 16, 16],
+    "FRAME_POLYTETRAFLUOROETHYLENE": [128, 272, 16, 16],
+    "FRAME_BLACKSTEEL": [144, 272, 16, 16],
+    "OVERLAY_FRONT_ELECTRIC_BLAST_FURNACE": [160, 272, 16, 16],
+    "OVERLAY_FRONT_VACUUM_FREEZER": [176, 272, 16, 16],
+    "OVERLAY_FRONT_IMPLOSION_COMPRESSOR": [192, 272, 16, 16],
+    "OVERLAY_FRONT_DISTILLATION_TOWER": [208, 272, 16, 16],
+    "OVERLAY_FRONT_MULTI_SMELTER": [224, 272, 16, 16],
+    "OVERLAY_FRONT_OIL_CRACKER": [240, 272, 16, 16],
+    "OVERLAY_FRONT_LARGE_BOILER": [0, 288, 16, 16],
+    "OVERLAY_FRONT_PYROLYSE_OVEN": [16, 288, 16, 16],
+    "OVERLAY_FRONT_LARGE_CHEMICAL_REACTOR": [32, 288, 16, 16],
+    "OVERLAY_PIPE_IN": [48, 288, 16, 16],
+    "OVERLAY_PIPE_OUT": [64, 288, 16, 16],
+    "ITEM_IN_SIGN": [80, 288, 16, 16],
+    "ITEM_OUT_SIGN": [96, 288, 16, 16],
+    "FLUID_IN_SIGN": [112, 288, 16, 16],
+    "FLUID_OUT_SIGN": [128, 288, 16, 16],
+    "OVERLAY_ENERGY_IN_LV": [144, 288, 16, 16],
+    "OVERLAY_ENERGY_OUT_LV": [160, 288, 16, 16],
+    "OVERLAY_MAINTENANCE": [176, 288, 16, 16],
+    "OVERLAY_MUFFLER": [192, 288, 16, 16],
+    "MACHINE_CASING_CENTRIFUGE": [208, 288, 16, 16],
+    "LARGE_SIEVE_GRATE": [224, 288, 16, 16],
+    "FRAME_EGLINSTEEL": [240, 288, 16, 16],
+    "HV_SIDE_CYCLOTRON_SOLENOID": [0, 304, 16, 16],
+    "HV_TOP_CYCLOTRON_SOLENOID": [16, 304, 16, 16],
+    "MACHINE_CASING_STRIPES_A": [32, 304, 16, 16],
+    "OVERLAY_SCHEST": [48, 304, 16, 16],
+    "OVERLAY_STANK": [64, 304, 16, 16],
+    "OVERLAY_ENERGY_OUT": [80, 304, 16, 16]
   },
   "blocks": {
+    "ext.blockCosmeticOpaque": {
+      "flat": true
+    },
+    "ext.dirt": {
+      "flat": true
+    },
+    "ext.extraUtilitiesSpikeBaseDiamond": {
+      "flat": true
+    },
+    "ext.gdcUnit": {
+      "flat": true
+    },
+    "ext.hempcrete": {
+      "flat": true
+    },
+    "ext.lSCPART": {
+      "flat": true
+    },
+    "ext.leaves": {
+      "flat": true
+    },
+    "ext.log": {
+      "flat": true
+    },
+    "ext.neonite": {
+      "flat": true
+    },
+    "ext.sFrame": {
+      "flat": true
+    },
+    "ext.tFFTFIELD": {
+      "flat": true
+    },
+    "ext.thaumicbasesAdvAlchFurnace": {
+      "flat": true
+    },
+    "ext.yszUnit": {
+      "flat": true
+    },
     "gt.casing.assembler": {
       "side": "MACHINE_CASING_ASSEMBLER"
     },
@@ -261,23 +506,119 @@
       "side": "MACHINE_CASING_SOLID_STEEL",
       "front": "OVERLAY_FRONT_ELECTRIC_BLAST_FURNACE"
     },
+    "gt.frame.adamantium": {
+      "side": "FRAME_ADAMANTIUM"
+    },
+    "gt.frame.aquaticSteel": {
+      "side": "FRAME_AQUATICSTEEL"
+    },
+    "gt.frame.bedrockium": {
+      "side": "FRAME_BEDROCKIUM"
+    },
     "gt.frame.blackSteel": {
       "side": "FRAME_BLACKSTEEL"
     },
     "gt.frame.bronze": {
       "side": "FRAME_BRONZE"
     },
+    "gt.frame.callistoIce": {
+      "side": "FRAME_CALLISTOICE"
+    },
+    "gt.frame.damascusSteel": {
+      "side": "FRAME_DAMASCUSSTEEL"
+    },
+    "gt.frame.draconiumAwakened": {
+      "side": "FRAME_DRACONIUMAWAKENED"
+    },
+    "gt.frame.duranium": {
+      "side": "FRAME_DURANIUM"
+    },
     "gt.frame.eglinSteel": {
       "side": "FRAME_EGLINSTEEL"
+    },
+    "gt.frame.enrichedHolmium": {
+      "side": "FRAME_ENRICHEDHOLMIUM"
+    },
+    "gt.frame.gold": {
+      "side": "FRAME_GOLD"
+    },
+    "gt.frame.hsss": {
+      "side": "FRAME_HSSS"
+    },
+    "gt.frame.inconel690": {
+      "side": "FRAME_INCONEL690"
+    },
+    "gt.frame.infinity": {
+      "side": "FRAME_INFINITY"
+    },
+    "gt.frame.infinityCatalyst": {
+      "side": "FRAME_INFINITYCATALYST"
+    },
+    "gt.frame.iridium": {
+      "side": "FRAME_IRIDIUM"
     },
     "gt.frame.iron": {
       "side": "FRAME_IRON"
     },
+    "gt.frame.kevlar": {
+      "side": "FRAME_KEVLAR"
+    },
+    "gt.frame.leagrisium": {
+      "side": "FRAME_LEAGRISIUM"
+    },
+    "gt.frame.maraging350": {
+      "side": "FRAME_MARAGING350"
+    },
+    "gt.frame.naquadah": {
+      "side": "FRAME_NAQUADAH"
+    },
+    "gt.frame.naquadahAlloy": {
+      "side": "FRAME_NAQUADAHALLOY"
+    },
+    "gt.frame.naquadria": {
+      "side": "FRAME_NAQUADRIA"
+    },
+    "gt.frame.neodymiumMagnetic": {
+      "side": "FRAME_NEODYMIUMMAGNETIC"
+    },
+    "gt.frame.neutronium": {
+      "side": "FRAME_NEUTRONIUM"
+    },
+    "gt.frame.octiron": {
+      "side": "FRAME_OCTIRON"
+    },
+    "gt.frame.osmiridium": {
+      "side": "FRAME_OSMIRIDIUM"
+    },
     "gt.frame.pbi": {
       "side": "FRAME_POLYBENZIMIDAZOLE"
     },
+    "gt.frame.pikyonium": {
+      "side": "FRAME_PIKYONIUM"
+    },
+    "gt.frame.polyvinylChloride": {
+      "side": "FRAME_POLYVINYLCHLORIDE"
+    },
+    "gt.frame.potin": {
+      "side": "FRAME_POTIN"
+    },
+    "gt.frame.prismaticNaquadah": {
+      "side": "FRAME_PRISMATICNAQUADAH"
+    },
     "gt.frame.ptfe": {
       "side": "FRAME_POLYTETRAFLUOROETHYLENE"
+    },
+    "gt.frame.quantium": {
+      "side": "FRAME_QUANTIUM"
+    },
+    "gt.frame.radoxPolymer": {
+      "side": "FRAME_RADOXPOLYMER"
+    },
+    "gt.frame.redSteel": {
+      "side": "FRAME_REDSTEEL"
+    },
+    "gt.frame.staballoy": {
+      "side": "FRAME_STABALLOY"
     },
     "gt.frame.stainless": {
       "side": "FRAME_STAINLESSSTEEL"
@@ -285,11 +626,32 @@
     "gt.frame.steel": {
       "side": "FRAME_STEEL"
     },
+    "gt.frame.stellarAlloy": {
+      "side": "FRAME_STELLARALLOY"
+    },
+    "gt.frame.superconductorUhvbase": {
+      "side": "FRAME_SUPERCONDUCTORUHVBASE"
+    },
+    "gt.frame.superconductorZpmbase": {
+      "side": "FRAME_SUPERCONDUCTORZPMBASE"
+    },
+    "gt.frame.tantalumCarbide": {
+      "side": "FRAME_TANTALUMCARBIDE"
+    },
     "gt.frame.titanium": {
       "side": "FRAME_TITANIUM"
     },
+    "gt.frame.tungsten": {
+      "side": "FRAME_TUNGSTEN"
+    },
+    "gt.frame.tungstenCarbide": {
+      "side": "FRAME_TUNGSTENCARBIDE"
+    },
     "gt.frame.tungstensteel": {
       "side": "FRAME_TUNGSTENSTEEL"
+    },
+    "gt.frame.vibrantAlloy": {
+      "side": "FRAME_VIBRANTALLOY"
     },
     "gt.glass.reinforced": {
       "side": "REINFORCED_GLASS"
@@ -342,6 +704,639 @@
     },
     "gt.hatch.steamOutputBus": {
       "side": "MACHINE_BRONZEPLATEDBRICKS"
+    },
+    "gt.sheetmetal.blackSteel": {
+      "flat": true
+    },
+    "gt.sheetmetal.gold": {
+      "flat": true
+    },
+    "gt.sheetmetal.infinity": {
+      "flat": true
+    },
+    "gt.sheetmetal.iridium": {
+      "flat": true
+    },
+    "gt.sheetmetal.ledox": {
+      "flat": true
+    },
+    "gt.sheetmetal.naquadah": {
+      "flat": true
+    },
+    "gt.sheetmetal.naquadahAlloy": {
+      "flat": true
+    },
+    "gt.sheetmetal.stainlessSteel": {
+      "flat": true
+    },
+    "gt.sheetmetal.tungsten": {
+      "flat": true
+    },
+    "gt5u.aNTENNACASINGT1.0": {
+      "flat": true
+    },
+    "gt5u.bWBlockCasings.31850": {
+      "flat": true
+    },
+    "gt5u.bWBlockCasings.32090": {
+      "flat": true
+    },
+    "gt5u.bWBlockCasingsAdvanced.31850": {
+      "flat": true
+    },
+    "gt5u.bWBlockCasingsAdvanced.32100": {
+      "flat": true
+    },
+    "gt5u.bWBlockCasingsAdvanced.88": {
+      "flat": true
+    },
+    "gt5u.bioFluidBlock.0": {
+      "flat": true
+    },
+    "gt5u.blockCasings2Misc.0": {
+      "side": "MISCUTILS_MACHINE_CASING_STABLE_RED_STEEL"
+    },
+    "gt5u.blockCasings2Misc.1": {
+      "side": "MISCUTILS_MACHINE_CASING_STABLE_HASTELLOY_X"
+    },
+    "gt5u.blockCasings2Misc.10": {
+      "side": "MACHINE_CASING_RADIATIONPROOF"
+    },
+    "gt5u.blockCasings2Misc.11": {
+      "side": "MISCUTILS_MACHINE_CASING_STABLE_TANTALLOY61"
+    },
+    "gt5u.blockCasings2Misc.12": {
+      "side": "MISCUTILS_MACHINE_TOP"
+    },
+    "gt5u.blockCasings2Misc.13": {
+      "side": "CUTTING_FACTORY_FRAME"
+    },
+    "gt5u.blockCasings2Misc.15": {
+      "side": "MISCUTILS_STERILECASING"
+    },
+    "gt5u.blockCasings2Misc.2": {
+      "side": "MISCUTILS_MACHINE_CASING_STABLE_HASTELLOY_N"
+    },
+    "gt5u.blockCasings2Misc.3": {
+      "side": "MISCUTILS_MACHINE_CASING_FLUID_INCOLOY_DS"
+    },
+    "gt5u.blockCasings2Misc.4": {
+      "side": "MISCUTILS_MACHINE_CASING_STABLE_GRISIUM"
+    },
+    "gt5u.blockCasings2Misc.5": {
+      "side": "INDUSTRIAL_SIEVE_CASING"
+    },
+    "gt5u.blockCasings2Misc.8": {
+      "side": "SUB_STATION_EXTERNAL_CASING"
+    },
+    "gt5u.blockCasings2Misc.9": {
+      "side": "CYCLOTRON_COIL"
+    },
+    "gt5u.blockCasings3Misc.0": {
+      "side": "AQUATIC_CASING"
+    },
+    "gt5u.blockCasings3Misc.1": {
+      "side": "INCONEL_REINFORCED_CASING"
+    },
+    "gt5u.blockCasings3Misc.10": {
+      "side": "MISCUTILS_MACHINE_CASING_ADVANCED_CRYOGENIC"
+    },
+    "gt5u.blockCasings3Misc.11": {
+      "side": "MISCUTILS_MACHINE_CASING_ADVANCED_VOLCANUS"
+    },
+    "gt5u.blockCasings3Misc.12": {
+      "side": "MISCUTILS_MACHINE_CASING_FUSION_3"
+    },
+    "gt5u.blockCasings3Misc.13": {
+      "side": "MISCUTILS_MACHINE_CASING_FUSION_COIL_II"
+    },
+    "gt5u.blockCasings3Misc.15": {
+      "side": "CONTAINMENT_CASING"
+    },
+    "gt5u.blockCasings3Misc.2": {
+      "side": "MULTI_USE_CASING"
+    },
+    "gt5u.blockCasings3Misc.9": {
+      "side": "MISCUTILS_CASING_AMAZON"
+    },
+    "gt5u.blockCasings6Misc.0": {
+      "side": "MISCUTILS_MACHINE_CASING_FUSION_4"
+    },
+    "gt5u.blockCasings6Misc.1": {
+      "side": "MISCUTILS_MACHINE_CASING_FUSION_COIL_III"
+    },
+    "gt5u.blockCasingsTieredGTPP.4": {
+      "side": "INTEGRAL_FRAMEWORK_EV"
+    },
+    "gt5u.blockSpecialMultiCasings.0": {
+      "side": "CASING_REDOX_EV"
+    },
+    "gt5u.blockSpecialMultiCasings.11": {
+      "side": "MOLECULAR_CONTAINMENT_CASING"
+    },
+    "gt5u.blockSpecialMultiCasings.12": {
+      "side": "CASING_REDOX_UV"
+    },
+    "gt5u.blockSpecialMultiCasings.13": {
+      "side": "PARTICLE_CONTAINMENT_CASING"
+    },
+    "gt5u.blockSpecialMultiCasings.14": {
+      "side": "MISCUTILS_MACHINE_CASING_STABLE_TALONITE"
+    },
+    "gt5u.blockSpecialMultiCasings.15": {
+      "flat": true
+    },
+    "gt5u.blockSpecialMultiCasings.8": {
+      "side": "MISCUTILS_MACHINE_TOP"
+    },
+    "gt5u.blockSpecialMultiCasings.9": {
+      "side": "MISCUTILS_MACHINE_CASING_FLOTATION"
+    },
+    "gt5u.blockSpecialMultiCasings2.2": {
+      "side": "RESONANCECHAMBER_III"
+    },
+    "gt5u.blockSpecialMultiCasings2.6": {
+      "side": "MODULATOR_3"
+    },
+    "gt5u.cOOLANTDELIVERYCASING.0": {
+      "side": "GTNHLANTH_CASING_COOLANT_DELIVERY"
+    },
+    "gt5u.compactFusionCoil.0": {
+      "side": "GOODGENERATOR_1"
+    },
+    "gt5u.compactFusionCoil.1": {
+      "side": "GOODGENERATOR_2"
+    },
+    "gt5u.compactFusionCoil.2": {
+      "side": "GOODGENERATOR_3"
+    },
+    "gt5u.compactFusionCoil.3": {
+      "side": "GOODGENERATOR_4"
+    },
+    "gt5u.compactFusionCoil.4": {
+      "side": "GOODGENERATOR_5"
+    },
+    "gt5u.defcCasing.7": {
+      "flat": true
+    },
+    "gt5u.eLECTRODECASING.0": {
+      "side": "GTNHLANTH_CASING_ELECTRODE"
+    },
+    "gt5u.essentiaCell.0": {
+      "side": "GOODGENERATOR_1"
+    },
+    "gt5u.essentiaFilterCasing.0": {
+      "side": "GOODGENERATOR_ESSENTIAFILTERCASING"
+    },
+    "gt5u.fOCUSHOLDER.0": {
+      "side": "GTNHLANTH_CASING_FOCUS_HOLDER"
+    },
+    "gt5u.fOCUSMANIPULATIONCASING.0": {
+      "side": "GTNHLANTH_CASING_FOCUS_MANIPULATOR"
+    },
+    "gt5u.fRFCasings.0": {
+      "side": "MACHINE_CASING_MINING_BLACKPLUTONIUM"
+    },
+    "gt5u.fieldRestrictingGlass.0": {
+      "side": "GOODGENERATOR_FIELDRESTRICTINGGLASS"
+    },
+    "gt5u.gtBlockcasings.0": {
+      "side": "MACHINE_ULV_SIDE"
+    },
+    "gt5u.gtBlockcasings.12": {
+      "side": "MACHINE_DIM_TRANS_CASING"
+    },
+    "gt5u.gtBlockcasings.13": {
+      "side": "MACHINE_DIM_INJECTOR"
+    },
+    "gt5u.gtBlockcasings.14": {
+      "side": "MACHINE_DIM_BRIDGE"
+    },
+    "gt5u.gtBlockcasings.15": {
+      "side": "MACHINE_COIL_SUPERCONDUCTOR"
+    },
+    "gt5u.gtBlockcasings.5": {
+      "side": "MACHINE_IV_SIDE"
+    },
+    "gt5u.gtBlockcasings.6": {
+      "side": "MACHINE_LUV_SIDE"
+    },
+    "gt5u.gtBlockcasings10.0": {
+      "side": "MACHINE_CASING_EMS"
+    },
+    "gt5u.gtBlockcasings10.1": {
+      "side": "MACHINE_CASING_LASER"
+    },
+    "gt5u.gtBlockcasings10.10": {
+      "side": "HEATING_DUCT_CASING"
+    },
+    "gt5u.gtBlockcasings10.11": {
+      "side": "EXTREME_DENSITY_CASING"
+    },
+    "gt5u.gtBlockcasings10.12": {
+      "side": "RADIATION_ABSORBENT_CASING"
+    },
+    "gt5u.gtBlockcasings10.13": {
+      "side": "MASS_SOLIDIFIER_CASING"
+    },
+    "gt5u.gtBlockcasings10.14": {
+      "side": "MASS_SOLIDIFIER_RADIATOR_CASING"
+    },
+    "gt5u.gtBlockcasings10.2": {
+      "side": "BLOCK_QUARK_CONTAINMENT_CASING"
+    },
+    "gt5u.gtBlockcasings10.4": {
+      "side": "COMPRESSOR_CASING"
+    },
+    "gt5u.gtBlockcasings10.5": {
+      "side": "COMPRESSOR_PIPE_CASING"
+    },
+    "gt5u.gtBlockcasings10.6": {
+      "side": "NEUTRONIUM_CASING"
+    },
+    "gt5u.gtBlockcasings10.7": {
+      "side": "NEUTRONIUM_ACTIVE_CASING"
+    },
+    "gt5u.gtBlockcasings10.8": {
+      "side": "NEUTRONIUM_STABLE_CASING"
+    },
+    "gt5u.gtBlockcasings10.9": {
+      "side": "COOLANT_DUCT_CASING"
+    },
+    "gt5u.gtBlockcasings11.1": {
+      "side": "MACHINE_CASING_ITEM_PIPE_BRASS"
+    },
+    "gt5u.gtBlockcasings11.7": {
+      "side": "MACHINE_CASING_ITEM_PIPE_BLACK_PLUTONIUM"
+    },
+    "gt5u.gtBlockcasings12.1": {
+      "side": "NANOCHIP_MESH_INTERFACE_CASING"
+    },
+    "gt5u.gtBlockcasings12.13": {
+      "side": "MIXING_CASING"
+    },
+    "gt5u.gtBlockcasings12.14": {
+      "side": "FORMING_CORE"
+    },
+    "gt5u.gtBlockcasings12.15": {
+      "side": "ALGAE_CASING"
+    },
+    "gt5u.gtBlockcasings12.2": {
+      "side": "NANOCHIP_REINFORCEMENT_CASING"
+    },
+    "gt5u.gtBlockcasings12.9": {
+      "side": "SPINMATRON_CASING"
+    },
+    "gt5u.gtBlockcasings13.0": {
+      "side": "MACHINE_CASING_CABLE"
+    },
+    "gt5u.gtBlockcasings13.1": {
+      "side": "MACHINE_CASING_GRAPHITE_MODERATOR"
+    },
+    "gt5u.gtBlockcasings13.15": {
+      "side": "NAQUADAH_REACTOR_CASING"
+    },
+    "gt5u.gtBlockcasings13.2": {
+      "side": "MACHINE_CASING_INSULATED_FLUID_PIPE"
+    },
+    "gt5u.gtBlockcasings13.3": {
+      "side": "MACHINE_CASING_BERYLLIUM_INTEGRATED_REACTOR"
+    },
+    "gt5u.gtBlockcasings13.4": {
+      "side": "MACHINE_CASING_REFINED_GRAPHITE"
+    },
+    "gt5u.gtBlockcasings14.3": {
+      "side": "MACHINE_CASING_HEARTH_SIDE"
+    },
+    "gt5u.gtBlockcasings14.4": {
+      "side": "MACHINE_CASING_FRIDGE_SIDE"
+    },
+    "gt5u.gtBlockcasings14.5": {
+      "side": "MACHINE_CASING_NAQUADAH_REINFORCED_DISTILLATION"
+    },
+    "gt5u.gtBlockcasings2.10": {
+      "side": "MACHINE_CASING_PUMP"
+    },
+    "gt5u.gtBlockcasings2.11": {
+      "side": "MACHINE_CASING_MOTOR"
+    },
+    "gt5u.gtBlockcasings2.6": {
+      "side": "MACHINE_CASING_PROCESSOR"
+    },
+    "gt5u.gtBlockcasings3.11": {
+      "side": "MACHINE_CASING_VENT"
+    },
+    "gt5u.gtBlockcasings3.12": {
+      "side": "MACHINE_CASING_RADIATIONPROOF"
+    },
+    "gt5u.gtBlockcasings4.14": {
+      "side": "MACHINE_CASING_MINING_OSMIRIDIUM"
+    },
+    "gt5u.gtBlockcasings4.6": {
+      "side": "MACHINE_CASING_FUSION"
+    },
+    "gt5u.gtBlockcasings4.7": {
+      "side": "MACHINE_CASING_FUSION_COIL"
+    },
+    "gt5u.gtBlockcasings4.8": {
+      "side": "MACHINE_CASING_FUSION_2"
+    },
+    "gt5u.gtBlockcasings5.0": {
+      "side": "MACHINE_COIL_CUPRONICKEL_BACKGROUND"
+    },
+    "gt5u.gtBlockcasings5.5": {
+      "side": "MACHINE_COIL_NAQUADAH_BACKGROUND"
+    },
+    "gt5u.gtBlockcasings5.8": {
+      "side": "MACHINE_COIL_AWAKENEDDRACONIUM_BACKGROUND"
+    },
+    "gt5u.gtBlockcasings6.10": {
+      "side": "MACHINE_CASING_TANK_10"
+    },
+    "gt5u.gtBlockcasings8.10": {
+      "side": "MACHINE_CASING_RADIANT_NAQUADAH_ALLOY"
+    },
+    "gt5u.gtBlockcasings8.11": {
+      "side": "MACHINE_CASING_PCB_TIER_1"
+    },
+    "gt5u.gtBlockcasings8.12": {
+      "side": "MACHINE_CASING_PCB_TIER_2"
+    },
+    "gt5u.gtBlockcasings8.2": {
+      "side": "MACHINE_CASING_MINING_NEUTRONIUM"
+    },
+    "gt5u.gtBlockcasings8.5": {
+      "side": "MACHINE_CASING_ADVANCEDRADIATIONPROOF"
+    },
+    "gt5u.gtBlockcasings8.7": {
+      "side": "MACHINE_CASING_IRIDIUM"
+    },
+    "gt5u.gtBlockcasings8.8": {
+      "side": "MACHINE_CASING_MAGICAL"
+    },
+    "gt5u.gtBlockcasings9.1": {
+      "side": "MACHINE_CASING_VENT_T2"
+    },
+    "gt5u.gtBlockcasings9.10": {
+      "side": "MACHINE_CASING_OZONE"
+    },
+    "gt5u.gtBlockcasings9.11": {
+      "side": "MACHINE_CASING_PLASMA_HEATER"
+    },
+    "gt5u.gtBlockcasings9.12": {
+      "side": "NAQUADRIA_REINFORCED_WATER_PLANT_CASING"
+    },
+    "gt5u.gtBlockcasings9.13": {
+      "side": "UV_BACKLIGHT_STERILIZER_CASING"
+    },
+    "gt5u.gtBlockcasings9.14": {
+      "side": "BLOCK_QUARK_PIPE"
+    },
+    "gt5u.gtBlockcasings9.15": {
+      "side": "BLOCK_QUARK_RELEASE_CHAMBER"
+    },
+    "gt5u.gtBlockcasings9.2": {
+      "side": "PRIMITIVE_WOODEN_CASING_SIDE"
+    },
+    "gt5u.gtBlockcasings9.4": {
+      "side": "MACHINE_CASING_INDUSTRIAL_WATER_PLANT"
+    },
+    "gt5u.gtBlockcasings9.5": {
+      "side": "WATER_PLANT_CONCRETE_CASING"
+    },
+    "gt5u.gtBlockcasings9.7": {
+      "side": "MACHINE_CASING_NAQUADAH_REINFORCED_WATER_PLANT"
+    },
+    "gt5u.gtBlockcasings9.8": {
+      "side": "MACHINE_CASING_EXTREME_CORROSION_RESISTANT"
+    },
+    "gt5u.gtBlockcasings9.9": {
+      "side": "MACHINE_CASING_HIGH_PRESSURE_RESISTANT"
+    },
+    "gt5u.gtBlockcasingsBA0.10": {
+      "side": "EM_INNER_SPACETIME_REINFORCED_EOH_CASING"
+    },
+    "gt5u.gtBlockcasingsBA0.11": {
+      "side": "EM_OUTER_SPACETIME_REINFORCED_EOH_CASING"
+    },
+    "gt5u.gtBlockcasingsBA0.12": {
+      "side": "EM_POWER_INFINITE"
+    },
+    "gt5u.gtBlockcasingsBA0.6": {
+      "flat": true
+    },
+    "gt5u.gtBlockcasingsBA0.7": {
+      "side": "TM_TESLA_TOROID"
+    },
+    "gt5u.gtBlockcasingsBA0.8": {
+      "flat": true
+    },
+    "gt5u.gtBlockcasingsCyclotronCoils.0": {
+      "side": "MV_SIDE_CYCLOTRON_SOLENOID"
+    },
+    "gt5u.gtBlockcasingsCyclotronCoils.7": {
+      "side": "UHV_SIDE_CYCLOTRON_SOLENOID"
+    },
+    "gt5u.gtBlockcasingsCyclotronCoils.8": {
+      "side": "UEV_SIDE_CYCLOTRON_SOLENOID"
+    },
+    "gt5u.gtBlockcasingsNH.10": {
+      "side": "MACHINE_UEV_BOTTOM"
+    },
+    "gt5u.gtBlockcasingsSE.0": {
+      "side": "GTNHINTERGALACTIC_BASECASING"
+    },
+    "gt5u.gtBlockcasingsSE.1": {
+      "side": "GTNHINTERGALACTIC_INTERNALSTRUCTURE"
+    },
+    "gt5u.gtBlockcasingsSE.2": {
+      "flat": true
+    },
+    "gt5u.gtBlockcasingsTT.0": {
+      "side": "EM_POWER"
+    },
+    "gt5u.gtBlockcasingsTT.1": {
+      "side": "EM_PC"
+    },
+    "gt5u.gtBlockcasingsTT.2": {
+      "side": "EM_PC_VENT"
+    },
+    "gt5u.gtBlockcasingsTT.3": {
+      "side": "EM_PC_ADV"
+    },
+    "gt5u.gtBlockcasingsTT.4": {
+      "side": "EM_CASING"
+    },
+    "gt5u.gtBlockcasingsTT.7": {
+      "side": "EM_COIL"
+    },
+    "gt5u.gtBlockconcretes.8": {
+      "side": "CONCRETE_LIGHT_STONE"
+    },
+    "gt5u.gtBlockglass1.8": {
+      "side": "NANOCHIP_GLASS"
+    },
+    "gt5u.gtSpacetimeCompressionFieldGenerator.0": {
+      "side": "EM_DIM_0"
+    },
+    "gt5u.gtStabilisationFieldGenerator.0": {
+      "side": "STABILITY_CASING_0"
+    },
+    "gt5u.gtTimeAccelerationFieldGenerator.0": {
+      "side": "EM_FIELD_0"
+    },
+    "gt5u.gtplusplusBlockcasings4.10": {
+      "side": "VACUUM_CASING_SIDE"
+    },
+    "gt5u.gtplusplusBlockcasings4.4": {
+      "side": "MACHINE_CASING_QFT_COIL"
+    },
+    "gt5u.gtplusplusBlockcasings5.1": {
+      "side": "MISCUTILS_MACHINE_CASING_GRINDING_FACTORY"
+    },
+    "gt5u.gtplusplusBlockcasings5.15": {
+      "side": "FORCEFIELDGLASS"
+    },
+    "gt5u.gtplusplusBlockcasings5.2": {
+      "side": "MISCUTILS_MACHINE_CASING_GEARBOX_T1"
+    },
+    "gt5u.gtplusplusBlockcasings5.4": {
+      "side": "SPARGE_TOWER_EXTERIOR_CASING"
+    },
+    "gt5u.gtplusplusBlockcasings5.5": {
+      "side": "STURDY_PRINTER_CASING"
+    },
+    "gt5u.gtplusplusBlockcasings5.6": {
+      "side": "FORGE_CASING"
+    },
+    "gt5u.impreciseUnitCasing.0": {
+      "side": "GOODGENERATOR_0"
+    },
+    "gt5u.mARCasing.0": {
+      "side": "GOODGENERATOR_MAR_CASING"
+    },
+    "gt5u.magicCasing.0": {
+      "side": "GOODGENERATOR_MAGICCASING"
+    },
+    "gt5u.miscutilsBlockcasings.1": {
+      "side": "MISCUTILS_MACHINE_CASING_STABLE_TANTALLOY61"
+    },
+    "gt5u.miscutilsBlockcasings.12": {
+      "side": "MISCUTILS_MACHINE_CASING_STABLE_STELLITE"
+    },
+    "gt5u.miscutilsBlockcasings.13": {
+      "side": "MISCUTILS_MACHINE_CASING_STABLE_ZERON100"
+    },
+    "gt5u.miscutilsBlockcasings.14": {
+      "side": "MISCUTILS_MACHINE_CASING_FIREBOX_STABALLOY"
+    },
+    "gt5u.miscutilsBlockcasings.15": {
+      "side": "MISCUTILS_MACHINE_CASING_STABLE_ZIRCONIUM_CARBIDE"
+    },
+    "gt5u.miscutilsBlockcasings.5": {
+      "side": "MISCUTILS_MACHINE_CASING_STABLE_POTIN"
+    },
+    "gt5u.miscutilsBlockcasings.6": {
+      "side": "MISCUTILS_MACHINE_CASING_STABLE_MARAGINGSTEEL"
+    },
+    "gt5u.miscutilsBlockcasings.8": {
+      "side": "MATTER_GENERATION_COIL"
+    },
+    "gt5u.miscutilsBlockcasings.9": {
+      "side": "MATTER_FABRICATOR_CASING"
+    },
+    "gt5u.nIOBIUMCAVITYCASING.0": {
+      "side": "GTNHLANTH_CASING_NIOBIUM_CAVITY"
+    },
+    "gt5u.pressureResistantWalls.0": {
+      "side": "GOODGENERATOR_PRESSURERESISTANTWALLS"
+    },
+    "gt5u.radiationProtectionSteelFrame.0": {
+      "side": "GOODGENERATOR_RADIATIONPROTECTIONSTEELFRAME"
+    },
+    "gt5u.sBlockCasingsDyson.0": {
+      "flat": true
+    },
+    "gt5u.sBlockCasingsDyson.1": {
+      "flat": true
+    },
+    "gt5u.sBlockCasingsDyson.2": {
+      "flat": true
+    },
+    "gt5u.sBlockCasingsDyson.3": {
+      "flat": true
+    },
+    "gt5u.sBlockCasingsDyson.4": {
+      "flat": true
+    },
+    "gt5u.sBlockCasingsDyson.5": {
+      "flat": true
+    },
+    "gt5u.sBlockCasingsDyson.6": {
+      "flat": true
+    },
+    "gt5u.sBlockCasingsDyson.7": {
+      "flat": true
+    },
+    "gt5u.sBlockCasingsDyson.8": {
+      "flat": true
+    },
+    "gt5u.sBlockCasingsDyson.9": {
+      "flat": true
+    },
+    "gt5u.sBlockCasingsSiphon.0": {
+      "flat": true
+    },
+    "gt5u.sBlockFenceMetal.0": {
+      "side": "BLOCK_IRON_FENCE"
+    },
+    "gt5u.sBlockFrames.81": {
+      "flat": true
+    },
+    "gt5u.sBlockMetal2.7": {
+      "flat": true
+    },
+    "gt5u.sBlockMetal4.13": {
+      "flat": true
+    },
+    "gt5u.sBlockMetal8.6": {
+      "flat": true
+    },
+    "gt5u.sBlockReinforced.10": {
+      "side": "BLOCK_NAQUADAHPREIN"
+    },
+    "gt5u.sBlockReinforced.2": {
+      "side": "BLOCK_PLASCRETE"
+    },
+    "gt5u.sBlockReinforced.3": {
+      "side": "BLOCK_TSREIN"
+    },
+    "gt5u.sHIELDEDACCELERATORCASING.0": {
+      "side": "GTNHLANTH_CASING_SHIELDED_ACCELERATOR"
+    },
+    "gt5u.sLaserRender.0": {
+      "side": "LASER_PLATE"
+    },
+    "gt5u.sSpaceElevatorCable.0": {
+      "side": "GTNHINTERGALACTIC_CABLEPART"
+    },
+    "gt5u.specialHatch": {
+      "side": "MACHINE_HV_SIDE"
+    },
+    "gt5u.speedingPipe.0": {
+      "side": "GOODGENERATOR_SPEEDINGPIPE_SIDE"
+    },
+    "gt5u.supercriticalFluidTurbineCasing.0": {
+      "flat": true
+    },
+    "gt5u.tARGETHOLDER.0": {
+      "side": "GTNHLANTH_CASING_TARGET_HOLDER"
+    },
+    "gt5u.tARGETRECEPTACLECASING.0": {
+      "side": "GTNHLANTH_CASING_TARGET_RECEPTACLE"
+    },
+    "gt5u.tieredCasing": {
+      "flat": true
     },
     "gtpp.casing.centrifuge": {
       "side": "MACHINE_CASING_CENTRIFUGE"

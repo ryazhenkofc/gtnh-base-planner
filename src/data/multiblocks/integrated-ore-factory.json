@@ -1,0 +1,207 @@
+{
+  "id": "integrated-ore-factory",
+  "name": "Integrated Ore Factory",
+  "generated": true,
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTEIntegratedOreFactory.java",
+  "size": [15, 9, 13],
+  "layers": [
+    [
+      " JJJG     GJJJ ",
+      "JFFFJDDDDDJFFFJ",
+      "JFFFJDDDDDJFFFJ",
+      "JFFFJDDDDDJFFFJ",
+      " JJJDDDDDDDJJJ ",
+      "JFFFJDDDDDJFFFJ",
+      "JFFFJDDDDDJFFFJ",
+      "JFFFJDDDDDJFFFJ",
+      " JJJDDDDDDDJJJ ",
+      "JFFFJDDDDDJFFFJ",
+      "JFFFJDDDDDJFFFJ",
+      "JFFFJDDDDDJFFFJ",
+      " JJJG     GJJJ "
+    ],
+    [
+      "  J G     G J  ",
+      " FFFFDDDDDFFFF ",
+      "JFEFJ     JFBFJ",
+      " FFFF     FFFF ",
+      "  J D     D J  ",
+      " FFFF     FFFF ",
+      "JF FJ     JFCFJ",
+      " FFFF     FFFF ",
+      "  J D     D J  ",
+      " FFFF     FFFF ",
+      "JFHFJ     JFIFJ",
+      " FFFFDDDDDFFFF ",
+      "  J G     G J  "
+    ],
+    [
+      "    G     G    ",
+      " FFFFDD~DDFFFF ",
+      " FEF       FBF ",
+      " FFFF     FFFF ",
+      "    D     D    ",
+      " FFFF     FFFF ",
+      " F F       FCF ",
+      " FFFF     FFFF ",
+      "    D     D    ",
+      " FFFF     FFFF ",
+      " FHF       FIF ",
+      " FFFFDDDDDFFFF ",
+      "    G     G    "
+    ],
+    [
+      "    GG   GG    ",
+      " FAFFDDDDDFFAF ",
+      " AEF       FBA ",
+      " FAFF     FFAF ",
+      "    D     D    ",
+      " FAFF     FFAF ",
+      " A F       FCA ",
+      " FAFF     FFAF ",
+      "    D     D    ",
+      " FAFF     FFAF ",
+      " AHF       FIA ",
+      " FAFFDDDDDFFAF ",
+      "    GG   GG    "
+    ],
+    [
+      "     DDDDD     ",
+      " FAFFDDDDDFFAF ",
+      " AEFFDDDDDFFBA ",
+      " FAFFDDDDDFFAF ",
+      "    DDDDDDD    ",
+      " FAFFDDDDDFFAF ",
+      " A FFDDDDDFFCA ",
+      " FAFFDDDDDFFAF ",
+      "    DDDDDDD    ",
+      " FAFFDDDDDFFAF ",
+      " AHFFDDDDDFFIA ",
+      " FAFFDDDDDFFAF ",
+      "     DDDDD     "
+    ],
+    [
+      "               ",
+      " FAFFFF FFFFAF ",
+      " AEFFJJGJJFFBA ",
+      " FAFFFF FFFFAF ",
+      "               ",
+      " FAFFFF FFFFAF ",
+      " A FFJJGJJFFCA ",
+      " FAFFFF FFFFAF ",
+      "               ",
+      " FAFFFF FFFFAF ",
+      " AHFFJJGJJFFIA ",
+      " FAFFFF FFFFAF ",
+      "               "
+    ],
+    [
+      "               ",
+      " FAFF     FFAF ",
+      " AEFJ     JFBA ",
+      " FAFF     FFAF ",
+      "               ",
+      " FAFF     FFAF ",
+      " A FJ     JFCA ",
+      " FAFF     FFAF ",
+      "               ",
+      " FAFF     FFAF ",
+      " AHFJ     JFIA ",
+      " FAFF     FFAF ",
+      "               "
+    ],
+    [
+      "               ",
+      " FAF       FAF ",
+      " AEF       FBA ",
+      " FAF       FAF ",
+      "               ",
+      " FAF       FAF ",
+      " A F       FCA ",
+      " FAF       FAF ",
+      "               ",
+      " FAF       FAF ",
+      " AHF       FIA ",
+      " FAF       FAF ",
+      "               "
+    ],
+    [
+      "               ",
+      " FFF       FFF ",
+      " FFF       FFF ",
+      " FFF       FFF ",
+      "               ",
+      " FFF       FFF ",
+      " FFF       FFF ",
+      " FFF       FFF ",
+      "               ",
+      " FFF       FFF ",
+      " FFF       FFF ",
+      " FFF       FFF ",
+      "               "
+    ]
+  ],
+  "legend": {
+    "D": {
+      "blockId": "gt.casing.cleanStainless",
+      "hatches": ["itemIn", "itemOut", "fluidIn", "energy", "maintenance", "muffler"]
+    },
+    "G": {
+      "blockId": "gt.frame.stainless"
+    },
+    "J": {
+      "blockId": "gt.sheetmetal.iridium"
+    },
+    "F": {
+      "blockId": "gt5u.gtBlockcasings8.7"
+    },
+    "A": {
+      "blockId": "gt.glass.reinforced"
+    },
+    "E": {
+      "blockId": "gt5u.gtBlockcasings5.8"
+    },
+    "B": {
+      "blockId": "gt.casing.titaniumGearbox"
+    },
+    "C": {
+      "blockId": "gt.casing.grate"
+    },
+    "H": {
+      "blockId": "gtpp.casing.largeSieveGrate"
+    },
+    "I": {
+      "blockId": "gtpp.casing.centrifuge"
+    }
+  },
+  "controller": {
+    "pos": [7, 2, 1],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus",
+    "itemOut": "gt.hatch.outputBus",
+    "fluidIn": "gt.hatch.inputHatch",
+    "energy": "gt.hatch.energy",
+    "maintenance": "gt.hatch.maintenance",
+    "muffler": "gt.hatch.muffler"
+  },
+  "shareableHatches": ["itemIn", "itemOut", "fluidIn"],
+  "requiredHatches": {
+    "energy": {
+      "min": 1
+    },
+    "maintenance": {
+      "min": 1,
+      "max": 1
+    },
+    "muffler": {
+      "min": 1,
+      "max": 1
+    }
+  },
+  "defaultHatches": ["itemIn", "itemOut", "energy", "maintenance", "muffler"],
+  "wallshare": true,
+  "notes": "Generated from MTEIntegratedOreFactory (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+}

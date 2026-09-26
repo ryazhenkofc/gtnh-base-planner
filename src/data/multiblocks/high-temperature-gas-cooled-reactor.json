@@ -1,0 +1,393 @@
+{
+  "id": "high-temperature-gas-cooled-reactor",
+  "name": "High Temperature Gas-cooled Reactor",
+  "generated": true,
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/kubatech/tileentity/gregtech/multiblock/MTEHighTempGasCooledReactor.java",
+  "size": [29, 15, 18],
+  "layers": [
+    [
+      "                             ",
+      "               AAA           ",
+      "      DDDDDDDDDDAA           ",
+      "      D        ADA           ",
+      "      D         D            ",
+      "      D         D            ",
+      "  PP  D  PP     D            ",
+      " P    D    P C KDK C  C  C   ",
+      " P    D    P                 ",
+      "             C P   P   P   P ",
+      "                             ",
+      "         C C C               ",
+      "                             ",
+      "               P   P   P   P ",
+      " P         P                 ",
+      " P         P                 ",
+      "  PP     PP                  ",
+      "                             "
+    ],
+    [
+      "                             ",
+      "               A~A           ",
+      "               AIA           ",
+      "               AAA           ",
+      "                             ",
+      "                             ",
+      "  P       P                  ",
+      " P         P FFJJJFFFFFFFF   ",
+      "      D      F               ",
+      "             F PPPPP   PPPPP ",
+      "             F P   P   P   P ",
+      "         FFFFF P   P   P   P ",
+      "               P   P   P   P ",
+      "               PPPPP   PPPPP ",
+      "                             ",
+      " P         P                 ",
+      "  P       P                  ",
+      "                             "
+    ],
+    [
+      "                             ",
+      "               AAA           ",
+      "               AAA           ",
+      "               AAA           ",
+      "                             ",
+      "                             ",
+      "  P       P                  ",
+      " P         P   eee       F   ",
+      "      D                      ",
+      "      G        PCCCP   PCCCP ",
+      "     GGG       CCCCC   CCCCC ",
+      "    GGvGGF     CCCCC   CCCCC ",
+      "     GGG       CCCCC   CCCCC ",
+      "      G        PCCCP   PCCCP ",
+      "                             ",
+      " P         P                 ",
+      "  P       P                  ",
+      "                             "
+    ],
+    [
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "  PP     PP                  ",
+      " P         P             F   ",
+      " P   GDG   P                 ",
+      "    GGEGG      PCCCP   PCCCP ",
+      "   GGE EGG     CMM C   C LLC ",
+      "   GE   EF     cM NNFFFNN Ls ",
+      "   GGE EGG     C NNC   CNN C ",
+      "    GGEGG      PCCCP   PCCCP ",
+      " P   GGG   P                 ",
+      " P         P                 ",
+      "  PP     PP                  ",
+      "                             "
+    ],
+    [
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "  PPPPPPPPP                  ",
+      " PPPPGGGPPPP             F   ",
+      " PPGGEEEGGPP                 ",
+      " PPGEE EEGPP   PCCCP    CCC  ",
+      " PGEE   EEGP   CN MC   CL NC ",
+      " PGE     FGP   CN MC   CL NC ",
+      " PGEE   EEGP   CN MC   CL NC ",
+      " PPGEE EEGPP   PCCCP    CCC  ",
+      " PPGGEEEGGPP                 ",
+      " PPPPGGGPPPP                 ",
+      "  PPPPPPPPP                  ",
+      "                             "
+    ],
+    [
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "     GGG                     ",
+      "   GGEEEGG               F   ",
+      "  GGE   EGG                  ",
+      "  GE     EG     CCC     CCC  ",
+      " GE       EG   C NNC   CNN C ",
+      " GE       EG   CM NC   CN LC ",
+      " GE       EG   CMM C   C LLC ",
+      "  GE     EG     CCC     CCC  ",
+      "  GGE   EGG                  ",
+      "   GGEEEGG                   ",
+      "     GGG                     ",
+      "                             "
+    ],
+    [
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "     GGG                     ",
+      "   GGEEEGG               F   ",
+      "  GGE   EGG                  ",
+      "  GE  H  EG     CCC     CCC  ",
+      " GE       EG   CMMMC   CLLLC ",
+      " GE H   H EG   C   C   C  NC ",
+      " GE       EG   CNNNC   C NNC ",
+      "  GE  H  EG     CCC     CCC  ",
+      "  GGE   EGG                  ",
+      "   GGEEEGG                   ",
+      "     GGG                     ",
+      "                             "
+    ],
+    [
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "     GGG                     ",
+      "   GGEEEGG               F   ",
+      "  GGE   EGG              F   ",
+      "  GE  H  EG     CCC     CFC  ",
+      " GE       EG   CNN C   C NNC ",
+      " GE H   H EG   CN MC   CL  C ",
+      " GE       EG   C MMC   CLL C ",
+      "  GE  H  EG     CCC     CCC  ",
+      "  GGE   EGG                  ",
+      "   GGEEEGG                   ",
+      "     GGG                     ",
+      "                             "
+    ],
+    [
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "     GGG                     ",
+      "   GGEEEGG                   ",
+      "  GGE   EGG                  ",
+      "  GE  H  EG     CCC     CCC  ",
+      " GE       EG   CM NC   C   C ",
+      " GE H   H EG   CM NC   C  Lw ",
+      " GE       EG   CM NC   C  LC ",
+      "  GE  H  EG     CCC     CCC  ",
+      "  GGE   EGG                  ",
+      "   GGEEEGG                   ",
+      "     GGG                     ",
+      "                             "
+    ],
+    [
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "     GGG                     ",
+      "   GGEEEGG                   ",
+      "  GGE   EGG                  ",
+      "  GE  H  EG     CCC      C   ",
+      " GE       EG   C MMC    CCC  ",
+      " GE H   H EG   CN MC   CCCCC ",
+      " GE       EG   CNN C    CCC  ",
+      "  GE  H  EG     CCC      C   ",
+      "  GGE   EGG                  ",
+      "   GGEEEGG                   ",
+      "     GGG                     ",
+      "                             "
+    ],
+    [
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "     GGG                     ",
+      "    GEEEG                    ",
+      "   GEEHEEG      CCC          ",
+      "  GEE   EEG    CNNNC         ",
+      "  GEH   HFG    C   C         ",
+      "  GEE   EEG    CMMMC         ",
+      "   GEEHEEG      CCC          ",
+      "    GEEEG                    ",
+      "     GGG                     ",
+      "                             ",
+      "                             "
+    ],
+    [
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "     GGG                     ",
+      "    GGGGG       CCC          ",
+      "   GGEEEGG     CMM C         ",
+      "   GGE EGF     CM NC         ",
+      "   GGEEEGG     C NNC         ",
+      "    GGGGG       CCC          ",
+      "     GGG                     ",
+      "                             ",
+      "                             ",
+      "                             "
+    ],
+    [
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "                CCC          ",
+      "     GGG       C  MC         ",
+      "     GfG FFFFFFFN MC         ",
+      "     GGG       CN  C         ",
+      "                CCC          ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             "
+    ],
+    [
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "                CCC          ",
+      "               C   C         ",
+      "               C  MC         ",
+      "               C   C         ",
+      "                CCC          ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             "
+    ],
+    [
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "                 C           ",
+      "                CCC          ",
+      "               CCChC         ",
+      "                CCC          ",
+      "                 C           ",
+      "                             ",
+      "                             ",
+      "                             ",
+      "                             "
+    ]
+  ],
+  "legend": {
+    "C": {
+      "blockId": "gt.casing.pressureContainment"
+    },
+    "h": {
+      "blockId": "gt5u.specialHatch"
+    },
+    "M": {
+      "blockId": "gt.casing.titaniumPipe"
+    },
+    "G": {
+      "blockId": "gt5u.gtBlockcasings13.3"
+    },
+    "f": {
+      "blockId": "gt5u.specialHatch"
+    },
+    "F": {
+      "blockId": "gt5u.gtBlockcasings13.2"
+    },
+    "N": {
+      "blockId": "gt.casing.tungstensteelPipe"
+    },
+    "E": {
+      "blockId": "gt5u.gtBlockcasings13.1"
+    },
+    "H": {
+      "blockId": "gt5u.gtBlockcasings13.4"
+    },
+    "L": {
+      "blockId": "gt.casing.steelPipe"
+    },
+    "w": {
+      "blockId": "gt5u.specialHatch"
+    },
+    "P": {
+      "blockId": "gt5u.sBlockFrames.81"
+    },
+    "D": {
+      "blockId": "gt5u.gtBlockcasings13.0"
+    },
+    "c": {
+      "blockId": "gt5u.specialHatch"
+    },
+    "s": {
+      "blockId": "gt5u.specialHatch"
+    },
+    "A": {
+      "blockId": "gt5u.gtBlockcasings.5"
+    },
+    "e": {
+      "blockId": "gt.hatch.maintenance",
+      "hatches": ["maintenance"]
+    },
+    "v": {
+      "blockId": "gt5u.specialHatch"
+    },
+    "I": {
+      "blockId": "gt5u.gtBlockcasings2.6"
+    },
+    "J": {
+      "blockId": "gt5u.gtBlockcasings2.10"
+    },
+    "K": {
+      "blockId": "gt5u.gtBlockcasings2.11"
+    }
+  },
+  "controller": {
+    "pos": [16, 1, 1],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "maintenance": "gt.hatch.maintenance"
+  },
+  "shareableHatches": [],
+  "requiredHatches": {
+    "maintenance": {
+      "min": 1,
+      "max": 1
+    }
+  },
+  "defaultHatches": ["maintenance"],
+  "wallshare": true,
+  "notes": "Generated from MTEHighTempGasCooledReactor (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+}

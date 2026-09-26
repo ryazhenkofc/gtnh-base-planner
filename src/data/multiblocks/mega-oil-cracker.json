@@ -1,0 +1,155 @@
+{
+  "id": "mega-oil-cracker",
+  "name": "Mega Oil Cracker",
+  "generated": true,
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTEMegaOilCracker.java",
+  "size": [13, 8, 9],
+  "layers": [
+    [
+      "DBBBBB~BBBBBD",
+      "DBBBBBBBBBBBD",
+      "DBBBBBBBBBBBD",
+      "DBBBBBBBBBBBD",
+      "DBBBBBBBBBBBD",
+      "DBBBBBBBBBBBD",
+      "DBBBBBBBBBBBD",
+      "DBBBBBBBBBBBD",
+      "DBBBBBBBBBBBD"
+    ],
+    [
+      " D         D ",
+      "DBAAAAAAAAABD",
+      " A         A ",
+      " AE E E E EA ",
+      " FE E E E EF ",
+      " AE E E E EA ",
+      " A         A ",
+      "DBAAAAAAAAABD",
+      " D         D "
+    ],
+    [
+      " D         D ",
+      "DBAAAAAAAAABD",
+      " AE E E E EA ",
+      " L         R ",
+      " LE       ER ",
+      " L         R ",
+      " AE E E E EA ",
+      "DBAAAAAAAAABD",
+      " D         D "
+    ],
+    [
+      " D         D ",
+      "DBAAAAAAAAABD",
+      " FE E E E EF ",
+      " LE E E E ER ",
+      " LCCCCCCCCCR ",
+      " LE E E E ER ",
+      " FE E E E EF ",
+      "DBAAAAAAAAABD",
+      " D         D "
+    ],
+    [
+      " D         D ",
+      "DBAAAAAAAAABD",
+      " AE E E E EA ",
+      " L         R ",
+      " LE E E E ER ",
+      " L         R ",
+      " AE E E E EA ",
+      "DBAAAAAAAAABD",
+      " D         D "
+    ],
+    [
+      " D         D ",
+      "DBAAAAAAAAABD",
+      " A         A ",
+      " AE E E E EA ",
+      " FE E E E EF ",
+      " AE E E E EA ",
+      " A         A ",
+      "DBAAAAAAAAABD",
+      " D         D "
+    ],
+    [
+      " D         D ",
+      "DBAAAAAAAAABD",
+      " BAAAAAAAAAB ",
+      " BAAAMMMAAAB ",
+      " BFFFMMMFFFB ",
+      " BAAAMMMAAAB ",
+      " BAAAAAAAAAB ",
+      "DBAAAAAAAAABD",
+      " D         D "
+    ],
+    [
+      " D         D ",
+      " D         D ",
+      " D         D ",
+      " D         D ",
+      " D         D ",
+      " D         D ",
+      " D         D ",
+      " D         D ",
+      " D         D "
+    ]
+  ],
+  "legend": {
+    "D": {
+      "blockId": "gt.casing.cleanStainless"
+    },
+    "B": {
+      "blockId": "gt5u.gtBlockcasings14.5",
+      "hatches": ["itemIn", "energy", "maintenance"]
+    },
+    "A": {
+      "blockId": "gt.glass.reinforced"
+    },
+    "M": {
+      "blockId": "gt5u.gtBlockcasings14.5",
+      "hatches": ["fluidIn"]
+    },
+    "F": {
+      "blockId": "gt.sheetmetal.naquadah"
+    },
+    "E": {
+      "blockId": "gt.coil.cupronickel"
+    },
+    "L": {
+      "blockId": "gt5u.gtBlockcasings14.5",
+      "hatches": ["fluidIn"]
+    },
+    "R": {
+      "blockId": "gt5u.gtBlockcasings14.5",
+      "hatches": ["fluidOut"]
+    },
+    "C": {
+      "blockId": "gt.casing.steelPipe"
+    }
+  },
+  "controller": {
+    "pos": [6, 0, 0],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus",
+    "fluidIn": "gt.hatch.inputHatch",
+    "fluidOut": "gt.hatch.outputHatch",
+    "energy": "gt.hatch.energy",
+    "maintenance": "gt.hatch.maintenance"
+  },
+  "shareableHatches": ["itemIn", "fluidIn", "fluidOut"],
+  "requiredHatches": {
+    "energy": {
+      "min": 1
+    },
+    "maintenance": {
+      "min": 1,
+      "max": 1
+    }
+  },
+  "defaultHatches": ["itemIn", "energy", "maintenance"],
+  "wallshare": true,
+  "notes": "Generated from MTEMegaOilCracker (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+}

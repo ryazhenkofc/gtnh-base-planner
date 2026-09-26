@@ -1,0 +1,56 @@
+{
+  "id": "amazon-warehousing-depot",
+  "name": "Amazon Warehousing Depot",
+  "generated": true,
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTEIndustrialPackager.java",
+  "size": [5, 3, 3],
+  "layers": [
+    ["DDCDD", "DBBBD", "DDCDD"],
+    ["D   ~", "DAAAD", "D   D"],
+    ["     ", "DDDDD", "     "]
+  ],
+  "legend": {
+    "D": {
+      "blockId": "gt5u.blockCasings3Misc.9",
+      "hatches": ["itemIn", "itemOut", "energy", "maintenance", "muffler"]
+    },
+    "C": {
+      "blockId": "gt.frame.iron"
+    },
+    "A": {
+      "blockId": "gt.glass.reinforced"
+    },
+    "B": {
+      "blockId": "gt.casing.itemPipeTin"
+    }
+  },
+  "controller": {
+    "pos": [4, 1, 0],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus",
+    "itemOut": "gt.hatch.outputBus",
+    "energy": "gt.hatch.energy",
+    "maintenance": "gt.hatch.maintenance",
+    "muffler": "gt.hatch.muffler"
+  },
+  "shareableHatches": ["itemIn", "itemOut"],
+  "requiredHatches": {
+    "energy": {
+      "min": 1
+    },
+    "maintenance": {
+      "min": 1,
+      "max": 1
+    },
+    "muffler": {
+      "min": 1,
+      "max": 1
+    }
+  },
+  "defaultHatches": ["itemIn", "itemOut", "energy", "maintenance", "muffler"],
+  "wallshare": true,
+  "notes": "Generated from MTEIndustrialPackager (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+}

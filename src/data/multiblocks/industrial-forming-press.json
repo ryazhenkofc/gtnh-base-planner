@@ -1,0 +1,62 @@
+{
+  "id": "industrial-forming-press",
+  "name": "Industrial Forming Press",
+  "generated": true,
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTEIndustrialFormingPress.java",
+  "size": [5, 5, 3],
+  "layers": [
+    ["FF~FF", "AAAAA", "FFFFF"],
+    ["F   F", "     ", "F   F"],
+    ["F   F", "BBBBB", "F   F"],
+    ["FEEEF", "  A  ", "FEEEF"],
+    ["     ", "FFCFF", "     "]
+  ],
+  "legend": {
+    "F": {
+      "blockId": "gt.casing.stableTitanium",
+      "hatches": ["itemIn", "itemOut", "fluidIn", "energy", "maintenance", "muffler"]
+    },
+    "E": {
+      "blockId": "gt.frame.titanium"
+    },
+    "C": {
+      "blockId": "gt.casing.titaniumGearbox"
+    },
+    "A": {
+      "blockId": "gt.casing.steelPipe"
+    },
+    "B": {
+      "blockId": "gt5u.gtBlockcasings12.14"
+    }
+  },
+  "controller": {
+    "pos": [2, 0, 0],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus",
+    "itemOut": "gt.hatch.outputBus",
+    "fluidIn": "gt.hatch.inputHatch",
+    "energy": "gt.hatch.energy",
+    "maintenance": "gt.hatch.maintenance",
+    "muffler": "gt.hatch.muffler"
+  },
+  "shareableHatches": ["itemIn", "itemOut", "fluidIn"],
+  "requiredHatches": {
+    "energy": {
+      "min": 1
+    },
+    "maintenance": {
+      "min": 1,
+      "max": 1
+    },
+    "muffler": {
+      "min": 1,
+      "max": 1
+    }
+  },
+  "defaultHatches": ["itemIn", "itemOut", "energy", "maintenance", "muffler"],
+  "wallshare": true,
+  "notes": "Generated from MTEIndustrialFormingPress (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+}

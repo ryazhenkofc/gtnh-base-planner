@@ -1,0 +1,59 @@
+{
+  "id": "precise-auto-assembler-mt-3662",
+  "name": "Precise Auto-Assembler MT-3662",
+  "generated": true,
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/goodgenerator/blocks/tileEntity/MTEPreciseAssembler.java",
+  "size": [9, 5, 5],
+  "layers": [
+    ["CCCC~CCCC", "CMMMMMMMC", "CMMMMMMMC", "CMMMMMMMC", "CCCCCCCCC"],
+    ["F       F", "CGGGGGGGC", "C-------C", "CGGGGGGGC", "F       F"],
+    ["F       F", "CGGGGGGGC", "C-------C", "CGGGGGGGC", "F       F"],
+    ["F       F", "CGGGGGGGC", "C-------C", "CGGGGGGGC", "F       F"],
+    ["CCCCCCCCC", "CCCCCCCCC", "CCCCCCCCC", "CCCCCCCCC", "CCCCCCCCC"]
+  ],
+  "legend": {
+    "C": {
+      "blockId": "gt5u.impreciseUnitCasing.0",
+      "hatches": ["itemIn", "itemOut", "fluidIn", "energy", "maintenance", "muffler"]
+    },
+    "F": {
+      "blockId": "gt.frame.tungstensteel"
+    },
+    "G": {
+      "blockId": "gt.glass.reinforced"
+    },
+    "M": {
+      "blockId": "gt5u.tieredCasing"
+    }
+  },
+  "controller": {
+    "pos": [4, 0, 0],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus",
+    "itemOut": "gt.hatch.outputBus",
+    "fluidIn": "gt.hatch.inputHatch",
+    "energy": "gt.hatch.energy",
+    "maintenance": "gt.hatch.maintenance",
+    "muffler": "gt.hatch.muffler"
+  },
+  "shareableHatches": ["itemIn", "itemOut", "fluidIn"],
+  "requiredHatches": {
+    "energy": {
+      "min": 1
+    },
+    "maintenance": {
+      "min": 1,
+      "max": 1
+    },
+    "muffler": {
+      "min": 1,
+      "max": 1
+    }
+  },
+  "defaultHatches": ["itemIn", "itemOut", "energy", "maintenance", "muffler"],
+  "wallshare": true,
+  "notes": "Generated from MTEPreciseAssembler (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+}

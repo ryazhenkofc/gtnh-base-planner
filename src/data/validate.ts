@@ -96,16 +96,12 @@ export function validateMultiblockDef(def: MultiblockDef, fileName?: string): st
     }
     if (!HORIZONTAL.includes(c.facing)) err(`controller.facing "${c.facing}" must be a horizontal direction`);
     else if (posOk) {
-      // The controller is on the facing side of the box, or every cell between it and that side is open
-      // (air or not part of the structure), e.g. the rotor space in front of a Large Turbine.
+      // The cell the controller looks at is open (air, not part of the structure, or outside the box), e.g.
+      // the rotor space in front of a Large Turbine or the recess under a Research Station's arm.
       const step = { north: [0, 0, -1], south: [0, 0, 1], west: [-1, 0, 0], east: [1, 0, 0] }[c.facing];
-      let [x, y, z] = [pos[0] + step[0], pos[1], pos[2] + step[2]];
-      let open = true;
-      while (open && x >= 0 && x < sx && z >= 0 && z < sz) {
-        open = [' ', '-'].includes([...(def.layers[y]?.[z] ?? '')][x] ?? ' ');
-        x += step[0];
-        z += step[2];
-      }
+      const [x, y, z] = [pos[0] + step[0], pos[1], pos[2] + step[2]];
+      const inside = x >= 0 && x < sx && z >= 0 && z < sz;
+      const open = !inside || [' ', '-'].includes([...(def.layers[y]?.[z] ?? '')][x] ?? ' ');
       if (!open) err(`controller at ${pos.join(',')} does not face open space on the ${c.facing} side`);
     }
     if (!BLOCKS[c.blockId]) err(`controller.blockId "${c.blockId}" is not in BLOCKS`);

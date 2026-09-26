@@ -1,0 +1,72 @@
+{
+  "id": "elemental-duplicator",
+  "name": "Elemental Duplicator",
+  "generated": true,
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gtPlusPlus/xmod/gregtech/common/tileentities/machines/multi/production/MTEElementalDuplicator.java",
+  "size": [9, 9, 6],
+  "layers": [
+    ["   ccc   ", "   cac   ", "   cec   ", "   cec   ", "   cac   ", "   ccc   "],
+    ["  ccccc  ", "  abfba  ", "  e   e  ", "  e   e  ", "  abfba  ", "  ccccc  "],
+    [" ccccccc ", " abfgfba ", " e     e ", " e     e ", " abfgfba ", " ccccccc "],
+    ["ccccccccc", "cbfgdgfbc", "c   d   c", "c   d   c", "cbfgdgfbc", "ccccccccc"],
+    ["cccc~cccc", "afgdddgfa", "e  ddd  e", "e  ddd  e", "afgdddgfa", "ccccccccc"],
+    ["ccccccccc", "cbfgdgfbc", "c   d   c", "c   d   c", "cbfgdgfbc", "ccccccccc"],
+    [" ccccccc ", " abfgfba ", " e     e ", " e     e ", " abfgfba ", " ccccccc "],
+    ["  ccccc  ", "  abfba  ", "  e   e  ", "  e   e  ", "  abfba  ", "  ccccc  "],
+    ["   ccc   ", "   cac   ", "   cec   ", "   cec   ", "   cac   ", "   ccc   "]
+  ],
+  "legend": {
+    "c": {
+      "blockId": "gt5u.specialHatch",
+      "hatches": ["itemOut", "fluidIn", "fluidOut", "energy", "maintenance", "muffler"]
+    },
+    "a": {
+      "blockId": "gt5u.miscutilsBlockcasings.9"
+    },
+    "b": {
+      "blockId": "gt5u.miscutilsBlockcasings.8"
+    },
+    "f": {
+      "blockId": "gt5u.blockSpecialMultiCasings2.2"
+    },
+    "g": {
+      "blockId": "gt5u.blockSpecialMultiCasings2.6"
+    },
+    "d": {
+      "blockId": "gt5u.blockSpecialMultiCasings.12"
+    },
+    "e": {
+      "blockId": "gt5u.blockSpecialMultiCasings.13"
+    }
+  },
+  "controller": {
+    "pos": [4, 4, 0],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "itemOut": "gt.hatch.outputBus",
+    "fluidIn": "gt.hatch.inputHatch",
+    "fluidOut": "gt.hatch.outputHatch",
+    "energy": "gt.hatch.energy",
+    "maintenance": "gt.hatch.maintenance",
+    "muffler": "gt.hatch.muffler"
+  },
+  "shareableHatches": ["itemOut", "fluidIn", "fluidOut"],
+  "requiredHatches": {
+    "energy": {
+      "min": 1
+    },
+    "maintenance": {
+      "min": 1,
+      "max": 1
+    },
+    "muffler": {
+      "min": 1,
+      "max": 1
+    }
+  },
+  "defaultHatches": ["itemOut", "energy", "maintenance", "muffler"],
+  "wallshare": true,
+  "notes": "Generated from MTEElementalDuplicator (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+}

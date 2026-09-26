@@ -1,0 +1,216 @@
+{
+  "id": "linear-accelerator",
+  "name": "Linear Accelerator",
+  "generated": true,
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gtnhlanth/common/tileentity/MTELINAC.java",
+  "size": [7, 7, 19],
+  "layers": [
+    [
+      "ggg~ggg",
+      "ggggggg",
+      "jcccccj",
+      "jcccccj",
+      "jcccccj",
+      "jcccccj",
+      "jcccccj",
+      "jcccccj",
+      "ccccccc",
+      "ccccccc",
+      "ccccccc",
+      "ccccccc",
+      "ccccccc",
+      "ccccccc",
+      "ccccccc",
+      "ccccccc",
+      "ccccccc",
+      "ccccccc",
+      "ccccccc"
+    ],
+    [
+      "gbbbbbg",
+      "gcccccg",
+      "cvvvvvc",
+      "cdddddc",
+      "cdvvvdc",
+      "cdddddc",
+      "cdvvvdc",
+      "cdddddc",
+      "cdvvvdc",
+      "cdddddc",
+      "cdvvvdc",
+      "cdddddc",
+      "cdvvvdc",
+      "cdddddc",
+      "cdvvvdc",
+      "cdddddc",
+      "cvvvvvc",
+      "ccccccc",
+      "cbbbbbc"
+    ],
+    [
+      "gbbbbbg",
+      "gcccccg",
+      "kvvvvvk",
+      "kdyyydk",
+      "kvvvvvk",
+      "kdyyydk",
+      "kvvvvvk",
+      "kdyyydk",
+      "kvvvvvk",
+      "kdyyydk",
+      "kvvvvvk",
+      "kdyyydk",
+      "kvvvvvk",
+      "kdyyydk",
+      "kvvvvvk",
+      "kdyyydk",
+      "kvvvvvk",
+      "ccccccc",
+      "cbbbbbc"
+    ],
+    [
+      "gbbibbg",
+      "gcc-ccg",
+      "kvv-vvk",
+      "kdy-ydk",
+      "kdv-vdk",
+      "kdy-ydk",
+      "kdv-vdk",
+      "kdy-ydk",
+      "kdv-vdk",
+      "kdy-ydk",
+      "kdv-vdk",
+      "kdy-ydk",
+      "kdv-vdk",
+      "kdy-ydk",
+      "kdv-vdk",
+      "kdy-ydk",
+      "kvv-vvk",
+      "ccc-ccc",
+      "cbbobbc"
+    ],
+    [
+      "gbbbbbg",
+      "gcccccg",
+      "kvvvvvk",
+      "kdyyydk",
+      "kvvvvvk",
+      "kdyyydk",
+      "kvvvvvk",
+      "kdyyydk",
+      "kvvvvvk",
+      "kdyyydk",
+      "kvvvvvk",
+      "kdyyydk",
+      "kvvvvvk",
+      "kdyyydk",
+      "kvvvvvk",
+      "kdyyydk",
+      "kvvvvvk",
+      "ccccccc",
+      "cbbbbbc"
+    ],
+    [
+      "gbbbbbg",
+      "gcccccg",
+      "cvvvvvc",
+      "cdddddc",
+      "cdvvvdc",
+      "cdddddc",
+      "cdvvvdc",
+      "cdddddc",
+      "cdvvvdc",
+      "cdddddc",
+      "cdvvvdc",
+      "cdddddc",
+      "cdvvvdc",
+      "cdddddc",
+      "cdvvvdc",
+      "cdddddc",
+      "cvvvvvc",
+      "ccccccc",
+      "cbbbbbc"
+    ],
+    [
+      "ggggggg",
+      "ggggggg",
+      "ccccccc",
+      "cckkkcc",
+      "cckkkcc",
+      "cckkkcc",
+      "cckkkcc",
+      "cckhkcc",
+      "cckkkcc",
+      "cckkkcc",
+      "cckkkcc",
+      "cckhkcc",
+      "cckkkcc",
+      "cckkkcc",
+      "cckkkcc",
+      "cckkkcc",
+      "ccccccc",
+      "ccccccc",
+      "ccccccc"
+    ]
+  ],
+  "legend": {
+    "g": {
+      "blockId": "gt.casing.grate"
+    },
+    "b": {
+      "blockId": "gt.glass.reinforced"
+    },
+    "i": {
+      "blockId": "gt5u.specialHatch"
+    },
+    "c": {
+      "blockId": "gt5u.sHIELDEDACCELERATORCASING.0"
+    },
+    "v": {
+      "blockId": "gt5u.eLECTRODECASING.0"
+    },
+    "k": {
+      "blockId": "gt.glass.reinforced"
+    },
+    "j": {
+      "blockId": "gt5u.sHIELDEDACCELERATORCASING.0",
+      "hatches": ["energy", "maintenance"]
+    },
+    "d": {
+      "blockId": "gt5u.cOOLANTDELIVERYCASING.0"
+    },
+    "y": {
+      "blockId": "gt5u.gtBlockcasings.15"
+    },
+    "h": {
+      "blockId": "gt.hatch.inputHatch",
+      "hatches": ["fluidIn"]
+    },
+    "o": {
+      "blockId": "gt5u.specialHatch"
+    }
+  },
+  "controller": {
+    "pos": [3, 0, 0],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "fluidIn": "gt.hatch.inputHatch",
+    "energy": "gt.hatch.energy",
+    "maintenance": "gt.hatch.maintenance"
+  },
+  "shareableHatches": ["fluidIn"],
+  "requiredHatches": {
+    "energy": {
+      "min": 1
+    },
+    "maintenance": {
+      "min": 1,
+      "max": 1
+    }
+  },
+  "defaultHatches": ["fluidIn", "energy", "maintenance"],
+  "wallshare": true,
+  "notes": "Generated from MTELINAC (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+}

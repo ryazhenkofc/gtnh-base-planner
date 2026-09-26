@@ -1,0 +1,65 @@
+{
+  "id": "large-essentia-smeltery",
+  "name": "Large Essentia Smeltery",
+  "generated": true,
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/goodgenerator/blocks/tileEntity/MTELargeEssentiaSmeltery.java",
+  "size": [5, 5, 5],
+  "layers": [
+    ["  A  ", " AAA ", " AAA ", " AAA ", "  A  "],
+    [" AAA ", "AEFEA", "AEFEA", "AEFEA", " AAA "],
+    ["AA~AA", "D---D", "D---D", "D---D", "AAAAA"],
+    [" AAA ", "AECEA", "AECEA", "AECEA", " AAA "],
+    ["  A  ", " ABA ", " ABA ", " ABA ", "  A  "]
+  ],
+  "legend": {
+    "A": {
+      "blockId": "gt5u.magicCasing.0",
+      "hatches": ["itemIn", "fluidIn", "energy", "maintenance"]
+    },
+    "B": {
+      "blockId": "gt.hatch.muffler",
+      "hatches": ["muffler"]
+    },
+    "E": {
+      "blockId": "gt5u.essentiaCell.0"
+    },
+    "C": {
+      "blockId": "gt5u.essentiaFilterCasing.0"
+    },
+    "D": {
+      "blockId": "ext.blockCosmeticOpaque"
+    },
+    "F": {
+      "blockId": "ext.thaumicbasesAdvAlchFurnace"
+    }
+  },
+  "controller": {
+    "pos": [2, 2, 0],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus",
+    "fluidIn": "gt.hatch.inputHatch",
+    "energy": "gt.hatch.energy",
+    "maintenance": "gt.hatch.maintenance",
+    "muffler": "gt.hatch.muffler"
+  },
+  "shareableHatches": ["itemIn", "fluidIn"],
+  "requiredHatches": {
+    "energy": {
+      "min": 1
+    },
+    "maintenance": {
+      "min": 1,
+      "max": 1
+    },
+    "muffler": {
+      "min": 1,
+      "max": 1
+    }
+  },
+  "defaultHatches": ["itemIn", "energy", "maintenance", "muffler"],
+  "wallshare": true,
+  "notes": "Generated from MTELargeEssentiaSmeltery (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+}

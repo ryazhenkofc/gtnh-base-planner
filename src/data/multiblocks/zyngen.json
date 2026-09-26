@@ -1,0 +1,55 @@
+{
+  "id": "zyngen",
+  "name": "Zyngen",
+  "generated": true,
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gtPlusPlus/xmod/gregtech/common/tileentities/machines/multi/processing/MTEIndustrialAlloySmelter.java",
+  "size": [3, 5, 3],
+  "layers": [
+    ["C~C", "CCC", "CCC"],
+    ["HHH", "H-H", "HHH"],
+    ["VVV", "V-V", "VVV"],
+    ["HHH", "H-H", "HHH"],
+    ["CCC", "CCC", "CCC"]
+  ],
+  "legend": {
+    "C": {
+      "blockId": "gt5u.blockCasings3Misc.1",
+      "hatches": ["itemIn", "itemOut", "energy", "maintenance", "muffler"]
+    },
+    "H": {
+      "blockId": "gt.coil.cupronickel"
+    },
+    "V": {
+      "blockId": "gt5u.blockCasingsTieredGTPP.4"
+    }
+  },
+  "controller": {
+    "pos": [1, 0, 0],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus",
+    "itemOut": "gt.hatch.outputBus",
+    "energy": "gt.hatch.energy",
+    "maintenance": "gt.hatch.maintenance",
+    "muffler": "gt.hatch.muffler"
+  },
+  "shareableHatches": ["itemIn", "itemOut"],
+  "requiredHatches": {
+    "energy": {
+      "min": 1
+    },
+    "maintenance": {
+      "min": 1,
+      "max": 1
+    },
+    "muffler": {
+      "min": 1,
+      "max": 1
+    }
+  },
+  "defaultHatches": ["itemIn", "itemOut", "energy", "maintenance", "muffler"],
+  "wallshare": true,
+  "notes": "Generated from MTEIndustrialAlloySmelter (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+}

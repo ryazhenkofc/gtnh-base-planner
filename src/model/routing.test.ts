@@ -14,6 +14,9 @@ import { createPipeline } from '../ui/pipeline';
 import { defaultPlan } from '../state/store';
 import type { Dir, HatchKind, HatchPlacement, MultiblockDef, RouteNet, Unit, Vec3 } from './types';
 
+/** Hand-made entries; generated ones (tools/gt-source) have lighter checks in generated.test.ts. */
+const handMade = catalog.filter((d) => !d.generated);
+
 const coke = getMultiblock('coke-oven')!;
 
 function oven(id: number, origin: Vec3): Unit {
@@ -254,7 +257,7 @@ describe('routePipes', () => {
     let turnBends = 0;
     let bfsLength = 0;
     let turnLength = 0;
-    for (const { id } of catalog)
+    for (const { id } of handMade)
       for (const count of [12, 60]) {
         const r = createPipeline()({ ...defaultPlan(id), count }, false);
         const def = r.def!;
@@ -296,7 +299,7 @@ describe('routePipes', () => {
   });
 
   it('never lays pipes below the build', () => {
-    for (const def of catalog)
+    for (const def of handMade)
       for (const count of [4, 12]) {
         const r = createPipeline()({ ...defaultPlan(def.id), count }, true);
         const ground = Math.min(...r.scene!.voxels.map((v) => v.pos[1]));

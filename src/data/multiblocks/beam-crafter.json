@@ -1,0 +1,110 @@
+{
+  "id": "beam-crafter",
+  "name": "Beam Crafter",
+  "generated": true,
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/beamcrafting/MTEBeamCrafter.java",
+  "size": [17, 5, 11],
+  "layers": [
+    [
+      "                 ",
+      " BBB         BBB ",
+      " BBB         BBB ",
+      " BBB         BBB ",
+      " BBB         BBB ",
+      "  BBB       BBB  ",
+      "  BBBB     BBBB  ",
+      "   BBBBBBBBBBB   ",
+      "    BBBBBBBBB    ",
+      "      BBBBB      ",
+      "                 "
+    ],
+    [
+      " DDD         DDD ",
+      "B   B       B   B",
+      "B   B       B   B",
+      "B   B       B   B",
+      "B   BB     BB   B",
+      " B   BB   BB   B ",
+      " B    BBBBB    B ",
+      "  B           B  ",
+      "   B         B   ",
+      "    BB     BB    ",
+      "      BBBBB      "
+    ],
+    [
+      " DCD         DCD ",
+      "B   B       B   B",
+      "B   A       A   B",
+      "B   A       A   B",
+      "B   AA     AA   B",
+      " A   AA   AA   A ",
+      " A    AB~BA    A ",
+      "  A           A  ",
+      "   A         A   ",
+      "    AA     AA    ",
+      "      BBBBB      "
+    ],
+    [
+      " DDD         DDD ",
+      "B   B       B   B",
+      "B   B       B   B",
+      "B   B       B   B",
+      "B   BB     BB   B",
+      " B   BB   BB   B ",
+      " B    BBBBB    B ",
+      "  B           B  ",
+      "   B         B   ",
+      "    BB     BB    ",
+      "      BBBBB      "
+    ],
+    [
+      "                 ",
+      " BBB         BBB ",
+      " BBB         BBB ",
+      " BBB         BBB ",
+      " BBB         BBB ",
+      "  BBB       BBB  ",
+      "  BBBB     BBBB  ",
+      "   BBBBBBBBBBB   ",
+      "    BBBBBBBBB    ",
+      "      BBBBB      ",
+      "                 "
+    ]
+  ],
+  "legend": {
+    "D": {
+      "blockId": "gt.casing.grate"
+    },
+    "C": {
+      "blockId": "gt5u.specialHatch"
+    },
+    "B": {
+      "blockId": "gt5u.sHIELDEDACCELERATORCASING.0",
+      "hatches": ["itemIn", "itemOut", "fluidIn", "fluidOut", "energy"]
+    },
+    "A": {
+      "blockId": "gt.glass.reinforced"
+    }
+  },
+  "controller": {
+    "pos": [8, 2, 6],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus",
+    "itemOut": "gt.hatch.outputBus",
+    "fluidIn": "gt.hatch.inputHatch",
+    "fluidOut": "gt.hatch.outputHatch",
+    "energy": "gt.hatch.energy"
+  },
+  "shareableHatches": ["itemIn", "itemOut", "fluidIn", "fluidOut"],
+  "requiredHatches": {
+    "energy": {
+      "min": 1
+    }
+  },
+  "defaultHatches": ["itemIn", "itemOut", "energy"],
+  "wallshare": true,
+  "notes": "Generated from MTEBeamCrafter (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+}

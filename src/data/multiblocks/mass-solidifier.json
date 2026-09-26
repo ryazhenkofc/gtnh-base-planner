@@ -1,0 +1,61 @@
+{
+  "id": "mass-solidifier",
+  "name": "Mass Solidifier",
+  "generated": true,
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTEMassSolidifier.java",
+  "size": [5, 6, 9],
+  "layers": [
+    ["bb~bb", "bdbdb", "bbbbb", "bdbdb", "bbbbb", "bdbdb", "bbbbb", "bdbdb", "bbbbb"],
+    ["bdddb", "a c a", "accca", "a c a", "accca", "a c a", "accca", "a c a", "bdddb"],
+    ["bbbbb", "a   a", "a   a", "a   a", "a   a", "a   a", "a   a", "a   a", "bbbbb"],
+    ["bbbbb", "a   a", "a e a", "a   a", "a e a", "a   a", "a e a", "a   a", "bbbbb"],
+    ["bdddb", " dfd ", " dfd ", " dfd ", " dfd ", " dfd ", " dfd ", " dfd ", "bdddb"],
+    [" bbb ", "  b  ", "  b  ", "  b  ", "  b  ", "  b  ", "  b  ", "  b  ", " bbb "]
+  ],
+  "legend": {
+    "b": {
+      "blockId": "gt5u.gtBlockcasings10.13",
+      "hatches": ["itemIn", "itemOut", "fluidIn", "energy", "maintenance"]
+    },
+    "d": {
+      "blockId": "gt5u.gtBlockcasings10.14"
+    },
+    "f": {
+      "blockId": "gt.casing.cleanStainless"
+    },
+    "a": {
+      "blockId": "gt.glass.reinforced"
+    },
+    "e": {
+      "blockId": "gt.casing.steelPipe"
+    },
+    "c": {
+      "blockId": "gt.casing.heatProof"
+    }
+  },
+  "controller": {
+    "pos": [2, 0, 0],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus",
+    "itemOut": "gt.hatch.outputBus",
+    "fluidIn": "gt.hatch.inputHatch",
+    "energy": "gt.hatch.energy",
+    "maintenance": "gt.hatch.maintenance"
+  },
+  "shareableHatches": ["itemIn", "itemOut", "fluidIn"],
+  "requiredHatches": {
+    "energy": {
+      "min": 1
+    },
+    "maintenance": {
+      "min": 1,
+      "max": 1
+    }
+  },
+  "defaultHatches": ["itemIn", "itemOut", "energy", "maintenance"],
+  "wallshare": true,
+  "notes": "Generated from MTEMassSolidifier (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+}

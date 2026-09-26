@@ -1,0 +1,64 @@
+{
+  "id": "extreme-heat-exchanger",
+  "name": "Extreme Heat Exchanger",
+  "generated": true,
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/goodgenerator/blocks/tileEntity/MTEExtremeHeatExchanger.java",
+  "size": [5, 6, 11],
+  "layers": [
+    [" C~C ", "BBBBB", "BBBBB", "BBBBB", "BBBBB", "BBBBB", "BBBBB", "BBBBB", "BBBBB", "BBBBB", " CCC "],
+    [" CCC ", "GPPPG", "GWWWG", "GPPPG", "GWWWG", "GPPPG", "GWWWG", "GPPPG", "GWWWG", "GPPPG", " CCC "],
+    [" CCC ", "GPPPG", "GWWWG", "GPPPG", "GWWWG", "GPPPG", "GWWWG", "GPPPG", "GWWWG", "GPPPG", " CCC "],
+    [" CFC ", "GPPPG", "GWWWG", "GPPPG", "GWWWG", "GPPPG", "GWWWG", "GPPPG", "GWWWG", "GPPPG", " CEC "],
+    [" CCC ", "GPPPG", "GWWWG", "GPPPG", "GWWWG", "GPPPG", "GWWWG", "GPPPG", "GWWWG", "GPPPG", " CCC "],
+    [" CCC ", "TTTTT", "TTTTT", "TTTTT", "TTTTT", "TTTTT", "TTTTT", "TTTTT", "TTTTT", "TTTTT", " CCC "]
+  ],
+  "legend": {
+    "C": {
+      "blockId": "gt.casing.robustTungstensteel",
+      "hatches": ["maintenance"]
+    },
+    "T": {
+      "blockId": "gt.casing.robustTungstensteel",
+      "hatches": ["fluidOut", "maintenance"]
+    },
+    "G": {
+      "blockId": "gt.glass.reinforced"
+    },
+    "P": {
+      "blockId": "gt.casing.tungstensteelPipe"
+    },
+    "W": {
+      "blockId": "gt5u.pressureResistantWalls.0"
+    },
+    "F": {
+      "blockId": "gt5u.specialHatch"
+    },
+    "E": {
+      "blockId": "gt5u.specialHatch"
+    },
+    "B": {
+      "blockId": "gt.casing.robustTungstensteel",
+      "hatches": ["fluidIn", "maintenance"]
+    }
+  },
+  "controller": {
+    "pos": [2, 0, 0],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "fluidIn": "gt.hatch.inputHatch",
+    "fluidOut": "gt.hatch.outputHatch",
+    "maintenance": "gt.hatch.maintenance"
+  },
+  "shareableHatches": ["fluidIn", "fluidOut"],
+  "requiredHatches": {
+    "maintenance": {
+      "min": 1,
+      "max": 1
+    }
+  },
+  "defaultHatches": ["fluidIn", "fluidOut", "maintenance"],
+  "wallshare": true,
+  "notes": "Generated from MTEExtremeHeatExchanger (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+}

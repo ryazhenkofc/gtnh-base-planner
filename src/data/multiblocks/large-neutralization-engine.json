@@ -1,0 +1,52 @@
+{
+  "id": "large-neutralization-engine",
+  "name": "Large Neutralization Engine",
+  "generated": true,
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTELargeNeutralizationEngine.java",
+  "size": [11, 7, 3],
+  "layers": [
+    [" F F   F F ", " CFCF FCFC ", " F F   F F "],
+    [" CF     FC ", "P-CF   FC-P", " CF     FC "],
+    [" CF     FC ", "P-CF   FC-P", " CF     FC "],
+    [" CCF   FCC ", "P--C   C--P", " CCF   FCC "],
+    ["  CCFFFCC  ", " P--CCC--P ", "  CCFFFCC  "],
+    ["   CC~CC   ", "  P-----P  ", "   CCCCC   "],
+    ["           ", "   PPPPP   ", "           "]
+  ],
+  "legend": {
+    "P": {
+      "blockId": "gt.casing.ptfePipe"
+    },
+    "C": {
+      "blockId": "gt5u.tieredCasing",
+      "hatches": ["itemIn", "fluidIn", "dynamo", "maintenance"]
+    },
+    "F": {
+      "blockId": "gt.frame.ptfe"
+    }
+  },
+  "controller": {
+    "pos": [5, 5, 0],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus",
+    "fluidIn": "gt.hatch.inputHatch",
+    "dynamo": "gt.hatch.dynamo",
+    "maintenance": "gt.hatch.maintenance"
+  },
+  "shareableHatches": ["itemIn", "fluidIn"],
+  "requiredHatches": {
+    "dynamo": {
+      "min": 1
+    },
+    "maintenance": {
+      "min": 1,
+      "max": 1
+    }
+  },
+  "defaultHatches": ["itemIn", "dynamo", "maintenance"],
+  "wallshare": true,
+  "notes": "Generated from MTELargeNeutralizationEngine (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+}

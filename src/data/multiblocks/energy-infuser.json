@@ -1,0 +1,51 @@
+{
+  "id": "energy-infuser",
+  "name": "Energy Infuser",
+  "generated": true,
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/tectech/thing/metaTileEntity/multi/MTEEnergyInfuser.java",
+  "size": [3, 5, 3],
+  "layers": [
+    ["CCC", "CCC", "CCC"],
+    ["BBB", "BAB", "BBB"],
+    ["A~A", "AAA", "AAA"],
+    ["BBB", "BAB", "BBB"],
+    ["CCC", "CCC", "CCC"]
+  ],
+  "legend": {
+    "C": {
+      "blockId": "gt5u.gtBlockcasingsTT.0",
+      "hatches": ["itemIn", "itemOut", "fluidIn", "energy", "maintenance"]
+    },
+    "B": {
+      "blockId": "gt5u.gtBlockcasingsTT.7"
+    },
+    "A": {
+      "blockId": "gt5u.gtBlockcasingsTT.4"
+    }
+  },
+  "controller": {
+    "pos": [1, 2, 0],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus",
+    "itemOut": "gt.hatch.outputBus",
+    "fluidIn": "gt.hatch.inputHatch",
+    "energy": "gt.hatch.energy",
+    "maintenance": "gt.hatch.maintenance"
+  },
+  "shareableHatches": ["itemIn", "itemOut", "fluidIn"],
+  "requiredHatches": {
+    "energy": {
+      "min": 1
+    },
+    "maintenance": {
+      "min": 1,
+      "max": 1
+    }
+  },
+  "defaultHatches": ["itemIn", "itemOut", "energy", "maintenance"],
+  "wallshare": true,
+  "notes": "Generated from MTEEnergyInfuser (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+}

@@ -148,7 +148,9 @@ describe('catalog view', () => {
     expect(faces.top.tiles).toEqual(['COKE_OVEN_CASING']);
     expect(faces.left.tiles).toEqual(['COKE_OVEN_CASING', 'COKE_OVEN_OVERLAY_INACTIVE']);
     expect(faces.right.tiles).toEqual(['COKE_OVEN_CASING']);
-    expect(catalog.every((d) => iconFaces(d).left.tiles.length === 2)).toBe(true);
+    // Hand-made entries are all textured; a generated one may use an untextured (flat) casing.
+    expect(catalog.filter((d) => !d.generated).every((d) => iconFaces(d).left.tiles.length === 2)).toBe(true);
+    expect(catalog.every((d) => [0, 2].includes(iconFaces(d).left.tiles.length))).toBe(true);
     const bare = iconFaces(coke, {
       atlas: { path: '', width: 0, height: 0, tile: 16 },
       tiles: {},

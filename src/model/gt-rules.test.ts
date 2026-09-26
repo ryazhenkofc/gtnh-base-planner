@@ -6,6 +6,9 @@ import { controllerFacing, key, localCells, rotateDir, step, toWorld } from './g
 import { PIPE_KINDS } from './routing';
 import type { MultiblockDef, PlanLimits, Unit } from './types';
 
+/** Hand-made entries; generated ones (tools/gt-source) have lighter checks in generated.test.ts. */
+const handMade = catalog.filter((d) => !d.generated);
+
 /**
  * Game rules checked against GT5-Unofficial 5.09.54.133 (GT:NH 2.9.0-beta-3) on whole plans, pipes included.
  * See the structure definitions linked from each multiblock's `source`.
@@ -73,7 +76,7 @@ describe('GT rules', () => {
   });
 
   it('keeps pipes out of the cells mufflers, energy, maintenance and controllers need', () => {
-    for (const def of catalog)
+    for (const def of handMade)
       for (const [count, limits] of PLANS) {
         const { units, scene, pipes } = build(def.id, count, limits);
         const pipeCells = new Set(pipes.flatMap((n) => n.paths.flat().map(key)));
@@ -94,7 +97,7 @@ describe('GT rules', () => {
   });
 
   it('turns no hatch to a side its structure forbids', () => {
-    for (const def of catalog)
+    for (const def of handMade)
       for (const [count, limits] of PLANS) {
         const { units, scene } = build(def.id, count, limits);
         for (const h of scene.hatches)

@@ -1,0 +1,326 @@
+{
+  "id": "mega-alloy-blast-smelter",
+  "name": "Mega Alloy Blast Smelter",
+  "generated": true,
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gtPlusPlus/xmod/gregtech/common/tileentities/machines/multi/production/mega/MTEMegaAlloyBlastSmelter.java",
+  "size": [11, 20, 11],
+  "layers": [
+    [
+      "   ZZZZZ   ",
+      "  ZZZZZZZ  ",
+      " ZZZZZZZZZ ",
+      "ZZZZZZZZZZZ",
+      "ZZZZZZZZZZZ",
+      "ZZZZZZZZZZZ",
+      "ZZZZZZZZZZZ",
+      "ZZZZZZZZZZZ",
+      " ZZZZZZZZZ ",
+      "  ZZZZZZZ  ",
+      "   ZZZZZ   "
+    ],
+    [
+      "   CCCCC   ",
+      "  C     C  ",
+      " C BBBBB C ",
+      "C B     B C",
+      "C B     B C",
+      "C B     B C",
+      "C B     B C",
+      "C B     B C",
+      " C BBBBB C ",
+      "  C     C  ",
+      "   CCCCC   "
+    ],
+    [
+      "   AEEEA   ",
+      "  A     A  ",
+      " A BBBBB A ",
+      "A B     B A",
+      "A B     B A",
+      "A B     B A",
+      "A B     B A",
+      "A B     B A",
+      " A BBBBB A ",
+      "  A     A  ",
+      "   AAAAA   "
+    ],
+    [
+      "   AE~EA   ",
+      "  A     A  ",
+      " A BBBBB A ",
+      "A B     B A",
+      "A B     B A",
+      "A B     B A",
+      "A B     B A",
+      "A B     B A",
+      " A BBBBB A ",
+      "  A     A  ",
+      "   AAAAA   "
+    ],
+    [
+      "   AEEEA   ",
+      "  A     A  ",
+      " A BBBBB A ",
+      "A B     B A",
+      "A B     B A",
+      "A B     B A",
+      "A B     B A",
+      "A B     B A",
+      " A BBBBB A ",
+      "  A     A  ",
+      "   AAAAA   "
+    ],
+    [
+      "   CCCCC   ",
+      "  C     C  ",
+      " C BBBBB C ",
+      "C B     B C",
+      "C B     B C",
+      "C B     B C",
+      "C B     B C",
+      "C B     B C",
+      " C BBBBB C ",
+      "  C     C  ",
+      "   CCCCC   "
+    ],
+    [
+      "   DDDDD   ",
+      "  D     D  ",
+      " D BBBBB D ",
+      "D B     B D",
+      "D B     B D",
+      "D B     B D",
+      "D B     B D",
+      "D B     B D",
+      " D BBBBB D ",
+      "  D     D  ",
+      "   DDDDD   "
+    ],
+    [
+      "           ",
+      "   DDDDD   ",
+      "  DBBBBBD  ",
+      " DB     BD ",
+      " DB     BD ",
+      " DB     BD ",
+      " DB     BD ",
+      " DB     BD ",
+      "  DBBBBBD  ",
+      "   DDDDD   ",
+      "           "
+    ],
+    [
+      "           ",
+      "   AAAAA   ",
+      "  ABBBBBA  ",
+      " AB     BA ",
+      " AB     BA ",
+      " AB     BA ",
+      " AB     BA ",
+      " AB     BA ",
+      "  ABBBBBA  ",
+      "   AAAAA   ",
+      "           "
+    ],
+    [
+      "           ",
+      "   AAAAA   ",
+      "  ABBBBBA  ",
+      " AB     BA ",
+      " AB     BA ",
+      " AB     BA ",
+      " AB     BA ",
+      " AB     BA ",
+      "  ABBBBBA  ",
+      "   AAAAA   ",
+      "           "
+    ],
+    [
+      "           ",
+      "   AAAAA   ",
+      "  ABBBBBA  ",
+      " AB     BA ",
+      " AB     BA ",
+      " AB     BA ",
+      " AB     BA ",
+      " AB     BA ",
+      "  ABBBBBA  ",
+      "   AAAAA   ",
+      "           "
+    ],
+    [
+      "           ",
+      "   AAAAA   ",
+      "  ABBBBBA  ",
+      " AB     BA ",
+      " AB     BA ",
+      " AB     BA ",
+      " AB     BA ",
+      " AB     BA ",
+      "  ABBBBBA  ",
+      "   AAAAA   ",
+      "           "
+    ],
+    [
+      "           ",
+      "   AAAAA   ",
+      "  ABBBBBA  ",
+      " AB     BA ",
+      " AB     BA ",
+      " AB     BA ",
+      " AB     BA ",
+      " AB     BA ",
+      "  ABBBBBA  ",
+      "   AAAAA   ",
+      "           "
+    ],
+    [
+      "           ",
+      "   AAAAA   ",
+      "  ABBBBBA  ",
+      " AB     BA ",
+      " AB     BA ",
+      " AB     BA ",
+      " AB     BA ",
+      " AB     BA ",
+      "  ABBBBBA  ",
+      "   AAAAA   ",
+      "           "
+    ],
+    [
+      "           ",
+      "   AAAAA   ",
+      "  ABBBBBA  ",
+      " AB     BA ",
+      " AB     BA ",
+      " AB     BA ",
+      " AB     BA ",
+      " AB     BA ",
+      "  ABBBBBA  ",
+      "   AAAAA   ",
+      "           "
+    ],
+    [
+      "           ",
+      "   AAAAA   ",
+      "  ABBBBBA  ",
+      " AB     BA ",
+      " AB     BA ",
+      " AB     BA ",
+      " AB     BA ",
+      " AB     BA ",
+      "  ABBBBBA  ",
+      "   AAAAA   ",
+      "           "
+    ],
+    [
+      "           ",
+      "   AAAAA   ",
+      "  ABBBBBA  ",
+      " AB     BA ",
+      " AB     BA ",
+      " AB     BA ",
+      " AB     BA ",
+      " AB     BA ",
+      "  ABBBBBA  ",
+      "   AAAAA   ",
+      "           "
+    ],
+    [
+      "           ",
+      "   AAAAA   ",
+      "  ABBBBBA  ",
+      " AB     BA ",
+      " AB     BA ",
+      " AB     BA ",
+      " AB     BA ",
+      " AB     BA ",
+      "  ABBBBBA  ",
+      "   AAAAA   ",
+      "           "
+    ],
+    [
+      "           ",
+      "   AAAAA   ",
+      "  ABBBBBA  ",
+      " AB     BA ",
+      " AB     BA ",
+      " AB     BA ",
+      " AB     BA ",
+      " AB     BA ",
+      "  ABBBBBA  ",
+      "   AAAAA   ",
+      "           "
+    ],
+    [
+      "           ",
+      "   DDDDD   ",
+      "  DDDDDDD  ",
+      " DDDDDDDDD ",
+      " DDDDDDDDD ",
+      " DDDDFDDDD ",
+      " DDDDDDDDD ",
+      " DDDDDDDDD ",
+      "  DDDDDDD  ",
+      "   DDDDD   ",
+      "           "
+    ]
+  ],
+  "legend": {
+    "D": {
+      "blockId": "gt5u.miscutilsBlockcasings.15"
+    },
+    "C": {
+      "blockId": "gt5u.miscutilsBlockcasings.14"
+    },
+    "A": {
+      "blockId": "gt.glass.reinforced"
+    },
+    "E": {
+      "blockId": "gt5u.miscutilsBlockcasings.15",
+      "hatches": ["maintenance"]
+    },
+    "Z": {
+      "blockId": "gt5u.miscutilsBlockcasings.15",
+      "hatches": ["itemIn", "itemOut", "fluidIn", "fluidOut", "energy"]
+    },
+    "B": {
+      "blockId": "gt.coil.cupronickel"
+    },
+    "F": {
+      "blockId": "gt.hatch.muffler",
+      "hatches": ["muffler"]
+    }
+  },
+  "controller": {
+    "pos": [5, 3, 0],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus",
+    "itemOut": "gt.hatch.outputBus",
+    "fluidIn": "gt.hatch.inputHatch",
+    "fluidOut": "gt.hatch.outputHatch",
+    "energy": "gt.hatch.energy",
+    "maintenance": "gt.hatch.maintenance",
+    "muffler": "gt.hatch.muffler"
+  },
+  "shareableHatches": ["itemIn", "itemOut", "fluidIn", "fluidOut"],
+  "requiredHatches": {
+    "energy": {
+      "min": 1
+    },
+    "maintenance": {
+      "min": 1,
+      "max": 1
+    },
+    "muffler": {
+      "min": 1,
+      "max": 1
+    }
+  },
+  "defaultHatches": ["itemIn", "itemOut", "energy", "maintenance", "muffler"],
+  "wallshare": true,
+  "notes": "Generated from MTEMegaAlloyBlastSmelter (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+}

@@ -25,6 +25,8 @@ export const t = {
   search: 'Search',
   noMatches: 'Nothing matches.',
   wallshareTag: 'Wall-share',
+  /** Picker tag of catalog entries converted from the GT sources by tools/gt-source. */
+  generatedTag: 'From source',
 
   // Settings drawer
   limits: 'Limits',

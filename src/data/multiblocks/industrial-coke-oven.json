@@ -1,0 +1,65 @@
+{
+  "id": "industrial-coke-oven",
+  "name": "Industrial Coke Oven",
+  "generated": true,
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTEIndustrialCokeOven.java",
+  "size": [6, 7, 5],
+  "layers": [
+    ["   DDD", "DDDDDD", "DDDDDD", "DDDDDD", "   DDD"],
+    ["   C  ", "D~DBD ", "D E E ", "DDDBD ", "   C  "],
+    ["   C  ", "DDDBD ", "D E E ", "DDDBD ", "   C  "],
+    ["   C  ", " DDBD ", " AE E ", " DDBD ", "   C  "],
+    ["   C  ", "  DBD ", " AD D ", "  DBD ", "   C  "],
+    ["   C  ", "   E  ", " A A  ", "   E  ", "   C  "],
+    ["      ", "      ", " AAA  ", "      ", "      "]
+  ],
+  "legend": {
+    "C": {
+      "blockId": "gt.frame.steel"
+    },
+    "D": {
+      "blockId": "gt5u.miscutilsBlockcasings.1",
+      "hatches": ["itemIn", "itemOut", "fluidIn", "fluidOut", "energy", "maintenance", "muffler"]
+    },
+    "E": {
+      "blockId": "gt.casing.bronzeFirebox"
+    },
+    "B": {
+      "blockId": "gt.coil.cupronickel"
+    },
+    "A": {
+      "blockId": "gt.casing.steelPipe"
+    }
+  },
+  "controller": {
+    "pos": [1, 1, 1],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus",
+    "itemOut": "gt.hatch.outputBus",
+    "fluidIn": "gt.hatch.inputHatch",
+    "fluidOut": "gt.hatch.outputHatch",
+    "energy": "gt.hatch.energy",
+    "maintenance": "gt.hatch.maintenance",
+    "muffler": "gt.hatch.muffler"
+  },
+  "shareableHatches": ["itemIn", "itemOut", "fluidIn", "fluidOut"],
+  "requiredHatches": {
+    "energy": {
+      "min": 1
+    },
+    "maintenance": {
+      "min": 1,
+      "max": 1
+    },
+    "muffler": {
+      "min": 1,
+      "max": 1
+    }
+  },
+  "defaultHatches": ["itemIn", "itemOut", "energy", "maintenance", "muffler"],
+  "wallshare": true,
+  "notes": "Generated from MTEIndustrialCokeOven (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+}

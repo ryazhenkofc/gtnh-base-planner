@@ -1,0 +1,56 @@
+{
+  "id": "boldarnator",
+  "name": "Boldarnator",
+  "generated": true,
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTEIndustrialRockBreaker.java",
+  "size": [7, 5, 5],
+  "layers": [
+    ["  ACA  ", "CCCCCCC", "CCCCCCC", "CCCCCCC", "  ACA  "],
+    ["       ", "ABACABA", "C-C C-C", "ABACABA", "       "],
+    ["       ", "ABA~ABA", "C-C C-C", "ABACABA", "       "],
+    ["       ", "ABACABA", "C-C C-C", "ABACABA", "       "],
+    ["  ACA  ", "CACCCAC", "CCCCCCC", "CACCCAC", "  ACA  "]
+  ],
+  "legend": {
+    "A": {
+      "blockId": "gt.frame.tungsten"
+    },
+    "C": {
+      "blockId": "gt5u.blockCasings2Misc.0",
+      "hatches": ["itemIn", "itemOut", "fluidIn", "energy", "maintenance", "muffler"]
+    },
+    "B": {
+      "blockId": "gt.glass.reinforced"
+    }
+  },
+  "controller": {
+    "pos": [3, 2, 1],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus",
+    "itemOut": "gt.hatch.outputBus",
+    "fluidIn": "gt.hatch.inputHatch",
+    "energy": "gt.hatch.energy",
+    "maintenance": "gt.hatch.maintenance",
+    "muffler": "gt.hatch.muffler"
+  },
+  "shareableHatches": ["itemIn", "itemOut", "fluidIn"],
+  "requiredHatches": {
+    "energy": {
+      "min": 1
+    },
+    "maintenance": {
+      "min": 1,
+      "max": 1
+    },
+    "muffler": {
+      "min": 1,
+      "max": 1
+    }
+  },
+  "defaultHatches": ["itemIn", "itemOut", "energy", "maintenance", "muffler"],
+  "wallshare": true,
+  "notes": "Generated from MTEIndustrialRockBreaker (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+}

@@ -9,7 +9,7 @@ It is a layout tool, not a recipe or production-chain calculator. Structures fol
 
 ## Features
 
-- **Catalog of 38 multiblocks** with a picker: steam machines (Steam Separator, Grinder, Squasher, Presser, Hearth, Blender, Purifier, Fuser), Coke Oven, EBF, Vacuum Freezer, Distillation Tower, Pyrolyse Oven, Large Boilers, Large Turbines, combustion engines, Assembly Line, Large Fluid Extractor, Industrial Autoclave, Industrial Centrifuge and more. Almost every GT multiblock can share walls in game (structure checks do not claim casings), so the catalog is limited only by what has been transcribed.
+- **Catalog of 205 multiblocks** with a picker. 38 are transcribed and checked by hand: steam machines (Steam Separator, Grinder, Squasher, Presser, Hearth, Blender, Purifier, Fuser), Coke Oven, EBF, Vacuum Freezer, Distillation Tower, Pyrolyse Oven, Large Boilers, Large Turbines, combustion engines, Assembly Line, Large Fluid Extractor, Industrial Autoclave, Industrial Centrifuge and more. The other 167 (GT++ industrial machines, fusion reactors, drilling rigs, TecTech, Bartworks, Good Generator, the purification plant units, ...) are converted from the GT5-Unofficial sources by [`tools/gt-source`](tools/gt-source/README.md) and tagged "From source" in the picker. Almost every GT multiblock can share walls in game (structure checks do not claim casings).
 - **Adjustable sizes** for multiblocks GT builds in variable size: Distillation Tower height (3 to 12) and Assembly Line length (5 to 16).
 - **Auto-packing** of N units with optional limits counted in multiblocks (at most N along X, N layers, N along Z); controllers always face outward, and rows that cannot share a back wall get a one-block walkway. Example: 15 Pyrolyse Ovens with X 5, Layers 1, Z 3 give three rows of five.
 - **Shared walls**: blocks that coincide in the same cell are counted once; incompatible overlaps are highlighted.
@@ -89,7 +89,7 @@ the Distillation Tower keeps one output hatch per layer. Never change `default`:
 2. Register any new block ids in [`src/data/blocks.ts`](src/data/blocks.ts) with a flat colour, and map them to textures in [`src/render/textures.json`](src/render/textures.json).
 3. Run `npm run check && npm test`, then check the new entry in `npm run dev`.
 
-Structures can be transcribed by hand from the GT5-Unofficial source or generated with the extractor: see [`tools/extractor/README.md`](tools/extractor/README.md).
+Structures can be transcribed by hand from the GT5-Unofficial source or generated with the extractor: see [`tools/extractor/README.md`](tools/extractor/README.md). Entries marked `"generated": true` are written by [`tools/gt-source`](tools/gt-source/README.md); do not edit them by hand. To take one over, remove `generated` and edit it: the generator never overwrites a class that a hand-made entry covers.
 
 ## Textures and attribution
 
@@ -137,7 +137,7 @@ src/
   i18n/        UI strings
 public/        static files copied as-is (favicon, textures)
 e2e/           Playwright tests
-tools/         offline tooling (structure extractor)
+tools/         offline tooling (structure extractor, GT source converter)
 ```
 
 ## Deployment

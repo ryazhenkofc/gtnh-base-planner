@@ -12,8 +12,11 @@
  *   public/textures/atlas.png  — every tile below, 16×16 each, packed in a grid
  *   src/render/textures.json   — tile rects + blockId → faces mapping + hatch overlays
  *
- * Adding a block: map its id in BLOCK_MAP (tile names are keys of TILES) and rerun the script.
- * Ids from src/data/blocks.ts that are not mapped get `{ "flat": true }` (flat colour in DETAILED view).
+ * Adding a block: map its id in HAND_BLOCK_MAP (tile names are keys of HAND_TILES) and rerun the script.
+ * Blocks of the generated catalog entries come from tools/gt-source/textures.generated.json (written by
+ * tools/gt-source/generate.mjs together with their source files) and are merged into TILES / BLOCK_MAP.
+ * Ids from src/data/blocks.ts and src/data/blocks.generated.json that are not mapped get `{ "flat": true }`
+ * (flat colour in DETAILED view).
  */
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
@@ -25,10 +28,12 @@ const SRC_DIR = join(ROOT, 'public/textures/src');
 const ATLAS_PNG = join(ROOT, 'public/textures/atlas.png');
 const TEXTURES_JSON = join(ROOT, 'src/render/textures.json');
 const BLOCKS_TS = join(ROOT, 'src/data/blocks.ts');
+const BLOCKS_GENERATED = join(ROOT, 'src/data/blocks.generated.json');
+const TEXTURES_GENERATED = join(ROOT, 'tools/gt-source/textures.generated.json');
 
 export const REPO = 'GTNewHorizons/GT5-Unofficial';
 export const ICONSETS = 'src/main/resources/assets/gregtech/textures/blocks/iconsets';
-const RAW = `https://raw.githubusercontent.com/${REPO}/master/`;
+const RAW = (ref = 'master') => `https://raw.githubusercontent.com/${REPO}/${ref}/`;
 
 /** Tile size in the atlas. */
 export const TILE = 16;
@@ -42,8 +47,9 @@ const MACHINE_METAL = [210, 220, 255];
  * Atlas tiles: name → options. The source is `${ICONSETS}/${name}.png` unless `path` (repo-relative) is given;
  * it is stored as `public/textures/src/${name}.png`. `tint` multiplies RGB (the game tints the tiered
  * MACHINE_* casings with MACHINE_METAL and material icons such as frames with the material colour).
+ * `ref` is the GT5-Unofficial branch or tag to download from (default `master`).
  */
-export const TILES = {
+export const HAND_TILES = {
   // Coke Oven (BlockCasings12 meta 0, MTECokeOven, MTEHatchCokeOven)
   COKE_OVEN_CASING: {},
   COKE_OVEN_OVERLAY_INACTIVE: {},
@@ -207,7 +213,7 @@ export const TILES = {
  * `front` is an overlay tile drawn over the side texture on the controller's facing side.
  * Hatches (kind "hatch" in the scene) additionally get the overlay of their hatch kind (HATCH_OVERLAYS).
  */
-export const BLOCK_MAP = {
+export const HAND_BLOCK_MAP = {
   'gt.cokeOvenBrick': { side: 'COKE_OVEN_CASING' },
   'gt.cokeOvenController': { side: 'COKE_OVEN_CASING', front: 'COKE_OVEN_OVERLAY_INACTIVE' },
   'gt.cokeOvenHatch': { side: 'COKE_OVEN_CASING' },
@@ -335,6 +341,15 @@ export const BLOCK_MAP = {
     front: 'OVERLAY_ENERGY_OUT',
   },
 };
+
+const generated = existsSync(TEXTURES_GENERATED)
+  ? JSON.parse(readFileSync(TEXTURES_GENERATED, 'utf8'))
+  : { tiles: {}, blocks: {} };
+
+/** Every tile: the hand-made ones and those of the generated catalog entries. */
+export const TILES = { ...generated.tiles, ...HAND_TILES };
+/** Every block → faces mapping (hand-made entries win). */
+export const BLOCK_MAP = { ...generated.blocks, ...HAND_BLOCK_MAP };
 
 /**
  * Hatch kind → overlay tiles drawn (in order) over the hatch's facing side, as in the GT hatch classes
@@ -582,9 +597,15 @@ export function packAtlas(tiles) {
   return { image: { width, height, data }, rects };
 }
 
-/** Block ids declared in src/data/blocks.ts (parsed textually so the script stays plain Node). */
-export function readBlockIds(source = readFileSync(BLOCKS_TS, 'utf8')) {
-  return [...source.matchAll(/\bid:\s*'([^']+)'/g)].map((m) => m[1]);
+/**
+ * Block ids declared in src/data/blocks.ts (parsed textually so the script stays plain Node) and in
+ * src/data/blocks.generated.json.
+ */
+export function readBlockIds(
+  source = readFileSync(BLOCKS_TS, 'utf8'),
+  generatedList = existsSync(BLOCKS_GENERATED) ? JSON.parse(readFileSync(BLOCKS_GENERATED, 'utf8')) : [],
+) {
+  return [...[...source.matchAll(/\bid:\s*'([^']+)'/g)].map((m) => m[1]), ...generatedList.map((b) => b.id)];
 }
 
 /** Builds the textures.json object. */
@@ -621,7 +642,7 @@ async function fetchSources() {
   for (const name of Object.keys(TILES)) {
     const dest = join(SRC_DIR, `${name}.png`);
     if (existsSync(dest)) continue;
-    const url = RAW + tileSourcePath(name);
+    const url = RAW(TILES[name].ref) + tileSourcePath(name);
     let body;
     for (let attempt = 1; !body; attempt++) {
       try {

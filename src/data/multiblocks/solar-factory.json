@@ -1,0 +1,51 @@
+{
+  "id": "solar-factory",
+  "name": "Solar Factory",
+  "generated": true,
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTESolarFactory.java",
+  "size": [5, 5, 5],
+  "layers": [
+    ["EA~AE", "AAAAA", "AAAAA", "AAAAA", "EAAAE"],
+    ["E   E", " GGG ", " G G ", " GGG ", "E   E"],
+    ["E   E", " GGG ", " G G ", " GGG ", "E   E"],
+    ["E   E", " GGG ", " G G ", " GGG ", "E   E"],
+    ["EAAAE", "AAAAA", "AAAAA", "AAAAA", "EAAAE"]
+  ],
+  "legend": {
+    "E": {
+      "blockId": "gt.frame.damascusSteel"
+    },
+    "A": {
+      "blockId": "gt.casing.cleanStainless",
+      "hatches": ["itemIn", "itemOut", "fluidIn", "energy", "maintenance"]
+    },
+    "G": {
+      "blockId": "gt.glass.reinforced"
+    }
+  },
+  "controller": {
+    "pos": [2, 0, 0],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus",
+    "itemOut": "gt.hatch.outputBus",
+    "fluidIn": "gt.hatch.inputHatch",
+    "energy": "gt.hatch.energy",
+    "maintenance": "gt.hatch.maintenance"
+  },
+  "shareableHatches": ["itemIn", "itemOut", "fluidIn"],
+  "requiredHatches": {
+    "energy": {
+      "min": 1
+    },
+    "maintenance": {
+      "min": 1,
+      "max": 1
+    }
+  },
+  "defaultHatches": ["itemIn", "itemOut", "energy", "maintenance"],
+  "wallshare": true,
+  "notes": "Generated from MTESolarFactory (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+}

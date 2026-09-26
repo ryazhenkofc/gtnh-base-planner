@@ -1,0 +1,62 @@
+{
+  "id": "reactor-fuel-processing-plant",
+  "name": "Reactor Fuel Processing Plant",
+  "generated": true,
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gtPlusPlus/xmod/gregtech/common/tileentities/machines/multi/production/MTERefinery.java",
+  "size": [3, 8, 3],
+  "layers": [
+    ["X~X", "XXX", "XXX"],
+    ["XXX", "XXX", "XXX"],
+    [" N ", "NIN", " N "],
+    [" Z ", "ZIZ", " Z "],
+    [" N ", "NIN", " N "],
+    [" N ", "NIN", " N "],
+    [" N ", "NIN", " N "],
+    ["   ", " N ", "   "]
+  ],
+  "legend": {
+    "N": {
+      "blockId": "gt5u.blockCasings2Misc.1"
+    },
+    "I": {
+      "blockId": "gt5u.blockCasings2Misc.3"
+    },
+    "Z": {
+      "blockId": "gt5u.miscutilsBlockcasings.13"
+    },
+    "X": {
+      "blockId": "gt5u.blockCasings2Misc.2",
+      "hatches": ["itemOut", "fluidIn", "fluidOut", "energy", "maintenance", "muffler"]
+    }
+  },
+  "controller": {
+    "pos": [1, 0, 0],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "itemOut": "gt.hatch.outputBus",
+    "fluidIn": "gt.hatch.inputHatch",
+    "fluidOut": "gt.hatch.outputHatch",
+    "energy": "gt.hatch.energy",
+    "maintenance": "gt.hatch.maintenance",
+    "muffler": "gt.hatch.muffler"
+  },
+  "shareableHatches": ["itemOut", "fluidIn", "fluidOut"],
+  "requiredHatches": {
+    "energy": {
+      "min": 1
+    },
+    "maintenance": {
+      "min": 1,
+      "max": 1
+    },
+    "muffler": {
+      "min": 1,
+      "max": 1
+    }
+  },
+  "defaultHatches": ["itemOut", "energy", "maintenance", "muffler"],
+  "wallshare": true,
+  "notes": "Generated from MTERefinery (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+}

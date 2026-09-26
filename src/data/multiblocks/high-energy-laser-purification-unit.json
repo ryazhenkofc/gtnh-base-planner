@@ -1,0 +1,146 @@
+{
+  "id": "high-energy-laser-purification-unit",
+  "name": "High Energy Laser Purification Unit",
+  "generated": true,
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/purification/MTEPurificationUnitUVTreatment.java",
+  "size": [13, 9, 9],
+  "layers": [
+    [
+      "     H~H     ",
+      "   AAAAAAA   ",
+      " AAAAAAAAAAA ",
+      "HAAAAAAAAAAAH",
+      "HAAAAAAAAAAAH",
+      "HAAAAAAAAAAAH",
+      " AAAAAAAAAAA ",
+      "   AAAAAAA   ",
+      "     HHH     "
+    ],
+    [
+      "     DDD     ",
+      "   DDBBBDD   ",
+      " DDBB   BBDD ",
+      "DBB       BBD",
+      "DB         BD",
+      "DBB       BBD",
+      " DDBB   BBDD ",
+      "   DDBBBDD   ",
+      "     DDD     "
+    ],
+    [
+      "             ",
+      "     BBB     ",
+      "   BB   BB   ",
+      " BB       BB ",
+      " B         B ",
+      " BB       BB ",
+      "   BB   BB   ",
+      "     BBB     ",
+      "             "
+    ],
+    [
+      "             ",
+      "     BBB     ",
+      "   BB   BB   ",
+      " BB       BB ",
+      " B         B ",
+      " BB       BB ",
+      "   BB   BB   ",
+      "     BBB     ",
+      "             "
+    ],
+    [
+      "             ",
+      "     BBB     ",
+      "   BB   BB   ",
+      " BB       BB ",
+      " B         B ",
+      " BB       BB ",
+      "   BB   BB   ",
+      "     BBB     ",
+      "             "
+    ],
+    [
+      "             ",
+      "     BBB     ",
+      "   BB   BB   ",
+      " BB       BB ",
+      " B         B ",
+      " BB       BB ",
+      "   BB   BB   ",
+      "     BBB     ",
+      "             "
+    ],
+    [
+      "             ",
+      "     BBB     ",
+      "   BB   BB   ",
+      " BB       BB ",
+      " B         B ",
+      " BB       BB ",
+      "   BB   BB   ",
+      "     BBB     ",
+      "             "
+    ],
+    [
+      "     DDD     ",
+      "   DDAAADD   ",
+      " DDAACCCAADD ",
+      "DAACCCCCCCAAD",
+      "DACCCCCCCCCAD",
+      "DAACCCCCCCAAD",
+      " DDAACCCAADD ",
+      "   DDAAADD   ",
+      "     DDD     "
+    ],
+    [
+      "             ",
+      "     AAA     ",
+      "   AAAAAAA   ",
+      " AAAAAAAAAAA ",
+      " AAAAALAAAAA ",
+      " AAAAAAAAAAA ",
+      "   AAAAAAA   ",
+      "     AIA     ",
+      "             "
+    ]
+  ],
+  "legend": {
+    "D": {
+      "blockId": "gt.frame.stellarAlloy"
+    },
+    "H": {
+      "blockId": "gt5u.gtBlockcasings9.12",
+      "hatches": ["fluidIn", "fluidOut"]
+    },
+    "A": {
+      "blockId": "gt5u.gtBlockcasings9.12"
+    },
+    "B": {
+      "blockId": "gt.glass.reinforced"
+    },
+    "C": {
+      "blockId": "gt5u.gtBlockcasings9.13"
+    },
+    "L": {
+      "blockId": "gt5u.specialHatch"
+    },
+    "I": {
+      "blockId": "gt5u.specialHatch"
+    }
+  },
+  "controller": {
+    "pos": [6, 0, 0],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "fluidIn": "gt.hatch.inputHatch",
+    "fluidOut": "gt.hatch.outputHatch"
+  },
+  "shareableHatches": ["fluidIn", "fluidOut"],
+  "requiredHatches": {},
+  "defaultHatches": ["fluidIn", "fluidOut"],
+  "wallshare": true,
+  "notes": "Generated from MTEPurificationUnitUVTreatment (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+}

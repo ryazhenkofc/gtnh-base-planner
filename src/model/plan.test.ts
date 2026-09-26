@@ -5,6 +5,9 @@ import { resolveLayout, type LayoutDeps } from './plan';
 import { placeHatches } from './ports';
 import type { HatchResult, PlanLimits, Unit } from './types';
 
+/** Hand-made entries; generated ones (tools/gt-source) have lighter checks in generated.test.ts. */
+const handMade = catalog.filter((d) => !d.generated);
+
 const unlimited: PlanLimits = { x: null, y: null, z: null };
 const deps: LayoutDeps = { placeHatches, layoutCandidates };
 
@@ -32,7 +35,7 @@ describe('resolveLayout', () => {
   });
 
   it('places every default hatch for every catalog multiblock; loosened layouts stay one layer high', () => {
-    for (const def of catalog)
+    for (const def of handMade)
       for (const n of [1, 4, 12, 60]) {
         const r = resolve(def.id, n);
         expect(r.hatches.unplaced, `${def.id} × ${n}`).toEqual([]);

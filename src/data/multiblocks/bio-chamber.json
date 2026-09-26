@@ -1,0 +1,129 @@
+{
+  "id": "bio-chamber",
+  "name": "Bio Chamber",
+  "generated": true,
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/pcb/MTEPCBBioChamber.java",
+  "size": [5, 7, 12],
+  "layers": [
+    [
+      "FS~SF",
+      "SSSSS",
+      "SSSSS",
+      "SSSSS",
+      "FSSSF",
+      "     ",
+      "     ",
+      "FSSSF",
+      "SSSSS",
+      "SSSSS",
+      "SSSSS",
+      "FSSSF"
+    ],
+    [
+      "FGGGF",
+      "G   G",
+      "G   G",
+      "G   G",
+      "FGGGF",
+      "     ",
+      "     ",
+      "FGGGF",
+      "G   G",
+      "G   G",
+      "G   G",
+      "FGGGF"
+    ],
+    [
+      "FGGGF",
+      "G   G",
+      "G   G",
+      "G   G",
+      "FGGGF",
+      "     ",
+      "     ",
+      "FGGGF",
+      "G   G",
+      "G   G",
+      "G   G",
+      "FGGGF"
+    ],
+    [
+      "FGGGF",
+      "G   G",
+      "G   G",
+      "G   G",
+      "FGGGF",
+      "     ",
+      "     ",
+      "FGGGF",
+      "G   G",
+      "G   G",
+      "G   G",
+      "FGGGF"
+    ],
+    [
+      "F   F",
+      " SSS ",
+      " SSS ",
+      " SSS ",
+      "F   F",
+      "     ",
+      "     ",
+      "F   F",
+      " SSS ",
+      " SSS ",
+      " SSS ",
+      "F   F"
+    ],
+    [
+      "     ",
+      "     ",
+      "  S  ",
+      "     ",
+      "     ",
+      "     ",
+      "     ",
+      "     ",
+      "     ",
+      "  S  ",
+      "     ",
+      "     "
+    ],
+    [
+      "     ",
+      "     ",
+      "     ",
+      "  S  ",
+      "  S  ",
+      "  S  ",
+      "  S  ",
+      "  S  ",
+      "  S  ",
+      "     ",
+      "     ",
+      "     "
+    ]
+  ],
+  "legend": {
+    "F": {
+      "blockId": "gt.frame.damascusSteel"
+    },
+    "G": {
+      "blockId": "gt.glass.reinforced"
+    },
+    "S": {
+      "blockId": "gt.casing.cleanStainless"
+    }
+  },
+  "controller": {
+    "pos": [2, 0, 0],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {},
+  "shareableHatches": [],
+  "requiredHatches": {},
+  "defaultHatches": [],
+  "wallshare": true,
+  "notes": "Generated from MTEPCBBioChamber (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+}

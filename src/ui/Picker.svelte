@@ -1,5 +1,6 @@
 <script lang="ts">
   import { catalog } from '../data/catalog';
+  import type { MultiblockDef } from '../model/types';
   import { t } from '../i18n/en';
   import { cachedIconFaces, matchesQuery } from './catalogView';
   import { blockIcon } from './icons';
@@ -13,6 +14,13 @@
 
   let query = $state('');
   const items = $derived(catalog.filter((d) => matchesQuery(d, query)));
+
+  /** Tier, wall-share and "converted from the GT sources" tags under a tile's name. */
+  function tags(def: MultiblockDef): string[] {
+    return [def.tier, def.wallshare ? t.wallshareTag : '', def.generated ? t.generatedTag : ''].filter(
+      (x): x is string => !!x,
+    );
+  }
 
   function onkeydown(e: KeyboardEvent) {
     if (e.key === 'Enter' && items.length === 1) onselect(items[0].id);
@@ -50,8 +58,8 @@
             <canvas class="cube" aria-hidden="true" use:blockIcon={cachedIconFaces(def)}></canvas>
             <span class="label">{def.name}</span>
             <span class="meta">
-              {def.tier ?? ''}{#if def.tier && def.wallshare}<span class="dot">{t.separator}</span
-                >{/if}{def.wallshare ? t.wallshareTag : ''}
+              {#each tags(def) as tag, i (tag)}{#if i > 0}<span class="dot">{t.separator}</span
+                  >{/if}{tag}{/each}
             </span>
           </button>
         </li>

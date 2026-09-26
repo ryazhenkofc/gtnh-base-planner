@@ -2,11 +2,13 @@ import { describe, expect, it } from 'vitest';
 import type { HatchKind, MultiblockDef } from '../model/types';
 import { sizedDef } from '../model/resize';
 import { catalog } from './catalog';
+import generatedShapes from './gt-shapes.generated.json';
 
 /**
  * Every catalog structure, cell by cell, against the StructureLib shape in GT5-Unofficial 5.09.54.133 (the
  * version in GT:NH 2.9.0-beta-3). Shapes and elements are copied from the Java sources linked in each JSON
  * `source`: which block each character is and which hatches (`buildHatchAdder(...).atLeast(...)`) may replace it.
+ * Entries written by tools/gt-source/generate.mjs bring their GT shape along in gt-shapes.generated.json.
  */
 
 type Cat =
@@ -702,6 +704,8 @@ function sameCell(gt: Cat, ours: Cat): boolean {
   if (gt.t === 'hatchOnly') return ours.t === 'hatchOnly' && ours.kind === gt.kind;
   return ours.t === gt.t;
 }
+
+Object.assign(GT, generatedShapes as unknown as typeof GT);
 
 describe('catalog structures match GT5-Unofficial', () => {
   it('has a GT shape for every multiblock', () => {

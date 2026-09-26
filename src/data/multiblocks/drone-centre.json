@@ -1,0 +1,92 @@
+{
+  "id": "drone-centre",
+  "name": "Drone Centre",
+  "generated": true,
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/drone/MTEDroneCentre.java",
+  "size": [11, 4, 11],
+  "layers": [
+    [
+      "    A~A    ",
+      "  AABBBAA  ",
+      " ABBBBBBBA ",
+      " ABBBBBBBA ",
+      "ABBBBBBBBBA",
+      "ABBBBBBBBBA",
+      "ABBBBBBBBBA",
+      " ABBBBBBBA ",
+      " ABBBBBBBA ",
+      "  AABBBAA  ",
+      "    AAA    "
+    ],
+    [
+      "           ",
+      "    D D    ",
+      "  D DDD D  ",
+      "   D   D   ",
+      " DD     DD ",
+      "  D     D  ",
+      " DD     DD ",
+      "   D   D   ",
+      "  D DDD D  ",
+      "    D D    ",
+      "           "
+    ],
+    [
+      "           ",
+      "     D     ",
+      "   DDEDD   ",
+      "  DEEEEED  ",
+      "  DEEEEED  ",
+      " DEEEEEEED ",
+      "  DEEEEED  ",
+      "  DEEEEED  ",
+      "   DDEDD   ",
+      "     D     ",
+      "           "
+    ],
+    [
+      "    CCC    ",
+      "  CC   CC  ",
+      " C       C ",
+      " C       C ",
+      "C         C",
+      "C         C",
+      "C         C",
+      " C       C ",
+      " C       C ",
+      "  CC   CC  ",
+      "    CCC    "
+    ]
+  ],
+  "legend": {
+    "C": {
+      "blockId": "gt.frame.iron"
+    },
+    "A": {
+      "blockId": "gt.casing.solidSteel",
+      "hatches": ["itemIn"]
+    },
+    "D": {
+      "blockId": "gt.frame.steel"
+    },
+    "B": {
+      "blockId": "gt.casing.steelPipe"
+    },
+    "E": {
+      "blockId": "ext.hempcrete"
+    }
+  },
+  "controller": {
+    "pos": [5, 0, 0],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus"
+  },
+  "shareableHatches": ["itemIn"],
+  "requiredHatches": {},
+  "defaultHatches": ["itemIn"],
+  "wallshare": true,
+  "notes": "Generated from MTEDroneCentre (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+}

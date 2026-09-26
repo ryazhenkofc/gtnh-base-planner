@@ -1,0 +1,39 @@
+{
+  "id": "active-transformer",
+  "name": "Active Transformer",
+  "generated": true,
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/tectech/thing/metaTileEntity/multi/MTEActiveTransformer.java",
+  "size": [3, 3, 3],
+  "layers": [
+    ["111", "111", "111"],
+    ["1~1", "101", "111"],
+    ["111", "111", "111"]
+  ],
+  "legend": {
+    "0": {
+      "blockId": "gt5u.gtBlockcasings.15"
+    },
+    "1": {
+      "blockId": "gt5u.gtBlockcasingsTT.0",
+      "hatches": ["energy", "dynamo"]
+    }
+  },
+  "controller": {
+    "pos": [1, 1, 0],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "energy": "gt.hatch.energy",
+    "dynamo": "gt.hatch.dynamo"
+  },
+  "shareableHatches": [],
+  "requiredHatches": {
+    "dynamo": {
+      "min": 1
+    }
+  },
+  "defaultHatches": ["energy", "dynamo"],
+  "wallshare": true,
+  "notes": "Generated from MTEActiveTransformer (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+}

@@ -84,6 +84,8 @@ export interface MultiblockDef {
   tier?: string;
   /** Link to the GT5-Unofficial (or other) source file the structure was transcribed from. */
   source?: string;
+  /** Set on entries written by tools/gt-source/generate.mjs (converted from the GT sources, not hand-checked). */
+  generated?: boolean;
   /** [x, y, z] */
   size: Vec3;
   layers: string[][];

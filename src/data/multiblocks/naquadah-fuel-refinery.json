@@ -1,0 +1,242 @@
+{
+  "id": "naquadah-fuel-refinery",
+  "name": "Naquadah Fuel Refinery",
+  "generated": true,
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTENaquadahFuelRefinery.java",
+  "size": [27, 27, 5],
+  "layers": [
+    [
+      "                           ",
+      "          AAAAAAA          ",
+      "          CCCCCCC          ",
+      "          AAAAAAA          ",
+      "                           "
+    ],
+    [
+      "          AAAAAAA          ",
+      "        AACCCCCCCAA        ",
+      "        CCBBBBBBBCC        ",
+      "        AACCCCCCCAA        ",
+      "          AAAAAAA          "
+    ],
+    [
+      "        AA       AA        ",
+      "      AACCEAAAAAECCAA      ",
+      "      CCBBAAABAAABBCC      ",
+      "      AACCEAAAAAECCAA      ",
+      "        AA       AA        "
+    ],
+    [
+      "      AA           AA      ",
+      "     ACCEE   A   EECCA     ",
+      "     CBBEE FAFAF EEBBC     ",
+      "     ACCEE   A   EECCA     ",
+      "      AA           AA      "
+    ],
+    [
+      "     A               A     ",
+      "    AFEE     A     EEFA    ",
+      "    CBEE   FAFAF   EEBC    ",
+      "    AFEE     A     EEFA    ",
+      "     A               A     "
+    ],
+    [
+      "    A                 A    ",
+      "   AFE               EFA   ",
+      "   CBE     F A F     EBC   ",
+      "   AFE               EFA   ",
+      "    A                 A    "
+    ],
+    [
+      "   A                   A   ",
+      "  ACE                 ECA  ",
+      "  CBE        A        EBC  ",
+      "  ACE                 ECA  ",
+      "   A                   A   "
+    ],
+    [
+      "   A                   A   ",
+      "  ACE                 ECA  ",
+      "  CBE        A        EBC  ",
+      "  ACE                 ECA  ",
+      "   A                   A   "
+    ],
+    [
+      "  A                     A  ",
+      " ACE                   ECA ",
+      " CBE         A         EBC ",
+      " ACE                   ECA ",
+      "  A                     A  "
+    ],
+    [
+      "  A                     A  ",
+      " ACE         A         ECA ",
+      " CBE        AFA        EBC ",
+      " ACE         A         ECA ",
+      "  A                     A  "
+    ],
+    [
+      " A           A           A ",
+      "ACE         A A         ECA",
+      "CBA        AF FA        ABC",
+      "ACE         A A         ECA",
+      " A           A           A "
+    ],
+    [
+      " A          AAA          A ",
+      "ACA        A   A        ACA",
+      "CBAFFF    AF   FA    FFFABC",
+      "ACA        A   A        ACA",
+      " A          AAA          A "
+    ],
+    [
+      " A         AAAAA         A ",
+      "ACA       A     A       ACA",
+      "CBAAA    AF     FA    AAABC",
+      "ACA       A     A       ACA",
+      " A         AAAAA         A "
+    ],
+    [
+      " A        AAA~AAA        A ",
+      "ACAAA    A       A    AAACA",
+      "CBBFFAAAAF       FAAAAFFBBC",
+      "ACAAA    A       A    AAACA",
+      " A        AAAAAAA        A "
+    ],
+    [
+      " A         AAAAA         A ",
+      "ACA       A     A       ACA",
+      "CBAAA    AF     FA    AAABC",
+      "ACA       A     A       ACA",
+      " A         AAAAA         A "
+    ],
+    [
+      " A          AAA          A ",
+      "ACA        A   A        ACA",
+      "CBAFFF    AF   FA    FFFABC",
+      "ACA        A   A        ACA",
+      " A          AAA          A "
+    ],
+    [
+      " A           A           A ",
+      "ACE         A A         ECA",
+      "CBA        AF FA        ABC",
+      "ACE         A A         ECA",
+      " A           A           A "
+    ],
+    [
+      "  A                     A  ",
+      " ACE         A         ECA ",
+      " CBE        AFA        EBC ",
+      " ACE         A         ECA ",
+      "  A                     A  "
+    ],
+    [
+      "  A                     A  ",
+      " ACE                   ECA ",
+      " CBE         A         EBC ",
+      " ACE                   ECA ",
+      "  A                     A  "
+    ],
+    [
+      "   A                   A   ",
+      "  ACE                 ECA  ",
+      "  CBE        A        EBC  ",
+      "  ACE                 ECA  ",
+      "   A                   A   "
+    ],
+    [
+      "   A                   A   ",
+      "  ACE                 ECA  ",
+      "  CBE        A        EBC  ",
+      "  ACE                 ECA  ",
+      "   A                   A   "
+    ],
+    [
+      "    A                 A    ",
+      "   AFE               EFA   ",
+      "   CBE     F A F     EBC   ",
+      "   AFE               EFA   ",
+      "    A                 A    "
+    ],
+    [
+      "     A               A     ",
+      "    AFEE     A     EEFA    ",
+      "    CBEE   FAFAF   EEBC    ",
+      "    AFEE     A     EEFA    ",
+      "     A               A     "
+    ],
+    [
+      "      AA           AA      ",
+      "     ACCEE   A   EECCA     ",
+      "     CBBEE FAFAF EEBBC     ",
+      "     ACCEE   A   EECCA     ",
+      "      AA           AA      "
+    ],
+    [
+      "        AA       AA        ",
+      "      AACCEAAAAAECCAA      ",
+      "      CCBBAAABAAABBCC      ",
+      "      AACCEAAAAAECCAA      ",
+      "        AA       AA        "
+    ],
+    [
+      "          AAAAAAA          ",
+      "        AACCCCCCCAA        ",
+      "        CCBBBBBBBCC        ",
+      "        AACCCCCCCAA        ",
+      "          AAAAAAA          "
+    ],
+    [
+      "                           ",
+      "          AAAAAAA          ",
+      "          CCCCCCC          ",
+      "          AAAAAAA          ",
+      "                           "
+    ]
+  ],
+  "legend": {
+    "A": {
+      "blockId": "gt5u.fRFCasings.0",
+      "hatches": ["itemIn", "fluidIn", "fluidOut", "energy", "dynamo", "maintenance"]
+    },
+    "C": {
+      "blockId": "gt5u.fieldRestrictingGlass.0"
+    },
+    "E": {
+      "blockId": "gt5u.gtBlockcasings8.5"
+    },
+    "F": {
+      "blockId": "gt5u.radiationProtectionSteelFrame.0"
+    },
+    "B": {
+      "blockId": "gt.coil.cupronickel"
+    }
+  },
+  "controller": {
+    "pos": [13, 13, 0],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus",
+    "fluidIn": "gt.hatch.inputHatch",
+    "fluidOut": "gt.hatch.outputHatch",
+    "energy": "gt.hatch.energy",
+    "dynamo": "gt.hatch.dynamo",
+    "maintenance": "gt.hatch.maintenance"
+  },
+  "shareableHatches": ["itemIn", "fluidIn", "fluidOut"],
+  "requiredHatches": {
+    "dynamo": {
+      "min": 1
+    },
+    "maintenance": {
+      "min": 1,
+      "max": 1
+    }
+  },
+  "defaultHatches": ["itemIn", "energy", "dynamo", "maintenance"],
+  "wallshare": true,
+  "notes": "Generated from MTENaquadahFuelRefinery (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+}

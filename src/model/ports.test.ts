@@ -6,6 +6,9 @@ import { placeHatches } from './ports';
 import { catalog } from '../data/catalog';
 import type { Dir, HatchKind, HatchResult, MultiblockDef, Rotation, Unit, Vec3 } from './types';
 
+/** Hand-made entries; generated ones (tools/gt-source) have lighter checks in generated.test.ts. */
+const handMade = catalog.filter((d) => !d.generated);
+
 const coke = getMultiblock('coke-oven')!;
 const ALL: HatchKind[] = ['itemIn', 'itemOut', 'fluidOut'];
 
@@ -261,7 +264,7 @@ describe('placeHatches', () => {
 
   it('turns hatches to face open space rather than a gap between units', () => {
     const DIRS: Dir[] = ['north', 'south', 'east', 'west', 'up', 'down'];
-    for (const def of catalog) {
+    for (const def of handMade) {
       const limits = { x: null, y: null, z: null };
       // The compact layout plus looser ones with gaps and walkways between units.
       const layouts = [packUnits(def, 6, limits).units, ...[...layoutCandidates(def, 6, limits)].slice(0, 6)];
