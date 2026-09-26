@@ -2,7 +2,8 @@ import { derived } from 'svelte/store';
 import { getMultiblock } from '../data/catalog';
 import { DEFAULT_HATCH_COLORS } from '../model/colors';
 import { layoutCandidates, loosenings, packUnits } from '../model/layout';
-import { resolveLayout, resolveRoutedLayout } from '../model/plan';
+import { alongX } from '../model/orient';
+import { resolveLayout, resolveRoutedLayout, type ResolvedLayout } from '../model/plan';
 import { effectiveSize, sizedDef } from '../model/resize';
 import { placeHatches } from '../model/ports';
 import { CABLE_KINDS, PIPE_KINDS, routePipes, withPipeFaces, type RoutedKind } from '../model/routing';
@@ -154,10 +155,19 @@ export function createPipeline(deps: PipelineDeps = defaultDeps) {
             hatches: deps.placeHatches(def, pack.value.units, p.enabledHatches),
             loosened: false,
           }
-        : routedLayout
-          ? routedOrPlain()
-          : resolveLayout(def, pack.value, p.enabledHatches, p.limits, deps),
+        : longSideAlongX(
+            routedLayout ? routedOrPlain() : resolveLayout(def, pack.value, p.enabledHatches, p.limits, deps),
+          ),
     );
+    // Which way the chosen layout runs depends on which candidate first fits every hatch, so counts could
+    // flip it between X and Z; turn it so its long side is always along X (unless the X and Z limits
+    // differ, which turning would break).
+    function longSideAlongX<T extends ResolvedLayout & { pipes?: RouteNet[] }>(r: T): T {
+      if ((p.limits.x ?? null) !== (p.limits.z ?? null)) return r;
+      const out = alongX(def!, { units: r.pack.units, hatches: r.hatches, pipes: r.pipes });
+      if (!out) return r;
+      return { ...r, pack: { ...r.pack, units: out.units }, hatches: out.hatches, pipes: out.pipes };
+    }
     // A routing failure still renders the build: its error then comes from the pipes stage.
     function routedOrPlain() {
       try {
