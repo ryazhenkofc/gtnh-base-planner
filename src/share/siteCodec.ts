@@ -1,6 +1,14 @@
 import { getSiteDef } from '../data/generic';
 import { effectiveSize } from '../model/resize';
-import type { Endpoint, ResourceDef, SiteGroup, SiteLink, SitePort, SiteState } from '../model/site/types';
+import {
+  iconUrl,
+  type Endpoint,
+  type ResourceDef,
+  type SiteGroup,
+  type SiteLink,
+  type SitePort,
+  type SiteState,
+} from '../model/site/types';
 import type { HatchKind, PlanLimits, Rotation } from '../model/types';
 import {
   MAX_PAYLOAD_BYTES,
@@ -96,11 +104,18 @@ function validateResource(value: unknown, key: string): ResourceDef {
   if (kind !== 'item' && kind !== 'fluid' && kind !== 'power') {
     throw new PlanFormatError(`${what} kind must be item, fluid or power.`);
   }
-  return {
+  const res: ResourceDef = {
     kind,
     name: expectString(field(obj, 'name'), `${what} name`, MAX_NAME),
     color: expectColor(field(obj, 'color'), `${what} colour`),
   };
+  const icon = field(obj, 'icon');
+  if (icon !== undefined && icon !== null) {
+    if (typeof icon !== 'string' || !iconUrl(icon))
+      throw new PlanFormatError(`${what} icon must be a gtnhplanner.com /datasets/ path.`);
+    res.icon = icon;
+  }
+  return res;
 }
 
 function validateGroup(value: unknown, index: number): SiteGroup {

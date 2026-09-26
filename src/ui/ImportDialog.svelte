@@ -16,6 +16,8 @@
   import { appMode, site } from '../state/site';
   import { notify } from './notices';
   import NumberField from './NumberField.svelte';
+  import ResourceIcon from './ResourceIcon.svelte';
+  import { fallbackColor } from '../import/gtnhplanner';
   import { replaceSite } from './siteActions';
 
   interface Props {
@@ -140,7 +142,24 @@
         <tbody>
           {#each rows as r (r.node.id)}
             <tr>
-              <td class="name">{r.recipe?.name ?? r.node.recipeId}</td>
+              <td class="name">
+                <span class="recipe">
+                  {#each (r.recipe?.outputs ?? [])
+                    .filter((o) => o.kind === 'item' || o.kind === 'fluid')
+                    .slice(0, 3) as o (o.kind + o.id)}
+                    <ResourceIcon
+                      res={{
+                        kind: o.kind as 'item' | 'fluid',
+                        name: o.displayName ?? o.id,
+                        color: o.dominantColor ?? fallbackColor(`${o.kind}:${o.id}`),
+                        icon: o.iconPath,
+                      }}
+                      size={22}
+                    />
+                  {/each}
+                  <span>{r.recipe?.name ?? r.node.recipeId}</span>
+                </span>
+              </td>
               <td>{r.machine}</td>
               <td class="num"
                 >{r.count}<span class="meta"> ({Math.round(r.node.machineCount * 100) / 100})</span></td
@@ -274,7 +293,12 @@
     color: var(--text);
     text-transform: none;
     letter-spacing: 0.02em;
-    vertical-align: baseline;
+    vertical-align: middle;
+  }
+  .recipe {
+    display: flex;
+    align-items: center;
+    gap: 6px;
   }
   .num {
     white-space: nowrap;

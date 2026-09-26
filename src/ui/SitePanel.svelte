@@ -3,11 +3,12 @@
   import { t } from '../i18n/en';
   import type { Endpoint, ResourceKind } from '../model/site/types';
   import { SITE_MAX_SIZE, SITE_MIN_SIZE } from '../share/siteCodec';
-  import { flowAnimation, isolate, site, siteCables, siteGroup, sitePipes } from '../state/site';
+  import { flowAnimation, isolate, showIcons, site, siteCables, siteGroup, sitePipes } from '../state/site';
   import { xray } from '../state/store';
   import { formatLimit, parseLimit, parseCount, parseSize } from './fields';
   import { notify } from './notices';
   import NumberField from './NumberField.svelte';
+  import ResourceIcon from './ResourceIcon.svelte';
   import {
     resetSite,
     updateSite,
@@ -347,6 +348,7 @@
               onchange={(e) => updateSite((s) => withResourceColor(s, l.resource, e.currentTarget.value))}
             />
           </label>
+          {#if res}<span class="res-icon"><ResourceIcon {res} size={20} /></span>{/if}
           <button
             class="link text-left"
             class:active={$isolate === l.resource}
@@ -458,6 +460,15 @@
           class:active={$flowAnimation}
           aria-pressed={$flowAnimation}
           onclick={() => flowAnimation.update((v) => !v)}>{t.site.flow}</button
+        >
+      </li>
+      <li class="row">
+        <button
+          class="link"
+          class:active={$showIcons}
+          aria-pressed={$showIcons}
+          data-testid="site-icons"
+          onclick={() => showIcons.update((v) => !v)}>{t.site.icons}</button
         >
       </li>
       <li class="row">
@@ -634,6 +645,10 @@
     flex: none;
     margin-top: 8px;
     cursor: pointer;
+  }
+  .res-icon {
+    margin-top: 4px;
+    flex: none;
   }
   .swatch input {
     position: absolute;

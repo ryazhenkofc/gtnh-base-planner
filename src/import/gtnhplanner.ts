@@ -10,7 +10,15 @@ import {
 import { arrangeSite } from '../model/site/arrange';
 import { createSiteBuilder, localFootprints } from '../model/site/build';
 import { IO_KINDS } from '../model/site/group';
-import type { Endpoint, ResourceDef, SiteGroup, SiteLink, SitePort, SiteState } from '../model/site/types';
+import {
+  iconUrl,
+  type Endpoint,
+  type ResourceDef,
+  type SiteGroup,
+  type SiteLink,
+  type SitePort,
+  type SiteState,
+} from '../model/site/types';
 import {
   DEFAULT_CORRIDOR,
   DEFAULT_SITE_SIZE,
@@ -40,6 +48,8 @@ export interface GtnhStack {
   id: string;
   displayName?: string;
   dominantColor?: string;
+  /** Icon path on gtnhplanner.com, kept only when it is a `/datasets/...png` path. */
+  iconPath?: string;
   /** False for catalysts, molds and other inputs that are not used up. */
   consumed?: boolean;
 }
@@ -71,6 +81,7 @@ export interface GtnhStorage {
   resourceId: string;
   displayName?: string;
   dominantColor?: string;
+  iconPath?: string;
   drainMode?: string;
 }
 
@@ -120,6 +131,8 @@ function stack(v: unknown): GtnhStack | null {
   if (name) s.displayName = name;
   const color = str(v.dominantColor);
   if (color && COLOR.test(color)) s.dominantColor = color.toLowerCase();
+  const icon = str(v.iconPath);
+  if (icon && iconUrl(icon)) s.iconPath = icon;
   if (v.consumed === false) s.consumed = false;
   return s;
 }
@@ -195,12 +208,14 @@ export function parseGtnhProject(text: string): GtnhProject {
       continue;
     }
     const color = str(s.dominantColor);
+    const icon = str(s.iconPath);
     storages.push({
       id: s.id as string,
       kind,
       resourceId: s.resourceId as string,
       displayName: str(s.displayName),
       dominantColor: color && COLOR.test(color) ? color.toLowerCase() : undefined,
+      iconPath: icon && iconUrl(icon) ? icon : undefined,
       drainMode: str(s.drainMode),
     });
   }
@@ -357,7 +372,13 @@ export function buildSiteFromGtnh(
   const rows = importRows(project);
   const resources: Record<string, ResourceDef> = {};
   let truncated = false;
-  const addResource = (kind: GtnhKind, id: string, name?: string, color?: string): string | null => {
+  const addResource = (
+    kind: GtnhKind,
+    id: string,
+    name?: string,
+    color?: string,
+    icon?: string,
+  ): string | null => {
     if (kind === 'aspect') return null;
     const k = resourceKey(kind, id);
     if (!resources[k]) {
@@ -371,11 +392,14 @@ export function buildSiteFromGtnh(
         color: color ?? (kind === 'power' ? '#e8c547' : fallbackColor(k)),
       };
     } else if (name && resources[k].name === id) resources[k].name = name.slice(0, 120);
+    if (icon && !resources[k].icon && kind !== 'power') resources[k].icon = icon;
     return k;
   };
   for (const r of project.recipes.values())
-    for (const s of [...r.inputs, ...r.outputs]) addResource(s.kind, s.id, s.displayName, s.dominantColor);
-  for (const s of project.storages) addResource(s.kind, s.resourceId, s.displayName, s.dominantColor);
+    for (const s of [...r.inputs, ...r.outputs])
+      addResource(s.kind, s.id, s.displayName, s.dominantColor, s.iconPath);
+  for (const s of project.storages)
+    addResource(s.kind, s.resourceId, s.displayName, s.dominantColor, s.iconPath);
 
   // Groups.
   const groups: SiteGroup[] = [];

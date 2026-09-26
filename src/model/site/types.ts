@@ -17,6 +17,21 @@ export interface ResourceDef {
   name: string;
   /** `#rrggbb`, used for pipes, hatch markers and the legend. */
   color: string;
+  /**
+   * Icon path on gtnhplanner.com (`/datasets/.../name.png`), from a GTNH Planner import. Only paths of that
+   * shape are accepted (see `ICON_RE`), so a shared site can never make the page load another address.
+   */
+  icon?: string;
+}
+
+/** Where resource icons are loaded from. */
+export const ICON_HOST = 'https://gtnhplanner.com';
+
+/** Accepted icon paths: `/datasets/` followed by plain path segments, ending in `.png`. */
+export const ICON_RE = /^\/datasets(\/[A-Za-z0-9_\-][A-Za-z0-9._\-]*)+\.png$/;
+
+export function iconUrl(path: string): string | null {
+  return ICON_RE.test(path) && path.length <= 300 && !path.includes('..') ? ICON_HOST + path : null;
 }
 
 export interface SiteGroup {

@@ -16,3 +16,26 @@ export const isolate = writable<string | null>(null);
 export const sitePipes = writable(true);
 export const siteCables = writable(true);
 export const flowAnimation = writable(true);
+
+const ICONS_KEY = 'gtnh-planner:icons';
+
+function storedIcons(): boolean {
+  try {
+    return globalThis.localStorage?.getItem(ICONS_KEY) !== '0';
+  } catch {
+    return true;
+  }
+}
+
+/**
+ * Show item and fluid icons from gtnhplanner.com (resources imported from GTNH Planner carry their icon
+ * path). Off = colour swatches only, and the page loads nothing from another site. Remembered per browser.
+ */
+export const showIcons = writable(storedIcons());
+showIcons.subscribe((on) => {
+  try {
+    globalThis.localStorage?.setItem(ICONS_KEY, on ? '1' : '0');
+  } catch {
+    // Not important enough to report.
+  }
+});

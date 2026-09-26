@@ -3,8 +3,13 @@
   "id": "3f0c2a8e-8b1d-4c52-9f0e-2b7d1c0a9e11",
   "name": "Titanium line (test fixture)",
   "description": "Hand-written in the shape of a GTNH Planner Export JSON, for tests.",
-  "view": { "canvasTheme": "paper", "rateUnit": "second" },
-  "setupRules": { "freeInputs": true },
+  "view": {
+    "canvasTheme": "paper",
+    "rateUnit": "second"
+  },
+  "setupRules": {
+    "freeInputs": true
+  },
   "recipes": [
     {
       "id": "src:rutile",
@@ -21,7 +26,8 @@
           "id": "gregtech:gt.metaitem.01@2375",
           "amount": 1,
           "displayName": "Rutile Dust",
-          "dominantColor": "#d4d4d4"
+          "dominantColor": "#d4d4d4",
+          "iconPath": "/datasets/gtnh/local-2.9.0-beta-2/textures/rendered/rutile_dust-c72fd88aa945.png"
         }
       ]
     },
@@ -39,21 +45,24 @@
           "id": "gregtech:gt.metaitem.01@2375",
           "amount": 1,
           "displayName": "Rutile Dust",
-          "dominantColor": "#d4d4d4"
+          "dominantColor": "#d4d4d4",
+          "iconPath": "/datasets/gtnh/local-2.9.0-beta-2/textures/rendered/rutile_dust-c72fd88aa945.png"
         },
         {
           "kind": "item",
           "id": "gregtech:gt.metaitem.01@2010",
           "amount": 2,
           "displayName": "Carbon Dust",
-          "dominantColor": "#141414"
+          "dominantColor": "#141414",
+          "iconPath": "/datasets/gtnh/local-2.9.0-beta-2/textures/rendered/carbon_dust-c421eecf1a4b.png"
         },
         {
           "kind": "fluid",
           "id": "chlorine",
           "amount": 4000,
           "displayName": "Chlorine",
-          "dominantColor": "#2d8c8c"
+          "dominantColor": "#2d8c8c",
+          "iconPath": "/datasets/gtnh/local-2.9.0-beta-2/textures/rendered/chlorine-b6b2e6fd59a2.png"
         },
         {
           "kind": "item",
@@ -69,14 +78,16 @@
           "id": "titaniumtetrachloride",
           "amount": 1000,
           "displayName": "Titaniumtetrachloride",
-          "dominantColor": "#d40d5c"
+          "dominantColor": "#d40d5c",
+          "iconPath": "/datasets/gtnh/local-2.9.0-beta-2/textures/rendered/titaniumtetrachloride-89d05bacaa75.png"
         },
         {
           "kind": "fluid",
           "id": "carbonmonoxide",
           "amount": 2000,
           "displayName": "Carbon Monoxide",
-          "dominantColor": "#0e4880"
+          "dominantColor": "#0e4880",
+          "iconPath": "/datasets/gtnh/local-2.9.0-beta-2/textures/rendered/carbon_monoxide-2f488836e7e1.png"
         }
       ],
       "machineHandlers": [
@@ -95,7 +106,9 @@
           "minimumTier": "HV"
         }
       ],
-      "nei": { "handlerClass": "gregtech.nei.GTNEIDefaultHandler" }
+      "nei": {
+        "handlerClass": "gregtech.nei.GTNEIDefaultHandler"
+      }
     },
     {
       "id": "gt:ebf:titanium",
@@ -111,14 +124,16 @@
           "id": "titaniumtetrachloride",
           "amount": 1000,
           "displayName": "Titaniumtetrachloride",
-          "dominantColor": "#d40d5c"
+          "dominantColor": "#d40d5c",
+          "iconPath": "/datasets/gtnh/local-2.9.0-beta-2/textures/rendered/titaniumtetrachloride-89d05bacaa75.png"
         },
         {
           "kind": "item",
           "id": "gregtech:gt.metaitem.01@2018",
           "amount": 2,
           "displayName": "Magnesium Dust",
-          "dominantColor": "#ffc8c8"
+          "dominantColor": "#ffc8c8",
+          "iconPath": "/datasets/gtnh/local-2.9.0-beta-2/textures/rendered/magnesium_dust-9159fd2af60a.png"
         }
       ],
       "outputs": [
@@ -127,14 +142,16 @@
           "id": "gregtech:gt.metaitem.01@11028",
           "amount": 1,
           "displayName": "Hot Titanium Ingot",
-          "dominantColor": "#dca0f0"
+          "dominantColor": "#dca0f0",
+          "iconPath": "/datasets/gtnh/local-2.9.0-beta-2/textures/rendered/hot_titanium_ingot-c359fc6b3962.png"
         },
         {
           "kind": "item",
           "id": "gregtech:gt.metaitem.01@2377",
           "amount": 6,
           "displayName": "Magnesiumchloride Dust",
-          "dominantColor": "#d40d5c"
+          "dominantColor": "#d40d5c",
+          "iconPath": "/datasets/gtnh/local-2.9.0-beta-2/textures/rendered/magnesiumchloride_dust-f708235ce533.png"
         }
       ],
       "machineHandlers": [
@@ -161,7 +178,8 @@
           "id": "gregtech:gt.metaitem.01@11028",
           "amount": 1,
           "displayName": "Hot Titanium Ingot",
-          "dominantColor": "#dca0f0"
+          "dominantColor": "#dca0f0",
+          "iconPath": "/datasets/gtnh/local-2.9.0-beta-2/textures/rendered/hot_titanium_ingot-c359fc6b3962.png"
         }
       ],
       "outputs": [
@@ -170,7 +188,8 @@
           "id": "gregtech:gt.metaitem.01@11028b",
           "amount": 1,
           "displayName": "Titanium Ingot",
-          "dominantColor": "#dca0f0"
+          "dominantColor": "#dca0f0",
+          "iconPath": "/datasets/gtnh/local-2.9.0-beta-2/textures/rendered/titanium_ingot-f17d960ea0fa.png"
         }
       ]
     },
@@ -188,7 +207,8 @@
           "id": "gregtech:gt.metaitem.01@2377",
           "amount": 3,
           "displayName": "Magnesiumchloride Dust",
-          "dominantColor": "#d40d5c"
+          "dominantColor": "#d40d5c",
+          "iconPath": "/datasets/gtnh/local-2.9.0-beta-2/textures/rendered/magnesiumchloride_dust-f708235ce533.png"
         }
       ],
       "outputs": [
@@ -197,14 +217,16 @@
           "id": "gregtech:gt.metaitem.01@2018",
           "amount": 1,
           "displayName": "Magnesium Dust",
-          "dominantColor": "#ffc8c8"
+          "dominantColor": "#ffc8c8",
+          "iconPath": "/datasets/gtnh/local-2.9.0-beta-2/textures/rendered/magnesium_dust-9159fd2af60a.png"
         },
         {
           "kind": "fluid",
           "id": "chlorine",
           "amount": 2000,
           "displayName": "Chlorine",
-          "dominantColor": "#2d8c8c"
+          "dominantColor": "#2d8c8c",
+          "iconPath": "/datasets/gtnh/local-2.9.0-beta-2/textures/rendered/chlorine-b6b2e6fd59a2.png"
         }
       ]
     },
@@ -222,7 +244,8 @@
           "id": "carbonmonoxide",
           "amount": 1000,
           "displayName": "Carbon Monoxide",
-          "dominantColor": "#0e4880"
+          "dominantColor": "#0e4880",
+          "iconPath": "/datasets/gtnh/local-2.9.0-beta-2/textures/rendered/carbon_monoxide-2f488836e7e1.png"
         }
       ],
       "outputs": [
@@ -231,14 +254,16 @@
           "id": "gregtech:gt.metaitem.01@2010",
           "amount": 1,
           "displayName": "Carbon Dust",
-          "dominantColor": "#141414"
+          "dominantColor": "#141414",
+          "iconPath": "/datasets/gtnh/local-2.9.0-beta-2/textures/rendered/carbon_dust-c421eecf1a4b.png"
         },
         {
           "kind": "fluid",
           "id": "oxygen",
           "amount": 1000,
           "displayName": "Oxygen",
-          "dominantColor": "#002531"
+          "dominantColor": "#002531",
+          "iconPath": "/datasets/gtnh/local-2.9.0-beta-2/textures/rendered/oxygen-3e8c0de0c100.png"
         }
       ]
     },
@@ -251,7 +276,13 @@
       "durationTicks": 20,
       "eut": 0,
       "inputs": [],
-      "outputs": [{ "kind": "aspect", "id": "ignis", "amount": 1 }]
+      "outputs": [
+        {
+          "kind": "aspect",
+          "id": "ignis",
+          "amount": 1
+        }
+      ]
     },
     {
       "id": "power:gas",
@@ -267,11 +298,16 @@
           "id": "benzene",
           "amount": 25,
           "displayName": "Benzene",
-          "dominantColor": "#1a2828"
+          "dominantColor": "#1a2828",
+          "iconPath": "/datasets/gtnh/local-2.9.0-beta-2/textures/rendered/benzene-b4cb31d3066f.png"
         }
       ],
       "outputs": [],
-      "power": { "sourceId": "lgt", "euPerTick": 4096, "stats": [] }
+      "power": {
+        "sourceId": "lgt",
+        "euPerTick": 4096,
+        "stats": []
+      }
     }
   ],
   "nodes": [
@@ -282,7 +318,10 @@
       "parallel": 1,
       "overclockTier": "ULV",
       "enabled": true,
-      "position": { "x": 0, "y": 0 }
+      "position": {
+        "x": 0,
+        "y": 0
+      }
     },
     {
       "id": "n1",
@@ -292,7 +331,10 @@
       "overclockTier": "HV",
       "machineHandlerId": "lcr",
       "enabled": true,
-      "position": { "x": 300, "y": 0 }
+      "position": {
+        "x": 300,
+        "y": 0
+      }
     },
     {
       "id": "n2",
@@ -302,7 +344,10 @@
       "overclockTier": "HV",
       "coilTier": "kanthal",
       "enabled": true,
-      "position": { "x": 600, "y": 0 }
+      "position": {
+        "x": 600,
+        "y": 0
+      }
     },
     {
       "id": "n3",
@@ -311,7 +356,10 @@
       "parallel": 1,
       "overclockTier": "MV",
       "enabled": true,
-      "position": { "x": 900, "y": 0 }
+      "position": {
+        "x": 900,
+        "y": 0
+      }
     },
     {
       "id": "n4",
@@ -320,7 +368,10 @@
       "parallel": 1,
       "overclockTier": "MV",
       "enabled": true,
-      "position": { "x": 600, "y": 300 }
+      "position": {
+        "x": 600,
+        "y": 300
+      }
     },
     {
       "id": "n5",
@@ -329,7 +380,10 @@
       "parallel": 1,
       "overclockTier": "MV",
       "enabled": true,
-      "position": { "x": 300, "y": 300 }
+      "position": {
+        "x": 300,
+        "y": 300
+      }
     },
     {
       "id": "n6",
@@ -338,7 +392,10 @@
       "parallel": 1,
       "overclockTier": "ULV",
       "enabled": true,
-      "position": { "x": 0, "y": 600 }
+      "position": {
+        "x": 0,
+        "y": 600
+      }
     },
     {
       "id": "n7",
@@ -347,7 +404,10 @@
       "parallel": 1,
       "overclockTier": "MV",
       "enabled": false,
-      "position": { "x": 900, "y": 600 }
+      "position": {
+        "x": 900,
+        "y": 600
+      }
     },
     {
       "id": "n8",
@@ -356,7 +416,10 @@
       "parallel": 1,
       "overclockTier": "EV",
       "enabled": true,
-      "position": { "x": 0, "y": 900 }
+      "position": {
+        "x": 0,
+        "y": 900
+      }
     }
   ],
   "storages": [
@@ -367,7 +430,11 @@
       "displayName": "Titanium Ingot",
       "dominantColor": "#dca0f0",
       "drainMode": "product",
-      "position": { "x": 1200, "y": 0 }
+      "position": {
+        "x": 1200,
+        "y": 0
+      },
+      "iconPath": "/datasets/gtnh/local-2.9.0-beta-2/textures/rendered/titanium_ingot-f17d960ea0fa.png"
     },
     {
       "id": "s2",
@@ -375,7 +442,11 @@
       "resourceId": "chlorine",
       "displayName": "Chlorine",
       "dominantColor": "#2d8c8c",
-      "position": { "x": 450, "y": 450 }
+      "position": {
+        "x": 450,
+        "y": 450
+      },
+      "iconPath": "/datasets/gtnh/local-2.9.0-beta-2/textures/rendered/chlorine-b6b2e6fd59a2.png"
     },
     {
       "id": "s3",
@@ -383,7 +454,11 @@
       "resourceId": "oxygen",
       "displayName": "Oxygen",
       "drainMode": "trash",
-      "position": { "x": 150, "y": 450 }
+      "position": {
+        "x": 150,
+        "y": 450
+      },
+      "iconPath": "/datasets/gtnh/local-2.9.0-beta-2/textures/rendered/oxygen-3e8c0de0c100.png"
     }
   ],
   "annotations": [
@@ -391,8 +466,14 @@
       "id": "a1",
       "kind": "text",
       "text": "Titanium",
-      "position": { "x": 0, "y": -100 },
-      "size": { "width": 200, "height": 40 }
+      "position": {
+        "x": 0,
+        "y": -100
+      },
+      "size": {
+        "width": 200,
+        "height": 40
+      }
     }
   ],
   "pockets": [],
@@ -485,7 +566,13 @@
       "resourceId": "oxygen",
       "ratePerSecond": 120
     },
-    { "id": "e12", "source": "n6", "target": "n5", "resourceKind": "aspect", "resourceId": "ignis" },
+    {
+      "id": "e12",
+      "source": "n6",
+      "target": "n5",
+      "resourceKind": "aspect",
+      "resourceId": "ignis"
+    },
     {
       "id": "e13",
       "source": "n8",
@@ -494,8 +581,13 @@
       "resourceId": "eu",
       "ratePerSecond": 1920
     },
-    { "id": "bad", "source": "n8" }
+    {
+      "id": "bad",
+      "source": "n8"
+    }
   ],
   "fuelProfiles": [],
-  "metadata": { "createdAt": "2026-09-01T00:00:00.000Z" }
+  "metadata": {
+    "createdAt": "2026-09-01T00:00:00.000Z"
+  }
 }

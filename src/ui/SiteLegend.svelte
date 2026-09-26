@@ -1,6 +1,7 @@
 <script lang="ts">
   import { t } from '../i18n/en';
   import { isolate, site } from '../state/site';
+  import ResourceIcon from './ResourceIcon.svelte';
   import { siteBuild } from './sitePipeline';
 
   /** Resources carried by the site's nets, with how many terminals each net reached. */
@@ -36,11 +37,7 @@
         >
           <span class="name">{e.res.name}</span>
           {#if e.routed && e.connected < e.total}<span class="warn">{e.connected}/{e.total}</span>{/if}
-          <i
-            class:cable={e.res.kind === 'power'}
-            class:round={e.res.kind === 'fluid'}
-            style:background={e.res.color}
-          ></i>
+          <ResourceIcon res={e.res} size={18} />
         </button>
       </li>
     {/each}
@@ -79,18 +76,6 @@
   }
   .warn {
     color: var(--text);
-  }
-  i {
-    width: 8px;
-    height: 8px;
-    display: block;
-    flex: none;
-  }
-  i.round {
-    border-radius: 50%;
-  }
-  i.cable {
-    height: 4px;
   }
   @media (max-width: 640px) {
     .legend {

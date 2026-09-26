@@ -99,8 +99,12 @@ DETAILED view uses block textures from [GT5-Unofficial](https://github.com/GTNew
 
 There is no server, account or tracking. Plans are stored in your browser's `localStorage`. A share link carries the compressed plan in the URL fragment (`#p=...`, or `#s=...` for a site); browsers never send the fragment to the server, so the host only sees a request for the page.
 
-The GTNH Planner import reads the file you open or paste in the browser. It makes no request to gtnhplanner.com
-(its API does not allow requests from other sites), and item icons are not loaded: resources show as colours.
+The GTNH Planner import reads the file you open or paste in the browser; the file itself is never sent anywhere.
+Exports carry an icon path for each item and fluid, and the site view shows those icons (legend, link list,
+import dialog) by loading the images from gtnhplanner.com, without a referrer. Turn off **Item icons** in the site
+panel to show colour swatches instead; then the page loads nothing from other sites. Only `/datasets/...png` paths
+on gtnhplanner.com are accepted, so a shared site link cannot make the page load any other address. The 3D view
+uses colours only: the browser does not allow images from another site in WebGL.
 
 ## Development
 

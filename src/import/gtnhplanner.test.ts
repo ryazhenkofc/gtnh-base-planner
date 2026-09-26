@@ -122,6 +122,17 @@ describe('buildSiteFromGtnh', () => {
     expect(names).toContain('Magnesiumchloride Dust');
   });
 
+  it('keeps GTNH Planner icon paths and drops anything else', () => {
+    const p = parseGtnhProject(text);
+    const { site } = buildSiteFromGtnh(p);
+    expect(site.resources['fluid:chlorine'].icon).toMatch(/^\/datasets\/gtnh\/.+\/chlorine-[0-9a-f]+\.png$/);
+    expect(site.resources['power:eu'].icon).toBeUndefined();
+    const hostile = JSON.parse(text);
+    hostile.recipes[1].inputs[0].iconPath = 'https://evil.example/pixel.png';
+    const q = parseGtnhProject(JSON.stringify(hostile));
+    expect(q.recipes.get('gt:chem:ticl4')!.inputs[0].iconPath).toBeUndefined();
+  });
+
   it('makes stable fallback colours', () => {
     expect(fallbackColor('item:x')).toMatch(/^#[0-9a-f]{6}$/);
     expect(fallbackColor('item:x')).toBe(fallbackColor('item:x'));

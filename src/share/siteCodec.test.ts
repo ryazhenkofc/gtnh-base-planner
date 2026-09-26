@@ -77,6 +77,24 @@ describe('validateSiteState', () => {
     expect(() => validateSiteState({ ...sample(), size: [4, 30] })).toThrow(/Site size/);
   });
 
+  it('accepts only gtnhplanner.com /datasets/ icon paths', () => {
+    const ok = sample();
+    ok.resources['item:dust'].icon =
+      '/datasets/gtnh/local-2.9.0-beta-2/textures/rendered/steel_dust-1a2b3c.png';
+    expect(validateSiteState(ok).resources['item:dust'].icon).toBe(ok.resources['item:dust'].icon);
+    for (const icon of [
+      'https://evil.example/a.png',
+      '//evil.example/datasets/a.png',
+      '/datasets/../a.png',
+      '/datasets/a.png?x',
+      'javascript:alert(1)',
+    ]) {
+      const bad = sample();
+      bad.resources['item:dust'].icon = icon;
+      expect(() => validateSiteState(bad), icon).toThrow(/icon/);
+    }
+  });
+
   it('round-trips through JSON and links', async () => {
     const s = validateSiteState(sample());
     expect(siteFromJson(siteToJson(s))).toEqual(s);

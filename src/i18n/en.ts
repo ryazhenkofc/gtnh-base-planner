@@ -136,6 +136,7 @@ export const t = {
     kinds: { item: 'Item', fluid: 'Fluid', power: 'Power' } satisfies Record<ResourceKind, string>,
     problems: 'Problems',
     flow: 'Flow arrows',
+    icons: 'Item icons (gtnhplanner.com)',
     opened: 'Site opened.',
     reset: 'Reset site',
     resetConfirm: 'Confirm reset',

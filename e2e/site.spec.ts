@@ -16,7 +16,20 @@ function collectErrors(page: Page): string[] {
   return errors;
 }
 
+/** A 1×1 transparent PNG: icon requests to gtnhplanner.com are answered locally, tests never use the network. */
+const PIXEL = Buffer.from(
+  'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=',
+  'base64',
+);
+
+let iconRequests = 0;
+
 test.beforeEach(async ({ page }) => {
+  iconRequests = 0;
+  await page.route('https://gtnhplanner.com/**', (route) => {
+    iconRequests++;
+    return route.fulfill({ status: 200, contentType: 'image/png', body: PIXEL });
+  });
   await page.addInitScript(() => {
     if (!sessionStorage.getItem('e2e-cleared')) {
       localStorage.clear();
@@ -51,6 +64,9 @@ test('imports a GTNH Planner chain into a routed site', async ({ page }) => {
   await expect(stats).toContainText('11 units');
   await expect(stats).toContainText(/(\d+)\/\1 connected/);
   await expect(page.getByTestId('site-legend')).toContainText('Chlorine');
+  // Resources carry GTNH Planner icon paths, so the legend shows their icons.
+  await expect(page.getByTestId('site-legend').locator('img').first()).toBeVisible();
+  expect(iconRequests).toBeGreaterThan(0);
   // Let a few flow-arrow frames run before the picture.
   await page.waitForTimeout(400);
   await page.screenshot({ path: 'e2e/screenshots/site-imported.png' });
@@ -85,6 +101,11 @@ test('imports a GTNH Planner chain into a routed site', async ({ page }) => {
   // Arrange puts the chain back in order and everything stays connected.
   await panel.getByTestId('site-arrange').click();
   await expect(stats).toContainText(/(\d+)\/\1 connected/);
+
+  // Icons can be switched off: colour swatches only.
+  await panel.getByTestId('site-icons').click();
+  await expect(page.getByTestId('site-legend').locator('img')).toHaveCount(0);
+  await panel.getByTestId('site-icons').click();
 
   // The site survives a reload; the view comes back in site mode.
   await page.waitForTimeout(500);

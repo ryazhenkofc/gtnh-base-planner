@@ -242,5 +242,11 @@ Milestones 1–6, with these choices where the plan left a question open or the 
   serve; the format keeps an optional explicit position for later.
 - **Rates** come only from GTNH Planner edges (shown in the link list and the bottom line); they are not
   recomputed from recipes.
+- **Icons**: item and fluid icons come from the export's `iconPath` and are loaded from gtnhplanner.com in the
+  HTML parts of the site view (they can be switched off). They cannot be drawn in 3D: the site sends no CORS
+  headers, and WebGL refuses cross-origin images.
+- **Block textures**: the site stand-ins and ports have GT5-Unofficial textures too (hazard-striped placeholder
+  casing; Super Chest, Super Tank and energy-output fronts on the ports), as do the Assembly Line casing and the
+  solenoid coil, which were flat before.
 - The **import fixture** (`src/import/__fixtures__/gtnhplanner-titanium.json`) is hand-written to the schema.
   A real Export JSON should be added as a second fixture.
