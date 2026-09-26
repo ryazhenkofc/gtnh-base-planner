@@ -21,17 +21,16 @@ export function isCable(kind: HatchKind): boolean {
 const MARGIN = 4;
 
 /**
- * Largest search grid (cells) routing will allocate, about 60 MB of scratch memory. Only far-apart manual
+ * Largest search grid (cells) routing will allocate, about 100 MB of scratch memory. Only far-apart manual
  * layouts from links or files reach it; above it nothing is routed and every terminal reports unconnected.
  */
 export const MAX_GRID_CELLS = 4_000_000;
 
-/** `occ` values: free, solid (structure or grid border); pipe of kind k is `PIPE + k`. */
+/** `occ` values: free, solid (structure, reserved cell or grid border). */
 const FREE = 0;
 const SOLID = 1;
-const PIPE = 2;
 
-/** A dense voxel grid over the search box plus a 1-cell solid border, so the BFS needs no bounds checks. */
+/** A dense voxel grid over the search box plus a 1-cell solid border, so the search needs no bounds checks. */
 interface Grid {
   /** World coords of index 0. */
   ox: number;
@@ -45,7 +44,7 @@ interface Grid {
   termMask: Uint8Array;
   /** Lowest y index above the ground (and the solid border). */
   floor: number;
-  /** Neighbour index offsets, in `DIRS`-like order. */
+  /** Neighbour index offsets: -z, +z, +x, -x, +y, -y. */
   offsets: Int32Array;
 }
 
@@ -118,193 +117,100 @@ function buildGrid(solids: Vec3[], terminals: Vec3[], ground: number): Grid | nu
   return g;
 }
 
-interface Scratch {
-  queue: Int32Array;
-  parent: Int32Array;
-  /** Visit stamp per cell; a cell is visited in the current search when `seen[i] === stamp`. */
-  seen: Uint32Array;
-  stamp: number;
-}
-
-/**
- * Multi-source BFS from every pipe of `kind` to the nearest cell with `target[i] === 1`.
- * Returns the reached target index (parents filled in `s.parent`) or -1.
- */
-function searchNearest(g: Grid, s: Scratch, net: number[], target: Uint8Array, k: number): number {
-  const { occ, termMask, offsets } = g;
-  const { queue, parent, seen } = s;
-  const stamp = ++s.stamp;
-  const own = PIPE + k;
-  const bit = 1 << k;
-  let head = 0;
-  let tail = 0;
-  for (const i of net) {
-    seen[i] = stamp;
-    parent[i] = -1;
-    queue[tail++] = i;
-  }
-  while (head < tail) {
-    const cur = queue[head++];
-    for (let d = 0; d < 6; d++) {
-      const n = cur + offsets[d];
-      if (seen[n] === stamp) continue;
-      const o = occ[n];
-      if (o !== FREE && o !== own) continue;
-      const m = termMask[n];
-      if (m !== 0 && (m & bit) === 0) continue; // another kind's terminal
-      seen[n] = stamp;
-      parent[n] = cur;
-      if (target[n] !== 0) return n;
-      queue[tail++] = n;
-    }
-  }
-  return -1;
-}
-
-/** Arrival directions 0..5 (index into `Grid.offsets`) plus "no direction" for network cells. */
-const NO_DIR = 6;
-const STATES = 7;
-
 /** Default extra cost of a pipe bend, in blocks: straighter runs for the same or fewer pipe blocks. */
 export const DEFAULT_TURN_COST = 2;
 
-/** Above this many (cell, direction) states the turn-aware search falls back to plain BFS (~96 MB). */
-const MAX_TURN_STATES = 8_000_000;
+/**
+ * Negotiated routing (PathFinder): every kind is routed as if the others were not there, but a cell
+ * another kind already uses costs more (`present` × that factor), and cells contested in earlier rounds
+ * stay dearer (`history`). Kinds whose network still shares a cell are ripped up and routed again, with
+ * both penalties growing, until no cell is shared. Fixed limits keep the work bounded and deterministic.
+ */
+const MAX_ROUNDS = 24;
+const PRESENT_START = 2;
+const PRESENT_GROWTH = 1.6;
+const HISTORY_STEP = 1;
+
+/** Extra cost of taking a cell beside another kind's hatch (it may be that hatch's only way out). */
+const BESIDE_HATCH_COST = 1;
+
+/** Arrival direction of a cell that is part of the network (no bend is priced leaving it). */
+const NO_DIR = 6;
 
 /**
- * Terminals worth trying in the turn-aware search. A plain BFS from the network finds the nearest
- * terminal by steps; that BFS path, with its bends priced in, is a real connection of cost `bound`. Any
- * terminal more than `bound` steps away costs more than that, so only terminals within `bound` steps
- * (usually one to three) can win. Returns them in BFS order (empty when none is reachable).
+ * Indexed binary min-heap of cells keyed by `key[cell]` (ties: lower cell first), with decrease-key, so
+ * it never holds a cell twice.
  */
-function candidatesWithin(
-  g: Grid,
-  s: Scratch,
-  net: readonly number[],
-  target: Uint8Array,
-  k: number,
-  turnCost: number,
-): number[] {
-  const { occ, termMask, offsets } = g;
-  const { queue, parent, seen } = s;
-  const stamp = ++s.stamp;
-  const own = PIPE + k;
-  const bit = 1 << k;
-  let head = 0;
-  let tail = 0;
-  for (const i of net) {
-    seen[i] = stamp;
-    parent[i] = -1;
-    queue[tail++] = i;
+class CellHeap {
+  items: Int32Array;
+  size = 0;
+
+  constructor(
+    private key: Float64Array,
+    /** Heap slot per cell, -1 when the cell is not queued. */
+    private pos: Int32Array,
+  ) {
+    this.items = new Int32Array(1024);
   }
-  const found: number[] = [];
-  let bound = Infinity;
-  for (let depth = 1; head < tail && depth <= bound; depth++) {
-    const end = tail;
-    while (head < end) {
-      const cur = queue[head++];
-      for (let d = 0; d < 6; d++) {
-        const n = cur + offsets[d];
-        if (seen[n] === stamp) continue;
-        const o = occ[n];
-        if (o !== FREE && o !== own) continue;
-        const m = termMask[n];
-        if (m !== 0 && (m & bit) === 0) continue; // another kind's terminal
-        seen[n] = stamp;
-        parent[n] = cur;
-        queue[tail++] = n;
-        if (target[n] === 0) continue;
-        found.push(n);
-        if (bound === Infinity) bound = depth + turnCost * bendsTo(parent, n);
+
+  clear(): void {
+    for (let i = 0; i < this.size; i++) this.pos[this.items[i]] = -1;
+    this.size = 0;
+  }
+
+  private less(a: number, b: number): boolean {
+    const ka = this.key[a];
+    const kb = this.key[b];
+    return ka < kb || (ka === kb && a < b);
+  }
+
+  /** Queue `cell`, or move it up after its key dropped. */
+  update(cell: number): void {
+    let i = this.pos[cell];
+    if (i < 0) {
+      if (this.size === this.items.length) {
+        const items = new Int32Array(this.size * 2);
+        items.set(this.items);
+        this.items = items;
       }
+      i = this.size++;
     }
+    const { items, pos } = this;
+    while (i > 0) {
+      const p = (i - 1) >> 1;
+      const up = items[p];
+      if (!this.less(cell, up)) break;
+      items[i] = up;
+      pos[up] = i;
+      i = p;
+    }
+    items[i] = cell;
+    pos[cell] = i;
   }
-  return found;
-}
 
-/** Direction changes along the BFS parent chain ending at `cell`. */
-function bendsTo(parent: Int32Array, cell: number): number {
-  let bends = 0;
-  let prevStep = 0;
-  for (let i = cell; parent[i] !== -1; i = parent[i]) {
-    const step = i - parent[i];
-    if (prevStep !== 0 && step !== prevStep) bends++;
-    prevStep = step;
-  }
-  return bends;
-}
-
-/** Scratch buffers of the turn-aware search, one entry per (cell, arrival direction) state. */
-interface TurnScratch {
-  dist: Int32Array;
-  parent: Int32Array;
-  /** Visit stamp per state; a state is live in the current search when `seen[st] === stamp`. */
-  seen: Uint32Array;
-  stamp: number;
-  turnCost: number;
-}
-
-/**
- * Cheapest connection from any remaining terminal to the network, where a step costs 1 and a bend
- * `turnCost` more: Dijkstra over (cell, arrival direction) states with a bucket queue (Dial's algorithm;
- * costs are small integers). It runs from the terminals towards the network, because there are far
- * fewer terminals than network cells and the cost of a path is the same in both directions. Returns the
- * state at which the network was reached (its parent chain in `t.parent` leads to the terminal), or -1.
- */
-function searchFromTerminals(
-  g: Grid,
-  t: TurnScratch,
-  terms: readonly number[],
-  target: Uint8Array,
-  inNet: Uint8Array,
-  k: number,
-): number {
-  const { occ, termMask, offsets } = g;
-  const { dist, parent, seen, turnCost } = t;
-  const stamp = ++t.stamp;
-  const own = PIPE + k;
-  const bit = 1 << k;
-  // A step costs 1..1 + turnCost, so the costs in flight span fewer than B buckets.
-  const B = turnCost + 2;
-  const buckets: number[][] = Array.from({ length: B }, () => []);
-  let pending = 0;
-  for (const i of terms) {
-    if (target[i] === 0) continue;
-    const st = i * STATES + NO_DIR;
-    seen[st] = stamp;
-    dist[st] = 0;
-    parent[st] = -1;
-    buckets[0].push(st);
-    pending++;
-  }
-  for (let cost = 0; pending > 0; cost++) {
-    const bucket = buckets[cost % B];
-    for (let q = 0; q < bucket.length; q++) {
-      const st = bucket[q];
-      pending--;
-      if (dist[st] !== cost) continue; // superseded by a cheaper arrival
-      const cell = (st / STATES) | 0;
-      if (inNet[cell] === 1) return st;
-      const dir = st - cell * STATES;
-      for (let d = 0; d < 6; d++) {
-        const n = cell + offsets[d];
-        const o = occ[n];
-        if (o !== FREE && o !== own) continue;
-        const m = termMask[n];
-        if (m !== 0 && (m & bit) === 0) continue; // another kind's terminal
-        const nc = cost + 1 + (dir !== NO_DIR && dir !== d ? turnCost : 0);
-        const ns = n * STATES + d;
-        if (seen[ns] === stamp && dist[ns] <= nc) continue;
-        seen[ns] = stamp;
-        dist[ns] = nc;
-        parent[ns] = st;
-        buckets[nc % B].push(ns);
-        pending++;
+  /** Removes and returns the cell with the smallest key. */
+  pop(): number {
+    const { items, pos } = this;
+    const top = items[0];
+    pos[top] = -1;
+    const n = --this.size;
+    if (n > 0) {
+      const last = items[n];
+      let i = 0;
+      for (;;) {
+        let c = 2 * i + 1;
+        if (c >= n) break;
+        if (c + 1 < n && this.less(items[c + 1], items[c])) c++;
+        if (!this.less(items[c], last)) break;
+        items[i] = items[c];
+        pos[items[c]] = i;
+        i = c;
       }
+      items[i] = last;
+      pos[last] = i;
     }
-    bucket.length = 0;
+    return top;
   }
-  return -1;
 }
 
 /** One hatch to connect: the free cells beside it where a pipe may attach, its placed face's cell first. */
@@ -313,43 +219,74 @@ interface Terminal {
   cells: number[];
 }
 
-interface Growth {
+/** One kind's network. */
+interface Tree {
   /** Pipe cells in insertion order. */
   net: number[];
   /** Paths as grid indices, each from an existing pipe (or the seed) to a newly connected terminal. */
   paths: number[][];
   connected: number;
-  /** Per terminal: the pipe cell it attaches to, or -1 when not connected. */
-  via: Int32Array;
+}
+
+/** Shared state of one routing run. */
+interface Router {
+  g: Grid;
+  turnCost: number;
+  /** Per cell: bitmask of kinds whose current network uses it. */
+  used: Uint8Array;
+  /** Per cell: history cost of contested cells. */
+  history: Float32Array;
+  /** Per cell: number of hatches (any kind) the cell is beside, for `BESIDE_HATCH_COST`. */
+  beside: Uint8Array;
+  /** Per cell: number of unconnected terminals of the kind being routed that may attach here. */
+  target: Uint16Array;
+  dist: Float64Array;
+  parent: Int32Array;
+  arrive: Uint8Array;
+  /** Visit stamp per cell; `dist` is valid when `seen[i] === stamp`. */
+  seen: Uint32Array;
+  stamp: number;
+  /** Network stamp per cell; the cell is in the current network when `inNet[i] === netStamp`. */
+  inNet: Uint32Array;
+  netStamp: number;
+  heap: CellHeap;
+}
+
+function popcount(m: number): number {
+  let n = 0;
+  for (; m !== 0; m &= m - 1) n++;
+  return n;
 }
 
 /**
- * Grow one network from `seed` (a terminal cell), connecting the nearest remaining terminal until none is
- * reachable. A terminal is connected as soon as the network passes through any of its cells. With
- * `turns`, "nearest" means cheapest counting each bend as `turnCost` extra blocks.
+ * Grow one network of kind `k` from `seed` over the cheapest cells until every terminal it can reach is
+ * connected: one Dijkstra search from the network, continued (not restarted) after each new branch, whose
+ * cells join the network at cost 0. A step costs the cell's price plus `turnCost` for a bend. With `legal`,
+ * cells of other kinds' networks are walls; otherwise they only cost more (`present`).
  */
-function grow(
-  g: Grid,
-  s: Scratch,
+function growTree(
+  r: Router,
   terms: readonly Terminal[],
+  at: ReadonlyMap<number, readonly number[]>,
+  via: Int32Array,
   seed: number,
   k: number,
-  turns: TurnScratch | null,
-): Growth {
-  // target[cell] = how many unconnected terminals may attach at that cell.
-  const target = new Uint8Array(g.occ.length);
-  const at = new Map<number, number[]>();
-  terms.forEach((t, ti) => {
-    for (const c of t.cells) {
-      let list = at.get(c);
-      if (!list) at.set(c, (list = []));
-      list.push(ti);
-      target[c]++;
-    }
-  });
-  const via = new Int32Array(terms.length).fill(-1);
-  let connected = 0;
+  present: number,
+  legal: boolean,
+): Tree {
+  const { g, used, history, beside, target, dist, parent, arrive, seen, inNet, heap, turnCost } = r;
+  const { occ, termMask, offsets } = g;
+  const bit = 1 << k;
+  const others = ~bit & 0xff;
+  const stamp = ++r.stamp;
+  const ns = ++r.netStamp;
+  heap.clear();
+  via.fill(-1);
   let remaining = terms.length;
+  let connected = 0;
+  const net: number[] = [];
+  const paths: number[][] = [];
+
   const reach = (cell: number): void => {
     for (const ti of at.get(cell) ?? []) {
       if (via[ti] !== -1) continue;
@@ -359,60 +296,104 @@ function grow(
       for (const c of terms[ti].cells) target[c]--;
     }
   };
+  const join = (cell: number): void => {
+    if (inNet[cell] === ns) return;
+    inNet[cell] = ns;
+    net.push(cell);
+    seen[cell] = stamp;
+    dist[cell] = 0;
+    parent[cell] = -1;
+    arrive[cell] = NO_DIR;
+    heap.update(cell);
+    if (target[cell] !== 0) reach(cell);
+  };
 
-  const inNet = new Set<number>([seed]);
-  const net = [seed];
-  const paths: number[][] = [];
-  const netMark = turns ? new Uint8Array(g.occ.length) : null;
-  if (netMark) netMark[seed] = 1;
-  reach(seed);
-  while (remaining > 0) {
-    const path: number[] = [];
-    if (turns && netMark) {
-      const candidates = candidatesWithin(g, s, net, target, k, turns.turnCost);
-      const hit = candidates.length ? searchFromTerminals(g, turns, candidates, target, netMark, k) : -1;
-      if (hit < 0) break;
-      // The chain runs network -> terminal already.
-      for (let st = hit; st !== -1; st = turns.parent[st]) path.push((st / STATES) | 0);
-    } else {
-      const hit = searchNearest(g, s, net, target, k);
-      if (hit < 0) break;
-      for (let i = hit; i !== -1; i = s.parent[i]) path.push(i);
+  join(seed);
+  paths.push([seed]);
+  while (remaining > 0 && heap.size > 0) {
+    const cur = heap.pop();
+    const d = dist[cur];
+
+    if (target[cur] !== 0 && inNet[cur] !== ns) {
+      // Cheapest unconnected terminal: its path back to the network becomes a branch.
+      const path: number[] = [];
+      let i = cur;
+      for (; inNet[i] !== ns; i = parent[i]) path.push(i);
+      path.push(i);
       path.reverse();
+      for (let j = 1; j < path.length; j++) join(path[j]);
+      paths.push(path);
+      continue;
     }
-    for (const i of path) {
-      if (target[i] !== 0) reach(i);
-      if (!inNet.has(i)) {
-        inNet.add(i);
-        net.push(i);
-        if (netMark) netMark[i] = 1;
-      }
+    const a = arrive[cur];
+    for (let dir = 0; dir < 6; dir++) {
+      const n = cur + offsets[dir];
+      if (occ[n] !== FREE || inNet[n] === ns) continue;
+      const m = termMask[n];
+      if (m !== 0 && (m & bit) === 0) continue; // another kind's terminal
+      const u = used[n] & others;
+      if (u !== 0 && legal) continue;
+      let cost = 1 + history[n] + beside[n] * BESIDE_HATCH_COST;
+      if (u !== 0) cost *= 1 + present * popcount(u);
+      if (a !== NO_DIR && a !== dir) cost += turnCost;
+      const nd = d + cost;
+      if (seen[n] === stamp && dist[n] <= nd) continue;
+      seen[n] = stamp;
+      dist[n] = nd;
+      parent[n] = cur;
+      arrive[n] = dir;
+      heap.update(n);
     }
-    paths.push(path);
   }
-  return { net, paths, connected, via };
+  // Drop the seed's placeholder path when a branch starts at the seed anyway.
+  if (paths.length > 1) paths.shift();
+  return { net, paths, connected };
 }
 
-/** Marks a free cell solid so no pipe passes through it. */
-function reserve(g: Grid, p: Vec3): void {
-  const x = p[0] - g.ox;
-  const y = p[1] - g.oy;
-  const z = p[2] - g.oz;
-  if (x < 0 || y < 0 || z < 0 || x >= g.dx || y >= g.dy || z >= g.dz) return;
-  const i = indexOf(g, p);
-  if (g.occ[i] === FREE) g.occ[i] = SOLID;
+/**
+ * Route kind `k`: grow from the first terminal with a free side; if that network turns out isolated while
+ * others exist (e.g. it only opens into an enclosed pocket), retry from the next one. Leaves `via` holding
+ * the attachment cell per terminal of the best try.
+ */
+function routeKind(
+  r: Router,
+  terms: readonly Terminal[],
+  at: ReadonlyMap<number, readonly number[]>,
+  via: Int32Array,
+  k: number,
+  present: number,
+  legal: boolean,
+): Tree | null {
+  const { target } = r;
+  let best: Tree | null = null;
+  let bestVia: Int32Array | null = null;
+  for (const t of terms) {
+    if (t.cells.length === 0) continue;
+    for (const tt of terms) for (const c of tt.cells) target[c]++;
+    const res = growTree(r, terms, at, via, t.cells[0], k, present, legal);
+    // Clear what is left of the target counts.
+    for (let ti = 0; ti < terms.length; ti++)
+      if (via[ti] === -1) for (const c of terms[ti].cells) target[c]--;
+    if (!best || res.connected > best.connected) {
+      best = res;
+      bestVia = via.slice();
+    }
+    if (res.connected > 1 || terms.length === 1) break;
+  }
+  if (bestVia) via.set(bestVia);
+  return best;
 }
 
 /**
  * Free cells connected to the outside of the build (flood fill from a corner just inside the solid grid
- * border at ground level, which the search margin keeps free). Cells in sealed pockets are unreachable in game, so a pipe
- * never attaches there.
+ * border at ground level, which the search margin keeps free). Cells in sealed pockets are unreachable in
+ * game, so a pipe never attaches there.
  */
-function outsideCells(g: Grid, s: Scratch): Uint8Array {
+function outsideCells(g: Grid): Uint8Array {
   const { occ, offsets } = g;
   const open = new Uint8Array(occ.length);
   const start = 1 + g.dx * (g.floor + g.dy);
-  const queue = s.queue;
+  const queue = new Int32Array(occ.length);
   let head = 0;
   let tail = 0;
   open[start] = 1;
@@ -427,6 +408,16 @@ function outsideCells(g: Grid, s: Scratch): Uint8Array {
     }
   }
   return open;
+}
+
+/** Marks a free cell solid so no pipe passes through it. */
+function reserve(g: Grid, p: Vec3): void {
+  const x = p[0] - g.ox;
+  const y = p[1] - g.oy;
+  const z = p[2] - g.oz;
+  if (x < 0 || y < 0 || z < 0 || x >= g.dx || y >= g.dy || z >= g.dz) return;
+  const i = indexOf(g, p);
+  if (g.occ[i] === FREE) g.occ[i] = SOLID;
 }
 
 /** Hatch sides tried for a pipe after the placed one: sides, then top, then bottom. */
@@ -460,28 +451,28 @@ export function withPipeFaces(hatches: HatchPlacement[], nets: RouteNet[] | null
 /**
  * UNIT 4 — Pipe routing.
  *
- * For each routed kind, connect the cells in front of all its hatches (hatch cell + face) into one network
- * by growing it towards the cheapest unconnected terminal, where a bend costs `turnCost` extra blocks
- * (Dijkstra over cell + direction; `turnCost` 0 = plain BFS shortest paths). Straight runs make better
- * trunks for later branches, so the default penalty usually needs no more pipe blocks, often fewer.
+ * For each routed kind, connect the cells beside all its hatches into one network that never shares a
+ * cell with another kind's. Each network is grown from one hatch towards the cheapest unconnected one,
+ * where a bend costs `turnCost` extra blocks. Kinds are negotiated (see `MAX_ROUNDS`): networks may first
+ * overlap at a price, and contested cells get dearer each round until every kind has its own cells. If
+ * the rounds run out, the kinds are routed one after another around the ones already laid, cheapest
+ * uncontested cells first.
  * - Pipes never pass through structure cells (including air interiors), another kind's network or the
- *   ground below the build's lowest layer.
+ *   ground below the build's lowest layer, nor through the cell in front of a controller or of a hatch
+ *   that is not routed (mufflers vent there, maintenance needs the player).
+ * - The cell in front of each routed hatch's placed face is reserved for its kind; its other open sides
+ *   are free for any pipe, and the hatch attaches through whichever side its pipe reaches.
  * - Search is bounded to the structure bounding box grown by 4 blocks (and to `MAX_GRID_CELLS`).
  * - Reports `connected` / `total` terminals and `length` in pipe blocks.
- * Pure; < 30 ms for 60 units.
- *
- * Only `opts.kinds` are routed (default: the pipe kinds). Kinds are routed in `ROUTED_KINDS` order, so
- * pipes are obstacles for cables and earlier kinds for later ones. When both pipes and cables are routed
- * and some hatch is left unconnected, cables are also tried first and the order connecting more hatches
- * wins (pipes first on ties). Terminals of other kinds are always obstacles. The network grows from the
- * first reachable terminal (hatch order); a terminal inside a structure cell can never be connected.
- * Nets are returned in `ROUTED_KINDS` order.
+ * Pure and deterministic. Nets are returned in `ROUTED_KINDS` order.
  */
 export interface RouteOptions {
   /** Extra cost of a bend, in pipe blocks (0 = plain shortest paths). Default `DEFAULT_TURN_COST`. */
   turnCost?: number;
   /** Kinds to connect. Default `PIPE_KINDS`; add `CABLE_KINDS` to route energy and dynamo cables too. */
   kinds?: readonly RoutedKind[];
+  /** Negotiation rounds before falling back to routing kinds one by one. Default `MAX_ROUNDS`. */
+  rounds?: number;
 }
 
 export function routePipes(
@@ -490,25 +481,7 @@ export function routePipes(
   hatches: HatchPlacement[],
   opts: RouteOptions = {},
 ): RouteNet[] {
-  const wanted = opts.kinds ?? PIPE_KINDS;
-  const first = routeInOrder(def, units, hatches, opts, ROUTED_KINDS, wanted);
-  const missing = (nets: RouteNet[]) => nets.reduce((n, r) => n + r.total - r.connected, 0);
-  const mixed = wanted.some((k) => isCable(k)) && wanted.some((k) => !isCable(k));
-  if (!mixed || missing(first) === 0) return first;
-  const cablesFirst = [...CABLE_KINDS, ...PIPE_KINDS] as const;
-  const second = routeInOrder(def, units, hatches, opts, cablesFirst, wanted);
-  return missing(second) < missing(first) ? second : first;
-}
-
-/** `routePipes` with the kinds routed in `order`; the result is still in `ROUTED_KINDS` order. */
-function routeInOrder(
-  def: MultiblockDef,
-  units: Unit[],
-  hatches: HatchPlacement[],
-  opts: RouteOptions,
-  order: readonly RoutedKind[],
-  kinds: readonly RoutedKind[],
-): RouteNet[] {
+  const kinds = opts.kinds ?? PIPE_KINDS;
   const solids: Vec3[] = [];
   let ground = Infinity;
   for (const u of units)
@@ -543,13 +516,7 @@ function routeInOrder(
     });
   }
   const cells = g.occ.length;
-  const s: Scratch = {
-    queue: new Int32Array(cells),
-    parent: new Int32Array(cells),
-    seen: new Uint32Array(cells),
-    stamp: 0,
-  };
-  const open = outsideCells(g, s);
+  const open = outsideCells(g);
 
   // Cells that must stay free: in front of each controller (the player opens it there), and in front of
   // every hatch that is not routed here: a muffler only vents into air (GT stops the machine otherwise), an
@@ -572,17 +539,6 @@ function routeInOrder(
       if (!set) blocked.set(id, (set = new Set()));
       for (const d of dirs) set.add(rotateDir(d, u.rotation));
     }
-  const turnCost = Math.max(0, Math.floor(opts.turnCost ?? DEFAULT_TURN_COST));
-  const turns: TurnScratch | null =
-    turnCost > 0 && cells * STATES <= MAX_TURN_STATES
-      ? {
-          dist: new Int32Array(cells * STATES),
-          parent: new Int32Array(cells * STATES),
-          seen: new Uint32Array(cells * STATES),
-          stamp: 0,
-          turnCost,
-        }
-      : null;
 
   // The cell in front of each hatch's placed face stays reserved for its kind, so every hatch keeps at
   // least that way in; its other open sides are free for any pipe.
@@ -590,13 +546,37 @@ function routeInOrder(
     for (const h of byKind.get(kind) ?? []) g.termMask[indexOf(g, step(h.cell, h.face))] |= 1 << k;
   });
 
-  const out: RouteNet[] = [];
-  order.forEach((kind) => {
-    const k = ROUTED_KINDS.indexOf(kind);
+  const dist = new Float64Array(cells);
+  const r: Router = {
+    g,
+    turnCost: Math.max(0, Math.floor(opts.turnCost ?? DEFAULT_TURN_COST)),
+    used: new Uint8Array(cells),
+    history: new Float32Array(cells),
+    beside: new Uint8Array(cells),
+    target: new Uint16Array(cells),
+    dist,
+    parent: new Int32Array(cells),
+    arrive: new Uint8Array(cells),
+    seen: new Uint32Array(cells),
+    stamp: 0,
+    inNet: new Uint32Array(cells),
+    netStamp: 0,
+    heap: new CellHeap(dist, new Int32Array(cells).fill(-1)),
+  };
+
+  interface KindState {
+    kind: RoutedKind;
+    k: number;
+    terms: Terminal[];
+    at: Map<number, number[]>;
+    via: Int32Array;
+    tree: Tree | null;
+  }
+  const states: KindState[] = [];
+  for (const [k, kind] of ROUTED_KINDS.entries()) {
     const list = byKind.get(kind);
-    if (!list) return;
+    if (!list) continue;
     const bit = 1 << k;
-    // Free cells beside each hatch (earlier kinds' pipes are solid by now), placed face first.
     const usable = (i: number): boolean =>
       open[i] === 1 && g.occ[i] === FREE && (g.termMask[i] === 0 || (g.termMask[i] & bit) !== 0);
     const terms: Terminal[] = list.map((h) => {
@@ -604,37 +584,96 @@ function routeInOrder(
       const sides = [h.face, ...ATTACH_ORDER.filter((d) => d !== h.face && !no?.has(d))];
       return { hatch: h.cell, cells: sides.map((d) => indexOf(g, step(h.cell, d))).filter(usable) };
     });
-    const total = terms.length;
-    // Seed from the first hatch with a free side; if it turns out isolated while others exist
-    // (e.g. it only opens into an enclosed pocket), retry from the next one.
-    let best: Growth | null = null;
-    for (const t of terms) {
-      if (t.cells.length === 0) continue;
-      const res = grow(g, s, terms, t.cells[0], k, turns);
-      if (!best || res.connected > best.connected) best = res;
-      if (res.connected > 1 || total === 1) break;
-    }
-    if (!best) {
-      out.push({ kind, paths: [], length: 0, connected: 0, total });
-      return;
-    }
-    for (const i of best.net) g.occ[i] = PIPE + k;
-    const paths = best.paths.length > 0 ? best.paths : [[best.net[0]]];
-    const attachments: { cell: Vec3; face: Dir }[] = [];
-    const via = best.via;
+    const at = new Map<number, number[]>();
     terms.forEach((t, ti) => {
-      if (via[ti] !== -1) attachments.push({ cell: t.hatch, face: dirBetween(t.hatch, posOf(g, via[ti])) });
+      for (const c of t.cells) {
+        let l = at.get(c);
+        if (!l) at.set(c, (l = []));
+        l.push(ti);
+      }
     });
-    out.push({
+    states.push({ kind, k, terms, at, via: new Int32Array(terms.length), tree: null });
+  }
+  // Cells beside a hatch other than its reserved front cost a little more for other kinds.
+  for (const h of hatches)
+    for (const d of ATTACH_ORDER) {
+      const x = step(h.cell, d);
+      const i = indexOf(g, x);
+      if (i >= 0 && i < cells && g.occ[i] === FREE && g.termMask[i] === 0 && r.beside[i] < 255) r.beside[i]++;
+    }
+
+  const setUsed = (s: KindState, on: boolean): void => {
+    if (!s.tree) return;
+    const bit = 1 << s.k;
+    for (const i of s.tree.net) r.used[i] = on ? r.used[i] | bit : r.used[i] & ~bit;
+  };
+  const shared = (s: KindState): boolean => {
+    const bit = 1 << s.k;
+    return s.tree !== null && s.tree.net.some((i) => (r.used[i] & ~bit) !== 0);
+  };
+
+  // Negotiation rounds.
+  const rounds = Math.max(0, Math.floor(opts.rounds ?? MAX_ROUNDS));
+  let present = PRESENT_START;
+  let legal = false;
+  for (let round = 0; round < rounds && !legal; round++) {
+    for (const s of states) {
+      if (round > 0 && !shared(s)) continue;
+      setUsed(s, false);
+      s.tree = routeKind(r, s.terms, s.at, s.via, s.k, present, false);
+      setUsed(s, true);
+    }
+    let contested = 0;
+    for (const s of states)
+      for (const i of s.tree?.net ?? [])
+        if (popcount(r.used[i]) > 1) {
+          contested++;
+          r.history[i] += HISTORY_STEP / popcount(r.used[i]);
+        }
+    if (contested === 0) legal = true;
+    present *= PRESENT_GROWTH;
+  }
+
+  if (!legal) {
+    // Out of rounds: lay the kinds one by one, each around the ones already laid, keeping the learned
+    // history so contested cells are avoided where possible. Kinds with the most contested cells go first.
+    const order = [...states].sort((a, b) => contestedCells(r, b) - contestedCells(r, a) || a.k - b.k);
+    for (const s of states) setUsed(s, false);
+    for (const s of order) {
+      s.tree = routeKind(r, s.terms, s.at, s.via, s.k, 0, true);
+      setUsed(s, true);
+    }
+  }
+
+  return states.map((s) => {
+    const { kind, terms, via, tree } = s;
+    const total = terms.length;
+    if (!tree) return { kind, paths: [], length: 0, connected: 0, total };
+    // Each connected hatch attaches through its placed face when the network passes there, else through
+    // the first side of `ATTACH_ORDER` it does pass.
+    const ns = ++r.netStamp;
+    for (const i of tree.net) r.inNet[i] = ns;
+    const attachments: { cell: Vec3; face: Dir }[] = [];
+    terms.forEach((t, ti) => {
+      if (via[ti] === -1) return;
+      const cell = t.cells.find((c) => r.inNet[c] === ns) ?? via[ti];
+      attachments.push({ cell: t.hatch, face: dirBetween(t.hatch, posOf(g, cell)) });
+    });
+    return {
       kind,
-      paths: paths.map((p) => p.map((i) => posOf(g, i))),
-      length: best.net.length,
-      connected: best.connected,
+      paths: tree.paths.map((p) => p.map((i) => posOf(g, i))),
+      length: tree.net.length,
+      connected: tree.connected,
       total,
       attachments,
-    });
+    };
   });
-  return out.sort(
-    (a, b) => ROUTED_KINDS.indexOf(a.kind as RoutedKind) - ROUTED_KINDS.indexOf(b.kind as RoutedKind),
-  );
+}
+
+/** Cells of a kind's network that another kind's network also uses. */
+function contestedCells(r: Router, s: { k: number; tree: Tree | null }): number {
+  const bit = 1 << s.k;
+  let n = 0;
+  for (const i of s.tree?.net ?? []) if ((r.used[i] & ~bit) !== 0) n++;
+  return n;
 }
