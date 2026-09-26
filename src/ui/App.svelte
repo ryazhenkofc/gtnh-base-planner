@@ -65,7 +65,7 @@
     if (pack !== lastPack) {
       if (pack && pack.placed < pack.requested)
         notify(t.placedFewer(pack.placed, pack.requested, pack.reason), 6000, 'pack');
-      else if (loosened) notify(t.spacedOut, 5000, 'pack');
+      else if (loosened) notify(t.spacedOut(pipes !== null), 5000, 'pack');
       else clearSlot('pack');
     }
     if (hatches !== lastHatches) {
