@@ -22,7 +22,7 @@ for the endpoints marked "checked".
 | `GET /api/datasets/{versionId}/catalog\|recipes…` | none | The recipe dataset. We do not need it for layout.                                                                                                                                                               |
 | `/api/blueprints`, `/api/library`                 | user | Checked: both return 401. Out of scope.                                                                                                                                                                         |
 
-**The live API sends no CORS headers.** A request with `Origin: https://ryazhenkofc.github.io` gets no
+**The live API sends no CORS headers.** A request with our site's origin (tested as `https://ryazhenkofc.github.io`) gets no
 `Access-Control-Allow-Origin`, so our static app cannot call it from the browser. Right now the only way in is
 the **Export JSON** button on their board (`serializeFactoryProject`), followed by file upload or paste on our
 side.
@@ -189,7 +189,7 @@ Today: `plan → packUnits → placeHatches → computeWallStats → routePipes 
   statement in the README.
 
 - **C. "Open in 3D" from their site (optional, needs them).** They link to
-  `…/gtnh-wallshare-planner/#gtnh=<planId>`, or pass the JSON through `postMessage`.
+  `https://gtnh-wallshare-planner.pages.dev/#gtnh=<planId>`, or pass the JSON through `postMessage`.
 
 B and C send a request to a third party, so they only run on a user action, and we document them in the
 README's Privacy section. We do not hotlink their item icons: we use colour swatches.

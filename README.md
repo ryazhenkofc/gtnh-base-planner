@@ -5,7 +5,7 @@ A 3D planner for [GregTech: New Horizons](https://github.com/GTNewHorizons/GT-Ne
 It is a layout tool, not a recipe or production-chain calculator. Structures follow GT:NH **2.9.0-beta-3**
 (GT5-Unofficial 5.09.54.133).
 
-**Live:** <https://ryazhenkofc.github.io/gtnh-wallshare-planner/>
+**Live:** <https://gtnh-wallshare-planner.pages.dev/>
 
 ## Features
 
@@ -158,17 +158,16 @@ sources are build inputs only and are not deployed; `dist/` holds `index.html`, 
 in `assets/`, and `textures/atlas.png`. Asset paths are relative (`base: './'`), so the same build works at a
 domain root and under a sub-path.
 
-**Cloudflare Pages.** Connect the repository with Cloudflare's Git integration (no Wrangler configuration or
-API tokens are needed):
+**Cloudflare Pages** hosts the live site, through Cloudflare's Git integration (no Wrangler configuration or
+API tokens in the repository). Every push to `main` deploys <https://gtnh-wallshare-planner.pages.dev/>; other
+branches get preview deployments. Project settings:
 
 - Build command: `npm run build`
 - Build output directory: `dist`
 - Node.js: 24, read from [`.node-version`](.node-version) (or set `NODE_VERSION=24`)
 
-**GitHub Pages.** In the repository settings, open Pages and set the source to GitHub Actions. Every push to
-`main` runs [`.github/workflows/pages.yml`](.github/workflows/pages.yml): type-check, unit tests, build, then
-deploy `dist/`. Pull requests run [`ci.yml`](.github/workflows/ci.yml), which adds formatting and end-to-end
-checks.
+**CI.** Pull requests and pushes to `main` run [`ci.yml`](.github/workflows/ci.yml): formatting, type-check,
+unit tests, build and end-to-end tests. It deploys nothing.
 
 ## License
 
