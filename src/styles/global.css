@@ -5,6 +5,8 @@
   --muted: #9a9a9a;
   --faint: #c8c8c8;
   --line: #ececec;
+  /* Outline of the picked resource (Links, legend). */
+  --pick: #e5484d;
   --gutter: 28px;
   --bar-h: 56px;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;

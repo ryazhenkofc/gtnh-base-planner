@@ -19,6 +19,7 @@ import type {
 } from '../model/types';
 import { computeWallStats } from '../model/walls';
 import { plan, showCables, showPipes } from '../state/store';
+import { withBuildDimensions } from './dimensions';
 import { warnOnce } from './notices';
 
 /** The model functions the pipeline calls (injectable for tests). */
@@ -183,14 +184,17 @@ export function createPipeline(deps: PipelineDeps = defaultDeps) {
     const pipeNets = pipes.ok ? pipes.value : null;
 
     // Hatches turn to whichever side their pipe reaches them from.
+    // Width and depth of the whole build are measured beside it.
     const scene = sceneStage(sceneKey, () =>
-      deps.buildSceneModel(
-        def,
-        units,
-        withPipeFaces(hatchResult.hatches, pipeNets),
-        stats.value,
-        pipeNets,
-        colors,
+      withBuildDimensions(
+        deps.buildSceneModel(
+          def,
+          units,
+          withPipeFaces(hatchResult.hatches, pipeNets),
+          stats.value,
+          pipeNets,
+          colors,
+        ),
       ),
     );
     return finish({

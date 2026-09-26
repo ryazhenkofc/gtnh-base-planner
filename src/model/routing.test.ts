@@ -263,7 +263,8 @@ describe('routePipes', () => {
         const def = r.def!;
         const units = r.pack!.units;
         const hatches = r.hatches!.hatches;
-        const bfs = routePipes(def, units, hatches, { turnCost: 0 });
+        // Plain BFS: no bend or wall pricing.
+        const bfs = routePipes(def, units, hatches, { turnCost: 0, wallCost: 0 });
         const turn = routePipes(def, units, hatches);
         expect(turn).toEqual(routePipes(def, units, hatches, { turnCost: DEFAULT_TURN_COST }));
         for (const n of turn) expectContiguous(n);
@@ -281,10 +282,33 @@ describe('routePipes', () => {
         bfsLength += sum(bfs, (n) => n.length);
         turnLength += sum(turn, (n) => n.length);
       }
-    // Across the catalog the penalty removes a large share of the bends, without costing blocks.
+    // Across the catalog the penalty removes a large share of the bends, without costing blocks (keeping
+    // pipes along the walls, DEFAULT_WALL_COST, gives back a few of them).
     expect(turnBends).toBeLessThan(bfsBends * 0.7);
     expect(turnLength).toBeLessThanOrEqual(bfsLength);
   }, 60_000); // Routes every catalog multiblock twice at 12 and 60 units.
+
+  it('keeps pipes along the walls instead of looping out into the air', () => {
+    // Seven coke ovens in two layers: an item input sits between the two fluid outputs of a face, so the
+    // fluid pipe must go around it. Without the wall cost it loops out over the top edge and down two blocks
+    // from the wall on both sides; with it, at most one short step out around that input is left.
+    const plan = { ...defaultPlan('coke-oven'), count: 7, enabledHatches: ['itemIn', 'itemOut', 'fluidOut'] };
+    const r = createPipeline()(plan as ReturnType<typeof defaultPlan>, false);
+    const def = r.def!;
+    const units = r.pack!.units;
+    const hatches = r.hatches!.hatches;
+    const cells = [...solidKeys(def, units)].map((k) => k.split(',').map(Number));
+    const lo = [0, 1, 2].map((a) => Math.min(...cells.map((c) => c[a])) - 1);
+    const hi = [0, 1, 2].map((a) => Math.max(...cells.map((c) => c[a])) + 1);
+    // Above the ground, pipe blocks further than one block out from the build's box.
+    const airborne = (nets: RouteNet[]) =>
+      nets.flatMap((n) => n.paths.flat()).filter((c) => c[1] > 0 && c.some((v, a) => v < lo[a] || v > hi[a]));
+    const nets = routePipes(def, units, hatches);
+    expect(nets.every((n) => n.connected === n.total)).toBe(true);
+    const loose = routePipes(def, units, hatches, { wallCost: 0 });
+    expect(airborne(loose).length).toBeGreaterThan(10);
+    expect(airborne(nets).length).toBeLessThanOrEqual(3);
+  });
 
   it('turns hatches to the side their pipe attaches to', () => {
     const hatches = shellHatches();

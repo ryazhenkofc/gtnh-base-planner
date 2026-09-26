@@ -16,42 +16,43 @@ It is a layout tool, not a recipe or production-chain calculator. Structures fol
 - **Hatches**: enable hatch kinds per plan; shareable hatches serve several controllers from one block. A hatch faces open space rather than a gap between units, and never the ground: the build stands on its lowest layer. Hatches of different kinds are spread apart, and none faces a cell its pipe could not leave.
 - **Pipe routing** per hatch kind (items, fluids, steam), with length estimates. The kinds are negotiated rather than laid one after another (a cell two networks want gets dearer each round until one gives way), so no network walls in another kind's hatch. With pipes or cables on, a layout whose walkways cannot hold a line per kind is spaced out step by step (walkways and gaps of one or two blocks, same rows and layers) until every hatch is connected; a warning remains only for hatches that still cannot be reached (e.g. in a manual layout). Bends are priced in, so pipes run in straight trunks with fewer bends than plain shortest paths. A pipe may reach a hatch from any open side (the hatch is turned to face it, as with a wrench in game), and pipes never go underground.
 - **Cable routing**: the Cables toggle connects energy hatches (and dynamo hatches of generators) with thinner cables, like pipes.
-- **SIMPLE / DETAILED view**: flat colours, or real GregTech textures.
+- **Textured view**: real GregTech textures (flat colours when they cannot load), with the build's width and
+  depth measured beside it.
 - **Stats line**: units, unique blocks, shared walls, hatches and how many blocks sharing saves.
 - **Save and share**: autosave in the browser, JSON download/upload, and share links.
-- **Sites** (the SITE view): several groups of multiblocks on a bounded ground area (30 × 30 by default), joined by
+- **Templates** (the TEMPLATE view): several groups of multiblocks on a bounded ground area (30 × 30 by default), joined by
   links that each carry one item, fluid or EU. Every group gets one hatch per resource it takes or gives, pipes are
-  routed between groups and to input/output ports on the site edges, and animated arrows show which way each
+  routed between groups and to input/output ports on the template edges, and animated arrows show which way each
   pipe flows. Groups can be arranged automatically along the flow, moved and turned by hand.
 - **GTNH Planner import**: open a chain exported from [GTNH Planner](https://gtnhplanner.com) (its board's
-  Export JSON) and it becomes a site: one group per recipe node, links from its edges, ports for whatever enters
+  Export JSON) and it becomes a template: one group per recipe node, links from its edges, ports for whatever enters
   or leaves the chain.
 
 ## How to use
 
 1. Choose a multiblock in the catalog.
 2. Set the count and, if needed, the maximum footprint.
-3. Set the height or length of a resizable multiblock; toggle hatch kinds, pipes and cables; switch between SIMPLE and DETAILED.
+3. Set the height or length of a resizable multiblock; toggle hatch kinds, pipes and cables.
 4. Drag to orbit, scroll or pinch to zoom, right-drag to pan, double-click to reset. Click a block to select its unit.
 5. Copy a share link, or download the plan as JSON.
 
 The planner checks layout rules for the transcribed structure only. It is not a full in-game build validation.
 
-### Sites
+### Templates
 
-1. Switch to SITE in the top bar. Use SITE (top right) to open the site panel.
+1. Switch to TEMPLATE in the top bar. Use TEMPLATE (top right) to open the template panel.
 2. Import a chain (IMPORT FROM GTNH PLANNER), or build one by hand: ADD MULTIBLOCK, then ADD LINK with a start
-   (a group or SITE INPUT), an end (a group or SITE OUTPUT) and a resource. In the single-machine view, SETTINGS →
-   ADD TO SITE copies the current plan into the site as a group.
+   (a group or TEMPLATE INPUT), an end (a group or TEMPLATE OUTPUT) and a resource. In the single-machine view, SETTINGS →
+   ADD TO TEMPLATE copies the current plan into the template as a group.
 3. ARRANGE lays the groups out west to east along the flow. Select a group (click it, or pick it in the panel)
-   and move it with the arrow keys (Shift: 5 blocks) or R to turn it; X and Z in the panel place it exactly.
+   and move it with the arrow keys as seen on screen (Shift: 5 blocks), R to turn it or Delete twice to remove it; X and Z in the panel place it exactly.
 4. Click a pipe or a legend entry to highlight one resource; the other nets fade. The bottom line shows the
-   selected group or net, and PROBLEMS lists overlaps, groups outside the site, hatches that did not fit and
+   selected group or net, and PROBLEMS lists overlaps, groups outside the template, hatches that did not fit and
    pipes that could not be routed.
 
 In the import dialog every recipe node can be placed as a catalog multiblock, a single-block machine (a
 1-block machine whose faces take the pipes), a placeholder (a 3×3×3 stand-in for a multiblock not in the catalog
-yet), a site port (passive sources such as crops, bees and ore veins) or skipped. The machine name mapping lives
+yet), a template port (passive sources such as crops, bees and ore veins) or skipped. The machine name mapping lives
 in [`src/data/gtnhplanner-machines.ts`](src/data/gtnhplanner-machines.ts). Storages between machines are passed
 through; product drains become output ports, trash drains void ports. Thaumcraft aspect flows are left out.
 
@@ -97,13 +98,13 @@ DETAILED view uses block textures from [GT5-Unofficial](https://github.com/GTNew
 
 ## Privacy
 
-There is no server, account or tracking. Plans are stored in your browser's `localStorage`. A share link carries the compressed plan in the URL fragment (`#p=...`, or `#s=...` for a site); browsers never send the fragment to the server, so the host only sees a request for the page.
+There is no server, account or tracking. Plans are stored in your browser's `localStorage`. A share link carries the compressed plan in the URL fragment (`#p=...`, or `#s=...` for a template); browsers never send the fragment to the server, so the host only sees a request for the page.
 
 The GTNH Planner import reads the file you open or paste in the browser; the file itself is never sent anywhere.
-Exports carry an icon path for each item and fluid, and the site view shows those icons (legend, link list,
-import dialog) by loading the images from gtnhplanner.com, without a referrer. Turn off **Item icons** in the site
+Exports carry an icon path for each item and fluid, and the template view shows those icons (legend, link list,
+import dialog) by loading the images from gtnhplanner.com, without a referrer. Turn off **Item icons** in the template
 panel to show colour swatches instead; then the page loads nothing from other sites. Only `/datasets/...png` paths
-on gtnhplanner.com are accepted, so a shared site link cannot make the page load any other address. The 3D view
+on gtnhplanner.com are accepted, so a shared template link cannot make the page load any other address. The 3D view
 uses colours only: the browser does not allow images from another site in WebGL.
 
 ## Development

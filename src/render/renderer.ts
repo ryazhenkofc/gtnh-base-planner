@@ -11,6 +11,8 @@ export interface RendererOptions {
   onPick?: (unitIds: number[]) => void;
   /** Called on click with the id of the net (`RouteNet.id`) under the pointer, or null. */
   onPickNet?: (netId: number | null) => void;
+  /** Called after a frame when the camera azimuth (`OrbitControls.theta`, radians) changed. */
+  onView?: (theta: number) => void;
   /** Keep the drawing buffer after compositing so tests can read pixels back. Default false. */
   preserveDrawingBuffer?: boolean;
 }
@@ -41,7 +43,6 @@ export interface RendererDebug {
 }
 
 const CASING_XRAY_OPACITY = 0.1;
-const CONTROLLER_XRAY_OPACITY = 0.35;
 const CONFLICT_COLOR = '#e5484d';
 const SELECT_TINT = '#3b82f6';
 const SELECT_LINE = '#111111';
@@ -57,6 +58,10 @@ const DIM_OPACITY = 0.14;
 const GRID_COLOR = '#e4e2dd';
 const SITE_EDGE_COLOR = '#8f8b84';
 const SITE_FLOOR_COLOR = '#f6f5f2';
+/** Dimension lines beside the build or site: colours, and gap from the edge (blocks). */
+const DIM_COLOR = '#aaa69f';
+const DIM_TEXT = '#6f6b65';
+const DIM_GAP = 1.2;
 const GIZMO_PX = 96;
 const GIZMO_MARGIN_PX = 14;
 const AXIS_COLORS = { x: '#d9534f', y: '#4caf50', z: '#3b7dd8' } as const;
@@ -91,7 +96,12 @@ interface VoxelBatch {
  * A label drawn at a constant size on screen, above everything (site groups and ports). `swatch` adds a
  * coloured dot before the text (the text itself stays dark, so light colours remain readable).
  */
-function textSprite(text: string, swatch: string | undefined, small: boolean): THREE.Sprite {
+function textSprite(
+  text: string,
+  swatch: string | undefined,
+  small: boolean,
+  textColor = '#222222',
+): THREE.Sprite {
   const px = small ? 26 : 30;
   const font = `500 ${px}px 'Helvetica Neue', Helvetica, Arial, sans-serif`;
   const dot = swatch ? px * 0.9 : 0;
@@ -112,7 +122,7 @@ function textSprite(text: string, swatch: string | undefined, small: boolean): T
     ctx.lineWidth = 6;
     ctx.strokeStyle = 'rgba(255,255,255,0.92)';
     ctx.strokeText(text, 8 + dot, h / 2 + 1);
-    ctx.fillStyle = '#222222';
+    ctx.fillStyle = textColor;
     ctx.fillText(text, 8 + dot, h / 2 + 1);
     if (swatch) {
       ctx.beginPath();
@@ -254,6 +264,7 @@ export function createRenderer(
   const flowMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
   const gridMat = new THREE.LineBasicMaterial({ color: GRID_COLOR });
   const edgeMat = new THREE.LineBasicMaterial({ color: SITE_EDGE_COLOR });
+  const dimMat = new THREE.LineBasicMaterial({ color: DIM_COLOR });
   const floorMat = new THREE.MeshBasicMaterial({
     color: SITE_FLOOR_COLOR,
     polygonOffset: true,
@@ -277,6 +288,7 @@ export function createRenderer(
     flowMat,
     gridMat,
     edgeMat,
+    dimMat,
     floorMat,
     tintMat,
     lineMat,
@@ -309,6 +321,7 @@ export function createRenderer(
   let autoFit = true;
   let disposed = false;
   let frame = 0;
+  let reportedTheta = NaN;
   let width = 0;
   let height = 0;
 
@@ -375,6 +388,11 @@ export function createRenderer(
     gl.setViewport(GIZMO_MARGIN_PX, GIZMO_MARGIN_PX, GIZMO_PX, GIZMO_PX);
     gl.render(gizmo, gizmoCamera);
     gl.setViewport(0, 0, width, height);
+
+    if (options.onView && controls.theta !== reportedTheta) {
+      reportedTheta = controls.theta;
+      options.onView(reportedTheta);
+    }
   }
 
   function resize(): void {
@@ -399,6 +417,12 @@ export function createRenderer(
       if (m?.site) {
         yield [0, 0, 0];
         yield [m.site.size[0] - 1, 0, m.site.size[1] - 1];
+      }
+      // One more block south and east of the dimensioned area keeps its lines in view.
+      if (m?.dimensions) {
+        const { max, y } = m.dimensions;
+        const more = Math.ceil(DIM_GAP);
+        yield [Math.ceil(max[0]) - 1 + more, Math.floor(y), Math.ceil(max[1]) - 1 + more];
       }
       for (const v of m?.voxels ?? []) yield v.pos;
       for (const net of m?.pipes ?? []) for (const path of net.paths) yield* path;
@@ -452,18 +476,18 @@ export function createRenderer(
     return m;
   }
 
+  /** X-ray fades the casings; controllers, hatches and conflicts stay solid so they can be found. */
   function applyXray(): void {
     for (const b of batches) {
-      if (b.conflict || b.kind === 'hatch' || !xray) {
+      if (b.conflict || b.kind === 'hatch' || b.kind === 'controller' || !xray) {
         b.mesh.material = b.baseMaterials;
         b.mesh.renderOrder = 0;
         continue;
       }
-      const opacity = b.kind === 'controller' ? CONTROLLER_XRAY_OPACITY : CASING_XRAY_OPACITY;
       const base = b.baseMaterials;
       b.mesh.material = Array.isArray(base)
-        ? base.map((m) => xrayMaterial(m, opacity))
-        : xrayMaterial(base, opacity);
+        ? base.map((m) => xrayMaterial(m, CASING_XRAY_OPACITY))
+        : xrayMaterial(base, CASING_XRAY_OPACITY);
       b.mesh.renderOrder = 1;
     }
   }
@@ -688,6 +712,40 @@ export function createRenderer(
     content.add(new THREE.LineSegments(edgeGeo, edgeMat));
   }
 
+  /**
+   * Grey dimension lines beside the south edge (width, along X) and the east edge (depth, along Z), the
+   * sides the default camera looks at, each with end ticks and its label in the middle.
+   */
+  function buildDimensions(m: SceneModel): void {
+    if (!m.dimensions) return;
+    const { min, max, labels } = m.dimensions;
+    const [widthText, depthText] = labels;
+    const [x0, z0] = min;
+    const [x1, z1] = max;
+    const y = m.dimensions.y + 0.003;
+    const g = DIM_GAP;
+    const tick = 0.35;
+    const zs = z1 + g;
+    const xe = x1 + g;
+    // prettier-ignore
+    const lines = [
+      x0, y, zs, x1, y, zs,
+      x0, y, z1 + 0.15, x0, y, zs + tick,
+      x1, y, z1 + 0.15, x1, y, zs + tick,
+      xe, y, z0, xe, y, z1,
+      x1 + 0.15, y, z0, xe + tick, y, z0,
+      x1 + 0.15, y, z1, xe + tick, y, z1,
+    ];
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(lines, 3));
+    content.add(new THREE.LineSegments(geo, dimMat));
+    const widthLabel = textSprite(widthText, undefined, false, DIM_TEXT);
+    widthLabel.position.set((x0 + x1) / 2, y, zs);
+    const depthLabel = textSprite(depthText, undefined, false, DIM_TEXT);
+    depthLabel.position.set(xe, y, (z0 + z1) / 2);
+    content.add(widthLabel, depthLabel);
+  }
+
   function buildLabels(m: SceneModel): void {
     for (const l of m.labels ?? []) {
       const sprite = textSprite(l.text, l.color, !!l.small);
@@ -700,6 +758,7 @@ export function createRenderer(
     clearContent();
     if (model) {
       buildSite(model);
+      buildDimensions(model);
       buildVoxels(model);
       buildHatchMarkers(model);
       buildPipes(model);

@@ -19,7 +19,7 @@ test.beforeEach(async ({ page }) => {
   });
 });
 
-test('top bar, picker, count, settings and view mode', async ({ page }) => {
+test('top bar, picker, count and settings', async ({ page }) => {
   const errors = collectErrors(page);
   await page.goto('/');
 
@@ -27,8 +27,6 @@ test('top bar, picker, count, settings and view mode', async ({ page }) => {
   const name = page.getByTestId('multiblock-name');
   await expect(name).toHaveText(/coke oven/i);
   await expect(page.getByTestId('count')).toHaveValue('4');
-  await expect(page.getByRole('button', { name: 'Simple' })).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Detailed' })).toBeVisible();
   await expect(page.getByTestId('settings-toggle')).toHaveText(/settings/i);
   await page.screenshot({ path: 'e2e/screenshots/ui-desktop.png' });
 
@@ -75,15 +73,9 @@ test('top bar, picker, count, settings and view mode', async ({ page }) => {
   await page.keyboard.press('Escape');
   await expect(drawer).toBeHidden();
 
-  // View mode
-  const simple = page.getByTestId('mode-simple');
-  const detailed = page.getByTestId('mode-detailed');
-  await expect(simple).toHaveAttribute('aria-pressed', 'true');
-  await expect(simple).toHaveClass(/active/);
-  await detailed.click();
-  await expect(detailed).toHaveAttribute('aria-pressed', 'true');
-  await expect(detailed).toHaveClass(/active/);
-  await expect(simple).not.toHaveClass(/active/);
+  // DETAILED is the only view mode: no Simple / Detailed switch.
+  await expect(page.getByTestId('mode-simple')).toHaveCount(0);
+  await expect(page.getByTestId('footer')).toBeVisible();
 
   expect(errors).toEqual([]);
 });

@@ -42,6 +42,8 @@ interface Grid {
   occ: Uint8Array;
   /** Bitmask of routed kinds (bit = index in ROUTED_KINDS) whose terminal sits in this cell. */
   termMask: Uint8Array;
+  /** 1 where a free cell touches the build or the ground (not the grid border): a pipe there hugs a wall. */
+  wall: Uint8Array;
   /** Lowest y index above the ground (and the solid border). */
   floor: number;
   /** Neighbour index offsets: -z, +z, +x, -x, +y, -y. */
@@ -92,6 +94,7 @@ function buildGrid(solids: Vec3[], terminals: Vec3[], ground: number): Grid | nu
   if (dx * dy * dz > MAX_GRID_CELLS) return null;
   const occ = new Uint8Array(dx * dy * dz);
   const termMask = new Uint8Array(dx * dy * dz);
+  const wall = new Uint8Array(dx * dy * dz);
   const g: Grid = {
     ox,
     oy,
@@ -101,6 +104,7 @@ function buildGrid(solids: Vec3[], terminals: Vec3[], ground: number): Grid | nu
     dz,
     occ,
     termMask,
+    wall,
     floor: Math.max(1, Math.min(dy - 2, ground - oy)),
     offsets: Int32Array.from([-dx * dy, dx * dy, 1, -1, dx, -dx]),
   };
@@ -114,6 +118,23 @@ function buildGrid(solids: Vec3[], terminals: Vec3[], ground: number): Grid | nu
   for (let z = 0; z < dz; z++)
     for (let y = 0; y < Math.min(dy, ground - oy); y++)
       for (let x = 0; x < dx; x++) occ[x + dx * (y + dy * z)] = SOLID;
+  // Wall cells: free cells beside a solid that is not the border (structure or ground).
+  const inner = (n: number, c: number, size: number) => occ[n] === SOLID && c > 0 && c < size - 1;
+  for (let z = 1; z < dz - 1; z++)
+    for (let y = 1; y < dy - 1; y++)
+      for (let x = 1; x < dx - 1; x++) {
+        const i = x + dx * (y + dy * z);
+        if (occ[i] !== FREE) continue;
+        if (
+          inner(i - 1, x - 1, dx) ||
+          inner(i + 1, x + 1, dx) ||
+          inner(i - dx, y - 1, dy) ||
+          inner(i + dx, y + 1, dy) ||
+          inner(i - dx * dy, z - 1, dz) ||
+          inner(i + dx * dy, z + 1, dz)
+        )
+          wall[i] = 1;
+      }
   return g;
 }
 
@@ -132,6 +153,13 @@ const PRESENT_GROWTH = 1.6;
 const HISTORY_STEP = 1;
 /** Negotiation also stops after this many rounds without fewer contested cells than before. */
 const MAX_STALLED_ROUNDS = 5;
+
+/**
+ * Default extra cost of a pipe block that touches neither the build nor the ground, in blocks. Between two
+ * routes of about the same length the one along the walls wins, as players lay pipes; a pipe still crosses
+ * open space when that saves more.
+ */
+export const DEFAULT_WALL_COST = 1;
 
 /** Extra cost of taking a cell beside another kind's hatch (it may be that hatch's only way out). */
 const BESIDE_HATCH_COST = 1;
@@ -468,6 +496,7 @@ export function withPipeFaces(hatches: HatchPlacement[], nets: RouteNet[] | null
  *   that is not routed (mufflers vent there, maintenance needs the player).
  * - The cell in front of each routed hatch's placed face is reserved for its kind; its other open sides
  *   are free for any pipe, and the hatch attaches through whichever side its pipe reaches.
+ * - A block off the walls costs `wallCost` more, so pipes follow the build and the ground.
  * - Search is bounded to the structure bounding box grown by 4 blocks (and to `MAX_GRID_CELLS`).
  * - Reports `connected` / `total` terminals and `length` in pipe blocks.
  * Pure and deterministic. Nets are returned in `ROUTED_KINDS` order.
@@ -477,6 +506,8 @@ export interface RouteOptions {
   turnCost?: number;
   /** Kinds to connect. Default `PIPE_KINDS`; add `CABLE_KINDS` to route energy and dynamo cables too. */
   kinds?: readonly RoutedKind[];
+  /** Extra cost of a pipe block off the walls (see `DEFAULT_WALL_COST`). */
+  wallCost?: number;
   /** Negotiation rounds before falling back to routing kinds one by one. Default `MAX_ROUNDS`. */
   rounds?: number;
 }
@@ -608,6 +639,9 @@ export function routePipes(
   }
   for (let i = 0; i < cells; i++)
     if (g.occ[i] === FREE) r.pass[i] = g.termMask[i] !== 0 ? g.termMask[i] : 0xff;
+  // Cells off the walls cost more, so pipes run along the build and the ground rather than through the air.
+  const wallCost = Math.max(0, opts.wallCost ?? DEFAULT_WALL_COST);
+  if (wallCost > 0) for (let i = 0; i < cells; i++) if (g.wall[i] === 0) r.price[i] += wallCost;
   // Cells beside a hatch, other than reserved front cells, cost a little more.
   for (const h of hatches)
     for (const d of ATTACH_ORDER) {

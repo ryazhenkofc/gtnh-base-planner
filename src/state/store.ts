@@ -15,7 +15,8 @@ export function defaultPlan(multiblockId = DEFAULT_MULTIBLOCK_ID): PlanState {
 }
 
 export const plan = writable<PlanState>(defaultPlan());
-export const viewMode = writable<ViewMode>('simple');
+/** Always DETAILED in the app; the renderer falls back to SIMPLE when the textures cannot load. */
+export const viewMode = writable<ViewMode>('detailed');
 export const showPipes = writable(false);
 export const showCables = writable(false);
 export const xray = writable(false);

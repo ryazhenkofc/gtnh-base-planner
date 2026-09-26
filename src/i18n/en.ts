@@ -6,6 +6,8 @@ import type { HatchKind } from '../model/types';
 export const t = {
   appName: 'GTNH Wall-Share Planner',
   tagline: 'Multiblocks sharing walls, hatches and pipes.',
+  repo: 'Source on GitHub',
+  repoUrl: 'https://github.com/ryazhenkofc/gtnh-wallshare-planner',
 
   // Top bar
   countLabel: 'Number of multiblocks',
@@ -13,8 +15,6 @@ export const t = {
   increase: 'More multiblocks',
   minus: '−',
   plus: '+',
-  simple: 'Simple',
-  detailed: 'Detailed',
   settings: 'Settings',
   close: 'Close',
   separator: '·',
@@ -95,13 +95,13 @@ export const t = {
 
   // Mode switch
   modeMachine: 'Machine',
-  modeSite: 'Site',
+  modeSite: 'Template',
   modeLabel: 'Planner mode',
 
   site: {
-    panel: 'Site',
+    panel: 'Template',
     name: 'Name',
-    unnamed: 'Site',
+    unnamed: 'Template',
     size: 'Size',
     width: 'Width',
     depth: 'Depth',
@@ -123,8 +123,21 @@ export const t = {
     rotate: 'Rotate',
     remove: 'Remove',
     removeConfirm: 'Confirm remove',
+    deleteConfirm: (name: string) => `Press Delete again to remove ${name} and its links.`,
+    removed: 'Group removed.',
     label: 'Label',
-    moveHint: 'Arrow keys move the selected group (Shift: 5 blocks). R turns it.',
+    moveHint:
+      'Arrow keys move the selected group as seen on screen (Shift: 5 blocks). R turns it, Delete (twice) removes it.',
+    hint: {
+      title: 'Move the group',
+      move: 'Move 1 block',
+      fast: 'Move 5 blocks',
+      rotate: 'Rotate',
+      remove: 'Remove (press twice)',
+      deselect: 'Deselect',
+      camera: 'Arrows follow the camera: ↑ always moves away from you.',
+      open: 'Controls',
+    },
     needed: (n: number) => `${n} needed`,
     links: 'Links',
     noLinks: 'No links yet.',
@@ -136,19 +149,21 @@ export const t = {
     resourceName: 'Resource name',
     kind: 'Kind',
     rate: 'Rate / s',
-    inputPort: 'Site input',
-    outputPort: 'Site output',
+    inputPort: 'Template input',
+    outputPort: 'Template output',
     kinds: { item: 'Item', fluid: 'Fluid', power: 'Power' } satisfies Record<ResourceKind, string>,
     problems: 'Problems',
-    flow: 'Flow arrows',
+    flow: 'Flow animation',
+    animation: 'Animation',
+    animationHint: 'Moving flow arrows on pipes and cables',
     icons: 'Item icons (gtnhplanner.com)',
-    opened: 'Site opened.',
-    reset: 'Reset site',
+    opened: 'Template opened.',
+    reset: 'Reset template',
     resetConfirm: 'Confirm reset',
-    resetDone: 'Site reset.',
-    addToSite: 'Add to site',
-    addedToSite: 'Added to the site.',
-    sharedPrompt: 'Open shared site? It replaces your current one.',
+    resetDone: 'Template reset.',
+    addToSite: 'Add to template',
+    addedToSite: 'Added to the template.',
+    sharedPrompt: 'Open shared template? It replaces your current one.',
     groupCount: (n: number) => `${n} ${n === 1 ? 'group' : 'groups'}`,
     connected: (c: number, total: number) => `${c}/${total} connected`,
     ports: 'Ports',
@@ -167,7 +182,7 @@ export const t = {
         case 'overlap':
           return `${name(w.groups[0])} overlaps ${name(w.groups[1])}.`;
         case 'outside':
-          return `${name(w.group)} is outside the site.`;
+          return `${name(w.group)} is outside the template.`;
         case 'fewer':
           return `${name(w.group)}: placed ${w.placed} of ${w.requested}.`;
         case 'unplaced':
@@ -191,7 +206,7 @@ export const t = {
     paste: 'Paste JSON here',
     openFile: 'Open file',
     read: 'Read',
-    build: 'Build site',
+    build: 'Build template',
     cancel: 'Cancel',
     node: 'Recipe',
     machine: 'Machine',
@@ -199,17 +214,17 @@ export const t = {
     placeAs: 'Place as',
     single: 'Single-block machine',
     placeholder: 'Placeholder',
-    port: 'Site port (not placed)',
+    port: 'Template port (not placed)',
     skip: 'Skip',
-    grow: 'Grow the site if the chain does not fit',
-    replaces: 'Replaces the current site.',
+    grow: 'Grow the template if the chain does not fit',
+    replaces: 'Replaces the current template.',
     skippedEntries: (n: number) => `${n} malformed ${n === 1 ? 'entry was' : 'entries were'} skipped.`,
     done: (groups: number, ports: number, links: number) =>
       `Imported ${groups} groups, ${ports} ports and ${links} links.`,
     aspects: (n: number) => `${n} Thaumcraft ${n === 1 ? 'flow was' : 'flows were'} left out.`,
     placeholders: (names: string[]) => `Placeholders (not in the catalog yet): ${names.join(', ')}.`,
-    truncated: 'The chain is larger than a site can hold; the rest was left out.',
-    grown: (w: number, d: number) => `The site was enlarged to ${w} × ${d}.`,
+    truncated: 'The chain is larger than a template can hold; the rest was left out.',
+    grown: (w: number, d: number) => `The template was enlarged to ${w} × ${d}.`,
   },
 
   hatchKinds: {

@@ -64,7 +64,13 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 2px 0;
+    padding: 2px 6px;
+    margin-right: -6px;
+    outline: 1px solid transparent;
+  }
+  button.active {
+    outline-color: var(--pick);
+    text-decoration: none;
   }
   .name {
     text-transform: none;
