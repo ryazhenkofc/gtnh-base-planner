@@ -130,6 +130,8 @@ const MAX_ROUNDS = 24;
 const PRESENT_START = 2;
 const PRESENT_GROWTH = 1.6;
 const HISTORY_STEP = 1;
+/** Negotiation also stops after this many rounds without fewer contested cells than before. */
+const MAX_STALLED_ROUNDS = 5;
 
 /** Extra cost of taking a cell beside another kind's hatch (it may be that hatch's only way out). */
 const BESIDE_HATCH_COST = 1;
@@ -234,10 +236,12 @@ interface Router {
   turnCost: number;
   /** Per cell: bitmask of kinds whose current network uses it. */
   used: Uint8Array;
-  /** Per cell: history cost of contested cells. */
-  history: Float32Array;
-  /** Per cell: number of hatches (any kind) the cell is beside, for `BESIDE_HATCH_COST`. */
-  beside: Uint8Array;
+  /** Per cell: bitmask of kinds that may enter it (free, and not another kind's reserved cell). */
+  pass: Uint8Array;
+  /** Per cell: price of a pipe block there before congestion: 1, plus beside-hatch and history costs. */
+  price: Float32Array;
+  /** Per cell: 1 on the previous network of the kind being repaired (free to keep, see `routePipes`). */
+  keep: Uint8Array;
   /** Per cell: number of unconnected terminals of the kind being routed that may attach here. */
   target: Uint16Array;
   dist: Float64Array;
@@ -252,11 +256,12 @@ interface Router {
   heap: CellHeap;
 }
 
-function popcount(m: number): number {
+/** Set bits per byte value. */
+const POPCOUNT = Uint8Array.from({ length: 256 }, (_, m) => {
   let n = 0;
   for (; m !== 0; m &= m - 1) n++;
   return n;
-}
+});
 
 /**
  * Grow one network of kind `k` from `seed` over the cheapest cells until every terminal it can reach is
@@ -274,8 +279,8 @@ function growTree(
   present: number,
   legal: boolean,
 ): Tree {
-  const { g, used, history, beside, target, dist, parent, arrive, seen, inNet, heap, turnCost } = r;
-  const { occ, termMask, offsets } = g;
+  const { g, used, pass, price, keep, target, dist, parent, arrive, seen, inNet, heap, turnCost } = r;
+  const { offsets } = g;
   const bit = 1 << k;
   const others = ~bit & 0xff;
   const stamp = ++r.stamp;
@@ -328,14 +333,15 @@ function growTree(
     const a = arrive[cur];
     for (let dir = 0; dir < 6; dir++) {
       const n = cur + offsets[dir];
-      if (occ[n] !== FREE || inNet[n] === ns) continue;
-      const m = termMask[n];
-      if (m !== 0 && (m & bit) === 0) continue; // another kind's terminal
+      if ((pass[n] & bit) === 0 || inNet[n] === ns) continue;
       const u = used[n] & others;
       if (u !== 0 && legal) continue;
-      let cost = 1 + history[n] + beside[n] * BESIDE_HATCH_COST;
-      if (u !== 0) cost *= 1 + present * popcount(u);
-      if (a !== NO_DIR && a !== dir) cost += turnCost;
+      let cost = 0;
+      if (keep[n] === 0) {
+        cost = price[n];
+        if (u !== 0) cost *= 1 + present * POPCOUNT[u];
+        if (a !== NO_DIR && a !== dir) cost += turnCost;
+      }
       const nd = d + cost;
       if (seen[n] === stamp && dist[n] <= nd) continue;
       seen[n] = stamp;
@@ -551,8 +557,9 @@ export function routePipes(
     g,
     turnCost: Math.max(0, Math.floor(opts.turnCost ?? DEFAULT_TURN_COST)),
     used: new Uint8Array(cells),
-    history: new Float32Array(cells),
-    beside: new Uint8Array(cells),
+    pass: new Uint8Array(cells),
+    price: new Float32Array(cells).fill(1),
+    keep: new Uint8Array(cells),
     target: new Uint16Array(cells),
     dist,
     parent: new Int32Array(cells),
@@ -594,12 +601,13 @@ export function routePipes(
     });
     states.push({ kind, k, terms, at, via: new Int32Array(terms.length), tree: null });
   }
-  // Cells beside a hatch other than its reserved front cost a little more for other kinds.
+  for (let i = 0; i < cells; i++)
+    if (g.occ[i] === FREE) r.pass[i] = g.termMask[i] !== 0 ? g.termMask[i] : 0xff;
+  // Cells beside a hatch, other than reserved front cells, cost a little more.
   for (const h of hatches)
     for (const d of ATTACH_ORDER) {
-      const x = step(h.cell, d);
-      const i = indexOf(g, x);
-      if (i >= 0 && i < cells && g.occ[i] === FREE && g.termMask[i] === 0 && r.beside[i] < 255) r.beside[i]++;
+      const i = indexOf(g, step(h.cell, d));
+      if (i >= 0 && i < cells && r.pass[i] === 0xff) r.price[i] += BESIDE_HATCH_COST;
     }
 
   const setUsed = (s: KindState, on: boolean): void => {
@@ -616,7 +624,9 @@ export function routePipes(
   const rounds = Math.max(0, Math.floor(opts.rounds ?? MAX_ROUNDS));
   let present = PRESENT_START;
   let legal = false;
-  for (let round = 0; round < rounds && !legal; round++) {
+  let fewest = Infinity;
+  let stalled = 0;
+  for (let round = 0; round < rounds && !legal && stalled < MAX_STALLED_ROUNDS; round++) {
     for (const s of states) {
       if (round > 0 && !shared(s)) continue;
       setUsed(s, false);
@@ -626,22 +636,30 @@ export function routePipes(
     let contested = 0;
     for (const s of states)
       for (const i of s.tree?.net ?? [])
-        if (popcount(r.used[i]) > 1) {
+        if (POPCOUNT[r.used[i]] > 1) {
           contested++;
-          r.history[i] += HISTORY_STEP / popcount(r.used[i]);
+          r.price[i] += HISTORY_STEP / POPCOUNT[r.used[i]];
         }
     if (contested === 0) legal = true;
+    if (contested < fewest) {
+      fewest = contested;
+      stalled = 0;
+    } else stalled++;
     present *= PRESENT_GROWTH;
   }
 
   if (!legal) {
-    // Out of rounds: lay the kinds one by one, each around the ones already laid, keeping the learned
-    // history so contested cells are avoided where possible. Kinds with the most contested cells go first.
-    const order = [...states].sort((a, b) => contestedCells(r, b) - contestedCells(r, a) || a.k - b.k);
-    for (const s of states) setUsed(s, false);
+    // Out of rounds: repair the networks one by one. Each kind is routed again around every other kind's
+    // cells, keeping its own uncontested cells for free, so it only detours around the contested ones
+    // (which the kinds repaired later keep). Kinds with the fewest contested cells give theirs up first.
+    const order = [...states].sort((a, b) => contestedCells(r, a) - contestedCells(r, b) || a.k - b.k);
     for (const s of order) {
+      const own = s.tree?.net ?? [];
+      for (const i of own) r.keep[i] = 1;
+      setUsed(s, false);
       s.tree = routeKind(r, s.terms, s.at, s.via, s.k, 0, true);
       setUsed(s, true);
+      for (const i of own) r.keep[i] = 0;
     }
   }
 
