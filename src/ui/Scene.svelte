@@ -12,8 +12,12 @@
     selected: number[];
     onpick: (unitIds: number[]) => void;
     onfail: () => void;
+    /** Site view: a pipe was clicked (net id), or something else (null). */
+    onpicknet?: (netId: number | null) => void;
+    /** Site view: animate flow arrows. */
+    flow?: boolean;
   }
-  let { scene, mode, xray, selected, onpick, onfail }: Props = $props();
+  let { scene, mode, xray, selected, onpick, onfail, onpicknet, flow = true }: Props = $props();
 
   const EMPTY_SCENE: SceneModel = {
     voxels: [],
@@ -40,7 +44,7 @@
     if (!canvas) return;
     let r: Renderer;
     try {
-      r = createRenderer(canvas, { onPick: (ids) => onpick(ids) });
+      r = createRenderer(canvas, { onPick: (ids) => onpick(ids), onPickNet: (id) => onpicknet?.(id) });
     } catch (err) {
       warnOnce('createRenderer', err);
       onfail();
@@ -84,6 +88,11 @@
     const r = renderer;
     const ids = selected;
     if (r) guard('setSelected', () => r.setSelected(ids));
+  });
+  $effect(() => {
+    const r = renderer;
+    const on = flow;
+    if (r) guard('setFlowAnimation', () => r.setFlowAnimation(on));
   });
 </script>
 

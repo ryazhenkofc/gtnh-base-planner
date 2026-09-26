@@ -7,8 +7,10 @@ import type { BlockVisual, MaterialProvider } from './materials';
 import { createSimpleProvider } from './simple';
 
 export interface RendererOptions {
-  /** Called with the unit ids under the pointer on click (empty array = background). */
+  /** Called with the unit ids under the pointer on click (empty array = background or a pipe). */
   onPick?: (unitIds: number[]) => void;
+  /** Called on click with the id of the net (`RouteNet.id`) under the pointer, or null. */
+  onPickNet?: (netId: number | null) => void;
   /** Keep the drawing buffer after compositing so tests can read pixels back. Default false. */
   preserveDrawingBuffer?: boolean;
 }
@@ -18,6 +20,8 @@ export interface Renderer {
   setViewMode(mode: ViewMode): Promise<void>;
   setXray(on: boolean): void;
   setSelected(unitIds: number[]): void;
+  /** Animate flow arrows along nets that carry `flows` (site view). */
+  setFlowAnimation(on: boolean): void;
   /** Reset camera to fit the scene. */
   resetView(): void;
   resize(): void;
@@ -45,6 +49,14 @@ const SELECT_LINE = '#111111';
 const PIPE_WIDTH = 6 / 16;
 /** Cable thickness: thinner than pipes (a 2x GT cable), so the two read apart at a glance. */
 const CABLE_WIDTH = 3 / 16;
+/** Flow arrows: wider than a pipe so they show around it, and their speed (blocks per second). */
+const FLOW_RADIUS = 0.25;
+const FLOW_LENGTH = 0.34;
+const FLOW_SPEED = 1.2;
+const DIM_OPACITY = 0.14;
+const GRID_COLOR = '#e4e2dd';
+const SITE_EDGE_COLOR = '#8f8b84';
+const SITE_FLOOR_COLOR = '#f6f5f2';
 const GIZMO_PX = 96;
 const GIZMO_MARGIN_PX = 14;
 const AXIS_COLORS = { x: '#d9534f', y: '#4caf50', z: '#3b7dd8' } as const;
@@ -73,6 +85,57 @@ interface VoxelBatch {
   conflict: boolean;
   /** A single material when all six faces match (one draw call instead of six). */
   baseMaterials: THREE.Material | THREE.Material[];
+}
+
+/**
+ * A label drawn at a constant size on screen, above everything (site groups and ports). `swatch` adds a
+ * coloured dot before the text (the text itself stays dark, so light colours remain readable).
+ */
+function textSprite(text: string, swatch: string | undefined, small: boolean): THREE.Sprite {
+  const px = small ? 26 : 30;
+  const font = `500 ${px}px 'Helvetica Neue', Helvetica, Arial, sans-serif`;
+  const dot = swatch ? px * 0.9 : 0;
+  const c = document.createElement('canvas');
+  const ctx = c.getContext('2d');
+  let w = 64;
+  if (ctx) {
+    ctx.font = font;
+    w = Math.ceil(ctx.measureText(text).width + dot) + 16;
+  }
+  const h = Math.round(px * 1.5);
+  c.width = w;
+  c.height = h;
+  if (ctx) {
+    ctx.font = font;
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'middle';
+    ctx.lineWidth = 6;
+    ctx.strokeStyle = 'rgba(255,255,255,0.92)';
+    ctx.strokeText(text, 8 + dot, h / 2 + 1);
+    ctx.fillStyle = '#222222';
+    ctx.fillText(text, 8 + dot, h / 2 + 1);
+    if (swatch) {
+      ctx.beginPath();
+      ctx.arc(8 + px * 0.3, h / 2, px * 0.28, 0, Math.PI * 2);
+      ctx.fillStyle = '#ffffff';
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(8 + px * 0.3, h / 2, px * 0.22, 0, Math.PI * 2);
+      ctx.fillStyle = swatch;
+      ctx.fill();
+    }
+  }
+  const tex = new THREE.CanvasTexture(c);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  const sprite = new THREE.Sprite(
+    new THREE.SpriteMaterial({ map: tex, depthTest: false, sizeAttenuation: false, transparent: true }),
+  );
+  // With sizeAttenuation off the scale is relative to the view at distance 1 (fov 30°: 0.54 units high),
+  // so these are about 14 and 12 px on a 720 px tall view.
+  const height = small ? 0.0105 : 0.0122;
+  sprite.scale.set((height * w) / h, height, 1);
+  sprite.renderOrder = 10;
+  return sprite;
 }
 
 /** Text label for the axis gizmo. */
@@ -182,6 +245,21 @@ export function createRenderer(
   const discMat = new THREE.MeshBasicMaterial({ color: 0xffffff, ...markerOpts });
   const ringMat = new THREE.MeshBasicMaterial({ color: 0xffffff, ...markerOpts });
   const pipeMat = new THREE.MeshLambertMaterial({ color: 0xffffff });
+  const pipeDimMat = new THREE.MeshLambertMaterial({
+    color: 0xffffff,
+    transparent: true,
+    opacity: DIM_OPACITY,
+    depthWrite: false,
+  });
+  const flowMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+  const gridMat = new THREE.LineBasicMaterial({ color: GRID_COLOR });
+  const edgeMat = new THREE.LineBasicMaterial({ color: SITE_EDGE_COLOR });
+  const floorMat = new THREE.MeshBasicMaterial({
+    color: SITE_FLOOR_COLOR,
+    polygonOffset: true,
+    polygonOffsetFactor: 2,
+    polygonOffsetUnits: 2,
+  });
   const tintMat = new THREE.MeshBasicMaterial({
     color: SELECT_TINT,
     transparent: true,
@@ -189,8 +267,21 @@ export function createRenderer(
     depthWrite: false,
   });
   const lineMat = new THREE.LineBasicMaterial({ color: SELECT_LINE });
-  const ownedMaterials: THREE.Material[] = [conflictMat, discMat, ringMat, pipeMat, tintMat, lineMat];
-  const sharedGeometries = [boxGeo, discGeo, ringGeo, pipeGeo, jointGeo];
+  const flowGeo = new THREE.ConeGeometry(FLOW_RADIUS, FLOW_LENGTH, 10);
+  const ownedMaterials: THREE.Material[] = [
+    conflictMat,
+    discMat,
+    ringMat,
+    pipeMat,
+    pipeDimMat,
+    flowMat,
+    gridMat,
+    edgeMat,
+    floorMat,
+    tintMat,
+    lineMat,
+  ];
+  const sharedGeometries = [boxGeo, discGeo, ringGeo, pipeGeo, jointGeo, flowGeo];
 
   const simpleProvider = createSimpleProvider();
   let detailedProvider: MaterialProvider | null = null;
@@ -202,6 +293,15 @@ export function createRenderer(
   /** Points `fit` frames (see `scenePoints`), computed once per scene. */
   let points: THREE.Vector3[] = scenePoints(null);
   let batches: VoxelBatch[] = [];
+  /** Pipe meshes and the net id of each instance, for picking. */
+  let pipeBatches: { mesh: THREE.InstancedMesh; netIds: number[] }[] = [];
+  /** Flow arrows: one instance per directed step, moved every frame while animating. */
+  let flows: {
+    mesh: THREE.InstancedMesh;
+    steps: { a: THREE.Vector3; d: THREE.Vector3; q: THREE.Quaternion }[];
+  } | null = null;
+  let flowOn = true;
+  const clock = typeof performance === 'undefined' ? () => Date.now() : () => performance.now();
   let selected = new Set<number>();
   let xray = false;
   const xrayMaterials = new Map<string, THREE.Material>();
@@ -232,11 +332,27 @@ export function createRenderer(
     frame = requestAnimationFrame(() => {
       frame = 0;
       draw();
+      // Flow arrows keep moving: draw again next frame while they are shown and the page is visible.
+      if (flows && flowOn && !(typeof document !== 'undefined' && document.hidden)) requestRender();
     });
+  }
+
+  function updateFlows(): void {
+    if (!flows) return;
+    const t = flowOn ? ((clock() / 1000) * FLOW_SPEED) % 1 : 0.5;
+    const m = new THREE.Matrix4();
+    const one = new THREE.Vector3(1, 1, 1);
+    const p = new THREE.Vector3();
+    flows.steps.forEach((s, i) => {
+      p.copy(s.a).addScaledVector(s.d, t);
+      flows!.mesh.setMatrixAt(i, m.compose(p, s.q, one));
+    });
+    flows.mesh.instanceMatrix.needsUpdate = true;
   }
 
   function draw(): void {
     if (disposed) return;
+    updateFlows();
     gl.info.reset();
     camera.updateMatrixWorld();
     // Light follows the camera a little (from its upper right) so the visible faces stay readable.
@@ -280,6 +396,10 @@ export function createRenderer(
   /** The corners of every occupied cell (voxels and pipe cells) that can affect the fit. */
   function scenePoints(m: SceneModel | null): THREE.Vector3[] {
     function* cells(): Generator<Vec3> {
+      if (m?.site) {
+        yield [0, 0, 0];
+        yield [m.site.size[0] - 1, 0, m.site.size[1] - 1];
+      }
       for (const v of m?.voxels ?? []) yield v.pos;
       for (const net of m?.pipes ?? []) for (const path of net.paths) yield* path;
     }
@@ -307,8 +427,14 @@ export function createRenderer(
     for (const child of [...content.children]) {
       content.remove(child);
       if (child instanceof THREE.InstancedMesh) child.dispose();
+      else if (child instanceof THREE.Sprite) {
+        child.material.map?.dispose();
+        child.material.dispose();
+      } else if (child instanceof THREE.LineSegments || child instanceof THREE.Mesh) child.geometry.dispose();
     }
     batches = [];
+    pipeBatches = [];
+    flows = null;
     for (const m of xrayMaterials.values()) m.dispose();
     xrayMaterials.clear();
   }
@@ -376,21 +502,29 @@ export function createRenderer(
 
   /** A white ring with a disc in the hatch colour on each hatch's outward face. */
   function buildHatchMarkers(m: SceneModel): void {
-    const hatchVoxels = m.voxels.filter((v) => v.kind === 'hatch' && v.facing);
-    if (hatchVoxels.length === 0) return;
-    const discs = new THREE.InstancedMesh(discGeo, discMat, hatchVoxels.length);
-    const rings = new THREE.InstancedMesh(ringGeo, ringMat, hatchVoxels.length);
+    const marks =
+      m.markers ??
+      m.voxels
+        .filter((v) => v.kind === 'hatch' && v.facing)
+        .map((v) => ({
+          pos: v.pos,
+          face: v.facing!,
+          color: v.hatchKind ? m.colors[v.hatchKind] : '#ffffff',
+        }));
+    if (marks.length === 0) return;
+    const discs = new THREE.InstancedMesh(discGeo, discMat, marks.length);
+    const rings = new THREE.InstancedMesh(ringGeo, ringMat, marks.length);
     const matrix = new THREE.Matrix4();
     const q = new THREE.Quaternion();
     const one = new THREE.Vector3(1, 1, 1);
     const color = new THREE.Color();
-    hatchVoxels.forEach((v, i) => {
-      const n = dirVector(v.facing!);
+    marks.forEach((v, i) => {
+      const n = dirVector(v.face);
       q.setFromUnitVectors(Z_AXIS, n);
       matrix.compose(center(v.pos).addScaledVector(n, 0.502), q, one);
       discs.setMatrixAt(i, matrix);
       rings.setMatrixAt(i, matrix);
-      discs.setColorAt(i, color.set(v.hatchKind ? m.colors[v.hatchKind] : '#ffffff'));
+      discs.setColorAt(i, color.set(v.color));
     });
     for (const mesh of [discs, rings]) {
       mesh.instanceMatrix.needsUpdate = true;
@@ -408,10 +542,20 @@ export function createRenderer(
   function buildPipes(m: SceneModel): void {
     if (!m.pipes || m.pipes.length === 0) return;
     /** `w`: section scale relative to `PIPE_WIDTH`. */
-    const segments: { a: THREE.Vector3; b: THREE.Vector3; color: string; w: number }[] = [];
-    const cubes: { p: THREE.Vector3; color: string; w: number }[] = [];
-    for (const net of m.pipes) {
-      const color = m.colors[net.kind];
+    const segments: {
+      a: THREE.Vector3;
+      b: THREE.Vector3;
+      color: string;
+      w: number;
+      net: number;
+      dim: boolean;
+    }[] = [];
+    const cubes: { p: THREE.Vector3; color: string; w: number; net: number; dim: boolean }[] = [];
+    const steps: { a: THREE.Vector3; d: THREE.Vector3; q: THREE.Quaternion; color: string }[] = [];
+    m.pipes.forEach((net, ni) => {
+      const color = net.color ?? m.colors[net.kind];
+      const netId = net.id ?? -1 - ni;
+      const dim = !!net.dim;
       const w = isCable(net.kind) ? CABLE_WIDTH / PIPE_WIDTH : 1;
       const half = (PIPE_WIDTH * w) / 2;
       /** A beam from `a` to `b`, lengthened by `extA` / `extB` beyond them. */
@@ -422,13 +566,15 @@ export function createRenderer(
           b: b.clone().addScaledVector(dir, extB),
           color,
           w,
+          net: netId,
+          dim,
         });
       };
       const cells = new Set<string>();
       for (const path of net.paths) {
         path.forEach((p) => cells.add(key(p)));
         const pts = path.map(center);
-        if (pts.length === 1) cubes.push({ p: pts[0], color, w });
+        if (pts.length === 1) cubes.push({ p: pts[0], color, w, net: netId, dim });
         let start = 0;
         for (let i = 1; i < pts.length; i++) {
           const last = i === pts.length - 1;
@@ -446,20 +592,33 @@ export function createRenderer(
       }
       // Stubs from each hatch face to the pipe cell in front of it (starting at the face, not inside it).
       for (const h of m.hatches) {
-        if (h.kind !== net.kind) continue;
+        if (h.net !== undefined && net.id !== undefined ? h.net !== net.id : h.kind !== net.kind) continue;
         const v = dirVec(h.face);
         const front: Vec3 = [h.cell[0] + v[0], h.cell[1] + v[1], h.cell[2] + v[2]];
         if (!cells.has(key(front))) continue;
         beam(center(h.cell).addScaledVector(dirVector(h.face), 0.5), center(front), 0, half);
       }
-    }
+      if (!dim)
+        for (const [a, b] of net.flows ?? []) {
+          const pa = center(a);
+          const d = center(b).sub(pa);
+          steps.push({
+            a: pa,
+            d,
+            q: new THREE.Quaternion().setFromUnitVectors(Y_AXIS, d.clone().normalize()),
+            color,
+          });
+        }
+    });
     const matrix = new THREE.Matrix4();
     const q = new THREE.Quaternion();
     const scale = new THREE.Vector3();
     const color = new THREE.Color();
-    if (segments.length > 0) {
-      const beams = new THREE.InstancedMesh(pipeGeo, pipeMat, segments.length);
-      segments.forEach((s, i) => {
+    for (const dim of [false, true]) {
+      const list = segments.filter((s) => s.dim === dim);
+      if (list.length === 0) continue;
+      const beams = new THREE.InstancedMesh(pipeGeo, dim ? pipeDimMat : pipeMat, list.length);
+      list.forEach((s, i) => {
         const d = new THREE.Vector3().subVectors(s.b, s.a);
         const len = d.length();
         // Beams are axis-aligned, so turning +Y onto the run keeps the square section axis-aligned too.
@@ -475,27 +634,76 @@ export function createRenderer(
       beams.instanceMatrix.needsUpdate = true;
       if (beams.instanceColor) beams.instanceColor.needsUpdate = true;
       beams.computeBoundingSphere();
+      if (dim) beams.renderOrder = 1;
       content.add(beams);
+      pipeBatches.push({ mesh: beams, netIds: list.map((s) => s.net) });
     }
-    if (cubes.length > 0) {
-      const mesh = new THREE.InstancedMesh(jointGeo, pipeMat, cubes.length);
-      cubes.forEach((c, i) => {
+    for (const dim of [false, true]) {
+      const list = cubes.filter((c) => c.dim === dim);
+      if (list.length === 0) continue;
+      const mesh = new THREE.InstancedMesh(jointGeo, dim ? pipeDimMat : pipeMat, list.length);
+      list.forEach((c, i) => {
         mesh.setMatrixAt(i, matrix.makeScale(c.w, c.w, c.w).setPosition(c.p.x, c.p.y, c.p.z));
         mesh.setColorAt(i, color.set(c.color));
       });
       mesh.instanceMatrix.needsUpdate = true;
       if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
       mesh.computeBoundingSphere();
+      if (dim) mesh.renderOrder = 1;
       content.add(mesh);
+      pipeBatches.push({ mesh, netIds: list.map((c) => c.net) });
+    }
+    if (steps.length > 0) {
+      const mesh = new THREE.InstancedMesh(flowGeo, flowMat, steps.length);
+      steps.forEach((st, i) => {
+        // A lighter shade of the pipe colour reads as "something moving inside".
+        mesh.setColorAt(i, color.set(st.color).lerp(new THREE.Color('#ffffff'), 0.55));
+      });
+      if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
+      mesh.frustumCulled = false;
+      content.add(mesh);
+      flows = { mesh, steps };
+      updateFlows();
+    }
+  }
+
+  /** The site's ground: a light floor, a faint block grid and a darker outline. */
+  function buildSite(m: SceneModel): void {
+    if (!m.site) return;
+    const [w, d] = m.site.size;
+    const floor = new THREE.Mesh(new THREE.PlaneGeometry(w, d), floorMat);
+    floor.rotation.x = -Math.PI / 2;
+    floor.position.set(w / 2, 0, d / 2);
+    content.add(floor);
+    const y = 0.003;
+    const grid: number[] = [];
+    for (let x = 1; x < w; x++) grid.push(x, y, 0, x, y, d);
+    for (let z = 1; z < d; z++) grid.push(0, y, z, w, y, z);
+    const gridGeo = new THREE.BufferGeometry();
+    gridGeo.setAttribute('position', new THREE.Float32BufferAttribute(grid, 3));
+    content.add(new THREE.LineSegments(gridGeo, gridMat));
+    const edge = [0, y, 0, w, y, 0, w, y, 0, w, y, d, w, y, d, 0, y, d, 0, y, d, 0, y, 0];
+    const edgeGeo = new THREE.BufferGeometry();
+    edgeGeo.setAttribute('position', new THREE.Float32BufferAttribute(edge, 3));
+    content.add(new THREE.LineSegments(edgeGeo, edgeMat));
+  }
+
+  function buildLabels(m: SceneModel): void {
+    for (const l of m.labels ?? []) {
+      const sprite = textSprite(l.text, l.color, !!l.small);
+      sprite.position.set(l.pos[0], l.pos[1], l.pos[2]);
+      content.add(sprite);
     }
   }
 
   function rebuild(): void {
     clearContent();
     if (model) {
+      buildSite(model);
       buildVoxels(model);
       buildHatchMarkers(model);
       buildPipes(model);
+      buildLabels(model);
     }
     applyXray();
     rebuildSelection();
@@ -568,17 +776,27 @@ export function createRenderer(
     ndc.set(((e.clientX - rect.left) / rect.width) * 2 - 1, -((e.clientY - rect.top) / rect.height) * 2 + 1);
     raycaster.setFromCamera(ndc, camera);
     const hits = raycaster.intersectObjects(
-      batches.map((b) => b.mesh),
+      [...batches.map((b) => b.mesh), ...pipeBatches.map((b) => b.mesh)],
       false,
     );
     for (const hit of hits) {
+      if (hit.instanceId === undefined) continue;
+      const pipes = pipeBatches.find((b) => b.mesh === hit.object);
+      if (pipes) {
+        const id = pipes.netIds[hit.instanceId];
+        options.onPick([]);
+        options.onPickNet?.(id >= 0 ? id : null);
+        return;
+      }
       const batch = batches.find((b) => b.mesh === hit.object);
-      if (!batch || hit.instanceId === undefined) continue;
+      if (!batch) continue;
       const voxel = model.voxels[batch.indices[hit.instanceId]];
       options.onPick([...voxel.unitIds]);
+      options.onPickNet?.(null);
       return;
     }
     options.onPick([]);
+    options.onPickNet?.(null);
   }
 
   // ---------------------------------------------------------------- public API
@@ -643,6 +861,12 @@ export function createRenderer(
     setSelected(unitIds) {
       selected = new Set(unitIds);
       rebuildSelection();
+      requestRender();
+    },
+
+    setFlowAnimation(on) {
+      if (flowOn === on) return;
+      flowOn = on;
       requestRender();
     },
 
