@@ -1,0 +1,501 @@
+{
+  "schemaVersion": 1,
+  "id": "3f0c2a8e-8b1d-4c52-9f0e-2b7d1c0a9e11",
+  "name": "Titanium line (test fixture)",
+  "description": "Hand-written in the shape of a GTNH Planner Export JSON, for tests.",
+  "view": { "canvasTheme": "paper", "rateUnit": "second" },
+  "setupRules": { "freeInputs": true },
+  "recipes": [
+    {
+      "id": "src:rutile",
+      "name": "Rutile Dust supply",
+      "kind": "custom",
+      "machineType": "Source",
+      "minimumTier": "ULV",
+      "durationTicks": 20,
+      "eut": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "kind": "item",
+          "id": "gregtech:gt.metaitem.01@2375",
+          "amount": 1,
+          "displayName": "Rutile Dust",
+          "dominantColor": "#d4d4d4"
+        }
+      ]
+    },
+    {
+      "id": "gt:chem:ticl4",
+      "name": "Titaniumtetrachloride",
+      "kind": "gregtech_machine",
+      "machineType": "Chemical Reactor",
+      "minimumTier": "HV",
+      "durationTicks": 400,
+      "eut": 480,
+      "inputs": [
+        {
+          "kind": "item",
+          "id": "gregtech:gt.metaitem.01@2375",
+          "amount": 1,
+          "displayName": "Rutile Dust",
+          "dominantColor": "#d4d4d4"
+        },
+        {
+          "kind": "item",
+          "id": "gregtech:gt.metaitem.01@2010",
+          "amount": 2,
+          "displayName": "Carbon Dust",
+          "dominantColor": "#141414"
+        },
+        {
+          "kind": "fluid",
+          "id": "chlorine",
+          "amount": 4000,
+          "displayName": "Chlorine",
+          "dominantColor": "#2d8c8c"
+        },
+        {
+          "kind": "item",
+          "id": "gregtech:gt.integrated_circuit@2",
+          "amount": 1,
+          "displayName": "Programmed Circuit",
+          "consumed": false
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "fluid",
+          "id": "titaniumtetrachloride",
+          "amount": 1000,
+          "displayName": "Titaniumtetrachloride",
+          "dominantColor": "#d40d5c"
+        },
+        {
+          "kind": "fluid",
+          "id": "carbonmonoxide",
+          "amount": 2000,
+          "displayName": "Carbon Monoxide",
+          "dominantColor": "#0e4880"
+        }
+      ],
+      "machineHandlers": [
+        {
+          "id": "cr",
+          "label": "Chemical Reactor",
+          "kind": "single",
+          "machineType": "Chemical Reactor",
+          "minimumTier": "HV"
+        },
+        {
+          "id": "lcr",
+          "label": "Large Chemical Reactor",
+          "kind": "multiblock",
+          "machineType": "Large Chemical Reactor",
+          "minimumTier": "HV"
+        }
+      ],
+      "nei": { "handlerClass": "gregtech.nei.GTNEIDefaultHandler" }
+    },
+    {
+      "id": "gt:ebf:titanium",
+      "name": "Hot Titanium Ingot",
+      "kind": "gregtech_machine",
+      "machineType": "Blast Furnace",
+      "minimumTier": "HV",
+      "durationTicks": 800,
+      "eut": 480,
+      "inputs": [
+        {
+          "kind": "fluid",
+          "id": "titaniumtetrachloride",
+          "amount": 1000,
+          "displayName": "Titaniumtetrachloride",
+          "dominantColor": "#d40d5c"
+        },
+        {
+          "kind": "item",
+          "id": "gregtech:gt.metaitem.01@2018",
+          "amount": 2,
+          "displayName": "Magnesium Dust",
+          "dominantColor": "#ffc8c8"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "item",
+          "id": "gregtech:gt.metaitem.01@11028",
+          "amount": 1,
+          "displayName": "Hot Titanium Ingot",
+          "dominantColor": "#dca0f0"
+        },
+        {
+          "kind": "item",
+          "id": "gregtech:gt.metaitem.01@2377",
+          "amount": 6,
+          "displayName": "Magnesiumchloride Dust",
+          "dominantColor": "#d40d5c"
+        }
+      ],
+      "machineHandlers": [
+        {
+          "id": "ebf",
+          "label": "Electric Blast Furnace",
+          "kind": "multiblock",
+          "machineType": "Blast Furnace",
+          "minimumTier": "LV"
+        }
+      ]
+    },
+    {
+      "id": "gt:vf:titanium",
+      "name": "Titanium Ingot",
+      "kind": "gregtech_machine",
+      "machineType": "Vacuum Freezer",
+      "minimumTier": "MV",
+      "durationTicks": 240,
+      "eut": 120,
+      "inputs": [
+        {
+          "kind": "item",
+          "id": "gregtech:gt.metaitem.01@11028",
+          "amount": 1,
+          "displayName": "Hot Titanium Ingot",
+          "dominantColor": "#dca0f0"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "item",
+          "id": "gregtech:gt.metaitem.01@11028b",
+          "amount": 1,
+          "displayName": "Titanium Ingot",
+          "dominantColor": "#dca0f0"
+        }
+      ]
+    },
+    {
+      "id": "gt:electrolyzer:mgcl2",
+      "name": "Magnesium and Chlorine",
+      "kind": "gregtech_machine",
+      "machineType": "Electrolyzer",
+      "minimumTier": "MV",
+      "durationTicks": 300,
+      "eut": 30,
+      "inputs": [
+        {
+          "kind": "item",
+          "id": "gregtech:gt.metaitem.01@2377",
+          "amount": 3,
+          "displayName": "Magnesiumchloride Dust",
+          "dominantColor": "#d40d5c"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "item",
+          "id": "gregtech:gt.metaitem.01@2018",
+          "amount": 1,
+          "displayName": "Magnesium Dust",
+          "dominantColor": "#ffc8c8"
+        },
+        {
+          "kind": "fluid",
+          "id": "chlorine",
+          "amount": 2000,
+          "displayName": "Chlorine",
+          "dominantColor": "#2d8c8c"
+        }
+      ]
+    },
+    {
+      "id": "gt:centrifuge:co",
+      "name": "Carbon from Carbon Monoxide",
+      "kind": "gregtech_machine",
+      "machineType": "Industrial Centrifuge",
+      "minimumTier": "MV",
+      "durationTicks": 200,
+      "eut": 30,
+      "inputs": [
+        {
+          "kind": "fluid",
+          "id": "carbonmonoxide",
+          "amount": 1000,
+          "displayName": "Carbon Monoxide",
+          "dominantColor": "#0e4880"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "item",
+          "id": "gregtech:gt.metaitem.01@2010",
+          "amount": 1,
+          "displayName": "Carbon Dust",
+          "dominantColor": "#141414"
+        },
+        {
+          "kind": "fluid",
+          "id": "oxygen",
+          "amount": 1000,
+          "displayName": "Oxygen",
+          "dominantColor": "#002531"
+        }
+      ]
+    },
+    {
+      "id": "tc:smelt",
+      "name": "Essentia",
+      "kind": "essentia_smelting",
+      "machineType": "Thaumcraft Essentia Smelting",
+      "minimumTier": "ULV",
+      "durationTicks": 20,
+      "eut": 0,
+      "inputs": [],
+      "outputs": [{ "kind": "aspect", "id": "ignis", "amount": 1 }]
+    },
+    {
+      "id": "power:gas",
+      "name": "Large Gas Turbine (Benzene)",
+      "kind": "custom",
+      "machineType": "Large Gas Turbine",
+      "minimumTier": "EV",
+      "durationTicks": 20,
+      "eut": 0,
+      "inputs": [
+        {
+          "kind": "fluid",
+          "id": "benzene",
+          "amount": 25,
+          "displayName": "Benzene",
+          "dominantColor": "#1a2828"
+        }
+      ],
+      "outputs": [],
+      "power": { "sourceId": "lgt", "euPerTick": 4096, "stats": [] }
+    }
+  ],
+  "nodes": [
+    {
+      "id": "n0",
+      "recipeId": "src:rutile",
+      "machineCount": 1,
+      "parallel": 1,
+      "overclockTier": "ULV",
+      "enabled": true,
+      "position": { "x": 0, "y": 0 }
+    },
+    {
+      "id": "n1",
+      "recipeId": "gt:chem:ticl4",
+      "machineCount": 1.2,
+      "parallel": 1,
+      "overclockTier": "HV",
+      "machineHandlerId": "lcr",
+      "enabled": true,
+      "position": { "x": 300, "y": 0 }
+    },
+    {
+      "id": "n2",
+      "recipeId": "gt:ebf:titanium",
+      "machineCount": 2.4,
+      "parallel": 1,
+      "overclockTier": "HV",
+      "coilTier": "kanthal",
+      "enabled": true,
+      "position": { "x": 600, "y": 0 }
+    },
+    {
+      "id": "n3",
+      "recipeId": "gt:vf:titanium",
+      "machineCount": 0.6,
+      "parallel": 1,
+      "overclockTier": "MV",
+      "enabled": true,
+      "position": { "x": 900, "y": 0 }
+    },
+    {
+      "id": "n4",
+      "recipeId": "gt:electrolyzer:mgcl2",
+      "machineCount": 2.3,
+      "parallel": 1,
+      "overclockTier": "MV",
+      "enabled": true,
+      "position": { "x": 600, "y": 300 }
+    },
+    {
+      "id": "n5",
+      "recipeId": "gt:centrifuge:co",
+      "machineCount": 1,
+      "parallel": 1,
+      "overclockTier": "MV",
+      "enabled": true,
+      "position": { "x": 300, "y": 300 }
+    },
+    {
+      "id": "n6",
+      "recipeId": "tc:smelt",
+      "machineCount": 1,
+      "parallel": 1,
+      "overclockTier": "ULV",
+      "enabled": true,
+      "position": { "x": 0, "y": 600 }
+    },
+    {
+      "id": "n7",
+      "recipeId": "gt:vf:titanium",
+      "machineCount": 4,
+      "parallel": 1,
+      "overclockTier": "MV",
+      "enabled": false,
+      "position": { "x": 900, "y": 600 }
+    },
+    {
+      "id": "n8",
+      "recipeId": "power:gas",
+      "machineCount": 1,
+      "parallel": 1,
+      "overclockTier": "EV",
+      "enabled": true,
+      "position": { "x": 0, "y": 900 }
+    }
+  ],
+  "storages": [
+    {
+      "id": "s1",
+      "kind": "item",
+      "resourceId": "gregtech:gt.metaitem.01@11028b",
+      "displayName": "Titanium Ingot",
+      "dominantColor": "#dca0f0",
+      "drainMode": "product",
+      "position": { "x": 1200, "y": 0 }
+    },
+    {
+      "id": "s2",
+      "kind": "fluid",
+      "resourceId": "chlorine",
+      "displayName": "Chlorine",
+      "dominantColor": "#2d8c8c",
+      "position": { "x": 450, "y": 450 }
+    },
+    {
+      "id": "s3",
+      "kind": "fluid",
+      "resourceId": "oxygen",
+      "displayName": "Oxygen",
+      "drainMode": "trash",
+      "position": { "x": 150, "y": 450 }
+    }
+  ],
+  "annotations": [
+    {
+      "id": "a1",
+      "kind": "text",
+      "text": "Titanium",
+      "position": { "x": 0, "y": -100 },
+      "size": { "width": 200, "height": 40 }
+    }
+  ],
+  "pockets": [],
+  "edges": [
+    {
+      "id": "e1",
+      "source": "n0",
+      "target": "n1",
+      "resourceKind": "item",
+      "resourceId": "gregtech:gt.metaitem.01@2375",
+      "ratePerSecond": 0.06
+    },
+    {
+      "id": "e2",
+      "source": "n1",
+      "target": "n2",
+      "resourceKind": "fluid",
+      "resourceId": "titaniumtetrachloride",
+      "ratePerSecond": 60
+    },
+    {
+      "id": "e3",
+      "source": "n2",
+      "target": "n3",
+      "resourceKind": "item",
+      "resourceId": "gregtech:gt.metaitem.01@11028",
+      "ratePerSecond": 0.06
+    },
+    {
+      "id": "e4",
+      "source": "n2",
+      "target": "n4",
+      "resourceKind": "item",
+      "resourceId": "gregtech:gt.metaitem.01@2377",
+      "ratePerSecond": 0.36
+    },
+    {
+      "id": "e5",
+      "source": "n4",
+      "target": "n2",
+      "resourceKind": "item",
+      "resourceId": "gregtech:gt.metaitem.01@2018",
+      "ratePerSecond": 0.12
+    },
+    {
+      "id": "e6",
+      "source": "n4",
+      "target": "s2",
+      "resourceKind": "fluid",
+      "resourceId": "chlorine",
+      "ratePerSecond": 240
+    },
+    {
+      "id": "e7",
+      "source": "s2",
+      "target": "n1",
+      "resourceKind": "fluid",
+      "resourceId": "chlorine",
+      "ratePerSecond": 240
+    },
+    {
+      "id": "e8",
+      "source": "n3",
+      "target": "s1",
+      "resourceKind": "item",
+      "resourceId": "gregtech:gt.metaitem.01@11028b",
+      "ratePerSecond": 0.06
+    },
+    {
+      "id": "e9",
+      "source": "n1",
+      "target": "n5",
+      "resourceKind": "fluid",
+      "resourceId": "carbonmonoxide",
+      "ratePerSecond": 120
+    },
+    {
+      "id": "e10",
+      "source": "n5",
+      "target": "n1",
+      "resourceKind": "item",
+      "resourceId": "gregtech:gt.metaitem.01@2010",
+      "ratePerSecond": 0.12
+    },
+    {
+      "id": "e11",
+      "source": "n5",
+      "target": "s3",
+      "resourceKind": "fluid",
+      "resourceId": "oxygen",
+      "ratePerSecond": 120
+    },
+    { "id": "e12", "source": "n6", "target": "n5", "resourceKind": "aspect", "resourceId": "ignis" },
+    {
+      "id": "e13",
+      "source": "n8",
+      "target": "n2",
+      "resourceKind": "power",
+      "resourceId": "eu",
+      "ratePerSecond": 1920
+    },
+    { "id": "bad", "source": "n8" }
+  ],
+  "fuelProfiles": [],
+  "metadata": { "createdAt": "2026-09-01T00:00:00.000Z" }
+}
