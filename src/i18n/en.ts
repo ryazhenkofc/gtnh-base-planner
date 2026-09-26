@@ -80,7 +80,10 @@ export const t = {
   viewUnavailable: '3D view unavailable.',
   placedFewer: (placed: number, requested: number, reason?: 'limits' | 'geometry') =>
     `Placed ${placed} of ${requested}${reason === 'limits' ? ': limits too tight' : reason === 'geometry' ? ': no room' : ''}.`,
-  spacedOut: 'Rearranged so every hatch fits.',
+  spacedOut: (routed: boolean) =>
+    routed ? 'Spaced out so every hatch fits and gets connected.' : 'Rearranged so every hatch fits.',
+  manyUnits: (n: number) =>
+    `${n} units: a build this big can take a few seconds to lay out, pipe and draw, more in DETAILED view.`,
   unplacedHatches: (n: number) => `${n} ${n === 1 ? 'hatch' : 'hatches'} could not be placed.`,
   unconnectedPipes: (n: number) => `${n} ${n === 1 ? 'hatch is' : 'hatches are'} not connected.`,
   sharedPrompt: 'Open shared plan? It replaces your current one.',

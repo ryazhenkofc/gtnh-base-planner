@@ -50,6 +50,8 @@ interface Mode {
   spacing: [Spacing, Spacing, Spacing];
   /** Most units per axis under the best rotation pattern (Infinity = unbounded). */
   pairCaps: Vec3;
+  /** Uses a two-block gap or walkway somewhere: only for routed layouts (see `loosenings`). */
+  wide: boolean;
   seq: number;
 }
 
@@ -87,6 +89,9 @@ const PATTERNS: readonly { flip: 0 | 1; alt: -1 | 0 | 2 }[] = [
 ];
 
 const RESULT_CACHE_SIZE = 64;
+
+/** The candidate each layout array handed out came from, so it can be loosened later (see `loosenings`). */
+const sourceOf = new WeakMap<readonly Unit[], Candidate>();
 const caches = new WeakMap<MultiblockDef, DefCache>();
 
 function defCache(def: MultiblockDef): DefCache {
@@ -224,7 +229,7 @@ function modesFor(def: MultiblockDef, cache: DefCache): Mode[] {
   const modes: Mode[] = [];
   for (const parity of [0, 1] as const) {
     const size = rotatedSize(def, parity);
-    const options: { sp: Spacing; cap: number }[][] = [];
+    const options: { sp: Spacing; cap: number; wide: boolean }[][] = [];
     for (let a = 0; a < 3; a++) {
       const s = size[a];
       const tight = def.wallshare && s >= 2 ? s - 1 : s;
@@ -237,15 +242,20 @@ function modesFor(def: MultiblockDef, cache: DefCache): Mode[] {
             ];
       const capOf = (sp: Spacing) =>
         Math.max(...PATTERNS.map(({ flip, alt }) => neighbourCap(def, cache, parity, sp, a, flip, alt)));
-      const axis = uniform.map((sp) => ({ sp, cap: capOf(sp) }));
+      const axis = uniform.map((sp) => ({ sp, cap: capOf(sp), wide: false }));
       if (a !== 1 && axis[0].cap !== Infinity) {
         const paired: Spacing = { inner: tight, outer: s + 1 };
-        axis.push({ sp: paired, cap: capOf(paired) });
+        axis.push({ sp: paired, cap: capOf(paired), wide: false });
       }
       if (a !== 1) {
         // A one-block gap between all units: every side stays open for hatches that cannot be shared.
         const gap: Spacing = { inner: s + 1, outer: s + 1 };
-        axis.push({ sp: gap, cap: capOf(gap) });
+        axis.push({ sp: gap, cap: capOf(gap), wide: false });
+        // Two-block walkways and gaps leave room for several pipes side by side (routed layouts only).
+        const paired2: Spacing = { inner: tight, outer: s + 2 };
+        axis.push({ sp: paired2, cap: capOf(paired2), wide: true });
+        const gap2: Spacing = { inner: s + 2, outer: s + 2 };
+        axis.push({ sp: gap2, cap: capOf(gap2), wide: true });
       }
       options.push(axis);
     }
@@ -257,6 +267,7 @@ function modesFor(def: MultiblockDef, cache: DefCache): Mode[] {
             size,
             spacing: [ox.sp, oy.sp, oz.sp],
             pairCaps: [ox.cap, oy.cap, oz.cap],
+            wide: ox.wide || oz.wide,
             seq: modes.length,
           });
   }
@@ -387,7 +398,7 @@ function candidates(
   modes: Mode[],
   n: number,
   limits: PlanLimits,
-  spaced = false,
+  spaced: boolean | 'wide' = false,
 ): Candidate[] {
   const out: Candidate[] = [];
   const countsByCaps = new Map<string, Vec3[]>();
@@ -395,6 +406,7 @@ function candidates(
   for (const mode of modes) {
     const { size, spacing } = mode;
     // Walkways only pay off when a limit stops the layout from growing along another axis instead.
+    if (mode.wide && spaced !== 'wide') continue;
     if (
       !spaced &&
       ((spacing[0].inner !== spacing[0].outer && limits.x === null) ||
@@ -498,7 +510,13 @@ function realize(def: MultiblockDef, cache: DefCache, n: number, c: Candidate): 
     }
     if (ok) {
       const found = origins;
-      return cells.map((p, id) => ({ id, origin: found[id], rotation: rotationAt(parity, flip, alt, p) }));
+      const units = cells.map((p, id) => ({
+        id,
+        origin: found[id],
+        rotation: rotationAt(parity, flip, alt, p),
+      }));
+      sourceOf.set(units, c);
+      return units;
     }
   }
   return null;
@@ -525,14 +543,14 @@ function fitBound(def: MultiblockDef, cache: DefCache, n: number, limits: PlanLi
 }
 
 function cloneResult(r: PackResult): PackResult {
-  return {
-    ...r,
-    units: r.units.map((u) => ({
-      id: u.id,
-      origin: [u.origin[0], u.origin[1], u.origin[2]],
-      rotation: u.rotation,
-    })),
-  };
+  const units = r.units.map((u) => ({
+    id: u.id,
+    origin: [u.origin[0], u.origin[1], u.origin[2]] as Vec3,
+    rotation: u.rotation,
+  }));
+  const source = sourceOf.get(r.units);
+  if (source) sourceOf.set(units, source);
+  return { ...r, units };
 }
 
 function sanitizeLimits(limits: PlanLimits): PlanLimits {
@@ -623,4 +641,54 @@ export function packUnits(def: MultiblockDef, count: number, limits: PlanLimits)
   }
   cache.results.set(cacheKey, result);
   return cloneResult(result);
+}
+
+/** Bounding volume of a candidate layout, in blocks. */
+function volumeOf(c: Candidate): number {
+  const { spacing, size } = c.mode;
+  let v = 1;
+  for (let a = 0; a < 3; a++) v *= coord(spacing[a], c.used[a] - 1) + size[a];
+  return v;
+}
+
+/** Spacing families of one axis from tightest to loosest: shared, touching, walkway, gap, wide walkway, wide gap. */
+function looseness(sp: Spacing, size: number): number {
+  return sp.inner + sp.outer + (sp.inner === sp.outer ? 0.5 : 0) - 2 * size;
+}
+
+/**
+ * The same arrangement as `units` (a layout from `packUnits` or `layoutCandidates`: same units per axis,
+ * same fill order, same layers) with looser spacing along X and Z: walkways and gaps of one or two blocks
+ * instead of shared walls, smallest bounding volume first, so the last one has two-block gaps all round
+ * wherever the rotations allow. Yields nothing for other layouts (e.g. manual ones). Lazy and
+ * deterministic; each yielded layout is valid and differs from `units` and from the ones before it.
+ */
+export function* loosenings(def: MultiblockDef, units: readonly Unit[]): Generator<Unit[]> {
+  const base = sourceOf.get(units);
+  if (!base) return;
+  const n = units.length;
+  const cache = defCache(def);
+  const { parity, spacing, size } = base.mode;
+  const list: { c: Candidate; volume: number }[] = [];
+  for (const mode of modesFor(def, cache)) {
+    const sp = mode.spacing;
+    if (mode.parity !== parity || sp[1].inner !== spacing[1].inner || sp[1].outer !== spacing[1].outer)
+      continue;
+    if ([0, 2].some((a) => looseness(sp[a], size[a]) < looseness(spacing[a], size[a]))) continue;
+    if ([0, 2].every((a) => sp[a].inner === spacing[a].inner && sp[a].outer === spacing[a].outer)) continue;
+    if ([0, 1, 2].some((a) => base.used[a] > mode.pairCaps[a])) continue;
+    const c: Candidate = { ...base, mode };
+    list.push({ c, volume: volumeOf(c) });
+  }
+  list.sort((a, b) => a.volume - b.volume || a.c.mode.seq - b.c.mode.seq);
+  const layoutKey = (us: readonly Unit[]) => us.map((u) => `${key(u.origin)}/${u.rotation}`).join(';');
+  const seen = new Set([layoutKey(units)]);
+  for (const { c } of list) {
+    const out = realize(def, cache, n, c);
+    if (!out) continue;
+    const k = layoutKey(out);
+    if (seen.has(k)) continue;
+    seen.add(k);
+    yield out;
+  }
 }

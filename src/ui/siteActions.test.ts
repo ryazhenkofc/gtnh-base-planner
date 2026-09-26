@@ -82,8 +82,8 @@ describe('site actions', () => {
     expect(s.groups[0].origin).toEqual([5, 2]);
     s = withGroupRotated(withGroupRotated(withGroupRotated(withGroupRotated(s, 'g1'), 'g1'), 'g1'), 'g1');
     expect(s.groups[0].rotation).toBe(0);
-    s = withGroupPatched(s, 'g1', { count: 999, origin: [1e6, -1e6] });
-    expect(s.groups[0].count).toBe(200);
+    s = withGroupPatched(s, 'g1', { count: 5000, origin: [1e6, -1e6] });
+    expect(s.groups[0].count).toBe(2000);
     expect(s.groups[0].origin).toEqual([256, -128]);
     s = withGroupPatched(s, 'g2', { multiblockId: 'distillation-tower' });
     s = withGroupPatched(s, 'g2', { size: 9 });

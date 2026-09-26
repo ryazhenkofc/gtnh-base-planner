@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { getMultiblock } from '../data/catalog';
-import type { SceneModel, WallStats } from '../model/types';
+import type { RouteNet, SceneModel, Unit, WallStats } from '../model/types';
 import { defaultPlan } from '../state/store';
 import { catalog } from '../data/catalog';
 import { dominantBlockId, hatchKindsOf, iconFaces, matchesQuery, shade } from './catalogView';
@@ -35,8 +35,9 @@ function fakeDeps() {
     })),
     placeHatches: vi.fn(() => ({ hatches: [], unplaced: [] })),
     layoutCandidates: vi.fn(function* () {}),
+    loosenings: vi.fn(function* (..._args: Parameters<PipelineDeps['loosenings']>): Generator<Unit[]> {}),
     computeWallStats: vi.fn(() => stats),
-    routePipes: vi.fn((..._args: Parameters<PipelineDeps['routePipes']>) => []),
+    routePipes: vi.fn((..._args: Parameters<PipelineDeps['routePipes']>): RouteNet[] => []),
     buildSceneModel: vi.fn((..._args: Parameters<PipelineDeps['buildSceneModel']>): SceneModel => ({
       voxels: [],
       hatches: [],
@@ -83,6 +84,26 @@ describe('pipeline', () => {
     const r2 = run({ ...p, count: 5 }, true);
     expect(deps.packUnits).toHaveBeenCalledTimes(2);
     expect(r2.pack?.reason).toBe('limits');
+  });
+
+  it('loosens the layout when pipes cannot reach every hatch, and routes it once', () => {
+    const deps = fakeDeps();
+    const wide: Unit[] = [{ id: 0, origin: [0, 0, 0], rotation: 0 }];
+    deps.loosenings.mockImplementation(function* () {
+      yield wide;
+    });
+    deps.routePipes.mockImplementation((_d, units) => [
+      { kind: 'itemIn', paths: [], length: 0, connected: units === wide ? 1 : 0, total: 1 },
+    ]);
+    const run = createPipeline(deps);
+    const off = run(defaultPlan(), false);
+    expect(off.loosened).toBe(false);
+    const on = run(defaultPlan(), true);
+    expect(on.loosened).toBe(true);
+    expect(on.pack?.units).toBe(wide);
+    expect(on.pipes?.[0].connected).toBe(1);
+    // The base layout and the loosened one: the pipes stage reuses the second result.
+    expect(deps.routePipes).toHaveBeenCalledTimes(2);
   });
 
   it('uses manual units instead of packing', () => {

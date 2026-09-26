@@ -1,9 +1,17 @@
 import { describe, expect, it } from 'vitest';
 import { catalog, getMultiblock } from '../data/catalog';
-import { layoutCandidates, packUnits } from './layout';
-import { resolveLayout, type LayoutDeps } from './plan';
+import { layoutCandidates, loosenings, packUnits } from './layout';
+import {
+  resolveLayout,
+  resolveRoutedLayout,
+  TRIAL_ROUNDS,
+  unconnected,
+  type LayoutDeps,
+  type RoutedLayoutDeps,
+} from './plan';
 import { placeHatches } from './ports';
-import type { HatchResult, PlanLimits, Unit } from './types';
+import { ROUTED_KINDS, routePipes } from './routing';
+import type { HatchResult, PlanLimits, RouteNet, Unit } from './types';
 
 /** Hand-made entries; generated ones (tools/gt-source) have lighter checks in generated.test.ts. */
 const handMade = catalog.filter((d) => !d.generated);
@@ -94,6 +102,96 @@ describe('resolveLayout', () => {
     const t0 = performance.now();
     resolveLayout(def, packUnits(def, 60, unlimited), def.defaultHatches, unlimited, deps);
     expect(performance.now() - t0).toBeLessThan(1000);
+  });
+});
+
+describe('resolveRoutedLayout', () => {
+  const routed: RoutedLayoutDeps = { placeHatches, layoutCandidates, loosenings, routePipes };
+  const kinds = { kinds: ROUTED_KINDS };
+
+  function routedResolve(id: string, count: number, limits: PlanLimits) {
+    const def = getMultiblock(id)!;
+    return resolveRoutedLayout(def, packUnits(def, count, limits), def.defaultHatches, limits, kinds, routed);
+  }
+
+  it('keeps the layout when every hatch is connected', () => {
+    const r = routedResolve('coke-oven', 12, unlimited);
+    expect(r.loosened).toBe(false);
+    expect(unconnected(r.pipes)).toBe(0);
+  });
+
+  it('widens walkways until every hatch of a dense block is connected', () => {
+    // 100 Implosion Compressors in at most 6 x 6 per layer: back-to-back rows with one-block walkways
+    // cannot hold an input, an output and an energy line past every unit.
+    const limits: PlanLimits = { x: 6, y: null, z: 6 };
+    const def = getMultiblock('implosion-compressor')!;
+    const plain = resolveLayout(def, packUnits(def, 100, limits), def.defaultHatches, limits, deps);
+    const before = routePipes(def, plain.pack.units, plain.hatches.hatches, kinds);
+    expect(unconnected(before)).toBeGreaterThan(0);
+    const r = routedResolve('implosion-compressor', 100, limits);
+    expect(r.loosened).toBe(true);
+    expect(r.hatches.unplaced).toEqual([]);
+    expect(unconnected(r.pipes)).toBe(0);
+    expect(r.pack.units).toHaveLength(100);
+    // Same arrangement: as many layers, at most 6 units along X and Z.
+    const distinct = (a: number) => new Set(r.pack.units.map((u) => u.origin[a])).size;
+    expect(distinct(1)).toBe(new Set(plain.pack.units.map((u) => u.origin[1])).size);
+    expect(distinct(0)).toBeLessThanOrEqual(6);
+    expect(distinct(2)).toBeLessThanOrEqual(6);
+    // The networks it returns are the ones routing the chosen layout gives.
+    expect(r.pipes).toEqual(routePipes(def, r.pack.units, r.hatches.hatches, kinds));
+  });
+
+  it('connects every hatch of every hand-made catalog multiblock in dense layouts', () => {
+    // Generated entries get lighter checks in generated.test.ts; routing all of them here takes minutes.
+    for (const def of catalog.filter((d) => !d.generated))
+      for (const [n, limits] of [
+        [30, { x: 4, y: null, z: 4 }],
+        [64, { x: 6, y: null, z: 6 }],
+      ] as const) {
+        const r = routedResolve(def.id, n, limits);
+        expect(unconnected(r.pipes), `${def.id} × ${n}`).toBe(0);
+      }
+  }, 60_000);
+
+  it('routes the loosest layout even when the tries run out, and keeps the best', () => {
+    // Layouts are tried with a few negotiation rounds; the best gets the full negotiation at the end.
+    const def = getMultiblock('coke-oven')!;
+    const base = { units: [{ id: 0, origin: [0, 0, 0], rotation: 0 }] as Unit[], requested: 1, placed: 1 };
+    const at = (x: number): Unit[] => [{ id: 0, origin: [x, 0, 0], rotation: 0 }];
+    const net = (connected: number): RouteNet[] => [
+      { kind: 'itemIn', paths: [], length: 0, connected, total: 2 },
+    ];
+    const routedAt: [number, number | undefined][] = [];
+    const r = resolveRoutedLayout(
+      def,
+      base,
+      [],
+      unlimited,
+      kinds,
+      {
+        placeHatches: () => ({ hatches: [], unplaced: [] }),
+        layoutCandidates: function* () {},
+        loosenings: function* () {
+          for (let x = 1; x <= 5; x++) yield at(x);
+        },
+        routePipes: (_d, units, _h, opts) => {
+          const x = units[0].origin[0];
+          routedAt.push([x, opts.rounds]);
+          return net(x === 2 ? 1 : 0);
+        },
+      },
+      2,
+    );
+    expect(routedAt).toEqual([
+      [0, TRIAL_ROUNDS],
+      [1, TRIAL_ROUNDS],
+      [5, TRIAL_ROUNDS],
+      [0, undefined],
+    ]);
+    expect(r.pack.units[0].origin[0]).toBe(0);
+    expect(r.loosened).toBe(false);
+    expect(unconnected(r.pipes)).toBe(2);
   });
 });
 

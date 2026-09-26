@@ -29,6 +29,7 @@ import {
   SITE_MAX_SIZE,
   validateSiteState,
 } from '../share/siteCodec';
+import { clampCount } from '../ui/fields';
 
 /**
  * Import of a GTNH Planner (gtnhplanner.com) project: the JSON their board's "Export JSON" writes
@@ -304,7 +305,7 @@ export function importRows(project: GtnhProject): ImportRow[] {
         node,
         recipe,
         machine: machineName(node, recipe),
-        count: Math.min(200, Math.max(1, Math.ceil(node.machineCount - 1e-6))),
+        count: clampCount(Math.ceil(node.machineCount - 1e-6)),
         proposed: proposeChoice(node, recipe),
       };
     });
