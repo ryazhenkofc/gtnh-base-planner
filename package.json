@@ -6,10 +6,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "atlas": "node scripts/build-atlas.mjs",
+    "build": "npm run atlas && vite build",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json --fail-on-warnings",
     "test": "vitest run",
+    "test:unit": "vitest run",
     "e2e": "playwright test",
     "format": "prettier --write .",
     "format:check": "prettier --check .",

@@ -94,7 +94,7 @@ Structures can be transcribed by hand from the GT5-Unofficial source or generate
 
 ## Textures and attribution
 
-DETAILED view uses block textures from [GT5-Unofficial](https://github.com/GTNewHorizons/GT5-Unofficial), licensed under LGPL-3.0. They live in `public/textures/`. Sources and licence details are in [`ATTRIBUTION.md`](ATTRIBUTION.md). SIMPLE view uses flat colours only.
+DETAILED view uses block textures from [GT5-Unofficial](https://github.com/GTNewHorizons/GT5-Unofficial), licensed under LGPL-3.0. The generated atlas is `public/textures/atlas.png`; its source files (build inputs, not deployed) are in `tools/texture-sources/`. Sources and licence details are in [`ATTRIBUTION.md`](ATTRIBUTION.md). SIMPLE view uses flat colours only.
 
 ## Privacy
 
@@ -117,7 +117,7 @@ npm run dev     # dev server with hot reload
 npm run check   # svelte-check + TypeScript
 npm test        # unit tests (Vitest)
 npm run e2e     # Playwright smoke tests; first run: npx playwright install chromium
-npm run build   # production build into dist/
+npm run build   # texture atlas, then production build into dist/
 npm run format  # Prettier
 ```
 
@@ -136,18 +136,39 @@ src/
   state/       app store
   ui/          Svelte components
   i18n/        UI strings
-public/        static files copied as-is (favicon, textures)
+public/        static files copied as-is (favicon, generated texture atlas)
 e2e/           Playwright tests
-tools/         offline tooling (structure extractor, GT source converter)
+tools/         offline tooling (structure extractor, GT source converter, texture sources)
 ```
 
 ## Deployment
 
-The build is a static site in `dist/` with relative asset paths (`base: './'`), so it works from any sub-path.
+The planner is fully client-side: a static site with no backend, database or server-side code. Plans live in
+the browser and share links carry the plan in the URL fragment.
 
-**GitHub Pages.** In the repository settings, open Pages and set the source to GitHub Actions. Every push to `main` runs [`.github/workflows/pages.yml`](.github/workflows/pages.yml): type-check, unit tests, build, then deploy `dist/`. Pull requests run [`ci.yml`](.github/workflows/ci.yml), which adds formatting and end-to-end checks.
+```sh
+npm install     # or npm ci
+npm run dev     # local development
+npm run build   # production build into dist/
+```
 
-**Cloudflare Pages** (or any static host). Build command `npm run build`, output directory `dist`. Set the environment variable `NODE_VERSION=24` if the host does not pick it up.
+`npm run build` first regenerates the texture atlas (`npm run atlas`: `public/textures/atlas.png` and
+`src/render/textures.json` from `tools/texture-sources/`, offline and deterministic), then runs Vite. The texture
+sources are build inputs only and are not deployed; `dist/` holds `index.html`, the favicon, the hashed JS and CSS
+in `assets/`, and `textures/atlas.png`. Asset paths are relative (`base: './'`), so the same build works at a
+domain root and under a sub-path.
+
+**Cloudflare Pages.** Connect the repository with Cloudflare's Git integration (no Wrangler configuration or
+API tokens are needed):
+
+- Build command: `npm run build`
+- Build output directory: `dist`
+- Node.js: 24, read from [`.node-version`](.node-version) (or set `NODE_VERSION=24`)
+
+**GitHub Pages.** In the repository settings, open Pages and set the source to GitHub Actions. Every push to
+`main` runs [`.github/workflows/pages.yml`](.github/workflows/pages.yml): type-check, unit tests, build, then
+deploy `dist/`. Pull requests run [`ci.yml`](.github/workflows/ci.yml), which adds formatting and end-to-end
+checks.
 
 ## License
 
@@ -155,5 +176,5 @@ The planner is released under the [MIT License](LICENSE), © 2026 ryazhenkofc.
 
 Bundled third-party files keep their own licences:
 
-- GT5-Unofficial block textures in `public/textures/` (the sources and the generated `atlas.png`) are under LGPL-3.0; see [`ATTRIBUTION.md`](ATTRIBUTION.md).
+- GT5-Unofficial block textures (the sources in `tools/texture-sources/` and the generated `public/textures/atlas.png`) are under LGPL-3.0; see [`ATTRIBUTION.md`](ATTRIBUTION.md).
 - The two structure fixtures in `tools/extractor/fixtures/` come from gtnh-process-line-solver under Apache-2.0; see their [`NOTICE`](tools/extractor/fixtures/NOTICE).

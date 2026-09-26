@@ -18,7 +18,7 @@
  *   src/data/gt-shapes.generated.json   the raw GT shape + elements per machine, for gt-structures.test.ts
  *   src/data/blocks.generated.json      blocks the hand-made registry does not have
  *   tools/gt-source/textures.generated.json  atlas tiles + block faces for scripts/build-atlas.mjs
- *   public/textures/src/*.png           the source files of those tiles (copied from the checkout)
+ *   tools/texture-sources/*.png         the source files of those tiles (copied from the checkout)
  *   ATTRIBUTION.md                      the list of those files, between the tools/gt-source markers
  */
 import { execSync } from 'node:child_process';
@@ -705,7 +705,7 @@ async function writeFormatted(file, text) {
 
 async function write(result, checkout) {
   const atlas = await import(pathToFileURL(join(ROOT, 'scripts/build-atlas.mjs')).href);
-  const srcDir = join(ROOT, 'public/textures/src');
+  const srcDir = join(ROOT, 'tools/texture-sources');
   const texturesFile = join(ROOT, 'tools/gt-source/textures.generated.json');
   const before = existsSync(texturesFile)
     ? Object.keys(JSON.parse(readFileSync(texturesFile, 'utf8')).tiles)

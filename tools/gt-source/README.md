@@ -36,7 +36,7 @@ The run is deterministic: running `--write` twice gives the same files.
 | `src/data/gt-shapes.generated.json`       | The raw GT shape and elements per machine, checked by `src/data/gt-structures.test.ts`                          |
 | `src/data/blocks.generated.json`          | Blocks the hand-made registry (`src/data/blocks.ts`) lacks, with a flat colour (the mean colour of the texture) |
 | `tools/gt-source/textures.generated.json` | Atlas tiles and block faces, merged into `scripts/build-atlas.mjs`                                              |
-| `public/textures/src/*.png`               | Source files of those tiles, copied from the clone                                                              |
+| `tools/texture-sources/*.png`             | Source files of those tiles, copied from the clone                                                              |
 | `ATTRIBUTION.md`                          | The list of those files, between the `tools/gt-source` markers                                                  |
 
 ## How it works
