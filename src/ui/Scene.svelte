@@ -16,8 +16,10 @@
     onpicknet?: (netId: number | null) => void;
     /** Site view: animate flow arrows. */
     flow?: boolean;
+    /** The camera azimuth changed (see `RendererOptions.onView`). */
+    onview?: (theta: number) => void;
   }
-  let { scene, mode, xray, selected, onpick, onfail, onpicknet, flow = true }: Props = $props();
+  let { scene, mode, xray, selected, onpick, onfail, onpicknet, flow = true, onview }: Props = $props();
 
   const EMPTY_SCENE: SceneModel = {
     voxels: [],
@@ -44,7 +46,11 @@
     if (!canvas) return;
     let r: Renderer;
     try {
-      r = createRenderer(canvas, { onPick: (ids) => onpick(ids), onPickNet: (id) => onpicknet?.(id) });
+      r = createRenderer(canvas, {
+        onPick: (ids) => onpick(ids),
+        onPickNet: (id) => onpicknet?.(id),
+        onView: (theta) => onview?.(theta),
+      });
     } catch (err) {
       warnOnce('createRenderer', err);
       onfail();

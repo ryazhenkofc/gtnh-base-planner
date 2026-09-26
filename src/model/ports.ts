@@ -8,6 +8,7 @@ import {
   step,
   type CellKey,
 } from './geometry';
+import { ROUTED_KINDS } from './routing';
 import type { Dir, HatchKind, HatchPlacement, HatchResult, MultiblockDef, Unit, Vec3 } from './types';
 
 /**
@@ -87,6 +88,10 @@ interface Entry {
   walled: number;
   /** 0 when the face used looks into open space, 1 when into a gap or recess. */
   open: number;
+  /** Hatches of this kind already placed in line with the face used (see `lineKeys`). */
+  aligned: number;
+  /** Most units that could put a hatch of this kind on one line with the face used. */
+  reach: number;
   /** Hatches of other kinds around the cell the face looks into. */
   crowded: number;
   /** Index of the open face used, into the site's `faces`. */
@@ -104,9 +109,27 @@ function compareEntries(a: Entry, b: Entry): number {
     a.walled - b.walled ||
     a.open - b.open ||
     a.crowded - b.crowded ||
+    b.aligned - a.aligned ||
+    b.reach - a.reach ||
     a.faceRank - b.faceRank ||
     a.i - b.i
   );
+}
+
+/**
+ * The axis lines along the face through the empty cell `front` in front of a hatch face looking `dir` (a
+ * line along `dir` itself runs into the structure), where `open(d)` says the cell next to `front` towards
+ * `d` is open: a line only counts when it is open on both sides, so a pipe can run along it (a front in a
+ * recess, walled in along the line, has none). Hatches of one kind whose fronts share such a line and a
+ * direction take one straight pipe or cable.
+ */
+function lineKeys(front: Vec3, dir: Dir, open: (d: Dir) => boolean): string[] {
+  const [x, y, z] = front;
+  const out: string[] = [];
+  if (dir !== 'east' && dir !== 'west' && open('east') && open('west')) out.push(`${dir}|x|${y}|${z}`);
+  if (dir !== 'up' && dir !== 'down' && open('up') && open('down')) out.push(`${dir}|y|${x}|${z}`);
+  if (dir !== 'north' && dir !== 'south' && open('north') && open('south')) out.push(`${dir}|z|${x}|${y}`);
+  return out;
 }
 
 /** 0 for a face rank that looks into open space, 1 for one into a gap or recess (see `Site.faces`). */
@@ -283,6 +306,8 @@ function findSites(
 ): {
   sites: Site[];
   openAround: ((k: CellKey) => (CellKey | null)[]) | null;
+  /** Whether the cell next to the empty cell `k` towards `dir` is open too (see `openAround`). */
+  openToward: ((k: CellKey, dir: Dir) => boolean) | null;
   nearby: ((k: CellKey) => number[]) | null;
   /** Cells in the dense box (keys are indices below it), or 0 for the map fallback. */
   volume: number;
@@ -393,6 +418,7 @@ function findSites(
   let isOutside: (p: Vec3, k: CellKey) => boolean;
   let clearAhead: (p: Vec3, k: CellKey, face: number) => boolean;
   let openAround: ((k: CellKey) => (CellKey | null)[]) | null = null;
+  let openToward: ((k: CellKey, dir: Dir) => boolean) | null = null;
   let nearby: ((k: CellKey) => number[]) | null = null;
   if (solidDense) {
     const solid = solidDense;
@@ -433,6 +459,19 @@ function findSites(
         if (ay + box.oy >= ground && outside[n] === 1 && !controllerFronts.has(n)) out.push(n);
       }
       return out;
+    };
+    openToward = (k, dir) => {
+      const i = k as number;
+      const x = i % box.nx;
+      const z = ((i - x) / box.nx) % box.nz;
+      const y = (i - x - z * box.nx) / (box.nx * box.nz);
+      const face = FACE_ORDER.indexOf(dir);
+      const [vx, vy, vz] = step([0, 0, 0], dir);
+      const [ax, ay, az] = [x + vx, y + vy, z + vz];
+      if (ay + box.oy < ground) return false;
+      if (ax < 0 || ay < 0 || az < 0 || ax >= box.nx || ay >= box.ny || az >= box.nz) return true;
+      const n = i + steps[face];
+      return outside[n] === 1 && !controllerFronts.has(n);
     };
     clearAhead = (p, k, face) => {
       const dir = FACE_ORDER[face];
@@ -502,6 +541,7 @@ function findSites(
   return {
     sites: sites.sort((a, b) => comparePos(a.pos, b.pos)),
     openAround,
+    openToward,
     nearby,
     volume: solidDense ? volume : 0,
   };
@@ -531,7 +571,11 @@ function findSites(
  * - A hatch is never placed where it would push a unit above `requiredHatches[kind].max`.
  * - Greedy: repeatedly take the cell serving the most units still below their target; ties prefer fewer
  *   already-served units on the cell, then a face with open space ahead over one into a gap or recess,
- *   then a side face over top over bottom, then the lowest y, z, x.
+ *   then a face in line with hatches of the same kind already placed (same direction, fronts on one axis
+ *   line, so one straight pipe or cable serves them), then a face on a line more units could share, then
+ *   fewer hatches of other kinds around, then a
+ *   side face over top over bottom, then the lowest y, z, x.
+ * - `avoid` keeps listed cells free of the listed kinds (they may still take other kinds).
  * - Unit ids are expected to be unique. The result is independent of the order of `units` and
  *   `enabled`: hatches are listed in placement order, `unplaced` by kind priority then unit id.
  */
@@ -539,20 +583,29 @@ export function placeHatches(
   def: MultiblockDef,
   units: readonly Unit[],
   enabled: readonly HatchKind[],
+  avoid?: HatchAvoid,
 ): HatchResult {
   let kinds: HatchKind[] = [];
   try {
     kinds = kindsToPlace(def, enabled);
     if (kinds.length === 0 || units.length === 0) return { hatches: [], unplaced: [] };
-    return place(def, units, kinds);
+    return place(def, units, kinds, avoid);
   } catch {
     // Malformed definition (e.g. unknown legend char): nothing can be placed, but never throw.
     return allUnplaced(def, units, kinds);
   }
 }
 
-function place(def: MultiblockDef, units: readonly Unit[], kinds: HatchKind[]): HatchResult {
-  const { sites, openAround, nearby, volume } = findSites(def, units);
+/** Cells (`x,y,z`) a hatch kind must not take, e.g. to try its hatches elsewhere (see `improveHatches`). */
+export type HatchAvoid = ReadonlyMap<HatchKind, ReadonlySet<string>>;
+
+function place(
+  def: MultiblockDef,
+  units: readonly Unit[],
+  kinds: HatchKind[],
+  avoid?: HatchAvoid,
+): HatchResult {
+  const { sites, openAround, openToward, nearby, volume } = findSites(def, units);
   const unitIds = sortedIds(units);
   const shareable = new Set(def.shareableHatches ?? []);
   const used = new Set<CellKey>();
@@ -612,10 +665,47 @@ function place(def: MultiblockDef, units: readonly Unit[], kinds: HatchKind[]): 
     const { target, max } = quota(def, kind);
     if (target <= 0) return;
     const canShare = def.wallshare && shareable.has(kind);
+    const avoided = avoid?.get(kind);
     const candidates = sites.filter(
-      (s) => s.kinds.has(kind) && !used.has(s.key) && (canShare || s.unitIds.length === 1),
+      (s) =>
+        s.kinds.has(kind) &&
+        !used.has(s.key) &&
+        (canShare || s.unitIds.length === 1) &&
+        !avoided?.has(s.pos.join()),
     );
     const count = new Map<number, number>(unitIds.map((id) => [id, 0]));
+    /** Placed hatches of this kind per line (see `lineKeys`), and the candidates with a face on each line. */
+    const lines = new Map<string, number>();
+    const onLine = new Map<string, number[]>();
+    const unitsOnLine = new Map<string, Set<number>>();
+    // Only kinds that take a pipe or cable gain from lining up (a maintenance hatch or muffler does not).
+    const lineUp = openToward !== null && (ROUTED_KINDS as readonly HatchKind[]).includes(kind);
+    const keysOf = (pos: Vec3, f: Site['faces'][number]): string[] =>
+      lineUp ? lineKeys(step(pos, f.dir), f.dir, (d) => openToward!(f.front, d)) : [];
+    /** Per candidate and face: its line keys. */
+    const faceKeys = candidates.map((c) => c.faces.map((f) => keysOf(c.pos, f)));
+    candidates.forEach((c, i) => {
+      for (const keys of faceKeys[i])
+        for (const k of keys) {
+          const list = onLine.get(k);
+          if (!list) onLine.set(k, [i]);
+          else if (list[list.length - 1] !== i) list.push(i);
+          let ids = unitsOnLine.get(k);
+          if (!ids) unitsOnLine.set(k, (ids = new Set()));
+          for (const id of c.unitIds) ids.add(id);
+        }
+    });
+    /** Static: how many units could line up with a face (before anything is placed, rows beat ends). */
+    const reachAt = (keys: string[]): number => {
+      let n = 0;
+      for (const k of keys) n = Math.max(n, unitsOnLine.get(k)?.size ?? 0);
+      return n;
+    };
+    const alignedAt = (keys: string[]): number => {
+      let n = 0;
+      for (const k of keys) n += lines.get(k) ?? 0;
+      return n;
+    };
 
     /**
      * One greedy pass: place hatches of `kind` on the best candidates until no unit on any free
@@ -634,27 +724,35 @@ function place(def: MultiblockDef, units: readonly Unit[], kinds: HatchKind[]): 
         if (score === 0) return null;
         const blocked = c.blocked.get(kind);
         // The best open face: one whose pipe keeps a way out (and leaves one to its neighbours), then one
-        // facing open space, then the one with the fewest hatches of other kinds around, then by side.
+        // facing open space, then one in line with hatches of this kind already placed (one straight pipe
+        // serves them), then the one with the fewest hatches of other kinds around, then by side.
         let face = -1;
         let walled = 1;
+        let aligned = -1;
+        let reach = -1;
         let crowded = Infinity;
         for (let fi = 0; fi < c.faces.length; fi++) {
           const f = c.faces[fi];
           if ((frontOf(f.front) ?? kind) !== kind || blocked?.has(f.dir)) continue;
           const w = walledIn(f.front, kind) ? 1 : 0;
+          const a = lines.size > 0 ? alignedAt(faceKeys[i][fi]) : 0;
+          const r = reachAt(faceKeys[i][fi]);
           const n = crowd(f.front, kind);
+          const o = openRank(f.rank);
+          const fo = face < 0 ? 0 : openRank(c.faces[face].rank);
           const better =
             face < 0 ||
             w < walled ||
             (w === walled &&
-              (openRank(f.rank) < openRank(c.faces[face].rank) ||
-                (openRank(f.rank) === openRank(c.faces[face].rank) && n < crowded)));
+              (o < fo ||
+                (o === fo &&
+                  (n < crowded || (n === crowded && (a > aligned || (a === aligned && r > reach)))))));
           if (better) {
             face = fi;
             walled = w;
+            aligned = a;
+            reach = r;
             crowded = n;
-            // Faces come open ones first: an uncrowded open face that walls nothing in is the best one.
-            if (w === 0 && n === 0 && openRank(f.rank) === 0) break;
           }
         }
         if (face < 0) return null;
@@ -665,15 +763,18 @@ function place(def: MultiblockDef, units: readonly Unit[], kinds: HatchKind[]): 
           wanted: later.reduce((n, k) => n + (c.kinds.has(k) ? 1 : 0), 0),
           walled,
           open: openRank(c.faces[face].rank),
+          aligned,
+          reach,
           crowded,
           face,
           faceRank: c.faces[face].rank,
         };
       };
 
-      // Greedy pick of the best candidate, via a lazy max-heap. A candidate's rank only ever gets worse
-      // (counts grow, so score falls and waste rises; this kind's own fronts never close its faces), so
-      // a popped entry whose re-evaluated rank is unchanged beats every other candidate's current rank.
+      // Greedy pick of the best candidate, via a lazy max-heap. A candidate's rank only gets worse (counts
+      // grow, so score falls and waste rises; this kind's own fronts never close its faces), except that
+      // a placed hatch lines up the candidates on its lines: those are pushed again with their new rank.
+      // So a popped entry whose re-evaluated rank is unchanged beats every other candidate's current rank.
       const heap = new EntryHeap();
       for (let i = 0; i < candidates.length; i++) {
         const e = evaluate(i);
@@ -696,6 +797,13 @@ function place(def: MultiblockDef, units: readonly Unit[], kinds: HatchKind[]): 
         for (const id of best.unitIds) count.set(id, (count.get(id) ?? 0) + 1);
         served(best);
         hatches.push({ kind, cell: best.pos, face: bestFace.dir, unitIds: [...best.unitIds] });
+        for (const k of faceKeys[now.i][now.face]) {
+          lines.set(k, (lines.get(k) ?? 0) + 1);
+          for (const i of onLine.get(k) ?? []) {
+            const e = evaluate(i);
+            if (e) heap.push(e);
+          }
+        }
       }
     };
 

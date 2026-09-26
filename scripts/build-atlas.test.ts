@@ -16,7 +16,7 @@ import {
 } from './build-atlas.mjs';
 
 const ROOT = join(__dirname, '..');
-const SRC = join(ROOT, 'public/textures/src');
+const SRC = join(ROOT, 'tools/texture-sources');
 
 function solid(w: number, h: number, rgba: number[]): Uint8Array {
   const out = new Uint8Array(w * h * 4);

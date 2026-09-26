@@ -37,6 +37,8 @@ describe('machine mapping', () => {
     expect(multiblockForName('Blast Furnace')).toBe('electric-blast-furnace');
     expect(multiblockForName('LCR')).toBe('large-chemical-reactor');
     expect(multiblockForName('Oil Cracker')).toBe('oil-cracking-unit');
+    expect(multiblockForName('Multiblock Electrolyzer')).toBe('industrial-electrolyzer');
+    expect(multiblockForName('Multiblock Centrifuge')).toBe('industrial-centrifuge');
   });
 
   it('shows machines missing from the catalog as placeholders', () => {

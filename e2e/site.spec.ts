@@ -135,7 +135,7 @@ test('builds a site by hand and switches back to the machine view', async ({ pag
 
   // A link from a site input to the furnace, with a new resource.
   const form = panel.getByTestId('site-link-form');
-  await form.getByLabel('From').selectOption({ label: 'Site input' });
+  await form.getByLabel('From').selectOption({ label: 'Template input' });
   await form.getByLabel('To').selectOption({ label: 'Electric Blast Furnace' });
   await form.getByLabel('Resource name').fill('Iron Dust');
   await panel.getByTestId('site-add-link').click();

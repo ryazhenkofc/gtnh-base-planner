@@ -30,10 +30,4 @@
   .sep {
     color: var(--faint);
   }
-  /* Phones hide the dot that separates it from the view mode buttons. */
-  @media (max-width: 640px) {
-    .mode {
-      margin-right: 14px;
-    }
-  }
 </style>

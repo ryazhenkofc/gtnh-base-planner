@@ -2,6 +2,10 @@ import { describe, expect, it } from 'vitest';
 import { catalog, getMultiblock } from '../data/catalog';
 import { layoutCandidates, loosenings, packUnits } from './layout';
 import {
+  hatchMoves,
+  improveHatches,
+  MAX_HATCH_MOVES,
+  networkCost,
   resolveLayout,
   resolveRoutedLayout,
   TRIAL_ROUNDS,
@@ -220,3 +224,80 @@ describe('layoutCandidates', () => {
     expect(gapped).toBe(true);
   });
 });
+
+describe('improveHatches', () => {
+  const kinds = [...ROUTED_KINDS];
+  function start(id: string, count: number) {
+    const def = getMultiblock(id)!;
+    const pack = packUnits(def, count, NO_LIMITS_FB);
+    const r = resolveLayout(def, pack, defaultEnabled(id), NO_LIMITS_FB, deps);
+    const route = (h: HatchResult) =>
+      routePipes(def, r.pack.units, h.hatches, { kinds, rounds: TRIAL_ROUNDS });
+    return { def, units: r.pack.units, hatches: r.hatches, route, pipes: route(r.hatches) };
+  }
+
+  it('moves hatches whose pipes run far when that makes the networks cheaper', () => {
+    // Two Large Chemical Reactor rows used to reach some hatches with long detours.
+    const s = start('large-chemical-reactor', 12);
+    const out = improveHatches(
+      s.def,
+      s.units,
+      defaultEnabled('large-chemical-reactor'),
+      s.hatches,
+      s.pipes,
+      s.route,
+      placeHatches,
+    );
+    expect(out.hatches).not.toBe(s.hatches);
+    expect(out.hatches.unplaced.length).toBeLessThanOrEqual(s.hatches.unplaced.length);
+    expect(unconnected(out.pipes)).toBeLessThanOrEqual(unconnected(s.pipes));
+    expect(networkCost(out.pipes)).toBeLessThan(networkCost(s.pipes));
+  });
+
+  it('never makes a build worse, and is deterministic', () => {
+    for (const [id, count] of [
+      ['coke-oven', 4],
+      ['electric-blast-furnace', 4],
+      ['distillation-tower', 3],
+      ['vacuum-freezer', 12],
+    ] as const) {
+      const s = start(id, count);
+      const out = improveHatches(
+        s.def,
+        s.units,
+        defaultEnabled(id),
+        s.hatches,
+        s.pipes,
+        s.route,
+        placeHatches,
+      );
+      expect(out.hatches.unplaced.length, id).toBeLessThanOrEqual(s.hatches.unplaced.length);
+      expect(unconnected(out.pipes), id).toBeLessThanOrEqual(unconnected(s.pipes));
+      if (unconnected(out.pipes) === unconnected(s.pipes))
+        expect(networkCost(out.pipes), id).toBeLessThanOrEqual(networkCost(s.pipes));
+      const again = improveHatches(
+        s.def,
+        s.units,
+        defaultEnabled(id),
+        s.hatches,
+        s.pipes,
+        s.route,
+        placeHatches,
+      );
+      expect(again).toEqual(out);
+    }
+  }, 30_000);
+
+  it('tries less on builds with many routed hatches', () => {
+    expect(hatchMoves(8)).toBe(MAX_HATCH_MOVES);
+    expect(hatchMoves(48)).toBe(5);
+    expect(hatchMoves(240)).toBe(1);
+    expect(hatchMoves(1000)).toBe(1);
+  });
+});
+
+const NO_LIMITS_FB: PlanLimits = { x: null, y: null, z: null };
+
+function defaultEnabled(id: string) {
+  return [...getMultiblock(id)!.defaultHatches];
+}

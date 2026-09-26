@@ -1,7 +1,7 @@
 <script lang="ts">
   import { t } from '../i18n/en';
   import type { MultiblockDef } from '../model/types';
-  import { plan, viewMode } from '../state/store';
+  import { plan } from '../state/store';
   import { setCount } from './actions';
   import { COUNT_MAX, COUNT_MIN, parseCount } from './fields';
   import ModeSwitch from './ModeSwitch.svelte';
@@ -63,22 +63,6 @@
 
   <div class="group modes">
     <ModeSwitch />
-    <span class="sep dot" aria-hidden="true">{t.separator}</span>
-    <button
-      class="link"
-      class:active={$viewMode === 'simple'}
-      aria-pressed={$viewMode === 'simple'}
-      data-testid="mode-simple"
-      onclick={() => viewMode.set('simple')}>{t.simple}</button
-    >
-    <span class="sep" aria-hidden="true">{t.slash}</span>
-    <button
-      class="link"
-      class:active={$viewMode === 'detailed'}
-      aria-pressed={$viewMode === 'detailed'}
-      data-testid="mode-detailed"
-      onclick={() => viewMode.set('detailed')}>{t.detailed}</button
-    >
   </div>
 
   <div class="group settings">

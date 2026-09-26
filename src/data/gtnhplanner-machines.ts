@@ -47,6 +47,10 @@ export const MULTIBLOCK_ALIASES: Readonly<Record<string, string>> = {
   'large steel boiler': 'large-steel-boiler',
   'large titanium boiler': 'large-titanium-boiler',
   'large tungstensteel boiler': 'large-tungstensteel-boiler',
+  // GT++ recipe maps shared by the industrial multiblocks ("Multiblock Electrolyzer" and so on).
+  'multiblock electrolyzer': 'industrial-electrolyzer',
+  'multiblock centrifuge': 'industrial-centrifuge',
+  'multiblock mixer': 'industrial-mixing-machine',
 };
 
 /** GT single-block machines (recipe map names). */

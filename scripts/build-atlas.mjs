@@ -2,13 +2,13 @@
 /**
  * Builds the DETAILED-view texture atlas.
  *
- *   node scripts/build-atlas.mjs          # pack from the committed sources in public/textures/src/
+ *   node scripts/build-atlas.mjs          # pack from the committed sources in tools/texture-sources/
  *   node scripts/build-atlas.mjs --fetch  # download missing sources from GT5-Unofficial first
  *
  * Sources are GT5-Unofficial (LGPL-3.0) block icons, see ATTRIBUTION.md. Animated strips are cropped to
  * their first frame; generic machine casings get the default "machine metal" tint the game applies.
  *
- * Outputs (both committed, the site build never needs the network):
+ * Outputs (both committed, and rebuilt by `npm run build`, which never needs the network):
  *   public/textures/atlas.png  — every tile below, 16×16 each, packed in a grid
  *   src/render/textures.json   — tile rects + blockId → faces mapping + hatch overlays
  *
@@ -24,7 +24,8 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { deflateSync, inflateSync } from 'node:zlib';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const SRC_DIR = join(ROOT, 'public/textures/src');
+// Build inputs only: kept out of public/ so they are never copied into the deployed site.
+const SRC_DIR = join(ROOT, 'tools/texture-sources');
 const ATLAS_PNG = join(ROOT, 'public/textures/atlas.png');
 const TEXTURES_JSON = join(ROOT, 'src/render/textures.json');
 const BLOCKS_TS = join(ROOT, 'src/data/blocks.ts');
@@ -45,7 +46,7 @@ const MACHINE_METAL = [210, 220, 255];
 
 /**
  * Atlas tiles: name → options. The source is `${ICONSETS}/${name}.png` unless `path` (repo-relative) is given;
- * it is stored as `public/textures/src/${name}.png`. `tint` multiplies RGB (the game tints the tiered
+ * it is stored as `tools/texture-sources/${name}.png`. `tint` multiplies RGB (the game tints the tiered
  * MACHINE_* casings with MACHINE_METAL and material icons such as frames with the material colour).
  * `ref` is the GT5-Unofficial branch or tag to download from (default `master`).
  */

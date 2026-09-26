@@ -339,7 +339,7 @@
     <ul class="rows">
       {#each $site.links as l (l.id)}
         {@const res = $site.resources[l.resource]}
-        <li class="row link-row">
+        <li class="row link-row" class:picked={$isolate === l.resource} data-testid="site-link">
           <label class="swatch" style:background={res?.color} title={res?.name}>
             <input
               type="color"
@@ -623,6 +623,13 @@
   }
   .link-row {
     align-items: flex-start;
+    /* Room for the outline of the isolated resource. */
+    margin: 0 -6px;
+    padding: 0 6px;
+    outline: 1px solid transparent;
+  }
+  .link-row.picked {
+    outline-color: var(--pick);
   }
   .text-left {
     text-align: left;

@@ -1,7 +1,6 @@
 <script lang="ts">
   import { t } from '../i18n/en';
-  import { site } from '../state/site';
-  import { viewMode } from '../state/store';
+  import { flowAnimation, site } from '../state/site';
   import ModeSwitch from './ModeSwitch.svelte';
 
   interface Props {
@@ -27,16 +26,11 @@
     <span class="sep dot" aria-hidden="true">{t.separator}</span>
     <button
       class="link"
-      class:active={$viewMode === 'simple'}
-      aria-pressed={$viewMode === 'simple'}
-      onclick={() => viewMode.set('simple')}>{t.simple}</button
-    >
-    <span class="sep" aria-hidden="true">{t.slash}</span>
-    <button
-      class="link"
-      class:active={$viewMode === 'detailed'}
-      aria-pressed={$viewMode === 'detailed'}
-      onclick={() => viewMode.set('detailed')}>{t.detailed}</button
+      class:active={$flowAnimation}
+      aria-pressed={$flowAnimation}
+      title={t.site.animationHint}
+      data-testid="site-animation"
+      onclick={() => flowAnimation.update((v) => !v)}>{t.site.animation}</button
     >
   </div>
 

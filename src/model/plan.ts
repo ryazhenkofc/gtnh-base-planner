@@ -1,5 +1,8 @@
-import type { RouteOptions } from './routing';
+import { step } from './geometry';
+import type { HatchAvoid } from './ports';
+import { DEFAULT_TURN_COST, type RouteOptions } from './routing';
 import type {
+  Vec3,
   HatchKind,
   HatchPlacement,
   HatchResult,
@@ -11,7 +14,7 @@ import type {
 } from './types';
 
 export interface LayoutDeps {
-  placeHatches: (def: MultiblockDef, units: Unit[], enabled: HatchKind[]) => HatchResult;
+  placeHatches: (def: MultiblockDef, units: Unit[], enabled: HatchKind[], avoid?: HatchAvoid) => HatchResult;
   layoutCandidates: (def: MultiblockDef, count: number, limits: PlanLimits) => Iterable<Unit[]>;
 }
 
@@ -155,17 +158,143 @@ export function resolveRoutedLayout(
       if (best.missing === 0) break;
     }
   }
+  // Move the hatches whose pipes run furthest, where that makes the networks cheaper.
+  const improved = improveHatches(
+    def,
+    best.units,
+    enabled,
+    best.hatches,
+    best.pipes,
+    (h) => route(best.units, h),
+    deps.placeHatches,
+  );
+  if (improved.hatches !== best.hatches)
+    best = {
+      ...best,
+      hatches: improved.hatches,
+      pipes: improved.pipes,
+      missing: unconnected(improved.pipes),
+    };
   if (best.missing > 0 && trial.rounds !== opts.rounds) {
     // Nothing fit in the trial rounds: give the best layout the full negotiation.
     const pipes = deps.routePipes(def, best.units, best.hatches.hatches, opts);
     const missing = unconnected(pipes);
     if (missing < best.missing) best = { ...best, pipes, missing };
   }
-  if (best.units === start.pack.units) return { ...start, pipes: best.pipes };
+  if (best.units === start.pack.units) return { ...start, hatches: best.hatches, pipes: best.pipes };
   return {
     pack: { ...base, units: best.units },
     hatches: best.hatches,
     loosened: true,
     pipes: best.pipes,
   };
+}
+
+/** How many re-placements `improveHatches` tries at most (each places every hatch and routes once more). */
+export const MAX_HATCH_MOVES = 6;
+
+/**
+ * Routed hatches `improveHatches` may spend its tries on: a build with more gets fewer tries (a routing
+ * run grows with the hatches), so 60-unit builds try once and small ones up to `MAX_HATCH_MOVES` times.
+ */
+export const HATCH_MOVE_BUDGET = 240;
+
+/** `improveHatches` tries for networks connecting `terminals` hatches. */
+export function hatchMoves(terminals: number): number {
+  return Math.max(1, Math.min(MAX_HATCH_MOVES, Math.floor(HATCH_MOVE_BUDGET / Math.max(1, terminals))));
+}
+
+/** A branch this long or shorter is as good as a hatch gets; its hatch is never moved. */
+const SHORT_BRANCH = 2;
+
+/** Bends along the networks' paths. */
+function bends(nets: readonly RouteNet[]): number {
+  let n = 0;
+  for (const net of nets)
+    for (const p of net.paths)
+      for (let i = 2; i < p.length; i++)
+        for (let a = 0; a < 3; a++)
+          if (p[i][a] - p[i - 1][a] !== p[i - 1][a] - p[i - 2][a]) {
+            n++;
+            break;
+          }
+  return n;
+}
+
+/** What the networks cost, in pipe blocks: blocks plus the router's price of a bend. */
+export function networkCost(nets: readonly RouteNet[]): number {
+  return nets.reduce((n, r) => n + r.length, 0) + DEFAULT_TURN_COST * bends(nets);
+}
+
+/**
+ * Routed hatches by the length of the branch that reaches them, longest first (branches of `SHORT_BRANCH`
+ * blocks or less left out). A branch is the path that joined the hatch to its network.
+ */
+function longBranches(nets: readonly RouteNet[]): { kind: HatchKind; cell: Vec3; length: number }[] {
+  const out: { kind: HatchKind; cell: Vec3; length: number }[] = [];
+  for (const net of nets) {
+    const ends = new Map<string, number>();
+    for (const p of net.paths) if (p.length > 0) ends.set(p[p.length - 1].join(), p.length);
+    for (const a of net.attachments ?? []) {
+      const length = ends.get(step(a.cell, a.face).join()) ?? 0;
+      if (length > SHORT_BRANCH) out.push({ kind: net.kind, cell: a.cell, length });
+    }
+  }
+  // Longest first; ties by kind, then cell, so the order is deterministic.
+  return out.sort(
+    (a, b) =>
+      b.length - a.length ||
+      (a.kind < b.kind ? -1 : a.kind > b.kind ? 1 : 0) ||
+      a.cell[1] - b.cell[1] ||
+      a.cell[2] - b.cell[2] ||
+      a.cell[0] - b.cell[0],
+  );
+}
+
+/**
+ * Feedback from routing to hatch placement, which picks sites without knowing what their pipes will
+ * cost: take the hatch with the longest branch, keep its cell free of its kind, place every hatch again
+ * and route; keep the change when it places and connects as many hatches and the networks cost less
+ * (`networkCost`), else undo it and try the next hatch. At most `maxMoves` tries (by default fewer the
+ * more hatches are routed, see `hatchMoves`). Deterministic.
+ */
+export function improveHatches(
+  def: MultiblockDef,
+  units: Unit[],
+  enabled: HatchKind[],
+  hatches: HatchResult,
+  pipes: RouteNet[],
+  route: (hatches: HatchResult) => RouteNet[],
+  place: LayoutDeps['placeHatches'],
+  maxMoves = hatchMoves(pipes.reduce((n, r) => n + r.total, 0)),
+): { hatches: HatchResult; pipes: RouteNet[] } {
+  let best = { hatches, pipes, missing: unconnected(pipes), cost: networkCost(pipes) };
+  const avoid = new Map<HatchKind, Set<string>>();
+  const tried = new Set<string>();
+  for (let moves = 0; moves < maxMoves;) {
+    const next = longBranches(best.pipes).find((b) => !tried.has(`${b.kind}|${b.cell.join()}`));
+    if (!next) break;
+    moves++;
+    const id = `${next.kind}|${next.cell.join()}`;
+    tried.add(id);
+    let cells = avoid.get(next.kind);
+    if (!cells) avoid.set(next.kind, (cells = new Set()));
+    cells.add(next.cell.join());
+    const h = place(def, units, enabled, avoid);
+    if (h.unplaced.length <= best.hatches.unplaced.length) {
+      const p = route(h);
+      const missing = unconnected(p);
+      const cost = networkCost(p);
+      if (
+        h.unplaced.length < best.hatches.unplaced.length ||
+        missing < best.missing ||
+        (missing === best.missing && cost < best.cost)
+      ) {
+        best = { hatches: h, pipes: p, missing, cost };
+        continue;
+      }
+    }
+    cells.delete(next.cell.join());
+  }
+  return { hatches: best.hatches, pipes: best.pipes };
 }

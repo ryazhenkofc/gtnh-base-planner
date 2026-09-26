@@ -1,12 +1,15 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { getSiteDef } from '../data/generic';
   import { t } from '../i18n/en';
+  import { DEFAULT_THETA } from '../render/controls';
   import { groupIndexOfUnit } from '../model/site/build';
   import type { HatchResult, PackResult, RouteNet } from '../model/types';
   import { appMode, flowAnimation, isolate, site, siteGroup, siteNet } from '../state/site';
   import { plan, selectedUnits, viewMode, xray } from '../state/store';
   import { selectMultiblock } from './actions';
   import { isSlowBuild } from './fields';
+  import Footer from './Footer.svelte';
   import ImportDialog from './ImportDialog.svelte';
   import Legend from './Legend.svelte';
   import { clearSlot, notify } from './notices';
@@ -14,9 +17,17 @@
   import Picker from './Picker.svelte';
   import { build } from './pipeline';
   import Scene from './Scene.svelte';
+  import { isArrowKey, screenStep } from './keys';
+  import MoveHint from './MoveHint.svelte';
   import { initSession, startAutosave } from './session';
   import Settings from './Settings.svelte';
-  import { updateSite, withGroupMoved, withGroupPatched, withGroupRotated } from './siteActions';
+  import {
+    updateSite,
+    withGroupMoved,
+    withGroupPatched,
+    withGroupRemoved,
+    withGroupRotated,
+  } from './siteActions';
   import SiteBar from './SiteBar.svelte';
   import { addGroup } from './siteCommands';
   import SiteLegend from './SiteLegend.svelte';
@@ -34,6 +45,9 @@
   let importOpen = $state(false);
   /** Site view: what the multiblock picker is open for. */
   let sitePicker = $state<'add' | 'change' | null>(null);
+
+  /** Camera azimuth: arrow keys move the selected group as seen on screen. */
+  let viewTheta = DEFAULT_THETA;
 
   const def = $derived($build.def);
   const siteMode = $derived($appMode === 'site');
@@ -140,6 +154,26 @@
     );
   }
 
+  /** Delete asks first (links go too and there is no undo): a second press within this time removes. */
+  const DELETE_CONFIRM_MS = 3000;
+  let deleteArmed: { id: string; until: number } | null = null;
+
+  function deleteGroup(gid: string) {
+    const now = Date.now();
+    if (deleteArmed?.id === gid && now < deleteArmed.until) {
+      deleteArmed = null;
+      clearSlot('delete');
+      siteGroup.set(null);
+      updateSite((s) => withGroupRemoved(s, gid));
+      notify(t.site.removed, 3000, 'delete');
+      return;
+    }
+    const g = $site.groups.find((x) => x.id === gid);
+    const name = g?.label ?? (g && getSiteDef(g.multiblockId)?.name) ?? gid;
+    deleteArmed = { id: gid, until: now + DELETE_CONFIRM_MS };
+    notify(t.site.deleteConfirm(name), DELETE_CONFIRM_MS, 'delete');
+  }
+
   function onkeydown(e: KeyboardEvent) {
     if (e.key === 'Escape') {
       if (siteMode) {
@@ -159,20 +193,17 @@
     if (!siteMode || importOpen || sitePicker || typing(e) || e.ctrlKey || e.metaKey || e.altKey) return;
     const gid = $siteGroup;
     if (!gid || !$site.groups.some((g) => g.id === gid)) return;
-    const n = e.shiftKey ? 5 : 1;
-    const moves: Record<string, [number, number]> = {
-      ArrowLeft: [-n, 0],
-      ArrowRight: [n, 0],
-      ArrowUp: [0, -n],
-      ArrowDown: [0, n],
-    };
-    const m = moves[e.key];
-    if (m) {
+    if (isArrowKey(e.key)) {
       e.preventDefault();
-      updateSite((s) => withGroupMoved(s, gid, m[0], m[1]));
+      const n = e.shiftKey ? 5 : 1;
+      const [dx, dz] = screenStep(e.key, viewTheta);
+      updateSite((s) => withGroupMoved(s, gid, dx * n, dz * n));
     } else if (e.key === 'r' || e.key === 'R') {
       e.preventDefault();
       updateSite((s) => withGroupRotated(s, gid));
+    } else if (e.key === 'Delete' || e.key === 'Backspace') {
+      e.preventDefault();
+      deleteGroup(gid);
     }
   }
 </script>
@@ -186,6 +217,7 @@
     xray={$xray}
     selected={siteMode ? siteSelected : $selectedUnits}
     flow={$flowAnimation}
+    onview={(theta) => (viewTheta = theta)}
     {onpick}
     {onpicknet}
     onfail={() => (rendererFailed = true)}
@@ -214,6 +246,7 @@
     {:else}
       <SiteLegend />
       <SiteStats onproblems={() => (sitePanelOpen = true)} />
+      {#if $siteGroup && !importOpen}<MoveHint />{/if}
       {#if sitePanelOpen}
         <SitePanel
           onclose={() => (sitePanelOpen = false)}
@@ -263,6 +296,7 @@
     {/if}
   {/if}
 
+  <Footer />
   <Notices />
 </main>
 

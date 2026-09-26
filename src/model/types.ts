@@ -250,4 +250,9 @@ export interface SceneModel {
   labels?: { pos: [number, number, number]; text: string; color?: string; small?: boolean }[];
   /** Site view: the ground area, drawn as a grid from (0, 0) to `size` on y = 0. */
   site?: { size: [number, number] };
+  /**
+   * Grey dimension lines on the ground plane `y` beside the area from `min` to `max` (x, z): along X
+   * (`labels[0]`, width) by its south edge and along Z (`labels[1]`, depth) by its east edge.
+   */
+  dimensions?: { min: [number, number]; max: [number, number]; y: number; labels: [string, string] };
 }

@@ -6,7 +6,7 @@ The DETAILED view uses block textures from [GT5-Unofficial](https://github.com/G
 by the GregTech: New Horizons team (GregTech 5 by GregoriusT and contributors), licensed under the
 [GNU Lesser General Public License v3.0 (LGPL-3.0)](https://github.com/GTNewHorizons/GT5-Unofficial/blob/master/LICENSE.txt).
 
-- The unmodified source files are kept in [`public/textures/src/`](public/textures/src/). They were downloaded
+- The unmodified source files are kept in [`tools/texture-sources/`](tools/texture-sources/). They were downloaded
   from the `master` branch on 2026-09-26 with `node scripts/build-atlas.mjs --fetch`.
 - [`public/textures/atlas.png`](public/textures/atlas.png) is derived from those files by
   [`scripts/build-atlas.mjs`](scripts/build-atlas.mjs): each icon is cropped to its first 16×16 frame and

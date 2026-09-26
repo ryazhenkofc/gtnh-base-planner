@@ -6,7 +6,7 @@ import textureManifest from './textures.json';
 
 /**
  * UNIT 7 — DETAILED view: textured materials built from GT5-Unofficial PNGs
- * (`public/textures/`, mapping in `src/render/textures.json`). Missing textures fall back to the flat colour.
+ * (`public/textures/atlas.png`, mapping in `src/render/textures.json`). Missing textures fall back to the flat colour.
  *
  * The atlas is decoded once into RGBA pixels; every distinct face (casing tile, casing + controller front,
  * casing + hatch overlays tinted with the hatch colour) is composited in JS into its own small
