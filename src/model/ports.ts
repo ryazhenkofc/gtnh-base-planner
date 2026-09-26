@@ -79,6 +79,8 @@ interface Entry {
   score: number;
   /** Units on the site already served. */
   waste: number;
+  /** 1 when the face used would wall in a pipe (see `walledIn`), else 0. */
+  walled: number;
   /** Index of the open face used, into the site's `faces`. */
   face: number;
   /** That face's position in `FACE_ORDER` (sides before top before bottom). */
@@ -87,7 +89,9 @@ interface Entry {
 
 /** Negative when `a` is the better pick: higher score, then less waste, then a better face, then lower cell. */
 function compareEntries(a: Entry, b: Entry): number {
-  return b.score - a.score || a.waste - b.waste || a.faceRank - b.faceRank || a.i - b.i;
+  return (
+    b.score - a.score || a.waste - b.waste || a.walled - b.walled || a.faceRank - b.faceRank || a.i - b.i
+  );
 }
 
 /** Binary heap with the best entry (by `compareEntries`) on top. */
@@ -247,11 +251,16 @@ function legendKinds(
 }
 
 /**
- * All hatch-able structure cells with at least one open face, sorted by position. Works on a dense box of
- * cells; above `FLOOD_LIMIT` cells (only far-apart manual layouts) it falls back to maps, where any face
- * whose neighbour is not a structure cell counts as open.
+ * All hatch-able structure cells with at least one open face, sorted by position, and a lookup of the
+ * open cells around an empty cell (`null` for one outside the build's box, which is always open; cells in
+ * front of controllers are not open). Works on a dense box of cells; above `FLOOD_LIMIT` cells (only
+ * far-apart manual layouts) it falls back to maps, where any face whose neighbour is not a structure cell
+ * counts as open and the lookup is unavailable.
  */
-function findSites(def: MultiblockDef, units: readonly Unit[]): Site[] {
+function findSites(
+  def: MultiblockDef,
+  units: readonly Unit[],
+): { sites: Site[]; openAround: ((k: CellKey) => (CellKey | null)[]) | null } {
   interface Entry {
     pos: Vec3;
     key: CellKey;
@@ -343,6 +352,7 @@ function findSites(def: MultiblockDef, units: readonly Unit[]): Site[] {
   let solidAt: (p: Vec3, k: CellKey) => boolean;
   let isOutside: (p: Vec3, k: CellKey) => boolean;
   let clearAhead: (p: Vec3, k: CellKey, face: number) => boolean;
+  let openAround: ((k: CellKey) => (CellKey | null)[]) | null = null;
   if (dense) {
     const solid = new Uint8Array(volume);
     for (const k of byKey.keys()) solid[k as number] = 1;
@@ -350,8 +360,28 @@ function findSites(def: MultiblockDef, units: readonly Unit[]): Site[] {
     const steps = boxSteps(box);
     solidAt = (_p, k) => solid[k as number] === 1;
     isOutside = (p, k) => p[1] >= ground && outside[k as number] === 1;
+    openAround = (k) => {
+      const i = k as number;
+      const x = i % box.nx;
+      const z = ((i - x) / box.nx) % box.nz;
+      const y = (i - x - z * box.nx) / (box.nx * box.nz);
+      const out: (CellKey | null)[] = [];
+      for (let face = 0; face < FACE_ORDER.length; face++) {
+        const [vx, vy, vz] = step([0, 0, 0], FACE_ORDER[face]);
+        const [ax, ay, az] = [x + vx, y + vy, z + vz];
+        if (ax < 0 || ay < 0 || az < 0 || ax >= box.nx || ay >= box.ny || az >= box.nz) {
+          if (ay + box.oy >= ground) out.push(null);
+          continue;
+        }
+        const n = i + steps[face];
+        if (ay + box.oy >= ground && outside[n] === 1 && !controllerFronts.has(n)) out.push(n);
+      }
+      return out;
+    };
     clearAhead = (p, k, face) => {
       const dir = FACE_ORDER[face];
+      // Looking down, the ground is as good as a wall.
+      if (dir === 'down' && p[1] - (CLEAR_AHEAD - 1) < ground) return false;
       const v = step([0, 0, 0], dir);
       // Cells left inside the box along this direction; beyond it nothing is solid.
       const left =
@@ -379,6 +409,7 @@ function findSites(def: MultiblockDef, units: readonly Unit[]): Site[] {
     isOutside = (p, k) => p[1] >= ground && !byKey.has(k);
     clearAhead = (p, _k, face) => {
       const dir = FACE_ORDER[face];
+      if (dir === 'down' && p[1] - (CLEAR_AHEAD - 1) < ground) return false;
       for (let n = 1, q = p; n < CLEAR_AHEAD; n++) {
         q = step(q, dir);
         if (byKey.has(packCell(q))) return false;
@@ -411,7 +442,7 @@ function findSites(def: MultiblockDef, units: readonly Unit[]): Site[] {
       blocked: e.blocked,
     });
   }
-  return sites.sort((a, b) => comparePos(a.pos, b.pos));
+  return { sites: sites.sort((a, b) => comparePos(a.pos, b.pos)), openAround };
 }
 
 /**
@@ -459,12 +490,38 @@ export function placeHatches(
 }
 
 function place(def: MultiblockDef, units: readonly Unit[], kinds: HatchKind[]): HatchResult {
-  const sites = findSites(def, units);
+  const { sites, openAround } = findSites(def, units);
   const unitIds = sortedIds(units);
   const shareable = new Set(def.shareableHatches ?? []);
   const used = new Set<CellKey>();
   /** Empty cell in front of a hatch -> kind of that hatch. */
   const fronts = new Map<CellKey, HatchKind>();
+  const around = new Map<CellKey, (CellKey | null)[]>();
+  const openCells = (k: CellKey): (CellKey | null)[] => {
+    let list = around.get(k);
+    if (!list) around.set(k, (list = openAround ? openAround(k) : []));
+    return list;
+  };
+  /** Ways out of the empty cell `k` for a pipe of `kind`: open cells beside it not facing another kind. */
+  const exits = (k: CellKey, kind: HatchKind): number => {
+    let n = 0;
+    for (const c of openCells(k)) if (c === null || (fronts.get(c) ?? kind) === kind) n++;
+    return n;
+  };
+  /**
+   * Whether a hatch of `kind` facing the empty cell `k` would be walled in: `k` has no way out for its pipe,
+   * or `k` is the last way out of the cell in front of a neighbouring hatch of another kind.
+   */
+  const walledIn = (k: CellKey, kind: HatchKind): boolean => {
+    if (!openAround) return false;
+    if (exits(k, kind) === 0) return true;
+    for (const c of openCells(k)) {
+      if (c === null) continue;
+      const other = fronts.get(c);
+      if (other !== undefined && other !== kind && exits(c, other) === 1) return true;
+    }
+    return false;
+  };
   const hatches: HatchPlacement[] = [];
   const unplaced: HatchResult['unplaced'] = [];
 
@@ -493,9 +550,21 @@ function place(def: MultiblockDef, units: readonly Unit[], kinds: HatchKind[]): 
         }
         if (score === 0) return null;
         const blocked = c.blocked.get(kind);
-        const face = c.faces.findIndex((f) => (fronts.get(f.front) ?? kind) === kind && !blocked?.has(f.dir));
+        // The best open face, preferring one whose pipe keeps a way out (and leaves one to its neighbours).
+        let face = -1;
+        let walled = 1;
+        for (let fi = 0; fi < c.faces.length; fi++) {
+          const f = c.faces[fi];
+          if ((fronts.get(f.front) ?? kind) !== kind || blocked?.has(f.dir)) continue;
+          if (face < 0) face = fi;
+          if (!walledIn(f.front, kind)) {
+            face = fi;
+            walled = 0;
+            break;
+          }
+        }
         if (face < 0) return null;
-        return { i, score, waste: c.unitIds.length - score, face, faceRank: c.faces[face].rank };
+        return { i, score, waste: c.unitIds.length - score, walled, face, faceRank: c.faces[face].rank };
       };
 
       // Greedy pick of the best candidate, via a lazy max-heap. A candidate's rank only ever gets worse
