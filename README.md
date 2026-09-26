@@ -94,7 +94,6 @@ src/
 public/        static files copied as-is (favicon, textures)
 e2e/           Playwright tests
 tools/         offline tooling (structure extractor)
-legacy/        the original single-file app, kept for reference
 ```
 
 ## Deployment
