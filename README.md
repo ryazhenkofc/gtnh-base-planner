@@ -2,17 +2,20 @@
 
 A 3D planner for [GregTech: New Horizons](https://github.com/GTNewHorizons/GT-New-Horizons-Modpack) multiblocks that share walls, hatches and pipes. Pick a multiblock, set how many you want, and the planner packs them so compatible casings overlap, places shared hatches and routes pipes between them.
 
-It is a layout tool, not a recipe or production-chain calculator.
+It is a layout tool, not a recipe or production-chain calculator. Structures follow GT:NH **2.9.0-beta-3**
+(GT5-Unofficial 5.09.54.133).
 
 **Live:** <https://ryazhenkofc.github.io/gtnh-wallshare-planner/>
 
 ## Features
 
-- **Catalog of 13 wall-shareable multiblocks** (Coke Oven, EBF, Vacuum Freezer, Distillation Tower, Pyrolyse Oven…) with a picker.
+- **Catalog of 37 multiblocks** with a picker: steam machines (Steam Separator, Grinder, Squasher, Presser, Hearth, Blender, Purifier, Fuser), Coke Oven, EBF, Vacuum Freezer, Distillation Tower, Pyrolyse Oven, Large Boilers, Large Turbines, combustion engines, Assembly Line, Large Fluid Extractor, Industrial Autoclave and more. Almost every GT multiblock can share walls in game (structure checks do not claim casings), so the catalog is limited only by what has been transcribed.
+- **Adjustable sizes** for multiblocks GT builds in variable size: Distillation Tower height (3 to 12) and Assembly Line length (5 to 16).
 - **Auto-packing** of N units with optional limits counted in multiblocks (at most N along X, N layers, N along Z); controllers always face outward, and rows that cannot share a back wall get a one-block walkway. Example: 15 Pyrolyse Ovens with X 5, Layers 1, Z 3 give three rows of five.
 - **Shared walls**: blocks that coincide in the same cell are counted once; incompatible overlaps are highlighted.
 - **Hatches**: enable hatch kinds per plan; shareable hatches serve several controllers from one block. A hatch faces open space rather than a gap between units, and never the ground: the build stands on its lowest layer.
-- **Pipe routing** per hatch kind, with length estimates and a warning for hatches left unconnected. Bends are priced in (Dijkstra over cell + direction), so pipes run in straight trunks: about half the bends of plain shortest paths, usually with fewer pipe blocks. A pipe may reach a hatch from any open side (the hatch is turned to face it, as with a wrench in game), and pipes never go underground.
+- **Pipe routing** per hatch kind (items, fluids, steam), with length estimates and a warning for hatches left unconnected. Bends are priced in (Dijkstra over cell + direction), so pipes run in straight trunks: about half the bends of plain shortest paths, usually with fewer pipe blocks. A pipe may reach a hatch from any open side (the hatch is turned to face it, as with a wrench in game), and pipes never go underground.
+- **Cable routing**: the Cables toggle connects energy hatches (and dynamo hatches of generators) with thinner cables, like pipes.
 - **SIMPLE / DETAILED view**: flat colours, or real GregTech textures.
 - **Stats line**: units, unique blocks, shared walls, hatches and how many blocks sharing saves.
 - **Save and share**: autosave in the browser, JSON download/upload, and share links.
@@ -21,7 +24,7 @@ It is a layout tool, not a recipe or production-chain calculator.
 
 1. Choose a multiblock in the catalog.
 2. Set the count and, if needed, the maximum footprint.
-3. Toggle hatch kinds and pipes; switch between SIMPLE and DETAILED.
+3. Set the height or length of a resizable multiblock; toggle hatch kinds, pipes and cables; switch between SIMPLE and DETAILED.
 4. Drag to orbit, scroll or pinch to zoom, right-drag to pan, double-click to reset. Click a block to select its unit.
 5. Copy a share link, or download the plan as JSON.
 
@@ -44,9 +47,16 @@ Each multiblock is one JSON file in [`src/data/multiblocks/`](src/data/multibloc
 | `requiredHatches`    | Optional `{ min, max }` per hatch kind and unit.                                             |
 | `defaultHatches`     | Hatch kinds enabled in a new plan.                                                           |
 | `wallshare`          | Whether casings of two units may overlap when the blocks match.                              |
+| `resize`             | Optional variable size: `{ axis, from, to, min, max, default, label }`, see below.           |
 | `notes`              | Free-text notes: game version, quirks, hatch behaviour.                                      |
 
 Coordinates follow Minecraft: X = east, Y = up, Z = south.
+
+**Variable size.** A multiblock that GT builds in several sizes stores its smallest form (`size[axis] === min`)
+with one copy of a repeating slab `[from, to)` along `axis`. A plan's height or length inserts more copies after
+it (`sizedDef` in [`src/model/resize.ts`](src/model/resize.ts)). A slab cell with a `region` gets one numbered
+region per copy (`layer` → `layer1`, `layer2`, …), and `requiredHatches.*.regions` naming it grow to match, so
+the Distillation Tower keeps one output hatch per layer. Never change `default`: plans without a size use it.
 
 **Adding a multiblock**
 
