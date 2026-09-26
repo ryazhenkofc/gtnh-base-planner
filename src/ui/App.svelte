@@ -6,7 +6,7 @@
   import { appMode, flowAnimation, isolate, site, siteGroup, siteNet } from '../state/site';
   import { plan, selectedUnits, viewMode, xray } from '../state/store';
   import { selectMultiblock } from './actions';
-  import { COUNT_SLOW } from './fields';
+  import { isSlowBuild } from './fields';
   import ImportDialog from './ImportDialog.svelte';
   import Legend from './Legend.svelte';
   import { clearSlot, notify } from './notices';
@@ -60,7 +60,7 @@
   let lastHatches: HatchResult | null = null;
   let lastPipes: RouteNet[] | null = null;
   $effect(() => {
-    const { pack, hatches, pipes, loosened } = $build;
+    const { def, pack, hatches, pipes, loosened } = $build;
     if (siteMode) return;
     // Each warning has its own slot, so a fixed problem's stale warning disappears with the next result.
     if (pack !== lastPack) {
@@ -68,7 +68,8 @@
         notify(t.placedFewer(pack.placed, pack.requested, pack.reason), 6000, 'pack');
       else if (loosened) notify(t.spacedOut(pipes !== null), 5000, 'pack');
       else clearSlot('pack');
-      if (pack && pack.requested > COUNT_SLOW) notify(t.manyUnits(pack.requested), 8000, 'count');
+      if (pack && def && isSlowBuild(pack.requested, def.size))
+        notify(t.manyUnits(pack.requested), 8000, 'count');
       else clearSlot('count');
     }
     if (hatches !== lastHatches) {

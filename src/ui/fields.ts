@@ -8,6 +8,13 @@ export const COUNT_MIN = 1;
 export const COUNT_MAX = 2000;
 /** Above this many units, layout, pipes and drawing may take a while (the app says so). */
 export const COUNT_SLOW = 200;
+/** The same for fewer, larger units: above this many cells of their bounding boxes in total. */
+export const VOLUME_SLOW = 1_500_000;
+
+/** Whether `count` units of a multiblock of this size make a build that is slow to plan and draw. */
+export function isSlowBuild(count: number, size: readonly [number, number, number]): boolean {
+  return count > COUNT_SLOW || count * size[0] * size[1] * size[2] > VOLUME_SLOW;
+}
 export const LIMIT_MIN = 1;
 /** Limits are unit counts per axis, so more than the maximum count never matters. */
 export const LIMIT_MAX = COUNT_MAX;
