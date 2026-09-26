@@ -4,6 +4,7 @@
   import { plan, viewMode } from '../state/store';
   import { setCount } from './actions';
   import { COUNT_MAX, COUNT_MIN, parseCount } from './fields';
+  import ModeSwitch from './ModeSwitch.svelte';
   import NumberField from './NumberField.svelte';
 
   interface Props {
@@ -61,6 +62,8 @@
   </div>
 
   <div class="group modes">
+    <ModeSwitch />
+    <span class="sep dot" aria-hidden="true">{t.separator}</span>
     <button
       class="link"
       class:active={$viewMode === 'simple'}

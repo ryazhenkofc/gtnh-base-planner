@@ -1,0 +1,289 @@
+import { getSiteDef } from '../data/generic';
+import { fallbackColor } from '../import/gtnhplanner';
+import { arrangeSite } from '../model/site/arrange';
+import { IO_KINDS } from '../model/site/group';
+import type { Endpoint, ResourceKind, SiteGroup, SiteState } from '../model/site/types';
+import { effectiveSize } from '../model/resize';
+import type { PlanLimits, PlanState, Rotation } from '../model/types';
+import {
+  MAX_CORRIDOR,
+  MAX_GROUPS,
+  MAX_LINKS,
+  MAX_PORTS,
+  SITE_MAX_SIZE,
+  SITE_MIN_SIZE,
+  emptySite,
+} from '../share/siteCodec';
+import { isolate, site, siteGroup, siteNet } from '../state/site';
+import { clampCount } from './fields';
+
+/* Pure site transforms (tested) + thin store wrappers used by the site components. */
+
+function nextId(prefix: string, taken: Iterable<string>): string {
+  const used = new Set(taken);
+  for (let i = 1; ; i++) if (!used.has(`${prefix}${i}`)) return `${prefix}${i}`;
+}
+
+const clampInt = (n: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, Math.round(n)));
+
+/** Drops ports no link uses and resources nothing uses. */
+export function pruned(s: SiteState): SiteState {
+  const portIds = new Set(
+    s.links.flatMap((l) => [l.from, l.to]).flatMap((e) => ('port' in e ? [e.port] : [])),
+  );
+  const ports = s.ports.filter((p) => portIds.has(p.id));
+  const used = new Set([...s.links.map((l) => l.resource), ...ports.map((p) => p.resource)]);
+  const resources = Object.fromEntries(Object.entries(s.resources).filter(([k]) => used.has(k)));
+  return { ...s, ports, resources };
+}
+
+/** A new group of `multiblockId` at `origin` (default: east of every group). */
+export function withGroupAdded(s: SiteState, multiblockId: string, origin?: [number, number]): SiteState {
+  const def = getSiteDef(multiblockId);
+  if (!def || s.groups.length >= MAX_GROUPS) return s;
+  const g: SiteGroup = {
+    id: nextId(
+      'g',
+      s.groups.map((x) => x.id),
+    ),
+    multiblockId,
+    count: 1,
+    limits: { x: null, y: 1, z: null },
+    enabledHatches: def.defaultHatches.filter((k) => !IO_KINDS.includes(k)),
+    origin: origin ?? [3, 3],
+    rotation: 0,
+  };
+  return { ...s, groups: [...s.groups, g] };
+}
+
+/** The current single-machine plan as a new site group. */
+export function withPlanAdded(s: SiteState, p: PlanState, origin?: [number, number]): SiteState {
+  const added = withGroupAdded(s, p.multiblockId, origin);
+  if (added === s) return s;
+  const g = added.groups[added.groups.length - 1];
+  const next: SiteGroup = {
+    ...g,
+    count: p.count,
+    limits: { ...p.limits },
+    enabledHatches: p.enabledHatches.filter((k) => !IO_KINDS.includes(k)),
+  };
+  if (p.size !== undefined) next.size = p.size;
+  return { ...added, groups: [...added.groups.slice(0, -1), next] };
+}
+
+export function withGroupRemoved(s: SiteState, id: string): SiteState {
+  if (!s.groups.some((g) => g.id === id)) return s;
+  const touches = (e: Endpoint) => 'group' in e && e.group === id;
+  return pruned({
+    ...s,
+    groups: s.groups.filter((g) => g.id !== id),
+    links: s.links.filter((l) => !touches(l.from) && !touches(l.to)),
+  });
+}
+
+export interface GroupPatch {
+  multiblockId?: string;
+  count?: number;
+  size?: number;
+  limits?: PlanLimits;
+  origin?: [number, number];
+  rotation?: Rotation;
+  label?: string | null;
+}
+
+export function withGroupPatched(s: SiteState, id: string, patch: GroupPatch): SiteState {
+  let changed = false;
+  const groups = s.groups.map((g) => {
+    if (g.id !== id) return g;
+    const next: SiteGroup = { ...g };
+    if (patch.multiblockId !== undefined && patch.multiblockId !== g.multiblockId) {
+      const def = getSiteDef(patch.multiblockId);
+      if (def) {
+        next.multiblockId = patch.multiblockId;
+        next.enabledHatches = def.defaultHatches.filter((k) => !IO_KINDS.includes(k));
+        delete next.size;
+        delete next.label;
+      }
+    }
+    if (patch.count !== undefined) next.count = clampCount(patch.count);
+    if (patch.size !== undefined) {
+      const def = getSiteDef(next.multiblockId);
+      const size = def ? effectiveSize(def, patch.size) : undefined;
+      if (size !== undefined) next.size = size;
+    }
+    if (patch.limits) next.limits = { ...patch.limits };
+    if (patch.origin)
+      next.origin = [
+        clampInt(patch.origin[0], -SITE_MAX_SIZE, 2 * SITE_MAX_SIZE),
+        clampInt(patch.origin[1], -SITE_MAX_SIZE, 2 * SITE_MAX_SIZE),
+      ];
+    if (patch.rotation !== undefined) next.rotation = (((patch.rotation % 4) + 4) % 4) as Rotation;
+    if (patch.label === null || patch.label === '') delete next.label;
+    else if (patch.label !== undefined) next.label = patch.label.slice(0, 120);
+    changed = JSON.stringify(next) !== JSON.stringify(g);
+    return next;
+  });
+  return changed ? { ...s, groups } : s;
+}
+
+export function withGroupMoved(s: SiteState, id: string, dx: number, dz: number): SiteState {
+  const g = s.groups.find((x) => x.id === id);
+  return g ? withGroupPatched(s, id, { origin: [g.origin[0] + dx, g.origin[1] + dz] }) : s;
+}
+
+export function withGroupRotated(s: SiteState, id: string): SiteState {
+  const g = s.groups.find((x) => x.id === id);
+  return g ? withGroupPatched(s, id, { rotation: ((g.rotation + 1) % 4) as Rotation }) : s;
+}
+
+/** One end of a new link: a group, or a boundary port (created on demand, one per direction and resource). */
+export type LinkEnd = { group: string } | { port: true };
+
+export type ResourceChoice = { key: string } | { name: string; kind: ResourceKind };
+
+function slug(name: string): string {
+  return (
+    name
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '')
+      .slice(0, 60) || 'resource'
+  );
+}
+
+export function withLinkAdded(
+  s: SiteState,
+  from: LinkEnd,
+  to: LinkEnd,
+  res: ResourceChoice,
+  rate?: number,
+): SiteState {
+  if (s.links.length >= MAX_LINKS) return s;
+  if ('port' in from && 'port' in to) return s;
+  let resources = s.resources;
+  let key: string;
+  if ('key' in res) {
+    if (!s.resources[res.key]) return s;
+    key = res.key;
+  } else {
+    const name = res.name.trim().slice(0, 120);
+    if (!name) return s;
+    const existing = Object.entries(s.resources).find(
+      ([, r]) => r.kind === res.kind && r.name.toLowerCase() === name.toLowerCase(),
+    );
+    if (existing) key = existing[0];
+    else {
+      const base = res.kind === 'power' ? 'power:eu' : `${res.kind}:${slug(name)}`;
+      key = base;
+      for (let i = 2; resources[key]; i++) key = `${base}-${i}`;
+      resources = {
+        ...resources,
+        [key]: { kind: res.kind, name, color: res.kind === 'power' ? '#e8c547' : fallbackColor(key) },
+      };
+    }
+  }
+  let ports = s.ports;
+  const endpoint = (end: LinkEnd, dir: 'in' | 'out'): Endpoint | null => {
+    if ('group' in end) return s.groups.some((g) => g.id === end.group) ? { group: end.group } : null;
+    const found = ports.find((p) => p.dir === dir && p.resource === key && !p.void);
+    if (found) return { port: found.id };
+    if (ports.length >= MAX_PORTS) return null;
+    const id = nextId(
+      dir,
+      ports.map((p) => p.id),
+    );
+    ports = [...ports, { id, dir, resource: key }];
+    return { port: id };
+  };
+  const a = endpoint(from, 'in');
+  const b = endpoint(to, 'out');
+  if (!a || !b) return s;
+  if ('group' in a && 'group' in b && a.group === b.group) return s;
+  const dup = s.links.some(
+    (l) =>
+      JSON.stringify(l.from) === JSON.stringify(a) &&
+      JSON.stringify(l.to) === JSON.stringify(b) &&
+      l.resource === key,
+  );
+  if (dup) return s;
+  const link = {
+    id: nextId(
+      'l',
+      s.links.map((l) => l.id),
+    ),
+    from: a,
+    to: b,
+    resource: key,
+    ...(rate !== undefined && rate > 0 ? { rate } : {}),
+  };
+  return { ...s, resources, ports, links: [...s.links, link] };
+}
+
+export function withLinkRemoved(s: SiteState, id: string): SiteState {
+  if (!s.links.some((l) => l.id === id)) return s;
+  return pruned({ ...s, links: s.links.filter((l) => l.id !== id) });
+}
+
+export function withResourceColor(s: SiteState, key: string, color: string): SiteState {
+  const r = s.resources[key];
+  if (!r || !/^#[0-9a-f]{6}$/i.test(color)) return s;
+  return { ...s, resources: { ...s.resources, [key]: { ...r, color: color.toLowerCase() } } };
+}
+
+export function withSiteSize(s: SiteState, w: number, d: number): SiteState {
+  const size: [number, number] = [
+    clampInt(w, SITE_MIN_SIZE, SITE_MAX_SIZE),
+    clampInt(d, SITE_MIN_SIZE, SITE_MAX_SIZE),
+  ];
+  if (size[0] === s.size[0] && size[1] === s.size[1]) return s;
+  // Explicit port positions outside the new size fall back to automatic placement.
+  const ports = s.ports.map((p) => {
+    if (!p.pos || (p.pos[0] < size[0] && p.pos[1] < size[1])) return p;
+    const q = { ...p };
+    delete q.pos;
+    return q;
+  });
+  return { ...s, size, ports };
+}
+
+export function withCorridor(s: SiteState, n: number): SiteState {
+  const corridor = clampInt(n, 0, MAX_CORRIDOR);
+  return corridor === s.corridor ? s : { ...s, corridor };
+}
+
+export function withName(s: SiteState, name: string): SiteState {
+  const n = name.trim().slice(0, 120);
+  const next = { ...s };
+  if (n) next.name = n;
+  else delete next.name;
+  return next;
+}
+
+/** Auto-arranged groups; `footprints` are the local [x, z] sizes of the built groups. */
+export function withArranged(
+  s: SiteState,
+  footprints: Map<string, [number, number]>,
+): { site: SiteState; fits: boolean; needed: [number, number] } {
+  const r = arrangeSite(s, (id) => footprints.get(id));
+  return { site: { ...s, groups: r.groups }, fits: r.fits, needed: r.needed };
+}
+
+// Store wrappers
+
+const clearSelection = () => {
+  siteGroup.set(null);
+  siteNet.set(null);
+  isolate.set(null);
+};
+
+export function replaceSite(next: SiteState): void {
+  clearSelection();
+  site.set(next);
+}
+
+export function resetSite(): void {
+  const s = emptySite();
+  replaceSite(s);
+}
+
+export const updateSite = (fn: (s: SiteState) => SiteState) => site.update(fn);

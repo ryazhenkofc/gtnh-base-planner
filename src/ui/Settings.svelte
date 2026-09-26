@@ -9,6 +9,7 @@
   import NumberField from './NumberField.svelte';
   import { mergeColors } from './pipeline';
   import { copyShareLink, downloadJson, openJsonFile, shareFallback } from './session';
+  import { addPlanToSite } from './siteCommands';
 
   interface Props {
     def: MultiblockDef | undefined;
@@ -187,6 +188,9 @@
       {/if}
       <li class="row">
         <button class="link" onclick={downloadJson}>{t.downloadJson}</button>
+      </li>
+      <li class="row">
+        <button class="link" data-testid="add-to-site" onclick={addPlanToSite}>{t.site.addToSite}</button>
       </li>
       <li class="row">
         <button class="link" onclick={() => fileInput?.click()}>{t.uploadJson}</button>

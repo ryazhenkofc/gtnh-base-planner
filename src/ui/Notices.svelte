@@ -2,6 +2,7 @@
   import { t } from '../i18n/en';
   import { dismissNotice, notices } from './notices';
   import { answerShared, pendingShared } from './session';
+  import { answerSharedSite, pendingSite } from './siteSession';
 </script>
 
 <div class="notices" role="status" aria-live="polite">
@@ -10,6 +11,13 @@
       <span>{t.sharedPrompt}</span>
       <button class="link active" onclick={() => answerShared(true)}>{t.sharedOpen}</button>
       <button class="link" onclick={() => answerShared(false)}>{t.sharedKeep}</button>
+    </p>
+  {/if}
+  {#if $pendingSite}
+    <p class="notice confirm" data-testid="shared-site-confirm">
+      <span>{t.site.sharedPrompt}</span>
+      <button class="link active" onclick={() => answerSharedSite(true)}>{t.sharedOpen}</button>
+      <button class="link" onclick={() => answerSharedSite(false)}>{t.sharedKeep}</button>
     </p>
   {/if}
   {#each $notices as n (n.id)}

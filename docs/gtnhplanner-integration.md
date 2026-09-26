@@ -1,6 +1,6 @@
 # Plan: GTNH Planner integration and multi-machine sites
 
-Status: proposal, nothing implemented yet.
+Status: milestones 1–6 are implemented (see "What was built" at the end). Milestone 7 waits on GTNH Planner.
 
 Goal: take a production chain from [GTNH Planner](https://gtnhplanner.com) (a flowchart of recipes, machine
 counts and item/fluid flows), turn every recipe node into a group of our multiblocks, place the groups on a
@@ -219,3 +219,28 @@ Each milestone ships on its own, with `npm run check && npm test` green and e2e 
    per-site "items via ME" toggle would turn item links into interface markers instead of routes.
 4. Is anyone in touch with the GTNH Planner maintainers about CORS or a read-only export?
 5. We need one or two real exported plans (their **Export JSON**) to use as test fixtures.
+
+## 10. What was built
+
+Milestones 1–6, with these choices where the plan left a question open or the code suggested another way:
+
+- **A separate site format instead of `PlanState` v2.** The single-machine view, its links (`#p=`) and saved
+  plans are untouched. A site is its own state (`src/model/site/types.ts`), validated by
+  `src/share/siteCodec.ts`, saved under `gtnh-planner:site:v1` and shared as `#s=`. The top bar switches between
+  MACHINE and SITE, and SETTINGS → ADD TO SITE turns the current plan into a group.
+- **Site size** is configurable (8–128 per side), 30 × 30 by default, with a corridor setting (default 2). There
+  is no height limit; pipes may pass up to 3 blocks above the tallest group.
+- **Groups do not share walls with other groups** (overlaps are reported). Groups share walls inside themselves
+  as before.
+- **Items travel in pipes** like fluids; there is no ME mode yet.
+- **Routing** (`src/model/site/router.ts`) is net-based: one net per resource and connected set of links, grown
+  as a bend-priced shortest-path tree, then up to four rounds of rip-up and negotiated rerouting (contested
+  cells get more expensive). On the test chain every terminal connects in about 120 ms; the rare leftovers are
+  listed under PROBLEMS.
+- **Moving groups** is done with the arrow keys, R and the X/Z fields rather than by dragging in 3D.
+- **Ports** are placed automatically on the west (inputs) and east (outputs) edges, next to the groups they
+  serve; the format keeps an optional explicit position for later.
+- **Rates** come only from GTNH Planner edges (shown in the link list and the bottom line); they are not
+  recomputed from recipes.
+- The **import fixture** (`src/import/__fixtures__/gtnhplanner-titanium.json`) is hand-written to the schema.
+  A real Export JSON should be added as a second fixture.

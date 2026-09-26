@@ -19,6 +19,13 @@ It is a layout tool, not a recipe or production-chain calculator. Structures fol
 - **SIMPLE / DETAILED view**: flat colours, or real GregTech textures.
 - **Stats line**: units, unique blocks, shared walls, hatches and how many blocks sharing saves.
 - **Save and share**: autosave in the browser, JSON download/upload, and share links.
+- **Sites** (the SITE view): several groups of multiblocks on a bounded ground area (30 × 30 by default), joined by
+  links that each carry one item, fluid or EU. Every group gets one hatch per resource it takes or gives, pipes are
+  routed between groups and to input/output ports on the site edges, and animated arrows show which way each
+  pipe flows. Groups can be arranged automatically along the flow, moved and turned by hand.
+- **GTNH Planner import**: open a chain exported from [GTNH Planner](https://gtnhplanner.com) (its board's
+  Export JSON) and it becomes a site: one group per recipe node, links from its edges, ports for whatever enters
+  or leaves the chain.
 
 ## How to use
 
@@ -29,6 +36,24 @@ It is a layout tool, not a recipe or production-chain calculator. Structures fol
 5. Copy a share link, or download the plan as JSON.
 
 The planner checks layout rules for the transcribed structure only. It is not a full in-game build validation.
+
+### Sites
+
+1. Switch to SITE in the top bar. Use SITE (top right) to open the site panel.
+2. Import a chain (IMPORT FROM GTNH PLANNER), or build one by hand: ADD MULTIBLOCK, then ADD LINK with a start
+   (a group or SITE INPUT), an end (a group or SITE OUTPUT) and a resource. In the single-machine view, SETTINGS →
+   ADD TO SITE copies the current plan into the site as a group.
+3. ARRANGE lays the groups out west to east along the flow. Select a group (click it, or pick it in the panel)
+   and move it with the arrow keys (Shift: 5 blocks) or R to turn it; X and Z in the panel place it exactly.
+4. Click a pipe or a legend entry to highlight one resource; the other nets fade. The bottom line shows the
+   selected group or net, and PROBLEMS lists overlaps, groups outside the site, hatches that did not fit and
+   pipes that could not be routed.
+
+In the import dialog every recipe node can be placed as a catalog multiblock, a single-block machine (a
+1-block machine whose faces take the pipes), a placeholder (a 3×3×3 stand-in for a multiblock not in the catalog
+yet), a site port (passive sources such as crops, bees and ore veins) or skipped. The machine name mapping lives
+in [`src/data/gtnhplanner-machines.ts`](src/data/gtnhplanner-machines.ts). Storages between machines are passed
+through; product drains become output ports, trash drains void ports. Thaumcraft aspect flows are left out.
 
 ## Data model
 
@@ -72,7 +97,10 @@ DETAILED view uses block textures from [GT5-Unofficial](https://github.com/GTNew
 
 ## Privacy
 
-There is no server, account or tracking. Plans are stored in your browser's `localStorage`. A share link carries the compressed plan in the URL fragment (`#p=...`); browsers never send the fragment to the server, so the host only sees a request for the page.
+There is no server, account or tracking. Plans are stored in your browser's `localStorage`. A share link carries the compressed plan in the URL fragment (`#p=...`, or `#s=...` for a site); browsers never send the fragment to the server, so the host only sees a request for the page.
+
+The GTNH Planner import reads the file you open or paste in the browser. It makes no request to gtnhplanner.com
+(its API does not allow requests from other sites), and item icons are not loaded: resources show as colours.
 
 ## Development
 
@@ -96,6 +124,8 @@ Stack: TypeScript, Svelte 5, Three.js, Vite.
 src/
   data/        block registry, catalog, multiblocks/*.json
   model/       pure logic: geometry, layout, walls, hatches (ports), routing, scene model
+    site/      sites: group builds, net router, auto-arrange, site scene
+  import/      GTNH Planner project import
   render/      Three.js renderer, SIMPLE and DETAILED materials, texture mapping
   share/       share-link codec and local persistence
   state/       app store
