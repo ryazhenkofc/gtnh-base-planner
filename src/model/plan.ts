@@ -48,6 +48,11 @@ export function resolveLayout(
   }
 
   let best = { units: base.units, hatches: first, layers: layers(base.units) };
+  // No layout within the limits has fewer layers than this.
+  const cap = (v: number | null) =>
+    v === null || !Number.isFinite(v) ? Infinity : Math.max(1, Math.floor(v));
+  const perLayer = cap(limits.x) * cap(limits.z);
+  const fewestLayers = Math.max(1, Math.ceil(base.units.length / perLayer));
   let tries = 0;
   for (const units of deps.layoutCandidates(def, base.placed, limits)) {
     if (sameLayout(units, base.units)) continue;
@@ -59,8 +64,9 @@ export function resolveLayout(
       hatches.unplaced.length < best.hatches.unplaced.length ||
       (hatches.unplaced.length === best.hatches.unplaced.length && h < best.layers);
     if (better) best = { units, hatches, layers: h };
-    // A single-layer layout with every hatch placed cannot be beaten by a later (less compact) one.
-    if (best.hatches.unplaced.length === 0 && best.layers === 1) break;
+    // A layout with every hatch placed on as few layers as the limits allow cannot be beaten by a later
+    // (less compact) one.
+    if (best.hatches.unplaced.length === 0 && best.layers <= fewestLayers) break;
   }
   const loosened = best.units !== base.units;
   return { pack: loosened ? { ...base, units: best.units } : base, hatches: best.hatches, loosened };
@@ -101,6 +107,12 @@ export interface ResolvedRoutedLayout extends ResolvedLayout {
 /** How many looser layouts to route before settling for the one with the fewest unconnected hatches. */
 export const MAX_ROUTED_TRIES = 12;
 
+/**
+ * Negotiation rounds for each layout tried: most layouts whose pipes fit settle in a few rounds, and the
+ * rounds spent on ones that never settle are what makes resolving slow.
+ */
+export const TRIAL_ROUNDS = 8;
+
 /** Hatches the networks leave unconnected. */
 export function unconnected(nets: readonly RouteNet[]): number {
   return nets.reduce((n, r) => n + r.total - r.connected, 0);
@@ -124,7 +136,8 @@ export function resolveRoutedLayout(
   maxTries = MAX_ROUTED_TRIES,
 ): ResolvedRoutedLayout {
   const start = resolveLayout(def, base, enabled, limits, deps);
-  const route = (units: Unit[], hatches: HatchResult) => deps.routePipes(def, units, hatches.hatches, opts);
+  const trial = { ...opts, rounds: Math.min(opts.rounds ?? TRIAL_ROUNDS, TRIAL_ROUNDS) };
+  const route = (units: Unit[], hatches: HatchResult) => deps.routePipes(def, units, hatches.hatches, trial);
   const first = route(start.pack.units, start.hatches);
   let best = { units: start.pack.units, hatches: start.hatches, pipes: first, missing: unconnected(first) };
   if (best.missing > 0 && maxTries > 0) {
@@ -141,6 +154,12 @@ export function resolveRoutedLayout(
         best = { units, hatches, pipes, missing };
       if (best.missing === 0) break;
     }
+  }
+  if (best.missing > 0 && trial.rounds !== opts.rounds) {
+    // Nothing fit in the trial rounds: give the best layout the full negotiation.
+    const pipes = deps.routePipes(def, best.units, best.hatches.hatches, opts);
+    const missing = unconnected(pipes);
+    if (missing < best.missing) best = { ...best, pipes, missing };
   }
   if (best.units === start.pack.units) return { ...start, pipes: best.pipes };
   return {

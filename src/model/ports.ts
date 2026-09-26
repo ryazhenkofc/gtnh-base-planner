@@ -279,6 +279,8 @@ function findSites(
   sites: Site[];
   openAround: ((k: CellKey) => (CellKey | null)[]) | null;
   nearby: ((k: CellKey) => number[]) | null;
+  /** Cells in the dense box (keys are indices below it), or 0 for the map fallback. */
+  volume: number;
 } {
   interface Entry {
     pos: Vec3;
@@ -492,7 +494,12 @@ function findSites(
       blocked: e.blocked,
     });
   }
-  return { sites: sites.sort((a, b) => comparePos(a.pos, b.pos)), openAround, nearby };
+  return {
+    sites: sites.sort((a, b) => comparePos(a.pos, b.pos)),
+    openAround,
+    nearby,
+    volume: solidDense ? volume : 0,
+  };
 }
 
 /**
@@ -540,12 +547,19 @@ export function placeHatches(
 }
 
 function place(def: MultiblockDef, units: readonly Unit[], kinds: HatchKind[]): HatchResult {
-  const { sites, openAround, nearby } = findSites(def, units);
+  const { sites, openAround, nearby, volume } = findSites(def, units);
   const unitIds = sortedIds(units);
   const shareable = new Set(def.shareableHatches ?? []);
   const used = new Set<CellKey>();
   /** Empty cell in front of a hatch -> kind of that hatch. */
-  const fronts = new Map<CellKey, HatchKind>();
+  const frontMap = new Map<CellKey, HatchKind>();
+  const frontIndex = volume > 0 ? new Int8Array(volume).fill(-1) : null;
+  /** Kind of the hatch facing the empty cell `k`, if any. */
+  const frontOf = (k: CellKey): HatchKind | undefined => {
+    if (!frontIndex) return frontMap.get(k);
+    const i = frontIndex[k as number];
+    return i < 0 ? undefined : HATCH_PRIORITY[i];
+  };
   const around = new Map<CellKey, (CellKey | null)[]>();
   const openCells = (k: CellKey): (CellKey | null)[] => {
     let list = around.get(k);
@@ -555,7 +569,7 @@ function place(def: MultiblockDef, units: readonly Unit[], kinds: HatchKind[]): 
   /** Ways out of the empty cell `k` for a pipe of `kind`: open cells beside it not facing another kind. */
   const exits = (k: CellKey, kind: HatchKind): number => {
     let n = 0;
-    for (const c of openCells(k)) if (c === null || (fronts.get(c) ?? kind) === kind) n++;
+    for (const c of openCells(k)) if (c === null || (frontOf(c) ?? kind) === kind) n++;
     return n;
   };
   /**
@@ -567,7 +581,7 @@ function place(def: MultiblockDef, units: readonly Unit[], kinds: HatchKind[]): 
     if (exits(k, kind) === 0) return true;
     for (const c of openCells(k)) {
       if (c === null) continue;
-      const other = fronts.get(c);
+      const other = frontOf(c);
       if (other !== undefined && other !== kind && exits(c, other) === 1) return true;
     }
     return false;
@@ -580,7 +594,7 @@ function place(def: MultiblockDef, units: readonly Unit[], kinds: HatchKind[]): 
     if (!list) close.set(k, (list = nearby(k)));
     let n = 0;
     for (const c of list) {
-      const other = fronts.get(c);
+      const other = frontOf(c);
       if (other !== undefined && other !== kind) n++;
     }
     return n;
@@ -620,7 +634,7 @@ function place(def: MultiblockDef, units: readonly Unit[], kinds: HatchKind[]): 
         let crowded = Infinity;
         for (let fi = 0; fi < c.faces.length; fi++) {
           const f = c.faces[fi];
-          if ((fronts.get(f.front) ?? kind) !== kind || blocked?.has(f.dir)) continue;
+          if ((frontOf(f.front) ?? kind) !== kind || blocked?.has(f.dir)) continue;
           const w = walledIn(f.front, kind) ? 1 : 0;
           const n = crowd(f.front, kind);
           const better =
@@ -633,6 +647,8 @@ function place(def: MultiblockDef, units: readonly Unit[], kinds: HatchKind[]): 
             face = fi;
             walled = w;
             crowded = n;
+            // Faces come open ones first: an uncrowded open face that walls nothing in is the best one.
+            if (w === 0 && n === 0 && openRank(f.rank) === 0) break;
           }
         }
         if (face < 0) return null;
@@ -668,7 +684,8 @@ function place(def: MultiblockDef, units: readonly Unit[], kinds: HatchKind[]): 
         const best = candidates[now.i];
         const bestFace = best.faces[now.face];
         used.add(best.key);
-        fronts.set(bestFace.front, kind);
+        if (frontIndex) frontIndex[bestFace.front as number] = HATCH_PRIORITY.indexOf(kind);
+        else frontMap.set(bestFace.front, kind);
         for (const id of best.unitIds) count.set(id, (count.get(id) ?? 0) + 1);
         served(best);
         hatches.push({ kind, cell: best.pos, face: bestFace.dir, unitIds: [...best.unitIds] });

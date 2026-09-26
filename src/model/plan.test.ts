@@ -4,6 +4,7 @@ import { layoutCandidates, loosenings, packUnits } from './layout';
 import {
   resolveLayout,
   resolveRoutedLayout,
+  TRIAL_ROUNDS,
   unconnected,
   type LayoutDeps,
   type RoutedLayoutDeps,
@@ -153,13 +154,14 @@ describe('resolveRoutedLayout', () => {
   }, 60_000);
 
   it('routes the loosest layout even when the tries run out, and keeps the best', () => {
+    // Layouts are tried with a few negotiation rounds; the best gets the full negotiation at the end.
     const def = getMultiblock('coke-oven')!;
     const base = { units: [{ id: 0, origin: [0, 0, 0], rotation: 0 }] as Unit[], requested: 1, placed: 1 };
     const at = (x: number): Unit[] => [{ id: 0, origin: [x, 0, 0], rotation: 0 }];
     const net = (connected: number): RouteNet[] => [
       { kind: 'itemIn', paths: [], length: 0, connected, total: 2 },
     ];
-    const routedAt: number[] = [];
+    const routedAt: [number, number | undefined][] = [];
     const r = resolveRoutedLayout(
       def,
       base,
@@ -172,15 +174,20 @@ describe('resolveRoutedLayout', () => {
         loosenings: function* () {
           for (let x = 1; x <= 5; x++) yield at(x);
         },
-        routePipes: (_d, units) => {
+        routePipes: (_d, units, _h, opts) => {
           const x = units[0].origin[0];
-          routedAt.push(x);
+          routedAt.push([x, opts.rounds]);
           return net(x === 2 ? 1 : 0);
         },
       },
       2,
     );
-    expect(routedAt).toEqual([0, 1, 5]);
+    expect(routedAt).toEqual([
+      [0, TRIAL_ROUNDS],
+      [1, TRIAL_ROUNDS],
+      [5, TRIAL_ROUNDS],
+      [0, undefined],
+    ]);
     expect(r.pack.units[0].origin[0]).toBe(0);
     expect(r.loosened).toBe(false);
     expect(unconnected(r.pipes)).toBe(2);
