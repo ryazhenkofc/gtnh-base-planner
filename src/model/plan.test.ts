@@ -142,8 +142,9 @@ describe('resolveRoutedLayout', () => {
     expect(r.pipes).toEqual(routePipes(def, r.pack.units, r.hatches.hatches, kinds));
   });
 
-  it('connects every hatch of every catalog multiblock in dense layouts', () => {
-    for (const def of catalog)
+  it('connects every hatch of every hand-made catalog multiblock in dense layouts', () => {
+    // Generated entries get lighter checks in generated.test.ts; routing all of them here takes minutes.
+    for (const def of catalog.filter((d) => !d.generated))
       for (const [n, limits] of [
         [30, { x: 4, y: null, z: 4 }],
         [64, { x: 6, y: null, z: 6 }],

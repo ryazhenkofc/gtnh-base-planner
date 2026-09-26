@@ -79,6 +79,8 @@ interface Entry {
   score: number;
   /** Units on the site already served. */
   waste: number;
+  /** Kinds placed later that the site could also take (keep it for them when there is a choice). */
+  wanted: number;
   /** 1 when the face used would wall in a pipe (see `walledIn`), else 0. */
   walled: number;
   /** 0 when the face used looks into open space, 1 when into a gap or recess. */
@@ -96,6 +98,7 @@ function compareEntries(a: Entry, b: Entry): number {
   return (
     b.score - a.score ||
     a.waste - b.waste ||
+    a.wanted - b.wanted ||
     a.walled - b.walled ||
     a.open - b.open ||
     a.crowded - b.crowded ||
@@ -602,9 +605,10 @@ function place(def: MultiblockDef, units: readonly Unit[], kinds: HatchKind[]): 
   const hatches: HatchPlacement[] = [];
   const unplaced: HatchResult['unplaced'] = [];
 
-  for (const kind of kinds) {
+  kinds.forEach((kind, ki) => {
+    const later = kinds.slice(ki + 1);
     const { target, max } = quota(def, kind);
-    if (target <= 0) continue;
+    if (target <= 0) return;
     const canShare = def.wallshare && shareable.has(kind);
     const candidates = sites.filter(
       (s) => s.kinds.has(kind) && !used.has(s.key) && (canShare || s.unitIds.length === 1),
@@ -656,6 +660,7 @@ function place(def: MultiblockDef, units: readonly Unit[], kinds: HatchKind[]): 
           i,
           score,
           waste: c.unitIds.length - score,
+          wanted: later.reduce((n, k) => n + (c.kinds.has(k) ? 1 : 0), 0),
           walled,
           open: openRank(c.faces[face].rank),
           crowded,
@@ -715,7 +720,7 @@ function place(def: MultiblockDef, units: readonly Unit[], kinds: HatchKind[]): 
       const short = Math.max(target - (count.get(id) ?? 0), missing.get(id) ?? 0);
       for (let n = 0; n < short; n++) unplaced.push({ unitId: id, kind });
     }
-  }
+  });
 
   return { hatches, unplaced };
 }
