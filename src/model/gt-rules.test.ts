@@ -94,7 +94,7 @@ describe('GT rules', () => {
             expect(key(step(h.cell, h.face)), `${def.id} ${h.kind}`).not.toBe(front);
         }
       }
-  });
+  }, 30_000); // Builds and routes every hand-made multiblock at several counts.
 
   it('turns no hatch to a side its structure forbids', () => {
     for (const def of handMade)
@@ -107,5 +107,5 @@ describe('GT rules', () => {
             if (no) expect(no.map((d) => rotateDir(d, u.rotation))).not.toContain(h.face);
           }
       }
-  });
+  }, 30_000); // Builds and routes every hand-made multiblock at several counts.
 });

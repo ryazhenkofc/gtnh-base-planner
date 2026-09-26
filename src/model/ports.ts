@@ -575,6 +575,7 @@ function findSites(
  *   line, so one straight pipe or cable serves them), then a face on a line more units could share, then
  *   fewer hatches of other kinds around, then a
  *   side face over top over bottom, then the lowest y, z, x.
+ * - `avoid` keeps listed cells free of the listed kinds (they may still take other kinds).
  * - Unit ids are expected to be unique. The result is independent of the order of `units` and
  *   `enabled`: hatches are listed in placement order, `unplaced` by kind priority then unit id.
  */
@@ -582,19 +583,28 @@ export function placeHatches(
   def: MultiblockDef,
   units: readonly Unit[],
   enabled: readonly HatchKind[],
+  avoid?: HatchAvoid,
 ): HatchResult {
   let kinds: HatchKind[] = [];
   try {
     kinds = kindsToPlace(def, enabled);
     if (kinds.length === 0 || units.length === 0) return { hatches: [], unplaced: [] };
-    return place(def, units, kinds);
+    return place(def, units, kinds, avoid);
   } catch {
     // Malformed definition (e.g. unknown legend char): nothing can be placed, but never throw.
     return allUnplaced(def, units, kinds);
   }
 }
 
-function place(def: MultiblockDef, units: readonly Unit[], kinds: HatchKind[]): HatchResult {
+/** Cells (`x,y,z`) a hatch kind must not take, e.g. to try its hatches elsewhere (see `improveHatches`). */
+export type HatchAvoid = ReadonlyMap<HatchKind, ReadonlySet<string>>;
+
+function place(
+  def: MultiblockDef,
+  units: readonly Unit[],
+  kinds: HatchKind[],
+  avoid?: HatchAvoid,
+): HatchResult {
   const { sites, openAround, openToward, nearby, volume } = findSites(def, units);
   const unitIds = sortedIds(units);
   const shareable = new Set(def.shareableHatches ?? []);
@@ -655,8 +665,13 @@ function place(def: MultiblockDef, units: readonly Unit[], kinds: HatchKind[]): 
     const { target, max } = quota(def, kind);
     if (target <= 0) return;
     const canShare = def.wallshare && shareable.has(kind);
+    const avoided = avoid?.get(kind);
     const candidates = sites.filter(
-      (s) => s.kinds.has(kind) && !used.has(s.key) && (canShare || s.unitIds.length === 1),
+      (s) =>
+        s.kinds.has(kind) &&
+        !used.has(s.key) &&
+        (canShare || s.unitIds.length === 1) &&
+        !avoided?.has(s.pos.join()),
     );
     const count = new Map<number, number>(unitIds.map((id) => [id, 0]));
     /** Placed hatches of this kind per line (see `lineKeys`), and the candidates with a face on each line. */
