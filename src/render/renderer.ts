@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { dirVec, key } from '../model/geometry';
+import { isCable } from '../model/routing';
 import type { Dir, SceneModel, Vec3, ViewMode, Voxel } from '../model/types';
 import { DEFAULT_PHI, DEFAULT_THETA, fitPoints, fitView, OrbitControls } from './controls';
 import type { BlockVisual, MaterialProvider } from './materials';
@@ -42,6 +43,8 @@ const SELECT_TINT = '#3b82f6';
 const SELECT_LINE = '#111111';
 /** Pipe thickness: square like GT pipes, 6/16 of a block (a small pipe). */
 const PIPE_WIDTH = 6 / 16;
+/** Cable thickness: thinner than pipes (a 2x GT cable), so the two read apart at a glance. */
+const CABLE_WIDTH = 3 / 16;
 const GIZMO_PX = 96;
 const GIZMO_MARGIN_PX = 14;
 const AXIS_COLORS = { x: '#d9534f', y: '#4caf50', z: '#3b7dd8' } as const;
@@ -400,29 +403,32 @@ export function createRenderer(
   /**
    * Pipes as square beams through cell centres, like GT pipes. Straight runs are merged into one beam; each
    * beam reaches half a pipe width past its end cells, so bends and junctions close into solid corners.
-   * A path of a single cell is a cube.
+   * A path of a single cell is a cube. Cables (energy, dynamo) use the same shapes, thinner.
    */
   function buildPipes(m: SceneModel): void {
     if (!m.pipes || m.pipes.length === 0) return;
-    const half = PIPE_WIDTH / 2;
-    const segments: { a: THREE.Vector3; b: THREE.Vector3; color: string }[] = [];
-    const cubes: { p: THREE.Vector3; color: string }[] = [];
-    /** A beam from `a` to `b`, lengthened by `extA` / `extB` beyond them. */
-    const beam = (a: THREE.Vector3, b: THREE.Vector3, color: string, extA: number, extB: number): void => {
-      const dir = new THREE.Vector3().subVectors(b, a).normalize();
-      segments.push({
-        a: a.clone().addScaledVector(dir, -extA),
-        b: b.clone().addScaledVector(dir, extB),
-        color,
-      });
-    };
+    /** `w`: section scale relative to `PIPE_WIDTH`. */
+    const segments: { a: THREE.Vector3; b: THREE.Vector3; color: string; w: number }[] = [];
+    const cubes: { p: THREE.Vector3; color: string; w: number }[] = [];
     for (const net of m.pipes) {
       const color = m.colors[net.kind];
+      const w = isCable(net.kind) ? CABLE_WIDTH / PIPE_WIDTH : 1;
+      const half = (PIPE_WIDTH * w) / 2;
+      /** A beam from `a` to `b`, lengthened by `extA` / `extB` beyond them. */
+      const beam = (a: THREE.Vector3, b: THREE.Vector3, extA: number, extB: number): void => {
+        const dir = new THREE.Vector3().subVectors(b, a).normalize();
+        segments.push({
+          a: a.clone().addScaledVector(dir, -extA),
+          b: b.clone().addScaledVector(dir, extB),
+          color,
+          w,
+        });
+      };
       const cells = new Set<string>();
       for (const path of net.paths) {
         path.forEach((p) => cells.add(key(p)));
         const pts = path.map(center);
-        if (pts.length === 1) cubes.push({ p: pts[0], color });
+        if (pts.length === 1) cubes.push({ p: pts[0], color, w });
         let start = 0;
         for (let i = 1; i < pts.length; i++) {
           const last = i === pts.length - 1;
@@ -433,7 +439,7 @@ export function createRenderer(
               .normalize()
               .distanceTo(new THREE.Vector3().subVectors(pts[i + 1], pts[i]).normalize()) > 1e-6;
           if (last || bend) {
-            beam(pts[start], pts[i], color, half, half);
+            beam(pts[start], pts[i], half, half);
             start = i;
           }
         }
@@ -444,7 +450,7 @@ export function createRenderer(
         const v = dirVec(h.face);
         const front: Vec3 = [h.cell[0] + v[0], h.cell[1] + v[1], h.cell[2] + v[2]];
         if (!cells.has(key(front))) continue;
-        beam(center(h.cell).addScaledVector(dirVector(h.face), 0.5), center(front), color, 0, half);
+        beam(center(h.cell).addScaledVector(dirVector(h.face), 0.5), center(front), 0, half);
       }
     }
     const matrix = new THREE.Matrix4();
@@ -458,7 +464,11 @@ export function createRenderer(
         const len = d.length();
         // Beams are axis-aligned, so turning +Y onto the run keeps the square section axis-aligned too.
         q.setFromUnitVectors(Y_AXIS, len > 0 ? d.divideScalar(len) : Y_AXIS);
-        matrix.compose(new THREE.Vector3().addVectors(s.a, s.b).multiplyScalar(0.5), q, scale.set(1, len, 1));
+        matrix.compose(
+          new THREE.Vector3().addVectors(s.a, s.b).multiplyScalar(0.5),
+          q,
+          scale.set(s.w, len, s.w),
+        );
         beams.setMatrixAt(i, matrix);
         beams.setColorAt(i, color.set(s.color));
       });
@@ -470,7 +480,7 @@ export function createRenderer(
     if (cubes.length > 0) {
       const mesh = new THREE.InstancedMesh(jointGeo, pipeMat, cubes.length);
       cubes.forEach((c, i) => {
-        mesh.setMatrixAt(i, matrix.makeTranslation(c.p.x, c.p.y, c.p.z));
+        mesh.setMatrixAt(i, matrix.makeScale(c.w, c.w, c.w).setPosition(c.p.x, c.p.y, c.p.z));
         mesh.setColorAt(i, color.set(c.color));
       });
       mesh.instanceMatrix.needsUpdate = true;

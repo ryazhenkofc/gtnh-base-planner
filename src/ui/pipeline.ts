@@ -4,7 +4,7 @@ import { DEFAULT_HATCH_COLORS } from '../model/colors';
 import { layoutCandidates, packUnits } from '../model/layout';
 import { resolveLayout } from '../model/plan';
 import { placeHatches } from '../model/ports';
-import { routePipes, withPipeFaces } from '../model/routing';
+import { CABLE_KINDS, PIPE_KINDS, routePipes, withPipeFaces, type RoutedKind } from '../model/routing';
 import { buildSceneModel } from '../model/scene';
 import type {
   HatchKind,
@@ -17,7 +17,7 @@ import type {
   WallStats,
 } from '../model/types';
 import { computeWallStats } from '../model/walls';
-import { plan, showPipes } from '../state/store';
+import { plan, showCables, showPipes } from '../state/store';
 import { warnOnce } from './notices';
 
 /** The model functions the pipeline calls (injectable for tests). */
@@ -49,6 +49,7 @@ export interface PipelineResult {
   loosened: boolean;
   hatches: HatchResult | null;
   stats: WallStats | null;
+  /** Pipe and cable networks (whichever are switched on), or null when both are off. */
   pipes: RouteNet[] | null;
   scene: SceneModel | null;
   /** First error thrown by a stage (the stages after it are skipped). */
@@ -91,7 +92,7 @@ export function createPipeline(deps: PipelineDeps = defaultDeps) {
   let lastResultKey: string | undefined;
   let lastResult: PipelineResult | undefined;
 
-  return function run(p: PlanState, pipesOn: boolean): PipelineResult {
+  return function run(p: PlanState, pipesOn: boolean, cablesOn = false): PipelineResult {
     const def = deps.getMultiblock(p.multiblockId);
     const empty: PipelineResult = {
       def,
@@ -107,7 +108,8 @@ export function createPipeline(deps: PipelineDeps = defaultDeps) {
 
     const layoutKey = JSON.stringify([def.id, p.count, p.limits, p.manualUnits ?? null]);
     const hatchKey = layoutKey + JSON.stringify(p.enabledHatches);
-    const pipesKey = hatchKey + String(pipesOn);
+    const kinds: RoutedKind[] = [...(pipesOn ? PIPE_KINDS : []), ...(cablesOn ? CABLE_KINDS : [])];
+    const pipesKey = hatchKey + kinds.join();
     const colors = mergeColors(p.colors);
     const sceneKey = pipesKey + JSON.stringify(colors);
     if (lastResult && sceneKey === lastResultKey) return lastResult;
@@ -146,9 +148,9 @@ export function createPipeline(deps: PipelineDeps = defaultDeps) {
     if (!stats.ok)
       return finish({ ...empty, pack: layout, loosened, hatches: hatchResult, error: stats.error });
 
-    // Pipes are optional: a routing failure still renders the build without them.
+    // Pipes and cables are optional: a routing failure still renders the build without them.
     const pipes = pipesStage(pipesKey, () =>
-      pipesOn ? deps.routePipes(def, units, hatchResult.hatches) : null,
+      kinds.length > 0 ? deps.routePipes(def, units, hatchResult.hatches, { kinds }) : null,
     );
     const pipeNets = pipes.ok ? pipes.value : null;
 
@@ -178,5 +180,7 @@ export function createPipeline(deps: PipelineDeps = defaultDeps) {
 
 const run = createPipeline();
 
-/** The derived build for the current plan; recomputes only when `plan` or `showPipes` change. */
-export const build = derived([plan, showPipes], ([$plan, $showPipes]) => run($plan, $showPipes));
+/** The derived build for the current plan; recomputes only when `plan`, `showPipes` or `showCables` change. */
+export const build = derived([plan, showPipes, showCables], ([$plan, $showPipes, $showCables]) =>
+  run($plan, $showPipes, $showCables),
+);

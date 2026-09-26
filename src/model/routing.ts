@@ -2,9 +2,20 @@ import { controllerFacing, rotateDir, step, unitCells } from './geometry';
 import type { Dir, HatchKind, HatchPlacement, MultiblockDef, RouteNet, Unit, Vec3 } from './types';
 
 /** Hatch kinds that get pipe/conveyor networks. */
-export const ROUTED_KINDS = ['itemIn', 'itemOut', 'fluidIn', 'fluidOut'] as const;
+export const PIPE_KINDS = ['itemIn', 'itemOut', 'fluidIn', 'fluidOut'] as const;
 
-type RoutedKind = (typeof ROUTED_KINDS)[number];
+/** Hatch kinds that get cable networks (energy in, dynamo out). */
+export const CABLE_KINDS = ['energy', 'dynamo'] as const;
+
+/** Every kind routing can connect, in routing order: pipes first, then cables. */
+export const ROUTED_KINDS = [...PIPE_KINDS, ...CABLE_KINDS] as const;
+
+export type RoutedKind = (typeof ROUTED_KINDS)[number];
+
+/** Whether a routed kind is a cable (drawn thinner) rather than a pipe. */
+export function isCable(kind: HatchKind): boolean {
+  return (CABLE_KINDS as readonly HatchKind[]).includes(kind);
+}
 
 /** Search margin around the structures and terminals, in blocks. */
 const MARGIN = 4;
@@ -38,7 +49,7 @@ interface Grid {
   offsets: Int32Array;
 }
 
-function isRouted(kind: HatchKind): kind is RoutedKind {
+function isRoutable(kind: HatchKind): kind is RoutedKind {
   return (ROUTED_KINDS as readonly HatchKind[]).includes(kind);
 }
 
@@ -459,13 +470,18 @@ export function withPipeFaces(hatches: HatchPlacement[], nets: RouteNet[] | null
  * - Reports `connected` / `total` terminals and `length` in pipe blocks.
  * Pure; < 30 ms for 60 units.
  *
- * Kinds are routed in `ROUTED_KINDS` order, so earlier kinds' pipes are obstacles for later ones.
- * Terminals of other kinds are always obstacles. The network grows from the first reachable terminal
- * (hatch order); a terminal inside a structure cell can never be connected.
+ * Only `opts.kinds` are routed (default: the pipe kinds). Kinds are routed in `ROUTED_KINDS` order, so
+ * pipes are obstacles for cables and earlier kinds for later ones. When both pipes and cables are routed
+ * and some hatch is left unconnected, cables are also tried first and the order connecting more hatches
+ * wins (pipes first on ties). Terminals of other kinds are always obstacles. The network grows from the
+ * first reachable terminal (hatch order); a terminal inside a structure cell can never be connected.
+ * Nets are returned in `ROUTED_KINDS` order.
  */
 export interface RouteOptions {
   /** Extra cost of a bend, in pipe blocks (0 = plain shortest paths). Default `DEFAULT_TURN_COST`. */
   turnCost?: number;
+  /** Kinds to connect. Default `PIPE_KINDS`; add `CABLE_KINDS` to route energy and dynamo cables too. */
+  kinds?: readonly RoutedKind[];
 }
 
 export function routePipes(
@@ -473,6 +489,25 @@ export function routePipes(
   units: Unit[],
   hatches: HatchPlacement[],
   opts: RouteOptions = {},
+): RouteNet[] {
+  const wanted = opts.kinds ?? PIPE_KINDS;
+  const first = routeInOrder(def, units, hatches, opts, ROUTED_KINDS, wanted);
+  const missing = (nets: RouteNet[]) => nets.reduce((n, r) => n + r.total - r.connected, 0);
+  const mixed = wanted.some((k) => isCable(k)) && wanted.some((k) => !isCable(k));
+  if (!mixed || missing(first) === 0) return first;
+  const cablesFirst = [...CABLE_KINDS, ...PIPE_KINDS] as const;
+  const second = routeInOrder(def, units, hatches, opts, cablesFirst, wanted);
+  return missing(second) < missing(first) ? second : first;
+}
+
+/** `routePipes` with the kinds routed in `order`; the result is still in `ROUTED_KINDS` order. */
+function routeInOrder(
+  def: MultiblockDef,
+  units: Unit[],
+  hatches: HatchPlacement[],
+  opts: RouteOptions,
+  order: readonly RoutedKind[],
+  kinds: readonly RoutedKind[],
 ): RouteNet[] {
   const solids: Vec3[] = [];
   let ground = Infinity;
@@ -482,6 +517,8 @@ export function routePipes(
       ground = Math.min(ground, c.pos[1]);
     }
   for (const h of hatches) solids.push(h.cell);
+  const wanted = new Set<HatchKind>(kinds);
+  const isRouted = (kind: HatchKind): kind is RoutedKind => isRoutable(kind) && wanted.has(kind);
 
   // Routed hatches per kind in hatch order, one per cell.
   const byKind = new Map<RoutedKind, HatchPlacement[]>();
@@ -515,8 +552,8 @@ export function routePipes(
   const open = outsideCells(g, s);
 
   // Cells that must stay free: in front of each controller (the player opens it there), and in front of
-  // every hatch that is not piped: a muffler only vents into air (GT stops the machine otherwise), an
-  // energy or dynamo hatch takes its cable there, a maintenance hatch needs the player.
+  // every hatch that is not routed here: a muffler only vents into air (GT stops the machine otherwise), an
+  // energy or dynamo hatch without a routed cable takes its cable there, a maintenance hatch needs the player.
   for (const u of units)
     for (const c of unitCells(def, u))
       if (c.role === 'controller') reserve(g, step(c.pos, controllerFacing(def, u)));
@@ -554,7 +591,8 @@ export function routePipes(
   });
 
   const out: RouteNet[] = [];
-  ROUTED_KINDS.forEach((kind, k) => {
+  order.forEach((kind) => {
+    const k = ROUTED_KINDS.indexOf(kind);
     const list = byKind.get(kind);
     if (!list) return;
     const bit = 1 << k;
@@ -596,5 +634,7 @@ export function routePipes(
       attachments,
     });
   });
-  return out;
+  return out.sort(
+    (a, b) => ROUTED_KINDS.indexOf(a.kind as RoutedKind) - ROUTED_KINDS.indexOf(b.kind as RoutedKind),
+  );
 }

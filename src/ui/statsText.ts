@@ -1,4 +1,5 @@
 import { t } from '../i18n/en';
+import { isCable } from '../model/routing';
 import type { PipelineResult } from './pipeline';
 
 export interface StatsParts {
@@ -6,7 +7,7 @@ export interface StatsParts {
   selected: string | null;
 }
 
-/** The quiet bottom line: units · blocks · shared walls · hatches · saved (+ conflicts, pipes, selection). */
+/** The quiet bottom line: units · blocks · shared walls · hatches · saved (+ conflicts, pipes, cables, selection). */
 export function statsParts(r: PipelineResult, selectedIds: number[]): StatsParts {
   const main: string[] = [];
   const units = r.pack?.units ?? [];
@@ -18,7 +19,10 @@ export function statsParts(r: PipelineResult, selectedIds: number[]): StatsParts
     main.push(t.saved(r.stats.savedBlocks));
     if (r.stats.conflicts.length) main.push(t.conflicts(r.stats.conflicts.length));
   }
-  if (r.pipes) main.push(t.pipeLength(r.pipes.reduce((s, n) => s + n.length, 0)));
+  const pipes = r.pipes?.filter((n) => !isCable(n.kind)) ?? [];
+  const cables = r.pipes?.filter((n) => isCable(n.kind)) ?? [];
+  if (pipes.length) main.push(t.pipeLength(pipes.reduce((s, n) => s + n.length, 0)));
+  if (cables.length) main.push(t.cableLength(cables.reduce((s, n) => s + n.length, 0)));
 
   const nums = selectedIds
     .map((id) => units.findIndex((u) => u.id === id) + 1)

@@ -36,7 +36,7 @@ function fakeDeps() {
     placeHatches: vi.fn(() => ({ hatches: [], unplaced: [] })),
     layoutCandidates: vi.fn(function* () {}),
     computeWallStats: vi.fn(() => stats),
-    routePipes: vi.fn(() => []),
+    routePipes: vi.fn((..._args: Parameters<PipelineDeps['routePipes']>) => []),
     buildSceneModel: vi.fn((..._args: Parameters<PipelineDeps['buildSceneModel']>): SceneModel => ({
       voxels: [],
       hatches: [],
@@ -71,6 +71,12 @@ describe('pipeline', () => {
     // Pipes on: routing + scene, no re-pack.
     run({ ...p, colors: { itemIn: '#000000' } }, true);
     expect(deps.routePipes).toHaveBeenCalledTimes(1);
+    expect(deps.packUnits).toHaveBeenCalledTimes(1);
+
+    // Cables on too: routing again with both pipe and cable kinds, still no re-pack.
+    run({ ...p, colors: { itemIn: '#000000' } }, true, true);
+    expect(deps.routePipes).toHaveBeenCalledTimes(2);
+    expect(deps.routePipes.mock.calls[1]?.[3]?.kinds).toContain('energy');
     expect(deps.packUnits).toHaveBeenCalledTimes(1);
 
     // Count change: everything.

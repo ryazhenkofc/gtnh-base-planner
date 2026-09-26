@@ -1,7 +1,7 @@
 <script lang="ts">
   import { t } from '../i18n/en';
   import type { MultiblockDef, PlanLimits } from '../model/types';
-  import { plan, showPipes, xray } from '../state/store';
+  import { plan, showCables, showPipes, xray } from '../state/store';
   import { resetColors, resetPlan, setHatchColor, setLimit, toggleHatch } from './actions';
   import { hatchKindsOf } from './catalogView';
   import { formatLimit, parseLimit } from './fields';
@@ -121,6 +121,15 @@
           aria-pressed={$showPipes}
           data-testid="toggle-pipes"
           onclick={() => showPipes.update((v) => !v)}>{t.pipes}</button
+        >
+      </li>
+      <li class="row">
+        <button
+          class="link"
+          class:active={$showCables}
+          aria-pressed={$showCables}
+          data-testid="toggle-cables"
+          onclick={() => showCables.update((v) => !v)}>{t.cables}</button
         >
       </li>
       <li class="row">

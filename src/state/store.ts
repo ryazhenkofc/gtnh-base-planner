@@ -17,5 +17,6 @@ export function defaultPlan(multiblockId = DEFAULT_MULTIBLOCK_ID): PlanState {
 export const plan = writable<PlanState>(defaultPlan());
 export const viewMode = writable<ViewMode>('simple');
 export const showPipes = writable(false);
+export const showCables = writable(false);
 export const xray = writable(false);
 export const selectedUnits = writable<number[]>([]);

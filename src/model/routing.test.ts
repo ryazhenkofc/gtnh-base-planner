@@ -1,7 +1,14 @@
 import { describe, expect, it } from 'vitest';
 import { getMultiblock } from '../data/catalog';
 import { key, unitCells } from './geometry';
-import { DEFAULT_TURN_COST, MAX_GRID_CELLS, routePipes, withPipeFaces } from './routing';
+import {
+  CABLE_KINDS,
+  DEFAULT_TURN_COST,
+  MAX_GRID_CELLS,
+  PIPE_KINDS,
+  routePipes,
+  withPipeFaces,
+} from './routing';
 import { catalog } from '../data/catalog';
 import { createPipeline } from '../ui/pipeline';
 import { defaultPlan } from '../state/store';
@@ -82,6 +89,31 @@ describe('routePipes', () => {
     const units = [oven(1, [0, 0, 0])];
     expect(routePipes(coke, units, [])).toEqual([]);
     expect(routePipes(coke, units, [hatch('energy', [1, 2, 1], 'up', [1])])).toEqual([]);
+  });
+
+  it('routes energy cables only when asked', () => {
+    const units = [oven(1, [0, 0, 0])];
+    const hatches = [hatch('energy', [1, 2, 1], 'up', [1])];
+    expect(routePipes(coke, units, hatches, { kinds: PIPE_KINDS })).toEqual([]);
+    const [n] = routePipes(coke, units, hatches, { kinds: CABLE_KINDS });
+    expect(n).toMatchObject({ kind: 'energy', paths: [[[1, 3, 1]]], length: 1, connected: 1, total: 1 });
+  });
+
+  it('cables connect every energy hatch without taking pipe cells', () => {
+    const def = getMultiblock('electric-blast-furnace')!;
+    const r = createPipeline()({ ...defaultPlan(def.id), count: 6 }, true, true);
+    expect(r.error).toBeNull();
+    const nets = r.pipes!;
+    const energy = net(nets, 'energy');
+    expect(energy.total).toBe(r.hatches!.hatches.filter((h) => h.kind === 'energy').length);
+    expect(energy.connected).toBe(energy.total);
+    expectContiguous(energy);
+    const cable = pipeCells(energy);
+    for (const n of nets)
+      if (n.kind !== 'energy') for (const c of pipeCells(n)) expect(cable.has(c)).toBe(false);
+    // With cables off the energy hatches get no network.
+    const off = createPipeline()({ ...defaultPlan(def.id), count: 6 }, true, false);
+    expect(off.pipes!.some((n) => n.kind === 'energy')).toBe(false);
   });
 
   it('single oven: one terminal, length 1', () => {

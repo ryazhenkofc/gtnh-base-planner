@@ -36,6 +36,7 @@ export const t = {
   resetColors: 'Reset colours',
   view: 'View',
   pipes: 'Pipes',
+  cables: 'Cables',
   xray: 'X-ray',
   on: 'On',
   off: 'Off',
@@ -62,6 +63,7 @@ export const t = {
   saved: (n: number) => `${n} saved`,
   conflicts: (n: number) => `${n} ${n === 1 ? 'conflict' : 'conflicts'}`,
   pipeLength: (n: number) => `${n} pipe blocks`,
+  cableLength: (n: number) => `${n} cable blocks`,
   /** `nums` are 1-based positions in the unit list. */
   selected: (nums: number[]) => (nums.length === 1 ? `Unit ${nums[0]}` : `Units ${nums.join(', ')}`),
 
