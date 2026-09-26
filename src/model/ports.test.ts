@@ -384,3 +384,23 @@ describe('placeHatches', () => {
     expect(def).toEqual(coke);
   });
 });
+
+describe('placeHatches lines hatches up', () => {
+  it('turns the end unit of a row the same way as the others, so one straight cable serves the row', () => {
+    // Two rows of three Advanced Assembly Lines: the end units also have an open end face, which used to
+    // win on side order and needed a cable around the corner.
+    const def = getMultiblock('advanced-assembly-line')!;
+    const { units } = packUnits(def, 6, { x: null, y: null, z: null });
+    const { hatches, unplaced } = placeHatches(def, units, ['energy', 'maintenance']);
+    expect(unplaced).toEqual([]);
+    const energy = hatches.filter((h) => h.kind === 'energy');
+    expect(energy).toHaveLength(6);
+    // Each row: one direction, and all fronts on one line along X.
+    for (const face of ['north', 'south'] as const) {
+      const row = energy.filter((h) => h.face === face);
+      expect(row).toHaveLength(3);
+      const fronts = row.map((h) => step(h.cell, h.face));
+      expect(new Set(fronts.map((f) => `${f[1]},${f[2]}`)).size).toBe(1);
+    }
+  });
+});
