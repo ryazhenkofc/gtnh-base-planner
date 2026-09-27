@@ -1,4 +1,4 @@
-import { PLACEHOLDER_ID, SINGLE_BLOCK_ID, getSiteDef } from '../data/generic';
+import { PLACEHOLDER_ID, SINGLE_BLOCK_ID, getSiteDef, isSingleBlock } from '../data/generic';
 import {
   SINGLE_BLOCK_NAMES,
   SKIP_NAMES,
@@ -329,6 +329,83 @@ export function importRows(project: GtnhProject): ImportRow[] {
 // Building the site
 // -------------------------------------------------------------------------------------------------
 
+/** Most layers an imported group is stacked to, and the tallest stack allowed (blocks). */
+const MAX_LAYERS = 4;
+const MAX_STACK_HEIGHT = 24;
+/** A stack is kept only when it shrinks the footprint to at most this share of the flat one. */
+const STACK_GAIN = 0.75;
+
+/**
+ * Limits per group: every group starts on one layer; a group of several machines of one kind goes up
+ * (2, 3 or 4 layers) when that shrinks its footprint enough, every unit still fits and the stack stays
+ * low. The packer never stacks while a flat layout fits, so a stack is forced by capping the units per
+ * layer along X and Z. All variants are built in one trial site (pipes off) under ids of their own;
+ * `builder` keeps the packs of the chosen ones for the build that follows.
+ */
+function stackGroups(site: SiteState, builder: SiteBuilder, below?: boolean): SiteGroup[] {
+  const variants: { of: string; limits: PlanLimits }[] = [];
+  for (const g of site.groups) {
+    const def = getSiteDef(g.multiblockId);
+    if (!def || isSingleBlock(def)) continue;
+    const ratio = def.size[2] / Math.max(1, def.size[0]);
+    for (let y = 2; y <= MAX_LAYERS && g.count > y - 1; y++) {
+      const perLayer = Math.ceil(g.count / y);
+      const rows = new Set<number>();
+      for (const r of [Math.sqrt(perLayer), Math.sqrt(perLayer * ratio), Math.sqrt(perLayer / ratio)])
+        for (const x of [Math.floor(r), Math.ceil(r)]) rows.add(Math.min(perLayer, Math.max(1, x)));
+      for (const x of rows) {
+        const z = Math.ceil(perLayer / x);
+        // Fewer layers than `y` must not hold every unit, or the packer would stay lower.
+        if (x * z * (y - 1) >= g.count) continue;
+        variants.push({ of: g.id, limits: { x, y, z } });
+      }
+    }
+  }
+  if (variants.length === 0) return site.groups;
+
+  // Variants get ids of their own and a copy of every link end of their group, so the same hatches.
+  const vid = (i: number) => `~v${i}`;
+  const byId = new Map(site.groups.map((g) => [g.id, g]));
+  const extra: SiteLink[] = [];
+  site.links.forEach((l) =>
+    variants.forEach((v, i) => {
+      for (const side of ['from', 'to'] as const) {
+        const e = l[side];
+        if ('group' in e && e.group === v.of)
+          extra.push({ ...l, id: `${l.id}~${side}${i}`, [side]: { group: vid(i) } });
+      }
+    }),
+  );
+  const trial: SiteState = {
+    ...site,
+    groups: [
+      ...site.groups,
+      ...variants.map((v, i) => ({ ...byId.get(v.of)!, id: vid(i), limits: v.limits })),
+    ],
+    links: [...site.links, ...extra],
+  };
+  const built = new Map(
+    builder(trial, { pipes: false, cables: false, below }).groups.map((pg) => [pg.group.id, pg]),
+  );
+  const area = (id: string): number | null => {
+    const b = built.get(id)?.build;
+    if (!b || b.pack.placed < b.pack.requested || b.unplaced.length || b.size[1] > MAX_STACK_HEIGHT)
+      return null;
+    return b.size[0] * b.size[2];
+  };
+  const best = new Map<string, { limits: PlanLimits; area: number }>();
+  for (const g of site.groups) {
+    const b = built.get(g.id)?.build;
+    if (b) best.set(g.id, { limits: g.limits, area: b.size[0] * b.size[2] * STACK_GAIN });
+  }
+  variants.forEach((v, i) => {
+    const a = area(vid(i));
+    const cur = best.get(v.of);
+    if (a !== null && cur && a <= cur.area) best.set(v.of, { limits: v.limits, area: a });
+  });
+  return site.groups.map((g) => ({ ...g, limits: { ...(best.get(g.id)?.limits ?? g.limits) } }));
+}
+
 export interface ImportOptions {
   size?: [number, number];
   /**
@@ -635,6 +712,7 @@ export function buildSiteFromGtnh(
     resources,
     colors: {},
   });
+  site = { ...site, groups: stackGroups(site, builder, opts.below) };
   const sizes = localFootprints(builder(site, { pipes: false, cables: false, below: opts.below }));
   let arranged = arrangeSite(site, (id) => sizes.get(id));
   if (opts.fit !== false) {
