@@ -293,7 +293,7 @@
   "controller": {
     "pos": [2, 0, 5],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.extremeTemperatureFluctuationPurificationUnit"
   },
   "hatchBlocks": {
     "fluidIn": "gt.hatch.inputHatch",

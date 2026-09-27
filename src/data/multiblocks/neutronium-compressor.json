@@ -170,7 +170,7 @@
   "controller": {
     "pos": [5, 1, 1],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.neutroniumCompressor"
   },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",

@@ -69,7 +69,7 @@
   "controller": {
     "pos": [7, 1, 12],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.cometCompactCyclotron"
   },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",

@@ -1121,7 +1121,7 @@
   "controller": {
     "pos": [11, 3, 1],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.exothermicHearth"
   },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",

@@ -36,7 +36,7 @@
   "controller": {
     "pos": [0, 2, 0],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.circuitAssemblyLine"
   },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",

@@ -4,7 +4,7 @@
   import type { Endpoint, ResourceKind } from '../model/site/types';
   import { SITE_MAX_SIZE, SITE_MIN_SIZE } from '../share/siteCodec';
   import { flowAnimation, isolate, showIcons, site, siteCables, siteGroup, sitePipes } from '../state/site';
-  import { xray } from '../state/store';
+  import { connectBelow, xray } from '../state/store';
   import { formatLimit, parseLimit, parseCount, parseSize } from './fields';
   import { notify } from './notices';
   import NumberField from './NumberField.svelte';
@@ -457,6 +457,16 @@
       <li class="row">
         <button
           class="link"
+          class:active={$connectBelow}
+          aria-pressed={$connectBelow}
+          title={t.belowHint}
+          data-testid="site-below"
+          onclick={() => connectBelow.update((v) => !v)}>{t.below}</button
+        >
+      </li>
+      <li class="row">
+        <button
+          class="link"
           class:active={$flowAnimation}
           aria-pressed={$flowAnimation}
           onclick={() => flowAnimation.update((v) => !v)}>{t.site.flow}</button
@@ -579,6 +589,9 @@
     display: flex;
     align-items: baseline;
     gap: 6px;
+  }
+  .pair > span {
+    white-space: nowrap;
   }
   .pair :global(.field) {
     text-align: left;

@@ -308,7 +308,7 @@
   "controller": {
     "pos": [4, 4, 0],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.xlTurboHpSteamTurbine"
   },
   "hatchBlocks": {},
   "shareableHatches": [],

@@ -427,7 +427,7 @@
   "controller": {
     "pos": [10, 1, 3],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.dysonSwarm"
   },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",

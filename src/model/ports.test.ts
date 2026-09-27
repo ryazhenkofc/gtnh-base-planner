@@ -126,6 +126,12 @@ describe('placeHatches', () => {
     ]);
     expect(r.hatches).toHaveLength(25);
     expectValid(cube, units, r);
+    // Allowed to connect from below, the bottom centre faces down into the trench.
+    const below = placeHatches(cube, units, ['itemIn'], undefined, { below: true });
+    expect(below.unplaced).toEqual([{ unitId: 13, kind: 'itemIn' }]);
+    expect(below.hatches.find((h) => h.unitIds[0] === 4)).toMatchObject({ cell: [1, 0, 1], face: 'down' });
+    // Blocks with other open sides still prefer them.
+    expect(below.hatches.filter((h) => h.face === 'down')).toHaveLength(1);
   });
 
   it('reports every kind unplaced when all cells are taken', () => {
@@ -294,6 +300,20 @@ describe('placeHatches', () => {
         }
       }
     }
+  });
+
+  it('puts hatches on the side their pipes go to when told', () => {
+    const units = [unit(0, [0, 0, 0])];
+    const side = (toward: Vec3) => {
+      const r = placeHatches(coke, units, ['itemIn'], undefined, { toward: { itemIn: toward } });
+      expect(r.unplaced).toEqual([]);
+      return r.hatches[0];
+    };
+    const west = side([-1000, 0, 1]);
+    const east = side([1000, 0, 1]);
+    expect(west.cell[0]).toBeLessThan(east.cell[0]);
+    expect(west.face).toBe('west');
+    expect(east.face).toBe('east');
   });
 
   it('never faces the ground under the build', () => {

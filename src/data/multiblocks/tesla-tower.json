@@ -34,7 +34,7 @@
       "blockId": "gt.frame.titanium"
     },
     "D": {
-      "blockId": "gt5u.tieredCasing"
+      "blockId": "gt5u.gtBlockcasingsBA0.0"
     },
     "E": {
       "blockId": "gt5u.gtBlockcasingsBA0.6",
@@ -47,7 +47,7 @@
   "controller": {
     "pos": [3, 0, 0],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.teslaTower"
   },
   "hatchBlocks": {
     "fluidIn": "gt.hatch.inputHatch",

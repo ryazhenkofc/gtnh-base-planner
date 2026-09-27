@@ -18,7 +18,7 @@
       "blockId": "gt.casing.ptfePipe"
     },
     "C": {
-      "blockId": "gt5u.tieredCasing",
+      "blockId": "gt5u.gtBlockcasings12.5",
       "hatches": ["itemIn", "fluidIn", "dynamo", "maintenance"]
     },
     "F": {
@@ -28,7 +28,7 @@
   "controller": {
     "pos": [5, 5, 0],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.largeNeutralizationEngine"
   },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",

@@ -139,7 +139,7 @@
   "controller": {
     "pos": [3, 2, 0],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.universalChemicalFuelEngine"
   },
   "hatchBlocks": {
     "fluidIn": "gt.hatch.inputHatch",

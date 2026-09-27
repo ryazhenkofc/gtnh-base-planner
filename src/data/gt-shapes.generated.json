@@ -2969,7 +2969,7 @@
       "L": { "t": "casing", "block": "gt5u.gtBlockcasings8.7", "hatches": ["energy"] },
       "A": { "t": "casing", "block": "glass", "hatches": [] },
       "M": { "t": "casing", "block": "gt5u.gtBlockcasings8.7", "hatches": ["fluidIn"] },
-      "B": { "t": "casing", "block": "gt5u.tieredCasing", "hatches": [] },
+      "B": { "t": "casing", "block": "gt5u.componentAssemblylineCasing.0", "hatches": [] },
       "C": { "t": "casing", "block": "gt.casing.assemblyLine", "hatches": [] },
       "D": { "t": "casing", "block": "gt.casing.assembler", "hatches": [] },
       "G": { "t": "casing", "block": "gt.casing.pbiPipe", "hatches": [] },
@@ -4225,9 +4225,9 @@
     ],
     "el": {
       "n": { "t": "casing", "block": "gt5u.defcCasing.7", "hatches": [] },
-      "F": { "t": "casing", "block": "gt5u.tieredCasing", "hatches": [] },
+      "F": { "t": "casing", "block": "gt5u.gtBlockcasings4.6", "hatches": [] },
       "f": { "t": "casing", "block": "gt5u.gtBlockcasings4.7", "hatches": [] },
-      "R": { "t": "casing", "block": "gt5u.tieredCasing", "hatches": [] },
+      "R": { "t": "casing", "block": "gt5u.defcCasing.8", "hatches": [] },
       "N": {
         "t": "casing",
         "block": "gt5u.defcCasing.7",
@@ -4776,7 +4776,7 @@
       "B": { "t": "casing", "block": "gt.casing.robustTungstensteel", "hatches": [] },
       "A": { "t": "casing", "block": "glass", "hatches": [] },
       "C": { "t": "casing", "block": "gt.casing.ptfePipe", "hatches": [] },
-      "E": { "t": "casing", "block": "gt5u.tieredCasing", "hatches": [] },
+      "E": { "t": "casing", "block": "gt5u.sBlockMetal5.2", "hatches": [] },
       "D": { "t": "casing", "block": "gt.frame.naquadah", "hatches": [] }
     }
   },
@@ -9407,7 +9407,7 @@
     "el": {
       "C": {
         "t": "casing",
-        "block": "gt5u.tieredCasing",
+        "block": "gt.casing.stableTitanium",
         "hatches": ["itemIn", "itemOut", "energy", "maintenance", "muffler"]
       }
     }
@@ -10049,7 +10049,7 @@
       "P": { "t": "casing", "block": "gt.casing.ptfePipe", "hatches": [] },
       "C": {
         "t": "casing",
-        "block": "gt5u.tieredCasing",
+        "block": "gt5u.gtBlockcasings12.5",
         "hatches": ["itemIn", "fluidIn", "dynamo", "maintenance"]
       },
       "F": { "t": "casing", "block": "gt.frame.ptfe", "hatches": [] }
@@ -11467,7 +11467,7 @@
         "block": "gt5u.gtBlockcasings12.1",
         "hatches": ["itemIn", "fluidIn", "fluidOut"]
       },
-      "B": { "t": "casing", "block": "gt5u.tieredCasing", "hatches": [] },
+      "B": { "t": "casing", "block": "gt5u.componentAssemblylineCasing.0", "hatches": [] },
       "F": { "t": "casing", "block": "gt5u.gtBlockglass1.8", "hatches": [] },
       "D": { "t": "casing", "block": "gt5u.gtBlockcasings12.2", "hatches": [] },
       "P": { "t": "casing", "block": "gt5u.gtBlockcasings12.1", "hatches": [] },
@@ -12622,7 +12622,7 @@
         "block": "gt5u.blockCasings2Misc.8",
         "hatches": ["energy", "dynamo", "maintenance"]
       },
-      "H": { "t": "casing", "block": "gt5u.tieredCasing", "hatches": [] }
+      "H": { "t": "casing", "block": "gt5u.blockCasings2Misc.7", "hatches": [] }
     }
   },
   "precise-auto-assembler-mt-3662": {
@@ -12642,7 +12642,7 @@
       },
       "F": { "t": "casing", "block": "gt.frame.tungstensteel", "hatches": [] },
       "G": { "t": "casing", "block": "glass", "hatches": [] },
-      "M": { "t": "casing", "block": "gt5u.tieredCasing", "hatches": [] }
+      "M": { "t": "casing", "block": "gt5u.gtBlockcasings.0", "hatches": [] }
     }
   },
   "pseudostable-black-hole-containment-field": {
@@ -14249,8 +14249,8 @@
       ]
     ],
     "el": {
-      "B": { "t": "casing", "block": "gt5u.tieredCasing", "hatches": [] },
-      "A": { "t": "casing", "block": "gt5u.tieredCasing", "hatches": [] },
+      "B": { "t": "casing", "block": "gt5u.gtplusplusBlockcasings5.11", "hatches": [] },
+      "A": { "t": "casing", "block": "gt5u.gtplusplusBlockcasings5.7", "hatches": [] },
       "T": { "t": "casing", "block": "gt5u.blockCasings2Misc.12", "hatches": ["itemOut", "fluidOut"] },
       "E": { "t": "casing", "block": "gt5u.gtplusplusBlockcasings5.15", "hatches": [] },
       "D": { "t": "casing", "block": "gt5u.blockCasings2Misc.12", "hatches": [] },
@@ -17240,7 +17240,7 @@
       "B": { "t": "casing", "block": "gt5u.gtBlockcasingsBA0.7", "hatches": [] },
       "C": { "t": "casing", "block": "gt5u.gtBlockcasingsBA0.8", "hatches": [] },
       "F": { "t": "casing", "block": "gt.frame.titanium", "hatches": [] },
-      "D": { "t": "casing", "block": "gt5u.tieredCasing", "hatches": [] },
+      "D": { "t": "casing", "block": "gt5u.gtBlockcasingsBA0.0", "hatches": [] },
       "E": {
         "t": "casing",
         "block": "gt5u.gtBlockcasingsBA0.6",

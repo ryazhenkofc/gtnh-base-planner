@@ -23,13 +23,13 @@
       "blockId": "gt.glass.reinforced"
     },
     "M": {
-      "blockId": "gt5u.tieredCasing"
+      "blockId": "gt5u.gtBlockcasings.0"
     }
   },
   "controller": {
     "pos": [4, 0, 0],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.preciseAutoAssemblerMt3662"
   },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",

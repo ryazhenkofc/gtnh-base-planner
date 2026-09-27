@@ -59,7 +59,7 @@
   "controller": {
     "pos": [4, 0, 0],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.beamSplitter"
   },
   "hatchBlocks": {},
   "shareableHatches": [],

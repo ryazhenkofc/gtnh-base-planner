@@ -84,7 +84,7 @@
       "blockId": "gt.casing.ptfePipe"
     },
     "E": {
-      "blockId": "gt5u.tieredCasing"
+      "blockId": "gt5u.sBlockMetal5.2"
     },
     "D": {
       "blockId": "gt.frame.naquadah"
@@ -93,7 +93,7 @@
   "controller": {
     "pos": [7, 1, 1],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.electricImplosionCompressor"
   },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",

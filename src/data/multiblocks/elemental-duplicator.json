@@ -42,7 +42,7 @@
   "controller": {
     "pos": [4, 4, 0],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.elementalDuplicator"
   },
   "hatchBlocks": {
     "itemOut": "gt.hatch.outputBus",

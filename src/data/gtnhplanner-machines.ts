@@ -1,4 +1,5 @@
 import { catalog } from './catalog';
+import gtMachineTypes from './gt-machine-types.generated.json';
 
 /**
  * How GTNH Planner (gtnhplanner.com) names machines, mapped to what a site can build.
@@ -51,6 +52,18 @@ export const MULTIBLOCK_ALIASES: Readonly<Record<string, string>> = {
   'multiblock electrolyzer': 'industrial-electrolyzer',
   'multiblock centrifuge': 'industrial-centrifuge',
   'multiblock mixer': 'industrial-mixing-machine',
+  // GT++ recipe map of the IsaMill.
+  milling: 'isamill-grinding-machine',
+  'assemblyline process': 'assembly-line',
+  // Water purification plant recipe maps, one per unit.
+  clarifier: 'clarifier-purification-unit',
+  ozonation: 'ozonation-purification-unit',
+  flocculation: 'flocculation-purification-unit',
+  'ph neutralization': 'ph-neutralization-purification-unit',
+  'extreme temperature fluctuation': 'extreme-temperature-fluctuation-purification-unit',
+  'high energy laser': 'high-energy-laser-purification-unit',
+  'residual decontaminant degasser': 'residual-decontaminant-degasser-purification-unit',
+  'absolute baryonic perfection': 'absolute-baryonic-perfection-purification-unit',
 };
 
 /** GT single-block machines (recipe map names). */
@@ -103,6 +116,8 @@ export const SINGLE_BLOCK_NAMES: ReadonlySet<string> = new Set([
   'rock breaker',
   'scanner',
   'sifter',
+  // GTNH Planner's cell emptying: a tank block (or fluid canner) in game.
+  'tank',
   'slicer',
   'thermal centrifuge',
   'unpackager',
@@ -151,4 +166,16 @@ const byName = new Map<string, string>(catalog.map((d) => [d.name.toLowerCase(),
 export function multiblockForName(name: string): string | undefined {
   const k = name.trim().toLowerCase();
   return byName.get(k) ?? MULTIBLOCK_ALIASES[k];
+}
+
+/**
+ * Machine types GT names in multiblock tooltips (`getMachineType()`), e.g. "Vacuum Furnace" for the
+ * Utupu-Tanuri, written by `tools/gt-source/machine-types.mjs`. Many of them are also single-block machines
+ * ("Electrolyzer"), so the import tries them only for names that are not.
+ */
+export const GT_MACHINE_TYPES: Readonly<Record<string, string>> = gtMachineTypes;
+
+/** Catalog id of the only multiblock GT gives this machine type, or undefined. */
+export function multiblockForMachineType(name: string): string | undefined {
+  return GT_MACHINE_TYPES[name.trim().toLowerCase()];
 }

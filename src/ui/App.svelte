@@ -226,7 +226,14 @@
   {#if siteMode}
     {#if rendererFailed || !$siteScene}
       <div class="placeholder" data-testid="preview-notice">
-        <span>{$siteScene ? t.viewUnavailable : t.previewUnavailable}</span>
+        <!-- Before the first build arrives from the worker there is simply nothing to show yet. -->
+        <span
+          >{$siteScene
+            ? t.viewUnavailable
+            : $siteBuild.error || $siteBuild.build
+              ? t.previewUnavailable
+              : t.site.building}</span
+        >
         {#if $siteBuild.error}<span class="detail">{$siteBuild.error}</span>{/if}
       </div>
     {/if}

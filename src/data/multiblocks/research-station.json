@@ -38,7 +38,7 @@
   "controller": {
     "pos": [1, 3, 4],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.researchStation"
   },
   "hatchBlocks": {
     "itemOut": "gt.hatch.outputBus",

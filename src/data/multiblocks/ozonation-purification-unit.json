@@ -41,7 +41,7 @@
   "controller": {
     "pos": [6, 0, 0],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.ozonationPurificationUnit"
   },
   "hatchBlocks": {
     "itemOut": "gt.hatch.outputBus",

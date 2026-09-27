@@ -73,7 +73,7 @@
   "controller": {
     "pos": [5, 1, 0],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.zhuhaiFishingPort"
   },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",

@@ -63,6 +63,10 @@ export const t = {
   resetDone: 'Plan reset.',
   manualNote: 'Manual layout. Changing the count or limits re-packs.',
 
+  below: 'Connect from below',
+  belowHint:
+    'Hatches may face down from the lowest layer and pipes may run in a trench one block under the build.',
+
   // Stats line
   units: (n: number) => `${n} ${n === 1 ? 'unit' : 'units'}`,
   blocks: (n: number) => `${n} blocks`,
@@ -71,6 +75,8 @@ export const t = {
   saved: (n: number) => `${n} saved`,
   conflicts: (n: number) => `${n} ${n === 1 ? 'conflict' : 'conflicts'}`,
   pipeLength: (n: number) => `${n} pipe blocks`,
+  /** Footprint measured along an axis in the 3D view. */
+  dimension: (axis: string, n: number) => `${axis}  ${n}`,
   cableLength: (n: number) => `${n} cable blocks`,
   /** `nums` are 1-based positions in the unit list. */
   selected: (nums: number[]) => (nums.length === 1 ? `Unit ${nums[0]}` : `Units ${nums.join(', ')}`),
@@ -103,12 +109,13 @@ export const t = {
     name: 'Name',
     unnamed: 'Template',
     size: 'Size',
-    width: 'Width',
-    depth: 'Depth',
+    width: 'Width (X)',
+    depth: 'Depth (Z)',
     corridor: 'Corridor',
     sizeHint: (min: number, max: number) => `Blocks, ${min} to ${max}. Corridor: free blocks between groups.`,
     arrange: 'Arrange',
     arranged: 'Arranged along the flow.',
+    building: 'Laying out and routing…',
     needs: (w: number, d: number) => `Does not fit: needs ${w} × ${d}.`,
     importOpen: 'Import from GTNH Planner',
     groups: 'Groups',
@@ -207,6 +214,7 @@ export const t = {
     openFile: 'Open file',
     read: 'Read',
     build: 'Build template',
+    building: 'Building…',
     cancel: 'Cancel',
     node: 'Recipe',
     machine: 'Machine',
@@ -216,7 +224,7 @@ export const t = {
     placeholder: 'Placeholder',
     port: 'Template port (not placed)',
     skip: 'Skip',
-    grow: 'Grow the template if the chain does not fit',
+    fit: 'Size the template to the chain',
     replaces: 'Replaces the current template.',
     skippedEntries: (n: number) => `${n} malformed ${n === 1 ? 'entry was' : 'entries were'} skipped.`,
     done: (groups: number, ports: number, links: number) =>
@@ -224,7 +232,7 @@ export const t = {
     aspects: (n: number) => `${n} Thaumcraft ${n === 1 ? 'flow was' : 'flows were'} left out.`,
     placeholders: (names: string[]) => `Placeholders (not in the catalog yet): ${names.join(', ')}.`,
     truncated: 'The chain is larger than a template can hold; the rest was left out.',
-    grown: (w: number, d: number) => `The template was enlarged to ${w} × ${d}.`,
+    sized: (w: number, d: number) => `Template: ${w} × ${d}.`,
   },
 
   hatchKinds: {

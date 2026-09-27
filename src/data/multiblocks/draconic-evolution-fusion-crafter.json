@@ -21,13 +21,13 @@
       "blockId": "gt5u.defcCasing.7"
     },
     "F": {
-      "blockId": "gt5u.tieredCasing"
+      "blockId": "gt5u.gtBlockcasings4.6"
     },
     "f": {
       "blockId": "gt5u.gtBlockcasings4.7"
     },
     "R": {
-      "blockId": "gt5u.tieredCasing"
+      "blockId": "gt5u.defcCasing.8"
     },
     "N": {
       "blockId": "gt5u.defcCasing.7",
@@ -37,7 +37,7 @@
   "controller": {
     "pos": [2, 0, 0],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.draconicEvolutionFusionCrafter"
   },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",

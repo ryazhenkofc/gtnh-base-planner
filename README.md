@@ -23,7 +23,8 @@ It is a layout tool, not a recipe or production-chain calculator. Structures fol
 - **Templates** (the TEMPLATE view): several groups of multiblocks on a bounded ground area (30 × 30 by default), joined by
   links that each carry one item, fluid or EU. Every group gets one hatch per resource it takes or gives, pipes are
   routed between groups and to input/output ports on the template edges, and animated arrows show which way each
-  pipe flows. Groups can be arranged automatically along the flow, moved and turned by hand.
+  pipe flows. Groups can be arranged automatically along the flow, moved and turned by hand. Large templates are
+  laid out and routed in the background: the groups appear first, their pipes follow, and the page stays usable.
 - **GTNH Planner import**: open a chain exported from [GTNH Planner](https://gtnhplanner.com) (its board's
   Export JSON) and it becomes a template: one group per recipe node, links from its edges, ports for whatever enters
   or leaves the chain.
@@ -53,7 +54,10 @@ The planner checks layout rules for the transcribed structure only. It is not a 
 In the import dialog every recipe node can be placed as a catalog multiblock, a single-block machine (a
 1-block machine whose faces take the pipes), a placeholder (a 3×3×3 stand-in for a multiblock not in the catalog
 yet), a template port (passive sources such as crops, bees and ore veins) or skipped. The machine name mapping lives
-in [`src/data/gtnhplanner-machines.ts`](src/data/gtnhplanner-machines.ts). Storages between machines are passed
+in [`src/data/gtnhplanner-machines.ts`](src/data/gtnhplanner-machines.ts); names it does not list are also
+looked up among the machine types GT gives each multiblock ("Vacuum Furnace" is the Utupu-Tanuri), which
+`tools/gt-source/machine-types.mjs` collects. The template is sized to the chain, and each port sits on the
+edge nearest the groups it serves. Storages between machines are passed
 through; product drains become output ports, trash drains void ports. Thaumcraft aspect flows are left out.
 
 ## Data model

@@ -864,7 +864,7 @@
   "controller": {
     "pos": [16, 2, 16],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.dimensionallyTranscendentPlasmaForge"
   },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",

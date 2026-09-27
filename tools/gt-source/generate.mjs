@@ -109,14 +109,16 @@ async function existingBlocks() {
   const blocksTs = readFileSync(join(ROOT, 'src/data/blocks.ts'), 'utf8');
   const ids = new Set([...blocksTs.matchAll(/id:\s*'([^']+)'/g)].map((m) => m[1]));
   const byPath = new Map();
+  const withEnds = new Set(); // hand-made blocks with their own top or bottom texture
   for (const [id, faces] of Object.entries(atlas.HAND_BLOCK_MAP ?? atlas.BLOCK_MAP)) {
     if (!ids.has(id) || !faces.side || faces.front) continue;
     const tile = (atlas.HAND_TILES ?? atlas.TILES)[faces.side];
     if (!tile || tile.tint) continue;
     const path = tile.path ?? `${atlas.ICONSETS}/${faces.side}.png`;
     if (!byPath.has(path)) byPath.set(path, id);
+    if (faces.top || faces.bottom) withEnds.add(id);
   }
-  return { ids, byPath };
+  return { ids, byPath, withEnds };
 }
 
 /** Frame materials whose hand-made block has a short id. */
@@ -155,7 +157,7 @@ export async function generate(checkout, { log = console.log, includeCovered = f
     if (withShapes.has(cls)) continue;
     let p = parentOf.get(cls);
     for (let guard = 0; p && guard < 6 && !withShapes.has(p); guard++) p = parentOf.get(p);
-    if (p && withShapes.has(p)) files.push(relative(checkout, paths[0]));
+    if (p && withShapes.has(p)) files.push(relative(checkout, paths[0]).replace(/\\/g, '/'));
   }
   files.sort();
 
@@ -406,13 +408,22 @@ export async function generate(checkout, { log = console.log, includeCovered = f
         reg.iconTexture(info.icon(b.meta), info.iconSrc) ??
         reg.iconTexture(info.initIcon(b.meta)) ??
         reg.namedTexture(info.initName);
-      if (texture && existing.byPath.has(texture)) return existing.byPath.get(texture);
+      // `side < 2 ? TOP : SIDE`: separate top and bottom textures.
+      const [top, bottom] = ['top', 'bottom'].map((face) => {
+        const t = texture && reg.iconTexture(info.icon(b.meta), info.iconSrc, face);
+        return t && t !== texture ? t : undefined;
+      });
+      // A hand-made block with that side texture is reused unless it lacks the top/bottom this one has.
+      const hand = texture && existing.byPath.get(texture);
+      if (hand && ((!top && !bottom) || existing.withEnds.has(hand))) return hand;
       const id = `gt5u.${camel(info.unloc ?? b.field)}.${b.meta}`;
       if (!blocks.has(id))
         blocks.set(id, {
           name: info.name(b.meta) ?? `${info.unloc ?? b.field} ${b.meta}`,
           color: '#8f8f8f',
           texture,
+          top,
+          bottom,
           field: b.field,
           meta: b.meta,
         });
@@ -500,6 +511,32 @@ export async function generate(checkout, { log = console.log, includeCovered = f
     }
     usedIds.add(id);
 
+    // The controller looks like the casing its hatches go on (a solid one before glass and frames, then the
+    // most used), with the machine's idle front overlay, as in game.
+    const counts = new Map();
+    for (const layer of layers)
+      for (const row of layer) for (const ch of row) counts.set(ch, (counts.get(ch) ?? 0) + 1);
+    const solid = (e) =>
+      /^gt\.(?:glass|frame)\.|^gt5u\.(?:specialHatch|tieredCasing)$/.test(e.blockId) ? 0 : 1;
+    const host = Object.entries(legend)
+      .filter(([, e]) => !Object.values(HATCH_BLOCKS).includes(e.blockId))
+      .sort(
+        ([a, ea], [b, eb]) =>
+          solid(eb) - solid(ea) ||
+          (eb.hatches ? 1 : 0) - (ea.hatches ? 1 : 0) ||
+          counts.get(b) - counts.get(a),
+      )[0];
+    const front = reg.controllerFront(chain);
+    let controllerId = 'gt.controller';
+    if (host || front) {
+      controllerId = `gt5u.controller.${camel(id)}`;
+      blocks.set(controllerId, {
+        name: `${name} Controller`,
+        color: '#3d4247',
+        controller: { casing: host?.[1].blockId, front },
+      });
+    }
+
     // Hatch kinds whose every cell is sealed in (only faces into the structure, its air or the ground) cannot be
     // placed by the planner: keep them in the legend but leave them out of the defaults and requirements.
     const reachable = openCells(layers, [width, sy, sz], ctrl, facing);
@@ -539,7 +576,7 @@ export async function generate(checkout, { log = console.log, includeCovered = f
       size: [width, sy, sz],
       layers,
       legend,
-      controller: { pos: ctrl, facing, blockId: 'gt.controller' },
+      controller: { pos: ctrl, facing, blockId: controllerId },
       hatchBlocks: Object.fromEntries(
         HATCH_ORDER.filter((k) => hatchesUsed.has(k)).map((k) => [k, HATCH_BLOCKS[k]]),
       ),
@@ -727,7 +764,22 @@ async function write(result, checkout) {
   const tiles = {};
   const faces = {};
   const colors = new Map();
+  /** Adds the tile of a source file (copied into tools/texture-sources/) and returns its name and file. */
+  const addTile = (tile, opts) => {
+    const hand = atlas.HAND_TILES[tile];
+    if (hand && (hand.path ?? `${atlas.ICONSETS}/${tile}.png`) !== opts.path) tile = `GEN_${tile}`;
+    const file = join(srcDir, `${tile}.png`);
+    if (!existsSync(file)) {
+      const data = execSync(`git -C ${JSON.stringify(checkout)} show HEAD:${opts.path}`, {
+        maxBuffer: 1 << 26,
+      });
+      writeFileSync(file, data);
+    }
+    if (!atlas.HAND_TILES[tile]) tiles[tile] = { ...opts, ref: TAG };
+    return { tile, file };
+  };
   for (const [id, b] of blocks) {
+    if (b.controller) continue;
     let tile;
     let opts;
     if (b.frame) {
@@ -741,18 +793,29 @@ async function write(result, checkout) {
       tile = tileName(b.texture);
       opts = { path: b.texture };
     } else continue;
-    const hand = atlas.HAND_TILES[tile];
-    if (hand && (hand.path ?? `${atlas.ICONSETS}/${tile}.png`) !== opts.path) tile = `GEN_${tile}`;
-    const file = join(srcDir, `${tile}.png`);
-    if (!existsSync(file)) {
-      const data = execSync(`git -C ${JSON.stringify(checkout)} show HEAD:${opts.path}`, {
-        maxBuffer: 1 << 26,
-      });
-      writeFileSync(file, data);
-    }
-    if (!atlas.HAND_TILES[tile]) tiles[tile] = { ...opts, ref: TAG };
-    faces[id] = { side: tile };
-    const color = meanColor(atlas.firstFrameTile(atlas.decodePng(readFileSync(file)), opts.tint));
+    const side = addTile(tile, opts);
+    faces[id] = { side: side.tile };
+    for (const face of ['top', 'bottom'])
+      if (b[face]) faces[id][face] = addTile(tileName(b[face]), { path: b[face] }).tile;
+    const color = meanColor(atlas.firstFrameTile(atlas.decodePng(readFileSync(side.file)), opts.tint));
+    if (color) colors.set(id, color);
+  }
+  // Controllers: their casing's faces (generated or hand-made) with the machine's front overlay on top.
+  const handColors = new Map(
+    [
+      ...readFileSync(join(ROOT, 'src/data/blocks.ts'), 'utf8').matchAll(
+        /id:\s*'([^']+)'[^}]*color:\s*'([^']+)'/g,
+      ),
+    ].map((m) => [m[1], m[2]]),
+  );
+  for (const [id, b] of blocks) {
+    if (!b.controller) continue;
+    const { casing, front } = b.controller;
+    const base = casing && (faces[casing] ?? atlas.HAND_BLOCK_MAP[casing]);
+    const { front: _, ...casingFaces } = base?.side ? base : { side: 'MACHINE_CASING_SOLID_STEEL' };
+    faces[id] = casingFaces;
+    if (front) faces[id].front = addTile(tileName(front), { path: front }).tile;
+    const color = colors.get(casing) ?? handColors.get(casing) ?? result.blocks.get(casing)?.color;
     if (color) colors.set(id, color);
   }
   for (const t of before)

@@ -402,11 +402,39 @@ export class ElementResolver {
     const bt = callArgs(t, 'ofBlocksTiered');
     if (bt) {
       if (/coil/i.test(t)) return { kind: 'casing', block: { type: 'coil' }, hatches: [] };
-      // The first `Pair.of(block, meta)` in the list (inline or a static field) shows the lowest tier.
+      // The first `Pair.of(block, meta)` in the list (inline, a field or a method such as `getTierBlockList()`)
+      // shows the lowest tier.
       let text = t;
-      for (const a of bt.args)
-        if (/^[A-Z_][A-Z0-9_]*$/.test(a.trim())) text += this.fieldInit(a.trim()) ?? '';
-      const p = /Pair\.of\(\s*([\w.]+(?:\s*\(\s*\))?)\s*,\s*([\w.()-]+)\s*\)/.exec(text);
+      for (const a of bt.args) {
+        const name = /^(?:\w+\.)?(\w+)(\s*\(\s*\))?$/.exec(a.trim());
+        if (!name) continue;
+        const body = name[2]
+          ? this.ctx.classMethods
+            ? this.ctx.classMethods(name[1])
+            : methodBody(this.ctx.src, name[1])
+          : this.fieldInit(name[1]);
+        text += body ?? '';
+      }
+      // `Pair.of(Casings.X.getBlock(), Casings.X.getBlockMeta())`, `Pair.of(getBlock(), Casings.X.getBlockMeta())`:
+      // the casing enum entry.
+      const pc =
+        /Pair\.of\(\s*(?:[\w.]+\s*\(\s*\)\s*,\s*)?(?:gregtech\.api\.casing\.)?Casings\.(\w+)\.getBlock(?:Meta)?\s*\(\s*\)/.exec(
+          text,
+        );
+      const c = pc && this.ctx.casingsEnum.get(pc[1]);
+      if (c) return { kind: 'casing', block: { type: 'block', field: c.field, meta: c.meta }, hatches: [] };
+      // `IntStream.range(0, 14).mapToObj(i -> Pair.of(block, i))`: the first meta of the range.
+      const range =
+        /IntStream\.range\(\s*(\d+)\s*,[^;]*?->\s*(?:[\w.]+\.)?Pair\.of\(\s*([\w.]+)\s*,\s*\w+\s*\)/.exec(
+          text,
+        );
+      if (range && this.blockField(range[2]))
+        return {
+          kind: 'casing',
+          block: { type: 'block', field: this.blockField(range[2]), meta: Number(range[1]) },
+          hatches: [],
+        };
+      const p = /Pair\.of\(\s*([\w.]+(?:\s*\(\s*\))?)\s*,\s*(-?[\w.]+(?:\(\s*\))?)\s*\)/.exec(text);
       const frame = p && /sBlockFrames$/.test(p[1]) ? /(\w+)\.mMetaItemSubID/.exec(p[2]) : null;
       if (frame)
         return { kind: 'casing', block: { type: 'frame', material: `Materials.${frame[1]}` }, hatches: [] };

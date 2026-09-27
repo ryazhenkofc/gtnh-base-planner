@@ -31,7 +31,7 @@
   "controller": {
     "pos": [3, 0, 0],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.exxonmobilChemicalPlant"
   },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",

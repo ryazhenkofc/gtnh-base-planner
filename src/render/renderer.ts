@@ -60,7 +60,6 @@ const SITE_EDGE_COLOR = '#8f8b84';
 const SITE_FLOOR_COLOR = '#f6f5f2';
 /** Dimension lines beside the build or site: colours, and gap from the edge (blocks). */
 const DIM_COLOR = '#aaa69f';
-const DIM_TEXT = '#6f6b65';
 const DIM_GAP = 1.2;
 const GIZMO_PX = 96;
 const GIZMO_MARGIN_PX = 14;
@@ -92,9 +91,32 @@ interface VoxelBatch {
   baseMaterials: THREE.Material | THREE.Material[];
 }
 
+/** Device pixels per CSS pixel the canvas is drawn at (the same cap as the WebGL renderer). */
+function pixelRatio(): number {
+  return Math.min(typeof window === 'undefined' ? 1 : window.devicePixelRatio || 1, 2);
+}
+
+/**
+ * A texture for text drawn at the size it is shown: no mipmaps, so it is sampled about 1:1 instead of
+ * being blurred down from a larger canvas.
+ */
+function textTexture(c: HTMLCanvasElement): THREE.CanvasTexture {
+  const tex = new THREE.CanvasTexture(c);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.generateMipmaps = false;
+  tex.minFilter = THREE.LinearFilter;
+  tex.magFilter = THREE.LinearFilter;
+  return tex;
+}
+
+/** CSS pixel heights of screen labels (the sprite box; the text is two thirds of it). */
+const LABEL_PX = 20;
+const LABEL_SMALL_PX = 17;
+
 /**
  * A label drawn at a constant size on screen, above everything (site groups and ports). `swatch` adds a
- * coloured dot before the text (the text itself stays dark, so light colours remain readable).
+ * coloured dot before the text (the text itself stays dark, so light colours remain readable). The canvas
+ * is drawn in device pixels at its on-screen size; `sizeLabel` sets the sprite's scale for the view.
  */
 function textSprite(
   text: string,
@@ -102,68 +124,87 @@ function textSprite(
   small: boolean,
   textColor = '#222222',
 ): THREE.Sprite {
-  const px = small ? 26 : 30;
-  const font = `500 ${px}px 'Helvetica Neue', Helvetica, Arial, sans-serif`;
+  const dpr = pixelRatio();
+  const cssH = small ? LABEL_SMALL_PX : LABEL_PX;
+  const px = Math.round((cssH / 1.5) * dpr);
+  const font = `600 ${px}px 'Helvetica Neue', Helvetica, Arial, sans-serif`;
   const dot = swatch ? px * 0.9 : 0;
   const c = document.createElement('canvas');
   const ctx = c.getContext('2d');
   let w = 64;
   if (ctx) {
     ctx.font = font;
-    w = Math.ceil(ctx.measureText(text).width + dot) + 16;
+    w = Math.ceil(ctx.measureText(text).width + dot + 16 * dpr);
   }
-  const h = Math.round(px * 1.5);
+  const h = Math.round(cssH * dpr);
   c.width = w;
   c.height = h;
   if (ctx) {
     ctx.font = font;
     ctx.textAlign = 'left';
     ctx.textBaseline = 'middle';
-    ctx.lineWidth = 6;
+    ctx.lineWidth = 4 * dpr;
+    ctx.lineJoin = 'round';
     ctx.strokeStyle = 'rgba(255,255,255,0.92)';
-    ctx.strokeText(text, 8 + dot, h / 2 + 1);
+    const x = 8 * dpr + dot;
+    ctx.strokeText(text, x, h / 2);
     ctx.fillStyle = textColor;
-    ctx.fillText(text, 8 + dot, h / 2 + 1);
+    ctx.fillText(text, x, h / 2);
     if (swatch) {
       ctx.beginPath();
-      ctx.arc(8 + px * 0.3, h / 2, px * 0.28, 0, Math.PI * 2);
+      ctx.arc(8 * dpr + px * 0.3, h / 2, px * 0.28, 0, Math.PI * 2);
       ctx.fillStyle = '#ffffff';
       ctx.fill();
       ctx.beginPath();
-      ctx.arc(8 + px * 0.3, h / 2, px * 0.22, 0, Math.PI * 2);
+      ctx.arc(8 * dpr + px * 0.3, h / 2, px * 0.22, 0, Math.PI * 2);
       ctx.fillStyle = swatch;
       ctx.fill();
     }
   }
-  const tex = new THREE.CanvasTexture(c);
-  tex.colorSpace = THREE.SRGBColorSpace;
   const sprite = new THREE.Sprite(
-    new THREE.SpriteMaterial({ map: tex, depthTest: false, sizeAttenuation: false, transparent: true }),
+    new THREE.SpriteMaterial({
+      map: textTexture(c),
+      depthTest: false,
+      sizeAttenuation: false,
+      transparent: true,
+    }),
   );
-  // With sizeAttenuation off the scale is relative to the view at distance 1 (fov 30°: 0.54 units high),
-  // so these are about 14 and 12 px on a 720 px tall view.
-  const height = small ? 0.0105 : 0.0122;
-  sprite.scale.set((height * w) / h, height, 1);
+  sprite.userData.label = { cssH, aspect: w / h };
   sprite.renderOrder = 10;
   return sprite;
 }
 
-/** Text label for the axis gizmo. */
+/**
+ * Scales a `textSprite` to its CSS pixel height on a view `viewH` CSS pixels tall. With sizeAttenuation
+ * off, a sprite's scale is measured on the view plane at distance 1, which is 2·tan(fov/2) units high.
+ */
+function sizeLabel(sprite: THREE.Sprite, viewH: number, fov: number): void {
+  const label = sprite.userData.label as { cssH: number; aspect: number } | undefined;
+  if (!label) return;
+  // Before the first resize: a typical view height.
+  const h = (label.cssH / (viewH > 0 ? viewH : 720)) * 2 * Math.tan(THREE.MathUtils.degToRad(fov) / 2);
+  sprite.scale.set(h * label.aspect, h, 1);
+}
+
+/** Gizmo label size in gizmo units; the gizmo view is `GIZMO_SPAN` units across `GIZMO_PX` CSS pixels. */
+const GIZMO_LABEL = 0.7;
+const GIZMO_SPAN = 3.6;
+
+/** Text label for the axis gizmo, drawn at the pixel size it is shown at. */
 function labelSprite(text: string, color: string): THREE.Sprite {
+  const size = Math.round((GIZMO_LABEL / GIZMO_SPAN) * GIZMO_PX * pixelRatio());
   const c = document.createElement('canvas');
-  c.width = c.height = 64;
+  c.width = c.height = size;
   const ctx = c.getContext('2d');
   if (ctx) {
-    ctx.font = '600 38px system-ui, -apple-system, "Segoe UI", sans-serif';
+    ctx.font = `600 ${Math.round(size * (text.length > 1 ? 0.46 : 0.62))}px system-ui, -apple-system, "Segoe UI", sans-serif`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillStyle = color;
-    ctx.fillText(text, 32, 34);
+    ctx.fillText(text, size / 2, size / 2 + size * 0.03);
   }
-  const tex = new THREE.CanvasTexture(c);
-  tex.colorSpace = THREE.SRGBColorSpace;
-  const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, depthTest: false }));
-  sprite.scale.setScalar(0.7);
+  const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: textTexture(c), depthTest: false }));
+  sprite.scale.setScalar(GIZMO_LABEL);
   return sprite;
 }
 
@@ -241,7 +282,8 @@ export function createRenderer(
   scene.add(content, selection);
 
   const gizmo = buildGizmo();
-  const gizmoCamera = new THREE.OrthographicCamera(-1.8, 1.8, 1.8, -1.8, 0.1, 10);
+  const half = GIZMO_SPAN / 2;
+  const gizmoCamera = new THREE.OrthographicCamera(-half, half, half, -half, 0.1, 10);
 
   // Shared geometries and renderer-owned materials (provider materials are never disposed here).
   const boxGeo = new THREE.BoxGeometry(1, 1, 1);
@@ -271,6 +313,15 @@ export function createRenderer(
     polygonOffsetFactor: 2,
     polygonOffsetUnits: 2,
   });
+  const floorSeeThroughMat = new THREE.MeshBasicMaterial({
+    color: SITE_FLOOR_COLOR,
+    transparent: true,
+    opacity: 0.55,
+    depthWrite: false,
+    polygonOffset: true,
+    polygonOffsetFactor: 2,
+    polygonOffsetUnits: 2,
+  });
   const tintMat = new THREE.MeshBasicMaterial({
     color: SELECT_TINT,
     transparent: true,
@@ -290,6 +341,7 @@ export function createRenderer(
     edgeMat,
     dimMat,
     floorMat,
+    floorSeeThroughMat,
     tintMat,
     lineMat,
   ];
@@ -350,6 +402,44 @@ export function createRenderer(
     });
   }
 
+  /** Camera and view the labels were last laid out for. */
+  let labelView = '';
+
+  /**
+   * Hides labels that would cover a more important one on screen: dimensions first, then group names
+   * (in scene order), then ports. Runs again whenever the camera or the view size changes, so zooming in
+   * brings back the labels that have room.
+   */
+  function declutterLabels(): void {
+    const sprites = content.children.filter(
+      (c): c is THREE.Sprite => c instanceof THREE.Sprite && !!c.userData.label,
+    );
+    const view = `${camera.matrixWorld.elements.join(',')}|${width}|${height}|${sprites.length}`;
+    if (view === labelView || width === 0 || height === 0) return;
+    labelView = view;
+    const kept: [number, number, number, number][] = [];
+    const v = new THREE.Vector3();
+    const order = sprites
+      .map((sp, i) => ({ sp, i, pr: (sp.userData.label as { priority?: number }).priority ?? 0 }))
+      .sort((a, b) => b.pr - a.pr || a.i - b.i);
+    for (const { sp } of order) {
+      const label = sp.userData.label as { cssH: number; aspect: number };
+      v.copy(sp.position).project(camera);
+      if (v.z < -1 || v.z > 1) {
+        sp.visible = false;
+        continue;
+      }
+      const x = ((v.x + 1) / 2) * width;
+      const y = ((1 - v.y) / 2) * height;
+      // The text box, without most of the transparent margin around it.
+      const hw = (label.cssH * label.aspect) / 2 - 4;
+      const hh = label.cssH * 0.34;
+      const box: [number, number, number, number] = [x - hw, y - hh, x + hw, y + hh];
+      sp.visible = !kept.some((k) => box[0] < k[2] && box[2] > k[0] && box[1] < k[3] && box[3] > k[1]);
+      if (sp.visible) kept.push(box);
+    }
+  }
+
   function updateFlows(): void {
     if (!flows) return;
     const t = flowOn ? ((clock() / 1000) * FLOW_SPEED) % 1 : 0.5;
@@ -368,6 +458,7 @@ export function createRenderer(
     updateFlows();
     gl.info.reset();
     camera.updateMatrixWorld();
+    declutterLabels();
     // Light follows the camera a little (from its upper right) so the visible faces stay readable.
     const offset = camera.position.clone().sub(controls.target);
     const right = new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld, 0);
@@ -405,6 +496,7 @@ export function createRenderer(
     gl.setSize(w, h, false);
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
+    for (const child of content.children) if (child instanceof THREE.Sprite) sizeLabel(child, h, camera.fov);
     if (autoFit && model) fit(false);
     requestRender();
   }
@@ -695,7 +787,9 @@ export function createRenderer(
   function buildSite(m: SceneModel): void {
     if (!m.site) return;
     const [w, d] = m.site.size;
-    const floor = new THREE.Mesh(new THREE.PlaneGeometry(w, d), floorMat);
+    // Pipes in a trench under the ground show through a see-through floor.
+    const trench = (m.pipes ?? []).some((n) => n.paths.some((path) => path.some((c) => c[1] < 0)));
+    const floor = new THREE.Mesh(new THREE.PlaneGeometry(w, d), trench ? floorSeeThroughMat : floorMat);
     floor.rotation.x = -Math.PI / 2;
     floor.position.set(w / 2, 0, d / 2);
     content.add(floor);
@@ -739,10 +833,15 @@ export function createRenderer(
     const geo = new THREE.BufferGeometry();
     geo.setAttribute('position', new THREE.Float32BufferAttribute(lines, 3));
     content.add(new THREE.LineSegments(geo, dimMat));
-    const widthLabel = textSprite(widthText, undefined, false, DIM_TEXT);
+    // Coloured like the gizmo axis they measure.
+    const widthLabel = textSprite(widthText, undefined, false, AXIS_COLORS.x);
     widthLabel.position.set((x0 + x1) / 2, y, zs);
-    const depthLabel = textSprite(depthText, undefined, false, DIM_TEXT);
+    const depthLabel = textSprite(depthText, undefined, false, AXIS_COLORS.z);
     depthLabel.position.set(xe, y, (z0 + z1) / 2);
+    for (const l of [widthLabel, depthLabel]) {
+      sizeLabel(l, height, camera.fov);
+      l.userData.label.priority = 2;
+    }
     content.add(widthLabel, depthLabel);
   }
 
@@ -750,11 +849,15 @@ export function createRenderer(
     for (const l of m.labels ?? []) {
       const sprite = textSprite(l.text, l.color, !!l.small);
       sprite.position.set(l.pos[0], l.pos[1], l.pos[2]);
+      sizeLabel(sprite, height, camera.fov);
+      // Group names before port names.
+      sprite.userData.label.priority = l.small ? 0 : 1;
       content.add(sprite);
     }
   }
 
   function rebuild(): void {
+    labelView = '';
     clearContent();
     if (model) {
       buildSite(model);

@@ -94,6 +94,8 @@ interface Entry {
   reach: number;
   /** Hatches of other kinds around the cell the face looks into. */
   crowded: number;
+  /** Distance from the cell the face looks into to where this kind's pipes go (`PlaceOptions.toward`). */
+  far: number;
   /** Index of the open face used, into the site's `faces`. */
   face: number;
   /** That face's position in `FACE_ORDER` (sides before top before bottom). */
@@ -111,6 +113,7 @@ function compareEntries(a: Entry, b: Entry): number {
     a.crowded - b.crowded ||
     b.aligned - a.aligned ||
     b.reach - a.reach ||
+    a.far - b.far ||
     a.faceRank - b.faceRank ||
     a.i - b.i
   );
@@ -303,6 +306,7 @@ function legendKinds(
 function findSites(
   def: MultiblockDef,
   units: readonly Unit[],
+  below = false,
 ): {
   sites: Site[];
   openAround: ((k: CellKey) => (CellKey | null)[]) | null;
@@ -412,8 +416,10 @@ function findSites(
     }
   }
 
+  // With connections from below, the layer under the build is open too (a trench for the pipes).
+  if (below) ground -= 1;
   // Solid cells, and which empty ones the outside reaches (the build stands on the ground: nothing opens
-  // below its lowest layer).
+  // below its lowest layer, or the layer under it with `below`).
   let solidAt: (p: Vec3, k: CellKey) => boolean;
   let isOutside: (p: Vec3, k: CellKey) => boolean;
   let clearAhead: (p: Vec3, k: CellKey, face: number) => boolean;
@@ -573,8 +579,9 @@ function findSites(
  *   already-served units on the cell, then a face with open space ahead over one into a gap or recess,
  *   then a face in line with hatches of the same kind already placed (same direction, fronts on one axis
  *   line, so one straight pipe or cable serves them), then a face on a line more units could share, then
- *   fewer hatches of other kinds around, then a
+ *   fewer hatches of other kinds around, then the face nearest the point `toward` gives for the kind, then a
  *   side face over top over bottom, then the lowest y, z, x.
+ * - `below` opens the layer under the build: hatches of the lowest layer may face down into it.
  * - `avoid` keeps listed cells free of the listed kinds (they may still take other kinds).
  * - Unit ids are expected to be unique. The result is independent of the order of `units` and
  *   `enabled`: hatches are listed in placement order, `unplaced` by kind priority then unit id.
@@ -584,16 +591,30 @@ export function placeHatches(
   units: readonly Unit[],
   enabled: readonly HatchKind[],
   avoid?: HatchAvoid,
+  opts: PlaceOptions = {},
 ): HatchResult {
   let kinds: HatchKind[] = [];
   try {
     kinds = kindsToPlace(def, enabled);
     if (kinds.length === 0 || units.length === 0) return { hatches: [], unplaced: [] };
-    return place(def, units, kinds, avoid);
+    return place(def, units, kinds, avoid, !!opts.below, opts.toward);
   } catch {
     // Malformed definition (e.g. unknown legend char): nothing can be placed, but never throw.
     return allUnplaced(def, units, kinds);
   }
+}
+
+export interface PlaceOptions {
+  /**
+   * Hatches may face down from the lowest layer, and pipes may run in the layer under the build (a trench
+   * dug for them). Default false: the build stands on the ground and nothing faces it.
+   */
+  below?: boolean;
+  /**
+   * Per kind, a point (in the units' coordinates) its pipes lead to, e.g. far out on the side a template's
+   * port or the next machine is. Among otherwise equal cells and faces, the one nearest it wins.
+   */
+  toward?: Partial<Record<HatchKind, Vec3>>;
 }
 
 /** Cells (`x,y,z`) a hatch kind must not take, e.g. to try its hatches elsewhere (see `improveHatches`). */
@@ -604,8 +625,10 @@ function place(
   units: readonly Unit[],
   kinds: HatchKind[],
   avoid?: HatchAvoid,
+  below = false,
+  toward?: PlaceOptions['toward'],
 ): HatchResult {
-  const { sites, openAround, openToward, nearby, volume } = findSites(def, units);
+  const { sites, openAround, openToward, nearby, volume } = findSites(def, units, below);
   const unitIds = sortedIds(units);
   const shareable = new Set(def.shareableHatches ?? []);
   const used = new Set<CellKey>();
@@ -731,6 +754,13 @@ function place(
         let aligned = -1;
         let reach = -1;
         let crowded = Infinity;
+        let far = Infinity;
+        const target = toward?.[kind];
+        const farOf = (dir: Dir): number => {
+          if (!target) return 0;
+          const q = step(c.pos, dir);
+          return Math.abs(q[0] - target[0]) + Math.abs(q[1] - target[1]) + Math.abs(q[2] - target[2]);
+        };
         for (let fi = 0; fi < c.faces.length; fi++) {
           const f = c.faces[fi];
           if ((frontOf(f.front) ?? kind) !== kind || blocked?.has(f.dir)) continue;
@@ -740,19 +770,23 @@ function place(
           const n = crowd(f.front, kind);
           const o = openRank(f.rank);
           const fo = face < 0 ? 0 : openRank(c.faces[face].rank);
+          const d = farOf(f.dir);
           const better =
             face < 0 ||
             w < walled ||
             (w === walled &&
               (o < fo ||
                 (o === fo &&
-                  (n < crowded || (n === crowded && (a > aligned || (a === aligned && r > reach)))))));
+                  (n < crowded ||
+                    (n === crowded &&
+                      (a > aligned || (a === aligned && (r > reach || (r === reach && d < far)))))))));
           if (better) {
             face = fi;
             walled = w;
             aligned = a;
             reach = r;
             crowded = n;
+            far = d;
           }
         }
         if (face < 0) return null;
@@ -766,6 +800,7 @@ function place(
           aligned,
           reach,
           crowded,
+          far,
           face,
           faceRank: c.faces[face].rank,
         };

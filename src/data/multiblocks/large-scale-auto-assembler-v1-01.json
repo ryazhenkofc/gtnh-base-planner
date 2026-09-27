@@ -18,7 +18,7 @@
   "controller": {
     "pos": [1, 1, 0],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.largeScaleAutoAssemblerV101"
   },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",

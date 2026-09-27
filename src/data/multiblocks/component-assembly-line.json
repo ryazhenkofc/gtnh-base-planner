@@ -387,7 +387,7 @@
       "hatches": ["fluidIn"]
     },
     "B": {
-      "blockId": "gt5u.tieredCasing"
+      "blockId": "gt5u.componentAssemblylineCasing.0"
     },
     "C": {
       "blockId": "gt.casing.assemblyLine"
@@ -409,7 +409,7 @@
   "controller": {
     "pos": [4, 7, 0],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.componentAssemblyLine"
   },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",

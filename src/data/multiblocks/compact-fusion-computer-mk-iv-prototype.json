@@ -377,7 +377,7 @@
   "controller": {
     "pos": [23, 3, 40],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.compactFusionComputerMkIvPrototype"
   },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",

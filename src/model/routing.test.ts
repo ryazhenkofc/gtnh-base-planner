@@ -396,6 +396,19 @@ describe('routePipes', () => {
       }
   });
 
+  it('lays pipes at most one layer below the build when connections from below are allowed', () => {
+    for (const id of ['coke-oven', 'electric-blast-furnace', 'pyrolyse-oven'])
+      for (const count of [4, 12]) {
+        const r = createPipeline()({ ...defaultPlan(id), count }, true, false, true);
+        const ground = Math.min(...r.scene!.voxels.map((v) => v.pos[1]));
+        const all = (r.pipes ?? []).reduce((s, n) => s + n.total, 0);
+        const connected = (r.pipes ?? []).reduce((s, n) => s + n.connected, 0);
+        expect(connected).toBe(all);
+        for (const n of r.pipes ?? [])
+          for (const p of n.paths.flat()) expect(p[1]).toBeGreaterThanOrEqual(ground - 1);
+      }
+  });
+
   it('is deterministic and does not mutate inputs', () => {
     const units = Object.freeze([oven(1, [0, 0, 0]), oven(2, [4, 0, 0])].map((u) => Object.freeze(u)));
     const hatches = Object.freeze(

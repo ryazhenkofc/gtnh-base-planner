@@ -1,5 +1,5 @@
 import { isSingleBlock } from '../../data/generic';
-import { rotateDir, rotatedSize, unitCells } from '../geometry';
+import { rotateDir, rotatedSize, step, unitCells } from '../geometry';
 import { layoutCandidates, packUnits } from '../layout';
 import { resolveLayout } from '../plan';
 import { placeHatches } from '../ports';
@@ -31,6 +31,40 @@ export interface SiteHatch extends HatchPlacement {
   blocked?: Dir[];
   /** Net id once the site has been routed. */
   net?: number;
+}
+
+/** Per hatch kind, the side (in the group's own frame) its pipes leave by: to a port or another group. */
+export type Toward = Partial<Record<HatchKind, Dir>>;
+
+/** How far out on its side a `Toward` direction points: far enough to act as a direction, not a spot. */
+const TOWARD_REACH = 1000;
+
+/**
+ * `PlaceOptions.toward` points for a group's units: far out from the middle of their box on each kind's
+ * side, at ground level (ports and most pipes are there).
+ */
+function towardPoints(
+  def: MultiblockDef,
+  units: readonly Unit[],
+  toward: Toward,
+): Partial<Record<HatchKind, Vec3>> {
+  const out: Partial<Record<HatchKind, Vec3>> = {};
+  const entries = Object.entries(toward) as [HatchKind, Dir][];
+  if (entries.length === 0 || units.length === 0) return out;
+  const lo = [Infinity, Infinity, Infinity];
+  const hi = [-Infinity, -Infinity, -Infinity];
+  for (const u of units) {
+    const sz = rotatedSize(def, u.rotation);
+    for (let i = 0; i < 3; i++) {
+      lo[i] = Math.min(lo[i], u.origin[i]);
+      hi[i] = Math.max(hi[i], u.origin[i] + sz[i]);
+    }
+  }
+  for (const [kind, dir] of entries) {
+    const v = step([0, 0, 0], dir);
+    out[kind] = [(lo[0] + hi[0]) / 2 + v[0] * TOWARD_REACH, lo[1], (lo[2] + hi[2]) / 2 + v[2] * TOWARD_REACH];
+  }
+  return out;
 }
 
 /** Resources a group must take or give per hatch kind, in a stable order. */
@@ -142,6 +176,8 @@ export function buildGroup(
   limits: PlanLimits,
   base: readonly HatchKind[],
   demand: Demand,
+  below = false,
+  toward: Toward = {},
 ): GroupBuild {
   if (isSingleBlock(raw)) return buildSingleBlocks(raw, count, limits, demand);
   const def = withDemand(raw, demand);
@@ -149,7 +185,11 @@ export function buildGroup(
     (k) => def.hatchBlocks[k] !== undefined && (!IO_KINDS.includes(k) || (demand[k]?.length ?? 0) > 0),
   );
   const packed = packUnits(def, count, limits);
-  const resolved = resolveLayout(def, packed, enabled, limits, { placeHatches, layoutCandidates });
+  const targets = towardPoints(def, packed.units, toward);
+  // With `below`, hatches may face down from the lowest layer (see `PlaceOptions`); with `toward`, each
+  // kind's hatches lean to the side its pipes leave by.
+  const place: typeof placeHatches = (d, u, e, a) => placeHatches(d, u, e, a, { below, toward: targets });
+  const resolved = resolveLayout(def, packed, enabled, limits, { placeHatches: place, layoutCandidates });
   const lo: [number, number, number] = [Infinity, Infinity, Infinity];
   const hi: [number, number, number] = [-Infinity, -Infinity, -Infinity];
   for (const u of resolved.pack.units) {

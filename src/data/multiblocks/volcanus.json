@@ -22,7 +22,7 @@
   "controller": {
     "pos": [1, 0, 0],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.volcanus"
   },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",

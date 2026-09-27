@@ -36,7 +36,7 @@
   "controller": {
     "pos": [2, 1, 1],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.industrialSledgehammer"
   },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",

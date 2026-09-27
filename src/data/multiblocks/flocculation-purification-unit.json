@@ -34,7 +34,7 @@
   "controller": {
     "pos": [4, 1, 0],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.flocculationPurificationUnit"
   },
   "hatchBlocks": {},
   "shareableHatches": [],
