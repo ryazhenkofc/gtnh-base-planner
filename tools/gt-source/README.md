@@ -23,6 +23,7 @@ node tools/gt-source/generate.mjs ../gt5u             # dry run: counts and skip
 node tools/gt-source/generate.mjs ../gt5u --verbose   # ... and every skipped class
 node tools/gt-source/generate.mjs ../gt5u --write     # write the files below
 node scripts/build-atlas.mjs                          # repack the texture atlas
+node tools/gt-source/machine-types.mjs ../gt5u        # GT machine type names, for the GTNH Planner import
 npm run check && npm test
 ```
 
