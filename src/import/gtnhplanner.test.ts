@@ -165,6 +165,24 @@ describe('buildSiteFromGtnh', () => {
     expect(kept.site.size).toEqual([128, 128]);
   });
 
+  it('stacks groups of several machines when that saves ground', () => {
+    const p = parseGtnhProject(text);
+    for (const n of p.nodes) n.machineCount *= 6;
+    const { site } = buildSiteFromGtnh(p);
+    const b = createSiteBuilder()(site, { pipes: false, cables: false });
+    const stacked = site.groups.filter((g) => (g.limits.y ?? 1) > 1);
+    expect(stacked.length).toBeGreaterThan(0);
+    for (const g of stacked) {
+      const pg = b.groups.find((x) => x.group.id === g.id)!;
+      expect(new Set(pg.units.map((u) => u.origin[1])).size).toBe(g.limits.y);
+      expect(pg.build!.size[1]).toBeLessThanOrEqual(24);
+    }
+    expect(site.groups.find((g) => g.multiblockId === 'single-block')!.limits.y).toBe(1);
+    expect(
+      b.warnings.filter((w) => ['overlap', 'outside', 'error', 'fewer', 'unplaced'].includes(w.type)),
+    ).toEqual([]);
+  });
+
   it('follows overrides and grows a small site', () => {
     const p = parseGtnhProject(text);
     const { site, report } = buildSiteFromGtnh(
