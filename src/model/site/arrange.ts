@@ -191,3 +191,33 @@ export function arrangeSite(
   if (shift > 0) for (const g of out) g.origin = [g.origin[0] + shift, g.origin[1]];
   return { groups: out, fits: neededW <= w && neededD <= d, needed: [neededW, neededD] };
 }
+
+/**
+ * The site size to grow to when the groups do not fit: at least the current size, at most `max` per side,
+ * as square as possible (a deeper site splits the columns, which makes it narrower), then the smallest.
+ * The depth also leaves room for the boundary ports along the west and east edges (one free block between
+ * neighbours). When nothing fits, the result is the one that leaves the least outside.
+ */
+export function grownSize(
+  site: SiteState,
+  sizeOf: (id: string) => [number, number] | undefined,
+  max: number,
+): [number, number] {
+  const [w0, d0] = site.size;
+  const perEdge = (dir: 'in' | 'out') => site.ports.filter((p) => p.dir === dir && !p.pos).length;
+  const portDepth = Math.min(max, 2 * Math.max(perEdge('in'), perEdge('out')) + 1);
+  let best: [number, number] = [Math.max(w0, max), Math.max(d0, max)];
+  let bestScore = [Infinity, Infinity, Infinity];
+  for (let d = Math.max(d0, portDepth); d <= Math.max(d0, max); d++) {
+    const { needed } = arrangeSite({ ...site, size: [max, d] }, sizeOf);
+    const size: [number, number] = [Math.max(w0, needed[0]), Math.max(d, needed[1])];
+    const over = Math.max(0, size[0] - max) + Math.max(0, size[1] - max);
+    const score = [over, Math.max(size[0], size[1]), size[0] * size[1]];
+    const better = score.findIndex((v, i) => v !== bestScore[i]);
+    if (better >= 0 && score[better] < bestScore[better]) {
+      best = [Math.min(max, size[0]), Math.min(max, size[1])];
+      bestScore = score;
+    }
+  }
+  return best;
+}

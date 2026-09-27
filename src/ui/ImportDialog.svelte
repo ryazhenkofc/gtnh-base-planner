@@ -5,7 +5,6 @@
   import {
     ImportError,
     MAX_IMPORT_BYTES,
-    buildSiteFromGtnh,
     importRows,
     parseGtnhProject,
     type GtnhProject,
@@ -14,10 +13,12 @@
   } from '../import/gtnhplanner';
   import { SITE_MAX_SIZE, SITE_MIN_SIZE } from '../share/siteCodec';
   import { appMode, site } from '../state/site';
+  import { connectBelow } from '../state/store';
   import { notify } from './notices';
   import NumberField from './NumberField.svelte';
   import ResourceIcon from './ResourceIcon.svelte';
   import { fallbackColor } from '../import/gtnhplanner';
+  import { importSite } from './sitePipeline';
   import { replaceSite } from './siteActions';
 
   interface Props {
@@ -25,16 +26,27 @@
   }
   let { onclose }: Props = $props();
 
+  /** Pastes longer than this are read without showing them. */
+  const LARGE_PASTE = 200_000;
+
   let text = $state('');
   let error = $state<string | null>(null);
   let project = $state.raw<GtnhProject | null>(null);
   let rows = $state.raw<ImportRow[]>([]);
   /** Per node id: choice encoded as a select value (`mb:<id>`, `single`, `placeholder`, `port`, `skip`). */
   let choices = $state<Record<string, string>>({});
+  /**
+   * Rows whose machine list has been opened. The others list only their current choice: a chain of 150
+   * nodes would otherwise put 30 000 options in the page.
+   */
+  let expanded = $state<Record<string, boolean>>({});
+  /** Catalog entries a row's select lists. */
+  const listed = (id: string) =>
+    expanded[id] ? catalog : catalog.filter((d) => choices[id] === `mb:${d.id}`);
   // Start from the current site size.
   let width = $state(get(site).size[0]);
   let depth = $state(get(site).size[1]);
-  let grow = $state(true);
+  let fit = $state(true);
 
   function encode(c: MachineChoice): string {
     return c.type === 'multiblock' ? `mb:${c.id}` : c.type;
@@ -51,6 +63,7 @@
       project = p;
       rows = importRows(p);
       choices = Object.fromEntries(rows.map((r) => [r.node.id, encode(r.proposed)]));
+      expanded = {};
     } catch (err) {
       project = null;
       rows = [];
@@ -72,15 +85,26 @@
     read(await file.text());
   }
 
-  function build() {
-    if (!project) return;
+  let building = $state(false);
+  async function build() {
+    if (!project || building) return;
     const map = new Map(Object.entries(choices).map(([k, v]) => [k, decode(v)]));
-    const { site: next, report } = buildSiteFromGtnh(project, map, { size: [width, depth], grow });
+    building = true;
+    error = null;
+    let result: Awaited<ReturnType<typeof importSite>>;
+    try {
+      result = await importSite(project, map, { size: [width, depth], fit, below: get(connectBelow) });
+    } catch (err) {
+      error = err instanceof Error ? err.message : String(err);
+      return;
+    } finally {
+      building = false;
+    }
+    const { site: next, report } = result;
     replaceSite(next);
     appMode.set('site');
     const notes = [t.importer.done(report.groups, report.ports, report.links)];
-    if (next.size[0] !== width || next.size[1] !== depth)
-      notes.push(t.importer.grown(next.size[0], next.size[1]));
+    if (fit) notes.push(t.importer.sized(next.size[0], next.size[1]));
     else if (!report.fits) notes.push(t.site.needs(report.needed[0], report.needed[1]));
     if (report.aspects) notes.push(t.importer.aspects(report.aspects));
     if (report.truncated) notes.push(t.importer.truncated);
@@ -88,6 +112,28 @@
     if (report.placeholders.length)
       notify(t.importer.placeholders(report.placeholders), 9000, 'import-placeholders');
     onclose();
+  }
+
+  /** Up to three item and fluid outputs of a row's recipe, each once (a recipe may list one twice). */
+  function shownOutputs(r: ImportRow) {
+    const seen = new Set<string>();
+    return (r.recipe?.outputs ?? [])
+      .filter((o) => {
+        const k = o.kind + o.id;
+        if ((o.kind !== 'item' && o.kind !== 'fluid') || seen.has(k)) return false;
+        seen.add(k);
+        return true;
+      })
+      .slice(0, 3);
+  }
+
+  /** A large paste is read right away instead of being put into the text box (megabytes of text are slow there). */
+  function onpaste(e: ClipboardEvent) {
+    const pasted = e.clipboardData?.getData('text') ?? '';
+    if (pasted.length < LARGE_PASTE) return;
+    e.preventDefault();
+    text = '';
+    read(pasted);
   }
 
   function clampSize(v: string): number | null {
@@ -110,6 +156,7 @@
       aria-label={t.importer.paste}
       spellcheck="false"
       data-testid="import-text"
+      {onpaste}
       bind:value={text}></textarea>
     <div class="actions">
       <button class="link" data-testid="import-read" disabled={!text.trim()} onclick={() => read(text)}
@@ -144,9 +191,7 @@
             <tr>
               <td class="name">
                 <span class="recipe">
-                  {#each (r.recipe?.outputs ?? [])
-                    .filter((o) => o.kind === 'item' || o.kind === 'fluid')
-                    .slice(0, 3) as o (o.kind + o.id)}
+                  {#each shownOutputs(r) as o (o.kind + o.id)}
                     <ResourceIcon
                       res={{
                         kind: o.kind as 'item' | 'fluid',
@@ -165,13 +210,19 @@
                 >{r.count}<span class="meta"> ({Math.round(r.node.machineCount * 100) / 100})</span></td
               >
               <td>
-                <select class="field select" bind:value={choices[r.node.id]} aria-label={t.importer.placeAs}>
+                <select
+                  class="field select"
+                  bind:value={choices[r.node.id]}
+                  aria-label={t.importer.placeAs}
+                  onpointerdown={() => (expanded[r.node.id] = true)}
+                  onfocus={() => (expanded[r.node.id] = true)}
+                >
                   <option value="single">{t.importer.single}</option>
                   <option value="placeholder">{t.importer.placeholder}</option>
                   <option value="port">{t.importer.port}</option>
                   <option value="skip">{t.importer.skip}</option>
                   <optgroup label={t.site.groups}>
-                    {#each catalog as d (d.id)}<option value={`mb:${d.id}`}>{d.name}</option>{/each}
+                    {#each listed(r.node.id) as d (d.id)}<option value={`mb:${d.id}`}>{d.name}</option>{/each}
                   </optgroup>
                 </select>
               </td>
@@ -181,32 +232,36 @@
       </table>
 
       <div class="fields">
-        <label class="pair"
-          ><span>{t.site.width}</span><NumberField
-            value={String(width)}
-            label={t.site.width}
-            oncommit={(v) => {
-              const n = clampSize(v);
-              if (n !== null) width = n;
-            }}
-          /></label
-        >
-        <label class="pair"
-          ><span>{t.site.depth}</span><NumberField
-            value={String(depth)}
-            label={t.site.depth}
-            oncommit={(v) => {
-              const n = clampSize(v);
-              if (n !== null) depth = n;
-            }}
-          /></label
-        >
         <label class="pair check"
-          ><input type="checkbox" bind:checked={grow} /><span>{t.importer.grow}</span></label
+          ><input type="checkbox" bind:checked={fit} /><span>{t.importer.fit}</span></label
         >
+        {#if !fit}
+          <label class="pair"
+            ><span>{t.site.width}</span><NumberField
+              value={String(width)}
+              label={t.site.width}
+              oncommit={(v) => {
+                const n = clampSize(v);
+                if (n !== null) width = n;
+              }}
+            /></label
+          >
+          <label class="pair"
+            ><span>{t.site.depth}</span><NumberField
+              value={String(depth)}
+              label={t.site.depth}
+              oncommit={(v) => {
+                const n = clampSize(v);
+                if (n !== null) depth = n;
+              }}
+            /></label
+          >
+        {/if}
       </div>
       <div class="actions">
-        <button class="link active" data-testid="import-build" onclick={build}>{t.importer.build}</button>
+        <button class="link active" data-testid="import-build" disabled={building} onclick={build}
+          >{building ? t.importer.building : t.importer.build}</button
+        >
         {#if $site.groups.length}<span class="hint">{t.importer.replaces}</span>{/if}
       </div>
     {/if}
@@ -321,6 +376,9 @@
     display: flex;
     align-items: baseline;
     gap: 6px;
+  }
+  .pair > span {
+    white-space: nowrap;
   }
   .check {
     text-transform: none;

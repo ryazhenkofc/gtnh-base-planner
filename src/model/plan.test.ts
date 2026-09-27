@@ -54,7 +54,7 @@ describe('resolveLayout', () => {
         if (r.loosened)
           expect(new Set(r.pack.units.map((u) => u.origin[1])).size, `${def.id} × ${n}`).toBe(1);
       }
-  });
+  }, 30_000); // Places hatches for every hand-made multiblock at four counts.
 
   it('respects limits and keeps the best effort when nothing fits every hatch', () => {
     const limits: PlanLimits = { x: 3, y: null, z: 2 };

@@ -5,10 +5,11 @@ import {
   SOURCE_KINDS,
   SOURCE_NAMES,
   VOID_NAMES,
+  multiblockForMachineType,
   multiblockForName,
 } from '../data/gtnhplanner-machines';
-import { arrangeSite } from '../model/site/arrange';
-import { createSiteBuilder, localFootprints } from '../model/site/build';
+import { arrangeSite, grownSize } from '../model/site/arrange';
+import { createSiteBuilder, localFootprints, type SiteBuilder } from '../model/site/build';
 import { IO_KINDS } from '../model/site/group';
 import {
   iconUrl,
@@ -27,9 +28,14 @@ import {
   MAX_PORTS,
   MAX_RESOURCES,
   SITE_MAX_SIZE,
+  SITE_MIN_SIZE,
   validateSiteState,
 } from '../share/siteCodec';
 import { clampCount } from '../ui/fields';
+import { rotatedSize } from '../model/geometry';
+import { packUnits } from '../model/layout';
+import { effectiveSize, sizedDef } from '../model/resize';
+import type { MultiblockDef, PlanLimits } from '../model/types';
 
 /**
  * Import of a GTNH Planner (gtnhplanner.com) project: the JSON their board's "Export JSON" writes
@@ -187,11 +193,14 @@ export function parseGtnhProject(text: string): GtnhProject {
     });
   }
   const nodes: GtnhNode[] = [];
+  const nodeIds = new Set<string>();
   for (const n of list(data.nodes)) {
-    if (!isObj(n) || !str(n.id) || !str(n.recipeId)) {
+    // A repeated node id would make every link to it ambiguous.
+    if (!isObj(n) || !str(n.id) || !str(n.recipeId) || nodeIds.has(n.id as string)) {
       skipped++;
       continue;
     }
+    nodeIds.add(n.id as string);
     nodes.push({
       id: n.id as string,
       recipeId: n.recipeId as string,
@@ -293,6 +302,11 @@ export function proposeChoice(node: GtnhNode, recipe: GtnhRecipe | undefined): M
     return { type: 'port' };
   if (names.some((n) => SKIP_NAMES.has(n)) || handler?.kind === 'crafting') return { type: 'skip' };
   if (handler?.kind === 'single' || names.some((n) => SINGLE_BLOCK_NAMES.has(n))) return { type: 'single' };
+  // GT's own name for the machine type ("Vacuum Furnace" is the Utupu-Tanuri).
+  for (const n of names) {
+    const id = multiblockForMachineType(n);
+    if (id) return { type: 'multiblock', id };
+  }
   return { type: 'placeholder' };
 }
 
@@ -317,9 +331,14 @@ export function importRows(project: GtnhProject): ImportRow[] {
 
 export interface ImportOptions {
   size?: [number, number];
-  /** Make the site larger (up to the maximum) when the chain does not fit. Default true. */
-  grow?: boolean;
+  /**
+   * Size the site to the chain: the smallest, squarest size it fits (up to the maximum), whatever `size`
+   * says. Default true. Off: keep `size`, even when the chain does not fit.
+   */
+  fit?: boolean;
   corridor?: number;
+  /** Whether the site will be built with connections from below (so the measuring packs match it). */
+  below?: boolean;
 }
 
 export interface ImportReport {
@@ -337,6 +356,54 @@ export interface ImportReport {
   /** Whether the arranged groups fit the site. */
   fits: boolean;
   needed: [number, number];
+}
+
+/** Groups whose packed footprint stays within this many blocks along both sides are packed as usual. */
+const LONG_GROUP = 32;
+
+/**
+ * Limits for an imported group of `count` units on one layer. The packer prefers the fewest rows (two
+ * rows back to back share their walls), so a hundred units become one strip longer than any site. When the
+ * usual footprint is longer than `LONG_GROUP`, the units along X and Z are capped to make it as square
+ * as possible (the walkways between row pairs cost a little area).
+ */
+export function squareLimits(raw: MultiblockDef, count: number): PlanLimits {
+  const def = sizedDef(raw, effectiveSize(raw, undefined));
+  const free: PlanLimits = { x: null, y: 1, z: null };
+  const footprint = (limits: PlanLimits): [number, number] | null => {
+    const pack = packUnits(def, count, limits);
+    if (pack.placed < count) return null;
+    let lo = [Infinity, Infinity];
+    let hi = [-Infinity, -Infinity];
+    for (const u of pack.units) {
+      const s = rotatedSize(def, u.rotation);
+      lo = [Math.min(lo[0], u.origin[0]), Math.min(lo[1], u.origin[2])];
+      hi = [Math.max(hi[0], u.origin[0] + s[0]), Math.max(hi[1], u.origin[2] + s[2])];
+    }
+    return [hi[0] - lo[0], hi[1] - lo[1]];
+  };
+  const base = footprint(free);
+  if (!base || Math.max(...base) <= LONG_GROUP) return free;
+  let best = free;
+  let bestScore = [Math.max(...base), base[0] * base[1]];
+  const tried = new Set<number>();
+  for (let rows = 2; rows <= count; rows++) {
+    const x = Math.ceil(count / rows);
+    if (tried.has(x)) continue;
+    tried.add(x);
+    // Both axes are capped: with X alone the packer turns the strip to run along Z.
+    const limits: PlanLimits = { x, y: 1, z: Math.ceil(count / x) };
+    const f = footprint(limits);
+    if (!f) continue;
+    const score = [Math.max(...f), f[0] * f[1]];
+    if (score[0] < bestScore[0] || (score[0] === bestScore[0] && score[1] < bestScore[1])) {
+      best = limits;
+      bestScore = score;
+    }
+    // Rows only get more numerous from here: once the depth is the long side, stop.
+    if (f[1] > f[0]) break;
+  }
+  return best;
 }
 
 /** A stable, readable colour for a resource without one (hue from a string hash). */
@@ -363,12 +430,14 @@ export function resourceKey(kind: GtnhKind, id: string): string {
 /**
  * Turns a project into a site: one group per placed node, links from the edges (storages that sit between
  * machines are passed through), boundary ports for everything that enters or leaves the chain, then
- * auto-arrange. `choices` overrides the proposed machine per node id.
+ * auto-arrange. `choices` overrides the proposed machine per node id. `builder` packs the groups to measure
+ * them; passing the one that builds the site afterwards lets it reuse those packs.
  */
 export function buildSiteFromGtnh(
   project: GtnhProject,
   choices: ReadonlyMap<string, MachineChoice> = new Map(),
   opts: ImportOptions = {},
+  builder: SiteBuilder = createSiteBuilder(),
 ): { site: SiteState; report: ImportReport } {
   const rows = importRows(project);
   const resources: Record<string, ResourceDef> = {};
@@ -430,7 +499,7 @@ export function buildSiteFromGtnh(
       id,
       multiblockId,
       count: row.count,
-      limits: { x: null, y: 1, z: null },
+      limits: choice.type === 'multiblock' ? squareLimits(def, row.count) : { x: null, y: 1, z: null },
       enabledHatches: def.defaultHatches.filter((k) => !IO_KINDS.includes(k)),
       origin: [0, 0],
       rotation: 0,
@@ -566,13 +635,11 @@ export function buildSiteFromGtnh(
     resources,
     colors: {},
   });
-  const sizes = localFootprints(createSiteBuilder()(site, { pipes: false, cables: false }));
+  const sizes = localFootprints(builder(site, { pipes: false, cables: false, below: opts.below }));
   let arranged = arrangeSite(site, (id) => sizes.get(id));
-  if (!arranged.fits && opts.grow !== false) {
-    size = [
-      Math.min(SITE_MAX_SIZE, Math.max(size[0], arranged.needed[0])),
-      Math.min(SITE_MAX_SIZE, Math.max(size[1], arranged.needed[1])),
-    ];
+  if (opts.fit !== false) {
+    // From the smallest site up, so a large site left from an earlier chain does not stretch every pipe.
+    size = grownSize({ ...site, size: [SITE_MIN_SIZE, SITE_MIN_SIZE] }, (id) => sizes.get(id), SITE_MAX_SIZE);
     site = { ...site, size };
     arranged = arrangeSite(site, (id) => sizes.get(id));
   }

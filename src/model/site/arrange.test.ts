@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { arrangeSite } from './arrange';
+import { arrangeSite, grownSize } from './arrange';
 import { createSiteBuilder, localFootprints } from './build';
 import type { SiteGroup, SiteState } from './types';
 
@@ -66,6 +66,31 @@ describe('arrangeSite', () => {
     const r = arrangeSite(site, () => [5, 5]);
     expect(r.fits).toBe(false);
     expect(r.needed[0]).toBeGreaterThan(12);
+  });
+
+  it('grows a site that is too small in both directions, as square as it can', () => {
+    // Twenty unlinked groups form one column: at 30 deep it needs a long row of sub-columns.
+    const groups = Array.from({ length: 20 }, (_, i) => g(`g${i}`, 'electric-blast-furnace'));
+    const site: SiteState = { ...chain(), groups, links: [] };
+    const sizeOf = () => [9, 9] as [number, number];
+    const narrow = arrangeSite(site, sizeOf);
+    expect(narrow.fits).toBe(false);
+    const size = grownSize(site, sizeOf, 128);
+    const grown = arrangeSite({ ...site, size }, sizeOf);
+    expect(grown.fits).toBe(true);
+    expect(size[1]).toBeGreaterThan(30);
+    expect(Math.max(...size)).toBeLessThan(narrow.needed[0]);
+    expect(Math.abs(size[0] - size[1])).toBeLessThan(Math.max(...size) / 2);
+  });
+
+  it('leaves room along the edges for the ports', () => {
+    const ports = Array.from({ length: 25 }, (_, i) => ({
+      id: `in${i}`,
+      dir: 'in' as const,
+      resource: 'r1',
+    }));
+    const size = grownSize({ ...chain(), ports }, () => [5, 5], 128);
+    expect(size[1]).toBeGreaterThanOrEqual(2 * 25 - 1);
   });
 
   it('splits a column that is too deep and turns groups to fit', () => {

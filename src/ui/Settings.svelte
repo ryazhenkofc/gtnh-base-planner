@@ -1,7 +1,7 @@
 <script lang="ts">
   import { t } from '../i18n/en';
   import type { MultiblockDef, PlanLimits } from '../model/types';
-  import { plan, showCables, showPipes, xray } from '../state/store';
+  import { connectBelow, plan, showCables, showPipes, xray } from '../state/store';
   import { resetColors, resetPlan, setHatchColor, setLimit, setSize, toggleHatch } from './actions';
   import { hatchKindsOf } from './catalogView';
   import { formatLimit, parseLimit, parseSize } from './fields';
@@ -159,6 +159,16 @@
       <li class="row">
         <button
           class="link"
+          class:active={$connectBelow}
+          aria-pressed={$connectBelow}
+          title={t.belowHint}
+          data-testid="toggle-below"
+          onclick={() => connectBelow.update((v) => !v)}>{t.below}</button
+        >
+      </li>
+      <li class="row">
+        <button
+          class="link"
           class:active={$xray}
           aria-pressed={$xray}
           data-testid="toggle-xray"
@@ -245,12 +255,16 @@
   }
   .limits {
     display: flex;
-    gap: 22px;
+    flex-wrap: wrap;
+    gap: 6px 22px;
   }
   .limit {
     display: flex;
     align-items: baseline;
     gap: 6px;
+  }
+  .limit > span {
+    white-space: nowrap;
   }
   .limit :global(.field) {
     text-align: left;

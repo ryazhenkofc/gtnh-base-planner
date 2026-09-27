@@ -4,7 +4,16 @@ import { multiblockForName } from '../data/gtnhplanner-machines';
 import { createSiteBuilder } from '../model/site/build';
 import { validateSiteState } from '../share/siteCodec';
 import fixture from './__fixtures__/gtnhplanner-titanium.json';
-import { ImportError, buildSiteFromGtnh, fallbackColor, importRows, parseGtnhProject } from './gtnhplanner';
+import {
+  ImportError,
+  buildSiteFromGtnh,
+  fallbackColor,
+  importRows,
+  parseGtnhProject,
+  proposeChoice,
+  squareLimits,
+} from './gtnhplanner';
+import { getSiteDef } from '../data/generic';
 
 const text = JSON.stringify(fixture);
 
@@ -39,6 +48,28 @@ describe('machine mapping', () => {
     expect(multiblockForName('Oil Cracker')).toBe('oil-cracking-unit');
     expect(multiblockForName('Multiblock Electrolyzer')).toBe('industrial-electrolyzer');
     expect(multiblockForName('Multiblock Centrifuge')).toBe('industrial-centrifuge');
+  });
+
+  it('finds multiblocks by the machine type GT gives them, but not single-block machines', () => {
+    const node = { id: 'n', recipeId: 'r', machineCount: 1, enabled: true };
+    const recipe = (machineType: string) => ({
+      id: 'r',
+      name: 'x',
+      machineType,
+      inputs: [],
+      outputs: [],
+      handlers: [],
+      generator: false,
+    });
+    const choice = (name: string) => proposeChoice(node, recipe(name));
+    expect(choice('Vacuum Furnace')).toEqual({ type: 'multiblock', id: 'utupu-tanuri' });
+    expect(choice('Chemical Plant')).toEqual({ type: 'multiblock', id: 'exxonmobil-chemical-plant' });
+    expect(choice('Flotation Cell')).toEqual({ type: 'multiblock', id: 'flotation-cell-regulator' });
+    expect(choice('Milling')).toEqual({ type: 'multiblock', id: 'isamill-grinding-machine' });
+    expect(choice('Ozonation')).toEqual({ type: 'multiblock', id: 'ozonation-purification-unit' });
+    // Also a GT++ machine type, but first of all a single-block machine.
+    expect(choice('Electrolyzer')).toEqual({ type: 'single' });
+    expect(choice('Something Unknown')).toEqual({ type: 'placeholder' });
   });
 
   it('shows machines missing from the catalog as placeholders', () => {
@@ -115,6 +146,25 @@ describe('buildSiteFromGtnh', () => {
     expect(connected / total).toBeGreaterThan(0.9);
   });
 
+  it('routes through a trench one layer down when connections from below are allowed', () => {
+    const { site } = buildSiteFromGtnh(parseGtnhProject(text), new Map(), { below: true });
+    const b = createSiteBuilder()(site, { pipes: true, cables: true, below: true });
+    const connected = b.nets.reduce((s, n) => s + (n.route?.connected ?? 0), 0);
+    const total = b.nets.reduce((s, n) => s + (n.route?.total ?? 0), 0);
+    expect(connected / total).toBeGreaterThan(0.9);
+    for (const n of b.nets)
+      for (const c of n.route?.paths.flat() ?? []) expect(c[1]).toBeGreaterThanOrEqual(-1);
+  });
+
+  it('sizes the site to the chain, smaller as well as larger, unless told not to', () => {
+    const p = parseGtnhProject(text);
+    const fitted = buildSiteFromGtnh(p, new Map(), { size: [128, 128] });
+    expect(fitted.report.fits).toBe(true);
+    expect(Math.max(...fitted.site.size)).toBeLessThan(80);
+    const kept = buildSiteFromGtnh(p, new Map(), { size: [128, 128], fit: false });
+    expect(kept.site.size).toEqual([128, 128]);
+  });
+
   it('follows overrides and grows a small site', () => {
     const p = parseGtnhProject(text);
     const { site, report } = buildSiteFromGtnh(
@@ -143,6 +193,49 @@ describe('buildSiteFromGtnh', () => {
     hostile.recipes[1].inputs[0].iconPath = 'https://evil.example/pixel.png';
     const q = parseGtnhProject(JSON.stringify(hostile));
     expect(q.recipes.get('gt:chem:ticl4')!.inputs[0].iconPath).toBeUndefined();
+  });
+
+  it('packs a large group into a block instead of a strip', () => {
+    const def = getSiteDef('solid-oxide-fuel-cell-mk-i')!;
+    const limits = squareLimits(def, 107);
+    expect(limits.x).not.toBeNull();
+    const b = createSiteBuilder()(
+      {
+        v: 1,
+        kind: 'site',
+        size: [128, 128],
+        corridor: 2,
+        groups: [
+          {
+            id: 'g',
+            multiblockId: def.id,
+            count: 107,
+            limits,
+            enabledHatches: [],
+            origin: [0, 0],
+            rotation: 0,
+          },
+        ],
+        links: [],
+        ports: [],
+        resources: {},
+        colors: {},
+      },
+      { pipes: false, cables: false },
+    );
+    const size = b.groups[0].build!.size;
+    expect(b.groups[0].units).toHaveLength(107);
+    expect(Math.max(size[0], size[2])).toBeLessThan(64);
+    // Small groups are packed as usual.
+    expect(squareLimits(def, 4)).toEqual({ x: null, y: 1, z: null });
+  });
+
+  it('skips repeated node ids', () => {
+    const data = JSON.parse(text);
+    data.nodes.push({ ...data.nodes[1] });
+    const p = parseGtnhProject(JSON.stringify(data));
+    expect(p.nodes).toHaveLength(9);
+    expect(p.skipped).toBe(2);
   });
 
   it('makes stable fallback colours', () => {

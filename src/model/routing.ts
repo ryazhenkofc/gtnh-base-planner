@@ -66,8 +66,12 @@ function posOf(g: Grid, i: number): Vec3 {
   return [x + g.ox, y + g.oy, z + g.oz];
 }
 
-/** Grid for the search box, or null when it would exceed `MAX_GRID_CELLS`. */
-function buildGrid(solids: Vec3[], terminals: Vec3[], ground: number): Grid | null {
+/**
+ * Grid for the search box, or null when it would exceed `MAX_GRID_CELLS`. With `trench`, the lowest free
+ * layer is a trench under the build: never a wall cell, so a pipe there pays the off-wall cost and goes
+ * underground only where that saves pipe.
+ */
+function buildGrid(solids: Vec3[], terminals: Vec3[], ground: number, trench = false): Grid | null {
   let minX = Infinity;
   let minY = Infinity;
   let minZ = Infinity;
@@ -135,6 +139,11 @@ function buildGrid(solids: Vec3[], terminals: Vec3[], ground: number): Grid | nu
         )
           wall[i] = 1;
       }
+  if (trench) {
+    const y = ground - oy;
+    if (y > 0 && y < dy - 1)
+      for (let z = 0; z < dz; z++) wall.fill(0, dx * (y + dy * z), dx * (y + dy * z) + dx);
+  }
   return g;
 }
 
@@ -690,6 +699,8 @@ export interface RouteOptions {
   refine?: boolean;
   /** Negotiation rounds before falling back to routing kinds one by one. Default `MAX_ROUNDS`. */
   rounds?: number;
+  /** Pipes may run in the layer under the build and reach hatches from below (see `PlaceOptions`). */
+  below?: boolean;
 }
 
 export function routePipes(
@@ -726,7 +737,8 @@ export function routePipes(
   if (byKind.size === 0) return [];
 
   const fronts = [...byKind.values()].flat().map((h) => step(h.cell, h.face));
-  const g = buildGrid(solids, fronts, ground);
+  // With `below`, the ground starts one layer lower: the layer under the build is a trench for pipes.
+  const g = opts.below ? buildGrid(solids, fronts, ground - 1, true) : buildGrid(solids, fronts, ground);
   if (!g) {
     return ROUTED_KINDS.flatMap((kind) => {
       const list = byKind.get(kind);

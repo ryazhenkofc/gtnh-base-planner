@@ -119,6 +119,81 @@ describe('buildSite', () => {
     ],
   });
 
+  it('puts a group hatch on the side its pipe leaves by', () => {
+    const make = (portSide: 'in' | 'out') =>
+      site({
+        size: [40, 40],
+        groups: [group('ebf', 'electric-blast-furnace', [16, 18], { count: 1 })],
+        ports: [{ id: 'p', dir: portSide, resource: portSide === 'in' ? 'item:dust' : 'item:hot' }],
+        links: [
+          portSide === 'in'
+            ? { id: 'l', from: { port: 'p' }, to: { group: 'ebf' }, resource: 'item:dust' }
+            : { id: 'l', from: { group: 'ebf' }, to: { port: 'p' }, resource: 'item:hot' },
+        ],
+      });
+    // The input port sits on the west edge, the output port on the east edge.
+    const hatchX = (portSide: 'in' | 'out') => {
+      const b = createSiteBuilder()(make(portSide), { pipes: true, cables: false });
+      const h = b.groups[0].hatches.find((x) => x.resource)!;
+      expect(b.nets[0].route!.connected).toBe(2);
+      return h.cell[0];
+    };
+    expect(hatchX('in')).toBeLessThan(hatchX('out'));
+  });
+
+  it('puts a port on the edge nearest its group when that saves pipe', () => {
+    const s = site({
+      size: [60, 30],
+      // Far east of the west edge, right by the north edge.
+      groups: [group('ebf', 'electric-blast-furnace', [30, 1], { count: 1 })],
+      ports: [
+        { id: 'far', dir: 'in', resource: 'item:dust' },
+        { id: 'near', dir: 'out', resource: 'item:hot' },
+      ],
+      links: [
+        { id: 'l1', from: { port: 'far' }, to: { group: 'ebf' }, resource: 'item:dust' },
+        { id: 'l2', from: { group: 'ebf' }, to: { port: 'near' }, resource: 'item:hot' },
+      ],
+    });
+    const b = createSiteBuilder()(s, { pipes: false, cables: false });
+    const cell = (id: string) => b.ports.find((p) => p.port.id === id)!.cell;
+    // The input would be 30 blocks away on the west edge: the north edge is next to the group.
+    expect(cell('far')[2]).toBe(0);
+    expect(cell('far')[0]).toBeGreaterThan(20);
+  });
+
+  it('puts ports on the north and south edges when their own edge is full', () => {
+    // A 12-block edge holds six ports (one free block between neighbours).
+    const ports = Array.from({ length: 10 }, (_, i) => ({
+      id: `p${i}`,
+      dir: 'in' as const,
+      resource: 'item:dust',
+    }));
+    const s = site({
+      size: [20, 12],
+      groups: [group('ebf', 'electric-blast-furnace', [8, 4], { count: 1 })],
+      ports,
+      links: ports.map((p, i) => ({
+        id: `l${i}`,
+        from: { port: p.id },
+        to: { group: 'ebf' },
+        resource: 'item:dust',
+      })),
+    });
+    const b = createSiteBuilder()(s, { pipes: false, cables: false });
+    expect(b.warnings.filter((w) => w.type === 'noport')).toEqual([]);
+    const west = b.ports.filter((p) => p.cell[0] === 0);
+    const sides = b.ports.filter((p) => p.cell[0] !== 0);
+    expect(west).toHaveLength(6);
+    expect(sides).toHaveLength(4);
+    for (const p of sides) {
+      expect(p.cell[2] === 0 || p.cell[2] === 11).toBe(true);
+      expect(p.faces[0]).toBe(p.cell[2] === 0 ? 'south' : 'north');
+    }
+    const cells = new Set(b.ports.map((p) => `${p.cell[0]},${p.cell[2]}`));
+    expect(cells.size).toBe(10);
+  });
+
   it('packs groups, places ports on the edges and routes every net', () => {
     const b = createSiteBuilder()(chain, { pipes: true, cables: false });
     expect(b.groups.map((g) => g.units.length)).toEqual([2, 2]);

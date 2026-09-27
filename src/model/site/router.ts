@@ -7,7 +7,7 @@ import type { Dir, Vec3 } from '../types';
  * nets. The search stays inside a fixed box (the site).
  *
  * Each net grows a tree from its first terminal: repeatedly the cheapest path from the tree to any
- * unconnected terminal is added, where a step costs 1 and a bend `turnCost` more (Dijkstra over cell +
+ * unconnected terminal is added, where a step costs 1 and a bend `turnCost` more (A* over cell +
  * arrival direction). Pipes of other nets, structures and "keep free" cells (controller fronts, mufflers,
  * maintenance hatches) are obstacles. The cell in front of each terminal's preferred face is claimed for
  * its net, so every terminal keeps one way in.
@@ -15,7 +15,8 @@ import type { Dir, Vec3 } from '../types';
  * When a net cannot connect every terminal, a few rip-up rounds follow: the failing net is routed once
  * with other nets' pipes allowed at a high price, the nets it would cross are removed, the failing net is
  * routed for real, and the removed nets are routed again. A round is kept only if it connects more
- * terminals (or as many with fewer pipe blocks). Pure and deterministic.
+ * terminals (or as many with fewer pipe blocks). The rounds stop after a share of the first pass's work
+ * (counted in states searched, so the result stays deterministic). Pure and deterministic.
  */
 
 export interface RouteTerminal {
@@ -58,6 +59,11 @@ export interface RouterInput {
   turnCost?: number;
   /** Rip-up rounds after the first pass. Default 3. */
   rounds?: number;
+  /**
+   * Cells below this height (a trench under the ground) cost `TRENCH_COST` more per block, so pipes go
+   * underground only where that saves pipe.
+   */
+  trenchBelow?: number;
 }
 
 /**
@@ -77,6 +83,11 @@ const NO_DIR = 6;
 const SOFT_PENALTY = 12;
 /** History cost added to a contested cell each round. */
 const HIST_STEP = 3;
+/** Work the rip-up rounds may add, as a share of the first pass (states searched), and at least `MIN_RIPUP_WORK`. */
+const RIPUP_WORK_FACTOR = 0.5;
+const MIN_RIPUP_WORK = 1_000_000;
+/** Extra cost of a pipe block in the trench (see `RouterInput.trenchBelow`). */
+const TRENCH_COST = 1;
 
 interface Grid {
   ox: number;
@@ -228,6 +239,8 @@ interface Search {
   turnCost: number;
   /** Extra cost per cell learned from congestion in earlier rounds (negotiated routing). */
   hist: Float32Array;
+  /** States taken off the heap so far: the measure of work for the rip-up budget. */
+  work: number;
 }
 
 /** A terminal after resolving its faces against the grid. */
@@ -247,9 +260,39 @@ interface NetState {
   via: Int32Array;
 }
 
+/** Above this many goals the A* estimate uses their bounding box instead of the nearest one. */
+const EXACT_GOALS = 16;
+
 /**
- * Cheapest path from the tree (`inTree`) to a cell with `target[cell] > 0`. With `soft`, other nets' pipes
- * may be crossed at `SOFT_PENALTY` each. Returns the path (tree cell first) or null.
+ * A lower bound on the cost from `cell` to the attach cell of any goal (terminal block) in `goals` (grid
+ * coordinates, x y z per goal): Manhattan distance to the nearest one, less the step onto its block. With
+ * many goals, the distance to their bounding box. Every step costs at least 1, so the bound is consistent.
+ */
+function estimate(g: Grid, goals: Int32Array, box: Int32Array, cell: number): number {
+  const x = cell % g.dx;
+  const r = (cell - x) / g.dx;
+  const y = r % g.dy;
+  const z = (r - y) / g.dy;
+  let best: number;
+  if (goals.length > 3 * EXACT_GOALS) {
+    best =
+      Math.max(0, box[0] - x, x - box[3]) +
+      Math.max(0, box[1] - y, y - box[4]) +
+      Math.max(0, box[2] - z, z - box[5]);
+  } else {
+    best = Infinity;
+    for (let i = 0; i < goals.length; i += 3) {
+      const m = Math.abs(goals[i] - x) + Math.abs(goals[i + 1] - y) + Math.abs(goals[i + 2] - z);
+      if (m < best) best = m;
+    }
+  }
+  return best > 0 ? best - 1 : 0;
+}
+
+/**
+ * Cheapest path from the tree (`inTree`) to a cell with `target[cell] > 0` (A*, guided towards `goals`:
+ * the blocks of the terminals those cells belong to). With `soft`, other nets' pipes may be crossed at
+ * `SOFT_PENALTY` each. Returns the path (tree cell first) or null.
  */
 function search(
   g: Grid,
@@ -257,25 +300,35 @@ function search(
   net: number,
   tree: readonly number[],
   target: Uint8Array,
+  goals: Int32Array,
   soft: boolean,
 ): number[] | null {
   const { occ, claim, offsets } = g;
   const { dist, parent, seen, heap, turnCost } = s;
   const stamp = ++s.stamp;
   const own = PIPE + net;
+  const box = Int32Array.of(g.dx, g.dy, g.dz, 0, 0, 0);
+  for (let i = 0; i < goals.length; i += 3)
+    for (let a = 0; a < 3; a++) {
+      box[a] = Math.min(box[a], goals[i + a]);
+      box[a + 3] = Math.max(box[a + 3], goals[i + a]);
+    }
+  const h = (cell: number) => (goals.length ? estimate(g, goals, box, cell) : 0);
   heap.clear();
   for (const c of tree) {
     const st = c * STATES + NO_DIR;
     seen[st] = stamp;
     dist[st] = 0;
     parent[st] = -1;
-    heap.push(0, st);
+    heap.push(h(c), st);
   }
   while (heap.size > 0) {
     const st = heap.pop();
-    const cost = heap.lastCost;
-    if (cost > dist[st]) continue;
     const cell = (st / STATES) | 0;
+    const cost = dist[st];
+    // A stale entry: the state was reached more cheaply after it was queued.
+    if (heap.lastCost > cost + h(cell)) continue;
+    s.work++;
     if (target[cell] > 0 && parent[st] !== -1) {
       const path: number[] = [];
       for (let t = st; t !== -1; t = parent[t]) path.push((t / STATES) | 0);
@@ -298,7 +351,8 @@ function search(
       seen[ns] = stamp;
       dist[ns] = nc;
       parent[ns] = st;
-      heap.push(nc, ns);
+      // Queued with the stored (Float32) cost, so the stale check above compares like with like.
+      heap.push(dist[ns] + h(n), ns);
     }
   }
   return null;
@@ -361,11 +415,14 @@ function routeNet(g: Grid, s: Search, net: number, st: NetState, soft: boolean):
     paths.push([seedCell]);
     reach(seedCell);
     for (;;) {
-      let remaining = false;
+      const goals: number[] = [];
       for (let ti = 0; ti < n; ti++)
-        if (via[ti] === -1 && st.terms[ti].cells.some((c) => usable(g, net, c, soft))) remaining = true;
-      if (!remaining) break;
-      const path = search(g, s, net, tree, target, soft);
+        if (via[ti] === -1 && st.terms[ti].cells.some((c) => usable(g, net, c, soft))) {
+          const p = st.terms[ti].spec.cell;
+          goals.push(p[0] - g.ox, p[1] - g.oy, p[2] - g.oz);
+        }
+      if (goals.length === 0) break;
+      const path = search(g, s, net, tree, target, Int32Array.from(goals), soft);
       if (!path) break;
       for (const c of path) {
         if (!inTree.has(c)) {
@@ -539,7 +596,15 @@ export function routeNets(input: RouterInput): RouteResult[] {
     heap: new Heap(),
     turnCost: Math.max(0, input.turnCost ?? 2),
     hist: new Float32Array(cells),
+    work: 0,
   };
+  if (input.trenchBelow !== undefined) {
+    // The trench starts dearer; congestion history adds to it like to any other cell.
+    const yEnd = Math.min(g.dy, input.trenchBelow - g.oy);
+    for (let z = 0; z < g.dz; z++)
+      for (let y = 0; y < yEnd; y++)
+        s.hist.fill(TRENCH_COST, g.dx * (y + g.dy * z), g.dx * (y + g.dy * z) + g.dx);
+  }
 
   // Nets with more terminals and wider spans first: they are the hardest to fit in later.
   const span = (spec: RouteNetSpec): number => {
@@ -571,9 +636,16 @@ export function routeNets(input: RouterInput): RouteResult[] {
   const beats = (a: [number, number], b: [number, number]) => a[0] > b[0] || (a[0] === b[0] && a[1] < b[1]);
   const failing = () => order.filter((n) => connectedCount(states[n]) < states[n].terms.length);
 
+  // Rip-up rounds stop early when they have used their share of work, or when a whole round gains nothing:
+  // on a crowded site they rarely connect much more, and they are far slower than the first pass.
+  const firstPass = s.work;
+  const budget = Math.max(MIN_RIPUP_WORK, RIPUP_WORK_FACTOR * firstPass);
+  const exhausted = () => s.work - firstPass > budget;
   const rounds = Math.max(0, input.rounds ?? 4);
-  for (let round = 0; round < rounds && failing().length > 0; round++) {
+  for (let round = 0; round < rounds && failing().length > 0 && !exhausted(); round++) {
+    const roundStart = score(states);
     for (const f of failing()) {
+      if (exhausted()) break;
       const st = states[f];
       const before = score(states);
       const snap = snapshot();
@@ -600,7 +672,7 @@ export function routeNets(input: RouterInput): RouteResult[] {
       for (const b of redo) routeNet(g, s, b, states[b], false);
       if (!beats(score(states), before)) restore(snap);
     }
-    if (failing().length === 0) break;
+    if (failing().length === 0 || exhausted()) break;
     // Negotiated reroute: everything again, the nets that failed first, with the learned cell costs.
     const before = score(states);
     const snap = snapshot();
@@ -609,6 +681,7 @@ export function routeNets(input: RouterInput): RouteResult[] {
     for (const n of [...first, ...order.filter((x) => !first.includes(x))])
       routeNet(g, s, n, states[n], false);
     if (!beats(score(states), before)) restore(snap);
+    if (!beats(score(states), roundStart)) break;
   }
 
   return states.map((st) => ({

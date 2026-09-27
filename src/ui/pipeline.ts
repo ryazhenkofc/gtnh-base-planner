@@ -19,7 +19,7 @@ import type {
   WallStats,
 } from '../model/types';
 import { computeWallStats } from '../model/walls';
-import { plan, showCables, showPipes } from '../state/store';
+import { connectBelow, plan, showCables, showPipes } from '../state/store';
 import { withBuildDimensions } from './dimensions';
 import { warnOnce } from './notices';
 
@@ -104,7 +104,11 @@ export function createPipeline(deps: PipelineDeps = defaultDeps) {
   let lastResultKey: string | undefined;
   let lastResult: PipelineResult | undefined;
 
-  return function run(p: PlanState, pipesOn: boolean, cablesOn = false): PipelineResult {
+  return function run(p: PlanState, pipesOn: boolean, cablesOn = false, below = false): PipelineResult {
+    // Hatches may face down, and pipes run under the build, when connections from below are allowed.
+    const d: PipelineDeps = below
+      ? { ...deps, placeHatches: (df, u, e, a) => deps.placeHatches(df, u, e, a, { below: true }) }
+      : deps;
     const raw = deps.getMultiblock(p.multiblockId);
     const size = raw ? effectiveSize(raw, p.size) : undefined;
     // A resizable multiblock is built at the plan's height / length.
@@ -125,7 +129,11 @@ export function createPipeline(deps: PipelineDeps = defaultDeps) {
     const kinds: RoutedKind[] = [...(pipesOn ? PIPE_KINDS : []), ...(cablesOn ? CABLE_KINDS : [])];
     // With pipes or cables on, an auto layout is chosen so that every hatch gets connected.
     const routedLayout = kinds.length > 0 && !p.manualUnits;
-    const hatchKey = layoutKey + JSON.stringify(p.enabledHatches) + (routedLayout ? kinds.join() : '');
+    const hatchKey =
+      layoutKey +
+      JSON.stringify(p.enabledHatches) +
+      (routedLayout ? kinds.join() : '') +
+      (below ? '|below' : '');
     const pipesKey = hatchKey + kinds.join();
     const colors = mergeColors(p.colors);
     const sceneKey = pipesKey + JSON.stringify(colors);
@@ -152,11 +160,11 @@ export function createPipeline(deps: PipelineDeps = defaultDeps) {
       p.manualUnits
         ? {
             pack: pack.value,
-            hatches: deps.placeHatches(def, pack.value.units, p.enabledHatches),
+            hatches: d.placeHatches(def, pack.value.units, p.enabledHatches),
             loosened: false,
           }
         : longSideAlongX(
-            routedLayout ? routedOrPlain() : resolveLayout(def, pack.value, p.enabledHatches, p.limits, deps),
+            routedLayout ? routedOrPlain() : resolveLayout(def, pack.value, p.enabledHatches, p.limits, d),
           ),
     );
     // Which way the chosen layout runs depends on which candidate first fits every hatch, so counts could
@@ -171,9 +179,9 @@ export function createPipeline(deps: PipelineDeps = defaultDeps) {
     // A routing failure still renders the build: its error then comes from the pipes stage.
     function routedOrPlain() {
       try {
-        return resolveRoutedLayout(def!, packed, p.enabledHatches, p.limits, { kinds }, deps);
+        return resolveRoutedLayout(def!, packed, p.enabledHatches, p.limits, { kinds, below }, d);
       } catch {
-        return resolveLayout(def!, packed, p.enabledHatches, p.limits, deps);
+        return resolveLayout(def!, packed, p.enabledHatches, p.limits, d);
       }
     }
     if (!placed.ok) return finish({ ...empty, pack: pack.value, error: placed.error });
@@ -189,7 +197,7 @@ export function createPipeline(deps: PipelineDeps = defaultDeps) {
     // Pipes and cables are optional: a routing failure still renders the build without them.
     const routed = placed.value.pipes;
     const pipes = pipesStage(pipesKey, () =>
-      kinds.length > 0 ? (routed ?? deps.routePipes(def, units, hatchResult.hatches, { kinds })) : null,
+      kinds.length > 0 ? (routed ?? d.routePipes(def, units, hatchResult.hatches, { kinds, below })) : null,
     );
     const pipeNets = pipes.ok ? pipes.value : null;
 
@@ -222,7 +230,8 @@ export function createPipeline(deps: PipelineDeps = defaultDeps) {
 
 const run = createPipeline();
 
-/** The derived build for the current plan; recomputes only when `plan`, `showPipes` or `showCables` change. */
-export const build = derived([plan, showPipes, showCables], ([$plan, $showPipes, $showCables]) =>
-  run($plan, $showPipes, $showCables),
+/** The derived build for the current plan; recomputes only when the plan or the view toggles change. */
+export const build = derived(
+  [plan, showPipes, showCables, connectBelow],
+  ([$plan, $showPipes, $showCables, $below]) => run($plan, $showPipes, $showCables, $below),
 );

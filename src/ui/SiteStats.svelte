@@ -2,7 +2,7 @@
   import { getSiteDef } from '../data/generic';
   import { t } from '../i18n/en';
   import { site, siteGroup, siteNet } from '../state/site';
-  import { siteBuild } from './sitePipeline';
+  import { siteBuild, siteBusy } from './sitePipeline';
 
   interface Props {
     onproblems: () => void;
@@ -12,9 +12,10 @@
   const build = $derived($siteBuild.build);
 
   const main = $derived.by(() => {
-    if (!build) return [];
+    if (!build) return $siteBusy ? [t.site.building] : [];
     const s = build.stats;
     const out = [t.site.groupCount(s.groups), t.units(s.units), t.blocks(s.blocks)];
+    if ($siteBusy) out.unshift(t.site.building);
     if (s.pipeBlocks) out.push(t.pipeLength(s.pipeBlocks));
     if (s.cableBlocks) out.push(t.cableLength(s.cableBlocks));
     if (s.terminals) out.push(t.site.connected(s.connected, s.terminals));

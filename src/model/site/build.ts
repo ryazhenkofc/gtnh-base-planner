@@ -1,9 +1,20 @@
 import { getSiteDef, isSingleBlock } from '../../data/generic';
 import { DEFAULT_HATCH_COLORS } from '../colors';
-import { controllerFacing, key, step, unitCells } from '../geometry';
+import { controllerFacing, dirVec, key, rotateDir, rotatedSize, step, unitCells } from '../geometry';
+import { packUnits } from '../layout';
 import { sizedDef, effectiveSize } from '../resize';
 import { buildSceneModel } from '../scene';
-import type { Dir, HatchKind, MultiblockDef, RouteNet, SceneModel, Unit, Vec3, Voxel } from '../types';
+import type {
+  Dir,
+  HatchKind,
+  MultiblockDef,
+  Rotation,
+  RouteNet,
+  SceneModel,
+  Unit,
+  Vec3,
+  Voxel,
+} from '../types';
 import {
   IN_KINDS,
   IO_KINDS,
@@ -16,12 +27,13 @@ import {
   type Demand,
   type GroupBuild,
   type SiteHatch,
+  type Toward,
 } from './group';
 import { routeNets, type RouteResult, type RouteTerminal } from './router';
 import type { Endpoint, ResourceDef, ResourceKind, SiteGroup, SitePort, SiteState } from './types';
 
-/** Unit ids on a site: group index × stride + the unit's id within its group. */
-export const GROUP_STRIDE = 1000;
+/** Unit ids on a site: group index × stride + the unit's id within its group (more than `COUNT_MAX`). */
+export const GROUP_STRIDE = 10000;
 
 export function groupIndexOfUnit(unitId: number): number {
   return Math.floor(unitId / GROUP_STRIDE);
@@ -35,6 +47,11 @@ export interface SiteBuildOptions {
   /** Resource key to highlight: every other net is drawn faded. */
   isolate?: string | null;
   turnCost?: number;
+  /**
+   * Hatches (and single-block machines) may be reached from below, and pipes may run in the layer under the
+   * ground (a trench). Default false.
+   */
+  below?: boolean;
 }
 
 export interface PlacedGroup {
@@ -133,6 +150,30 @@ export function hatchKindFor(
 /** Faces tried after a hatch's placed face: sides first, then top, then bottom. */
 const ATTACH_ORDER: readonly Dir[] = ['north', 'east', 'south', 'west', 'up', 'down'];
 
+/**
+ * Extra distance, in blocks, a port pays to sit on an edge other than its own (west for inputs, east for
+ * outputs), so it goes there only when that saves a real stretch of pipe.
+ */
+const PORT_SIDE_COST = 6;
+
+/**
+ * The edges a port without a position tries, best first, as the direction pointing into the site from
+ * each ("east" is the west edge): nearest the groups it serves (centre `cx`, `cz`), leaning to its own
+ * edge (west for inputs, east for outputs) by `PORT_SIDE_COST`.
+ */
+export function portEdgeOrder(dir: 'in' | 'out', cx: number, cz: number, w: number, d: number): Dir[] {
+  const main: Dir = dir === 'in' ? 'east' : 'west';
+  const away: Partial<Record<Dir, number>> = { east: cx, west: w - 1 - cx, south: cz, north: d - 1 - cz };
+  return (['east', 'west', 'south', 'north'] as Dir[])
+    .map((inward) => ({ inward, cost: away[inward]! + (inward === main ? 0 : PORT_SIDE_COST) }))
+    .sort((a, b) => a.cost - b.cost)
+    .map((e) => e.inward);
+}
+
+function endpointIs(e: Endpoint, port: string): boolean {
+  return 'port' in e && e.port === port;
+}
+
 /** Representative hatch kind of a net (fallback colour and pipe vs cable width in the renderer). */
 function netKind(kind: ResourceKind): HatchKind {
   return kind === 'power' ? 'energy' : kind === 'fluid' ? 'fluidOut' : 'itemOut';
@@ -161,11 +202,13 @@ function endNode(resource: string, end: Endpoint, side: Side): string {
     : `${resource}\u0000p\u0000${end.port}`;
 }
 
+export type SiteBuilder = (site: SiteState, opts: SiteBuildOptions) => SiteBuild;
+
 /**
  * Builds sites. Keeps a per-group cache: moving, rotating or relinking one group only re-packs the groups
  * whose own inputs (multiblock, count, limits, hatches, demand) changed.
  */
-export function createSiteBuilder() {
+export function createSiteBuilder(): SiteBuilder {
   const cache = new Map<string, GroupBuild | { error: string }>();
 
   return function buildSite(site: SiteState, opts: SiteBuildOptions): SiteBuild {
@@ -176,6 +219,8 @@ export function createSiteBuilder() {
 
     // ------------------------------------------------------------ demand per group
     const demands = new Map<string, Demand>();
+    /** Per group and hatch kind, the other ends of its links (where those hatches' pipes go). */
+    const endsOf = new Map<string, Map<HatchKind, Endpoint[]>>();
     const unsupported = new Set<string>();
     const resourceOf = (k: string): ResourceDef =>
       site.resources[k] ?? { kind: 'item', name: k, color: '#888888' };
@@ -201,8 +246,81 @@ export function createSiteBuilder() {
         if (!dem) demands.set(end.group, (dem = {}));
         const list = (dem[kind] ??= []);
         if (!list.includes(l.resource)) list.push(l.resource);
+        let ends = endsOf.get(end.group);
+        if (!ends) endsOf.set(end.group, (ends = new Map()));
+        const other = side === 'out' ? l.to : l.from;
+        (ends.get(kind) ?? ends.set(kind, []).get(kind)!).push(other);
       }
     }
+
+    // ------------------------------------------------------------ which way each group's pipes leave
+    // Estimated from the compact packs (the real ones may be looser) and from the edge each port will
+    // take, so hatches can be put on the side their pipes go to before anything is built.
+    const centreOf = new Map<string, [number, number]>();
+    for (const g of site.groups) {
+      const raw = getSiteDef(g.multiblockId);
+      if (!raw) continue;
+      const def = sizedDef(raw, effectiveSize(raw, g.size));
+      const units = packUnits(def, g.count, g.limits).units;
+      let sx = 0;
+      let sz = 0;
+      for (const u of units) {
+        const r = rotatedSize(def, u.rotation);
+        sx = Math.max(sx, u.origin[0] + r[0]);
+        sz = Math.max(sz, u.origin[2] + r[2]);
+      }
+      const [wx, wz] = g.rotation % 2 === 0 ? [sx, sz] : [sz, sx];
+      centreOf.set(g.id, [g.origin[0] + wx / 2, g.origin[1] + wz / 2]);
+    }
+    const portById = new Map(site.ports.map((p) => [p.id, p]));
+    const portCentre = new Map<string, [number, number]>();
+    const portSpot = (id: string): [number, number] | undefined => {
+      const p = portById.get(id);
+      if (!p) return undefined;
+      if (p.pos) return p.pos;
+      let c = portCentre.get(id);
+      if (!c) {
+        const linked = site.links
+          .flatMap((l) => (endpointIs(l.from, id) ? [l.to] : endpointIs(l.to, id) ? [l.from] : []))
+          .flatMap((e) => ('group' in e && centreOf.has(e.group) ? [centreOf.get(e.group)!] : []));
+        c = linked.length
+          ? [
+              linked.reduce((a, v) => a + v[0], 0) / linked.length,
+              linked.reduce((a, v) => a + v[1], 0) / linked.length,
+            ]
+          : [(w - 1) / 2, (d - 1) / 2];
+        portCentre.set(id, c);
+      }
+      const inward = portEdgeOrder(p.dir, c[0], c[1], w, d)[0];
+      const x = inward === 'east' ? 0 : inward === 'west' ? w - 1 : c[0];
+      const z = inward === 'south' ? 0 : inward === 'north' ? d - 1 : c[1];
+      return [x, z];
+    };
+    const towardOf = (g: SiteGroup): Toward => {
+      const out: Toward = {};
+      const c = centreOf.get(g.id);
+      const ends = endsOf.get(g.id);
+      if (!c || !ends) return out;
+      for (const [kind, list] of ends) {
+        let vx = 0;
+        let vz = 0;
+        for (const e of list) {
+          const q = 'group' in e ? centreOf.get(e.group) : portSpot(e.port);
+          if (!q) continue;
+          const dx = q[0] - c[0];
+          const dz = q[1] - c[1];
+          const len = Math.hypot(dx, dz);
+          if (len < 1) continue;
+          vx += dx / len;
+          vz += dz / len;
+        }
+        if (Math.abs(vx) < 0.2 && Math.abs(vz) < 0.2) continue;
+        const world: Dir =
+          Math.abs(vx) >= Math.abs(vz) ? (vx > 0 ? 'east' : 'west') : vz > 0 ? 'south' : 'north';
+        out[kind] = rotateDir(world, ((4 - g.rotation) % 4) as Rotation);
+      }
+      return out;
+    };
 
     // ------------------------------------------------------------ groups
     const used = new Set<string>();
@@ -224,6 +342,7 @@ export function createSiteBuilder() {
       }
       const def = sizedDef(raw, effectiveSize(raw, g.size));
       const base = g.enabledHatches.filter((k) => !IO_KINDS.includes(k));
+      const toward = towardOf(g);
       const ck = JSON.stringify([
         def.id,
         effectiveSize(raw, g.size) ?? null,
@@ -231,12 +350,14 @@ export function createSiteBuilder() {
         g.limits,
         base,
         demand,
+        !!opts.below,
+        toward,
       ]);
       used.add(ck);
       let built = cache.get(ck);
       if (!built) {
         try {
-          built = buildGroup(def, g.count, g.limits, base, demand);
+          built = buildGroup(def, g.count, g.limits, base, demand, !!opts.below, toward);
         } catch (err) {
           built = { error: err instanceof Error ? err.message : String(err) };
         }
@@ -322,8 +443,7 @@ export function createSiteBuilder() {
     }
 
     // ------------------------------------------------------------ ports
-    const portById = new Map(site.ports.map((p) => [p.id, p]));
-    const linkedCentreZ = new Map<string, number[]>();
+    const linkedCentres = new Map<string, [number, number][]>();
     for (const l of site.links)
       for (const [end, other] of [
         [l.from, l.to],
@@ -332,34 +452,61 @@ export function createSiteBuilder() {
         if (!('port' in end) || !('group' in other)) continue;
         const pg = groups[groupById.get(other.group)?.i ?? -1];
         if (!pg) continue;
-        const list = linkedCentreZ.get(end.port) ?? [];
-        list.push((pg.min[2] + pg.max[2] - 1) / 2);
-        linkedCentreZ.set(end.port, list);
+        const list = linkedCentres.get(end.port) ?? [];
+        list.push([(pg.min[0] + pg.max[0] - 1) / 2, (pg.min[2] + pg.max[2] - 1) / 2]);
+        linkedCentres.set(end.port, list);
       }
     const taken = new Set<string>();
     const ports: PlacedPort[] = [];
     const blocked = (x: number, z: number) => occ.has(key([x, 0, z])) || taken.has(`${x},${z}`);
+    /**
+     * A free cell on one edge, nearest `along` (the linked groups' centre along that edge). One block stays
+     * free on either side along the edge so neighbouring ports keep their pipes apart, and the cell inside
+     * the edge stays free for the pipe.
+     */
+    const onEdge = (inward: Dir, along: number): Vec3 | null => {
+      const [ix, , iz] = dirVec(inward);
+      const alongX = ix === 0;
+      const n = alongX ? w : d;
+      const fixed = ix > 0 || iz > 0 ? 0 : (alongX ? d : w) - 1;
+      const at = (t: number): [number, number] => (alongX ? [t, fixed] : [fixed, t]);
+      // North and south edges leave the corners to the west and east edges.
+      const lo = alongX ? 1 : 0;
+      const hi = alongX ? n - 2 : n - 1;
+      const t0 = Math.min(hi, Math.max(lo, Math.round(along)));
+      for (let k = 0; k < 2 * n; k++) {
+        const t = t0 + (k % 2 === 0 ? k / 2 : -(k + 1) / 2);
+        if (t < lo || t > hi) continue;
+        const [x, z] = at(t);
+        const [ax, az] = at(t - 1);
+        const [bx, bz] = at(t + 1);
+        if (blocked(x, z) || blocked(x + ix, z + iz) || taken.has(`${ax},${az}`) || taken.has(`${bx},${bz}`))
+          continue;
+        return [x, 0, z];
+      }
+      return null;
+    };
     for (const p of site.ports) {
       let cell: Vec3 | null = null;
-      let faces: Dir[];
+      let faces: Dir[] = [];
       if (p.pos) {
         cell = [p.pos[0], 0, p.pos[1]];
         faces = ['north', 'east', 'south', 'west', 'up'];
       } else {
-        const x = p.dir === 'in' ? 0 : w - 1;
-        const inward: Dir = p.dir === 'in' ? 'east' : 'west';
-        const zs = linkedCentreZ.get(p.id);
-        const z0 = Math.round(zs?.length ? zs.reduce((s, v) => s + v, 0) / zs.length : (d - 1) / 2);
-        for (let k = 0; k < 2 * d && !cell; k++) {
-          const z = z0 + (k % 2 === 0 ? k / 2 : -(k + 1) / 2);
-          if (z < 0 || z >= d) continue;
-          const nx = x + (p.dir === 'in' ? 1 : -1);
-          // Keep one block free on either side along the edge so neighbouring ports keep their pipes apart.
-          if (blocked(x, z) || blocked(nx, z) || taken.has(`${x},${z - 1}`) || taken.has(`${x},${z + 1}`))
-            continue;
-          cell = [x, 0, z];
+        const cs = linkedCentres.get(p.id);
+        const cx = cs?.length ? cs.reduce((s, c) => s + c[0], 0) / cs.length : (w - 1) / 2;
+        const cz = cs?.length ? cs.reduce((s, c) => s + c[1], 0) / cs.length : (d - 1) / 2;
+        // The edge nearest the groups the port serves, so its pipe stays short. Inputs lean to the west
+        // edge and outputs to the east (the chain flows that way); a full edge passes to the next nearest.
+        for (const inward of portEdgeOrder(p.dir, cx, cz, w, d)) {
+          cell = onEdge(inward, inward === 'east' || inward === 'west' ? cz : cx);
+          if (cell) {
+            const across: Dir[] =
+              inward === 'east' || inward === 'west' ? ['north', 'south'] : ['east', 'west'];
+            faces = [inward, 'up', ...across];
+            break;
+          }
         }
-        faces = [inward, 'up', 'north', 'south'];
       }
       if (!cell) {
         warnings.push({ type: 'noport', port: p.id });
@@ -431,7 +578,11 @@ export function createSiteBuilder() {
       const single = pg.def && isSingleBlock(pg.def);
       const unit = single ? pg.units.find((u) => u.id === h.unitIds[0]) : undefined;
       const front = unit && pg.def ? controllerFacing(pg.def, unit) : null;
-      const no = new Set<Dir>([...(h.blocked ?? []), ...(front ? [front, 'down' as Dir] : [])]);
+      const no = new Set<Dir>([
+        ...(h.blocked ?? []),
+        ...(front ? [front] : []),
+        ...(front && !opts.below ? ['down' as Dir] : []),
+      ]);
       return [h.face, ...ATTACH_ORDER.filter((f) => f !== h.face)].filter((f) => !no.has(f));
     };
 
@@ -447,7 +598,9 @@ export function createSiteBuilder() {
     const height = Math.max(4, ...groups.map((g) => g.max[1] + 3));
     const results = routed.length
       ? routeNets({
-          box: { min: [0, 0, 0], max: [w, height, d] },
+          // One layer under the ground for pipes that come from below.
+          box: { min: [0, opts.below ? -1 : 0, 0], max: [w, height, d] },
+          trenchBelow: opts.below ? 0 : undefined,
           solids,
           keepFree,
           nets: routed.map((n) => ({
@@ -582,7 +735,8 @@ export function createSiteBuilder() {
       const name = pg.group.label ?? pg.def.name;
       const cx = (pg.min[0] + pg.max[0]) / 2;
       const cz = (pg.min[2] + pg.max[2]) / 2;
-      labels.push({ pos: [cx, pg.max[1] + 1.2, cz], text: `${name} ×${pg.units.length}` });
+      const n = pg.units.length;
+      labels.push({ pos: [cx, pg.max[1] + 1.2, cz], text: n > 1 ? `${name} ×${n}` : name });
     }
     for (const pp of ports) {
       const res = resourceOf(pp.port.resource);
