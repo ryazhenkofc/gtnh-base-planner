@@ -190,7 +190,7 @@
   "controller": {
     "pos": [5, 1, 0],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.coolantTower"
   },
   "hatchBlocks": {
     "fluidIn": "gt.hatch.inputHatch",

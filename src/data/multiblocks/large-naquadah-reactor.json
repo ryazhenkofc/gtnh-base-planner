@@ -32,7 +32,7 @@
   "controller": {
     "pos": [3, 0, 0],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.largeNaquadahReactor"
   },
   "hatchBlocks": {
     "fluidIn": "gt.hatch.inputHatch",

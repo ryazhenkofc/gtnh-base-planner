@@ -365,7 +365,7 @@
   "controller": {
     "pos": [8, 8, 2],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.spinmatron2737"
   },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",

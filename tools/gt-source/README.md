@@ -52,10 +52,15 @@ The run is deterministic: running `--write` twice gives the same files.
   `adder`, `buildAndChain`), `ofHatchAdder`, `buildSteamInput`, `classicHatches`, `lazy(...)`, getters that
   return blocks, metas or `ItemList` entries, and element factories such as `glassElement()`.
 - **Blocks** (`registry.mjs`). A block field and meta resolve to a name (lang file or `addStringLocalization`)
-  and the side texture from the block class's `getIcon`. That can be a `Textures.BlockIcons` or GT++
+  and the textures from the block class's `getIcon`. That can be a `Textures.BlockIcons` or GT++
   `TexturesGtBlock` icon, an icon array such as `MACHINECASINGS_SIDE[meta]`, an icon the class registers with
-  `registerIcon`, or a texture named in the block's constructor. A texture that a hand-made block already uses
-  maps to that block. Frames are the `frameGt` icon tinted with the material colour.
+  `registerIcon`, or a texture named in the block's constructor. `side < 2 ? TOP : SIDE` (or an `if` on the side)
+  gives the block its own top and bottom. A texture that a hand-made block already uses maps to that block. Frames
+  are the `frameGt` icon tinted with the material colour. Tier lists (`ofBlocksTiered`) show their first entry,
+  whether written inline, as `Casings.X` pairs, as an `IntStream.range` or in a field or method of the machine.
+- **Controllers.** Each machine gets its own controller block (`gt5u.controller.<id>`): the faces of the casing
+  its hatches go on, with the idle front overlay drawn by its `getTexture` (or GT++'s `getInactiveOverlay`),
+  as the controller looks in game.
 
 ## Approximations
 
@@ -64,8 +69,9 @@ Generated entries are copied cell by cell from the source, but they are not chec
 - **Hatch counts.** Energy (or dynamo), maintenance and muffler are required once each when the structure allows
   them. The real minimums (for example, two energy hatches) are in the machine's tooltip.
 - **Choices.** Where the structure accepts one of several blocks, the first one is shown: the lowest tier of a
-  tiered casing (`gt5u.tieredCasing`), Reinforced Glass for any glass, Cupronickel for any coil. Machine-specific
-  hatches (data, lenses, beamline, ...) show as `gt5u.specialHatch`.
+  tiered casing, Reinforced Glass for any glass, Cupronickel for any coil. Machine-specific
+  hatches (data, lenses, beamline, ...) show as `gt5u.specialHatch`. Elements that pick a tier at run time
+  (LSC capacitor cells, TFFT storage fields, Space Elevator motors) show as `gt5u.tieredCasing`.
 - **Sealed hatches.** A hatch kind whose every cell has no open face (only faces into the structure, its air or
   the ground) stays in the legend but is left out of the defaults and requirements. The entry's `notes` says so.
 - **Controller.** The controller faces north (the shape's front) unless structure stands right in front of it.

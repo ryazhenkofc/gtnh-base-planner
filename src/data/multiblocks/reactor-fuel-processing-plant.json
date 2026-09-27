@@ -32,7 +32,7 @@
   "controller": {
     "pos": [1, 0, 0],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.reactorFuelProcessingPlant"
   },
   "hatchBlocks": {
     "itemOut": "gt.hatch.outputBus",

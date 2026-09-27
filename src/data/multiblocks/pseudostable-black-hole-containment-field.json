@@ -1249,7 +1249,7 @@
   "controller": {
     "pos": [17, 5, 10],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.pseudostableBlackHoleContainmentField"
   },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",

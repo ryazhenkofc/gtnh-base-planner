@@ -235,8 +235,16 @@
       "path": "src/main/resources/assets/miscutils/textures/blocks/TileEntities/MACHINE_CASING_STABLE_GRISIUM.png",
       "ref": "5.09.54.133"
     },
+    "MISCUTILS_MACHINE_CASING_STABLE_GRISIUM_TOP": {
+      "path": "src/main/resources/assets/miscutils/textures/blocks/TileEntities/MACHINE_CASING_STABLE_GRISIUM_TOP.png",
+      "ref": "5.09.54.133"
+    },
     "INDUSTRIAL_SIEVE_CASING": {
       "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/INDUSTRIAL_SIEVE_CASING.png",
+      "ref": "5.09.54.133"
+    },
+    "CASING_REDOX_EV": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/CASING_REDOX_EV.png",
       "ref": "5.09.54.133"
     },
     "SUB_STATION_EXTERNAL_CASING": {
@@ -249,6 +257,10 @@
     },
     "AQUATIC_CASING": {
       "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/AQUATIC_CASING.png",
+      "ref": "5.09.54.133"
+    },
+    "AQUATIC_CASING_TOP": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/AQUATIC_CASING_TOP.png",
       "ref": "5.09.54.133"
     },
     "INCONEL_REINFORCED_CASING": {
@@ -293,10 +305,6 @@
     },
     "INTEGRAL_FRAMEWORK_EV": {
       "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/INTEGRAL_FRAMEWORK_EV.png",
-      "ref": "5.09.54.133"
-    },
-    "CASING_REDOX_EV": {
-      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/CASING_REDOX_EV.png",
       "ref": "5.09.54.133"
     },
     "MOLECULAR_CONTAINMENT_CASING": {
@@ -345,6 +353,10 @@
     },
     "GOODGENERATOR_5": {
       "path": "src/main/resources/assets/goodgenerator/textures/blocks/fuison/5.png",
+      "ref": "5.09.54.133"
+    },
+    "GOODGENERATOR_0": {
+      "path": "src/main/resources/assets/goodgenerator/textures/blocks/preciseUnitCasing/0.png",
       "ref": "5.09.54.133"
     },
     "GTNHLANTH_CASING_COOLANT_DELIVERY": {
@@ -439,6 +451,10 @@
       "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/COMPRESSOR_PIPE_CASING.png",
       "ref": "5.09.54.133"
     },
+    "COMPRESSOR_PIPE_CASING_TOP": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/COMPRESSOR_PIPE_CASING_TOP.png",
+      "ref": "5.09.54.133"
+    },
     "NEUTRONIUM_CASING": {
       "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/NEUTRONIUM_CASING.png",
       "ref": "5.09.54.133"
@@ -483,6 +499,10 @@
       "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/NANOCHIP_REINFORCEMENT_CASING.png",
       "ref": "5.09.54.133"
     },
+    "MACHINE_CASING_STRENGTHENED_INANIMATE": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_STRENGTHENED_INANIMATE.png",
+      "ref": "5.09.54.133"
+    },
     "SPINMATRON_CASING": {
       "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/SPINMATRON_CASING.png",
       "ref": "5.09.54.133"
@@ -515,8 +535,16 @@
       "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_HEARTH_SIDE.png",
       "ref": "5.09.54.133"
     },
+    "MACHINE_CASING_HEARTH_BOTTOM": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_HEARTH_BOTTOM.png",
+      "ref": "5.09.54.133"
+    },
     "MACHINE_CASING_FRIDGE_SIDE": {
       "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_FRIDGE_SIDE.png",
+      "ref": "5.09.54.133"
+    },
+    "MACHINE_CASING_FRIDGE_BOTTOM": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_FRIDGE_BOTTOM.png",
       "ref": "5.09.54.133"
     },
     "MACHINE_CASING_NAQUADAH_REINFORCED_DISTILLATION": {
@@ -631,6 +659,10 @@
       "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/PRIMITIVE_WOODEN_CASING_SIDE.png",
       "ref": "5.09.54.133"
     },
+    "PRIMITIVE_WOODEN_CASING_TOP": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/PRIMITIVE_WOODEN_CASING_TOP.png",
+      "ref": "5.09.54.133"
+    },
     "MACHINE_CASING_INDUSTRIAL_WATER_PLANT": {
       "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_INDUSTRIAL_WATER_PLANT.png",
       "ref": "5.09.54.133"
@@ -671,12 +703,24 @@
       "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/MV_SIDE_CYCLOTRON_SOLENOID.png",
       "ref": "5.09.54.133"
     },
+    "MV_TOP_CYCLOTRON_SOLENOID": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/MV_TOP_CYCLOTRON_SOLENOID.png",
+      "ref": "5.09.54.133"
+    },
     "UHV_SIDE_CYCLOTRON_SOLENOID": {
       "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/UHV_SIDE_CYCLOTRON_SOLENOID.png",
       "ref": "5.09.54.133"
     },
+    "UHV_TOP_CYCLOTRON_SOLENOID": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/UHV_TOP_CYCLOTRON_SOLENOID.png",
+      "ref": "5.09.54.133"
+    },
     "UEV_SIDE_CYCLOTRON_SOLENOID": {
       "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/UEV_SIDE_CYCLOTRON_SOLENOID.png",
+      "ref": "5.09.54.133"
+    },
+    "UEV_TOP_CYCLOTRON_SOLENOID": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/UEV_TOP_CYCLOTRON_SOLENOID.png",
       "ref": "5.09.54.133"
     },
     "MACHINE_UEV_BOTTOM": {
@@ -699,12 +743,24 @@
       "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/EM_PC.png",
       "ref": "5.09.54.133"
     },
+    "EM_PC_NONSIDE": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/EM_PC_NONSIDE.png",
+      "ref": "5.09.54.133"
+    },
     "EM_PC_VENT": {
       "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/EM_PC_VENT.png",
       "ref": "5.09.54.133"
     },
+    "EM_PC_VENT_NONSIDE": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/EM_PC_VENT_NONSIDE.png",
+      "ref": "5.09.54.133"
+    },
     "EM_PC_ADV": {
       "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/EM_PC_ADV.png",
+      "ref": "5.09.54.133"
+    },
+    "EM_PC_ADV_NONSIDE": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/EM_PC_ADV_NONSIDE.png",
       "ref": "5.09.54.133"
     },
     "EM_CASING": {
@@ -713,6 +769,10 @@
     },
     "EM_COIL": {
       "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/EM_COIL.png",
+      "ref": "5.09.54.133"
+    },
+    "EM_COIL_NONSIDE": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/EM_COIL_NONSIDE.png",
       "ref": "5.09.54.133"
     },
     "CONCRETE_LIGHT_STONE": {
@@ -727,6 +787,10 @@
       "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/VACUUM_CASING_SIDE.png",
       "ref": "5.09.54.133"
     },
+    "VACUUM_CASING_TOP": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/VACUUM_CASING_TOP.png",
+      "ref": "5.09.54.133"
+    },
     "MACHINE_CASING_QFT_COIL": {
       "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_QFT_COIL.png",
       "ref": "5.09.54.133"
@@ -735,8 +799,16 @@
       "path": "src/main/resources/assets/miscutils/textures/blocks/TileEntities/MACHINE_CASING_GRINDING_FACTORY.png",
       "ref": "5.09.54.133"
     },
+    "NEUTRONSHIELDINGCORE": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/NeutronShieldingCore.png",
+      "ref": "5.09.54.133"
+    },
     "FORCEFIELDGLASS": {
       "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/ForceFieldGlass.png",
+      "ref": "5.09.54.133"
+    },
+    "FORCEFIELDGLASSTOP": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/ForceFieldGlassTop.png",
       "ref": "5.09.54.133"
     },
     "MISCUTILS_MACHINE_CASING_GEARBOX_T1": {
@@ -755,6 +827,14 @@
       "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/FORGE_CASING.png",
       "ref": "5.09.54.133"
     },
+    "NEUTRONPULSEMANIPULATOR": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/NeutronPulseManipulator.png",
+      "ref": "5.09.54.133"
+    },
+    "MANIPULATOR_TOP": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/Manipulator_Top.png",
+      "ref": "5.09.54.133"
+    },
     "EM_DIM_0": {
       "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/EM_DIM_0.png",
       "ref": "5.09.54.133"
@@ -765,10 +845,6 @@
     },
     "EM_FIELD_0": {
       "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/EM_FIELD_0.png",
-      "ref": "5.09.54.133"
-    },
-    "GOODGENERATOR_0": {
-      "path": "src/main/resources/assets/goodgenerator/textures/blocks/preciseUnitCasing/0.png",
       "ref": "5.09.54.133"
     },
     "GOODGENERATOR_MAGICCASING": {
@@ -862,6 +938,406 @@
     "GTNHLANTH_CASING_TARGET_RECEPTACLE": {
       "path": "src/main/resources/assets/gtnhlanth/textures/blocks/casing.target_receptacle.png",
       "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_WATER_T8": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_WATER_T8.png",
+      "ref": "5.09.54.133"
+    },
+    "EM_CONTROLLER": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/EM_CONTROLLER.png",
+      "ref": "5.09.54.133"
+    },
+    "GGFAB_OVERLAY_FRONT_ADV_ASSLINE": {
+      "path": "src/main/resources/assets/ggfab/textures/blocks/iconsets/OVERLAY_FRONT_ADV_ASSLINE.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_ORE_DRILL": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_ORE_DRILL.png",
+      "ref": "5.09.54.133"
+    },
+    "MISCUTILS_ALGAEPONDBASE": {
+      "path": "src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/algaePondBase.png",
+      "ref": "5.09.54.133"
+    },
+    "MISCUTILS_ALLOYBLASTSMELTER": {
+      "path": "src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/alloyBlastSmelter.png",
+      "ref": "5.09.54.133"
+    },
+    "MISCUTILS_AMAZONPACKAGER": {
+      "path": "src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/amazonPackager.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_BEAMCRAFTER": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_BEAMCRAFTER.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_BEAM_MIRROR": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_BEAM_MIRROR.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_BEAM_SPLITTER": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_BEAM_SPLITTER.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_BEAM_STABILIZER": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_BEAM_STABILIZER.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_PURIFICATION_PLANT": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_PURIFICATION_PLANT.png",
+      "ref": "5.09.54.133"
+    },
+    "MISCUTILS_INDUSTRIALROCKBREAKER": {
+      "path": "src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/industrialRockBreaker.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_ASSEMBLY_LINE": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_ASSEMBLY_LINE.png",
+      "ref": "5.09.54.133"
+    },
+    "MISCUTILS_ADV_MACHINE_MATTERFAB_ANIMATED": {
+      "path": "src/main/resources/assets/miscutils/textures/blocks/TileEntities/adv_machine_matterfab_animated.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FUSION2": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FUSION2.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FUSION3": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FUSION3.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FUSION1": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FUSION1.png",
+      "ref": "5.09.54.133"
+    },
+    "MISCUTILS_ADV_MACHINE_SCREEN_RANDOM3": {
+      "path": "src/main/resources/assets/miscutils/textures/blocks/TileEntities/adv_machine_screen_random3.png",
+      "ref": "5.09.54.133"
+    },
+    "MISCUTILS_OVERLAY_RAINBOWSCREEN": {
+      "path": "src/main/resources/assets/miscutils/textures/blocks/TileEntities/overlay_rainbowscreen.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_COMPONENT_ASSEMBLY_LINE": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_COMPONENT_ASSEMBLY_LINE.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_HEAT_EXCHANGER": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_HEAT_EXCHANGER.png",
+      "ref": "5.09.54.133"
+    },
+    "MISCUTILS_INDUSTRIALVACUUMFREEZER": {
+      "path": "src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/industrialVacuumFreezer.png",
+      "ref": "5.09.54.133"
+    },
+    "MISCUTILS_ADVANCEDIMPLOSION": {
+      "path": "src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/advancedImplosion.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_DTPF_OFF": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_DTPF_OFF.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_TELEPORTER": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_TELEPORTER.png",
+      "ref": "5.09.54.133"
+    },
+    "DRONE_CENTRE_INACTIVE": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/DRONE_CENTRE_INACTIVE.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_DYSONSPHERE": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_DYSONSPHERE.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_DIESEL_ENGINE": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_DIESEL_ENGINE.png",
+      "ref": "5.09.54.133"
+    },
+    "MISCUTILS_ELEMENTALDUPLICATOR": {
+      "path": "src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/elementalDuplicator.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_FRIDGE": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_FRIDGE.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_HEARTH": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_HEARTH.png",
+      "ref": "5.09.54.133"
+    },
+    "MISCUTILS_CHEMICALPLANT": {
+      "path": "src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/chemicalPlant.png",
+      "ref": "5.09.54.133"
+    },
+    "EM_BHG": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/EM_BHG.png",
+      "ref": "5.09.54.133"
+    },
+    "MISCUTILS_FROTHFLOTATIONCELL": {
+      "path": "src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/frothFlotationCell.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_OIL_DRILL": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_OIL_DRILL.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_MULTI_CANNER": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_MULTI_CANNER.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_BOARD_PROCESSOR": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_BOARD_PROCESSOR.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_MULTI_COMPRESSOR": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_MULTI_COMPRESSOR.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_ENGRAVER": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_ENGRAVER.png",
+      "ref": "5.09.54.133"
+    },
+    "MISCUTILS_INDUSTRIALCHISEL": {
+      "path": "src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/industrialChisel.png",
+      "ref": "5.09.54.133"
+    },
+    "MISCUTILS_INDUSTRIALPLATEPRESS": {
+      "path": "src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/industrialPlatePress.png",
+      "ref": "5.09.54.133"
+    },
+    "MISCUTILS_INDUSTRIALWASHPLANT": {
+      "path": "src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/industrialWashPlant.png",
+      "ref": "5.09.54.133"
+    },
+    "MISCUTILS_COKEOVEN": {
+      "path": "src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/cokeOven.png",
+      "ref": "5.09.54.133"
+    },
+    "MISCUTILS_INDUSTRIALCUTTINGMACHINE": {
+      "path": "src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/industrialCuttingMachine.png",
+      "ref": "5.09.54.133"
+    },
+    "MISCUTILS_INDUSTRIALELECTROLYZER": {
+      "path": "src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/industrialElectrolyzer.png",
+      "ref": "5.09.54.133"
+    },
+    "MISCUTILS_INDUSTRIALEXTRUDER": {
+      "path": "src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/industrialExtruder.png",
+      "ref": "5.09.54.133"
+    },
+    "MISCUTILS_ADV_MACHINE_MATTERFAB": {
+      "path": "src/main/resources/assets/miscutils/textures/blocks/TileEntities/adv_machine_matterfab.png",
+      "ref": "5.09.54.133"
+    },
+    "MISCUTILS_INDUSTRIALMIXER": {
+      "path": "src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/industrialMixer.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_MULTI_LATHE": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_MULTI_LATHE.png",
+      "ref": "5.09.54.133"
+    },
+    "MISCUTILS_INDUSTRIALFORGEHAMMER": {
+      "path": "src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/industrialForgeHammer.png",
+      "ref": "5.09.54.133"
+    },
+    "MISCUTILS_INDUSTRIALWIREMILL": {
+      "path": "src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/industrialWiremill.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_ORE_FACTORY": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_ORE_FACTORY.png",
+      "ref": "5.09.54.133"
+    },
+    "MISCUTILS_GRINDER5": {
+      "path": "src/main/resources/assets/miscutils/textures/blocks/iconsets/Grinder/GRINDER5.png",
+      "ref": "5.09.54.133"
+    },
+    "MACHINE_CASING_FUSION_GLASS": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_FUSION_GLASS.png",
+      "ref": "5.09.54.133"
+    },
+    "LARGEESSENTIASMELTERY_OFF": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/icons/LargeEssentiaSmeltery_Off.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_ME_HATCH": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_ME_HATCH.png",
+      "ref": "5.09.54.133"
+    },
+    "NAQUADAH_REACTOR_SOLID_FRONT": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/NAQUADAH_REACTOR_SOLID_FRONT.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_LNE": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_LNE.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_DISASSEMBLER": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_DISASSEMBLER.png",
+      "ref": "5.09.54.133"
+    },
+    "MISCUTILS_INDUSTRIALSIFTER": {
+      "path": "src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/industrialSifter.png",
+      "ref": "5.09.54.133"
+    },
+    "MISCUTILS_INDUSTRIALTHERMALCENTRIFUGE": {
+      "path": "src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/industrialThermalCentrifuge.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_MULTI_LATEX": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_MULTI_LATEX.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_EMS": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_EMS.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_MASS_SOLIDIFIER": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_MASS_SOLIDIFIER.png",
+      "ref": "5.09.54.133"
+    },
+    "MISCUTILS_MEGAALLOYBLASTSMELTER": {
+      "path": "src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/megaAlloyBlastSmelter.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_MEGA_CHEMICAL_REACTOR": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_MEGA_CHEMICAL_REACTOR.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_MEGA_DISTILLATION_TOWER": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_MEGA_DISTILLATION_TOWER.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_MEGA_OIL_CRACKER": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_MEGA_OIL_CRACKER.png",
+      "ref": "5.09.54.133"
+    },
+    "MISCUTILS_OVERLAY_FRONT_ADVANCED_MULTIBLOCK_ANIMATED": {
+      "path": "src/main/resources/assets/miscutils/textures/blocks/iconsets/OVERLAY_FRONT_ADVANCED_MULTIBLOCK_ANIMATED.png",
+      "ref": "5.09.54.133"
+    },
+    "MISCUTILS_INDUSTRIALMOLECULARTRANSFORMER": {
+      "path": "src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/industrialMolecularTransformer.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_ASSEMBLY_MATRIX": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_ASSEMBLY_MATRIX.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_ENCASEMENT_WRAPPER": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_ENCASEMENT_WRAPPER.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_SPLITTER": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_SPLITTER.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_CUTTING_CHAMBER": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_CUTTING_CHAMBER.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_WIRE_TRACER": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_WIRE_TRACER.png",
+      "ref": "5.09.54.133"
+    },
+    "NEUTRONACTIVATOR_OFF": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/icons/NeutronActivator_Off.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_MULTI_NEUTRONIUM": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_MULTI_NEUTRONIUM.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_OPTICAL_ORGANIZER": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_OPTICAL_ORGANIZER.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_SMD_PROCESSOR": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_SMD_PROCESSOR.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_PLANETARYSIPHON": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_PLANETARYSIPHON.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_QCHEST": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_QCHEST.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_MULTI_BLACKHOLE": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_MULTI_BLACKHOLE.png",
+      "ref": "5.09.54.133"
+    },
+    "EM_COMPUTER": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/EM_COMPUTER.png",
+      "ref": "5.09.54.133"
+    },
+    "MISCUTILS_QUANTUMFORCETRANSFORMER": {
+      "path": "src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/quantumForceTransformer.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_RESEARCH_COMPLETER": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_RESEARCH_COMPLETER.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_SOLAR_FACTORY_INACTIVE": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_SOLAR_FACTORY_INACTIVE.png",
+      "ref": "5.09.54.133"
+    },
+    "MISCUTILS_SPARGETOWER": {
+      "path": "src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/spargeTower.png",
+      "ref": "5.09.54.133"
+    },
+    "TFFT": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/TFFT.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_SUPERCONDUCTOR_SPLITTER": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_SUPERCONDUCTOR_SPLITTER.png",
+      "ref": "5.09.54.133"
+    },
+    "TM_TESLA_TOWER": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/TM_TESLA_TOWER.png",
+      "ref": "5.09.54.133"
+    },
+    "MISCUTILS_THERMALBOILER": {
+      "path": "src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/thermalBoiler.png",
+      "ref": "5.09.54.133"
+    },
+    "MISCUTILS_FLUIDHEATER": {
+      "path": "src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/fluidHeater.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_NUCLEAR_REACTOR": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_NUCLEAR_REACTOR.png",
+      "ref": "5.09.54.133"
+    },
+    "MISCUTILS_TREEFARM": {
+      "path": "src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/treeFarm.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_ETCHING_ARRAY": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_ETCHING_ARRAY.png",
+      "ref": "5.09.54.133"
+    },
+    "MISCUTILS_INDUSTRIALDEHYDRATOR": {
+      "path": "src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/industrialDehydrator.png",
+      "ref": "5.09.54.133"
+    },
+    "MISCUTILS_ADVANCEDEBF": {
+      "path": "src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/advancedEBF.png",
+      "ref": "5.09.54.133"
+    },
+    "OVERLAY_FRONT_WATER_PUMP": {
+      "path": "src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_WATER_PUMP.png",
+      "ref": "5.09.54.133"
+    },
+    "MISCUTILS_ADVANCEDHEATEXCHANGER": {
+      "path": "src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/advancedHeatExchanger.png",
+      "ref": "5.09.54.133"
     }
   },
   "blocks": {
@@ -913,11 +1389,20 @@
     "gt5u.blockCasings2Misc.15": { "side": "MISCUTILS_STERILECASING" },
     "gt5u.blockCasings2Misc.2": { "side": "MISCUTILS_MACHINE_CASING_STABLE_HASTELLOY_N" },
     "gt5u.blockCasings2Misc.3": { "side": "MISCUTILS_MACHINE_CASING_FLUID_INCOLOY_DS" },
-    "gt5u.blockCasings2Misc.4": { "side": "MISCUTILS_MACHINE_CASING_STABLE_GRISIUM" },
+    "gt5u.blockCasings2Misc.4": {
+      "side": "MISCUTILS_MACHINE_CASING_STABLE_GRISIUM",
+      "top": "MISCUTILS_MACHINE_CASING_STABLE_GRISIUM_TOP",
+      "bottom": "MISCUTILS_MACHINE_CASING_STABLE_GRISIUM_TOP"
+    },
     "gt5u.blockCasings2Misc.5": { "side": "INDUSTRIAL_SIEVE_CASING" },
+    "gt5u.blockCasings2Misc.7": { "side": "CASING_REDOX_EV" },
     "gt5u.blockCasings2Misc.8": { "side": "SUB_STATION_EXTERNAL_CASING" },
     "gt5u.blockCasings2Misc.9": { "side": "CYCLOTRON_COIL" },
-    "gt5u.blockCasings3Misc.0": { "side": "AQUATIC_CASING" },
+    "gt5u.blockCasings3Misc.0": {
+      "side": "AQUATIC_CASING",
+      "top": "AQUATIC_CASING_TOP",
+      "bottom": "AQUATIC_CASING_TOP"
+    },
     "gt5u.blockCasings3Misc.1": { "side": "INCONEL_REINFORCED_CASING" },
     "gt5u.blockCasings3Misc.10": { "side": "MISCUTILS_MACHINE_CASING_ADVANCED_CRYOGENIC" },
     "gt5u.blockCasings3Misc.11": { "side": "MISCUTILS_MACHINE_CASING_ADVANCED_VOLCANUS" },
@@ -943,6 +1428,7 @@
     "gt5u.compactFusionCoil.2": { "side": "GOODGENERATOR_3" },
     "gt5u.compactFusionCoil.3": { "side": "GOODGENERATOR_4" },
     "gt5u.compactFusionCoil.4": { "side": "GOODGENERATOR_5" },
+    "gt5u.componentAssemblylineCasing.0": { "side": "GOODGENERATOR_0" },
     "gt5u.cOOLANTDELIVERYCASING.0": { "side": "GTNHLANTH_CASING_COOLANT_DELIVERY" },
     "gt5u.eLECTRODECASING.0": { "side": "GTNHLANTH_CASING_ELECTRODE" },
     "gt5u.essentiaCell.0": { "side": "GOODGENERATOR_1" },
@@ -967,7 +1453,11 @@
     "gt5u.gtBlockcasings10.14": { "side": "MASS_SOLIDIFIER_RADIATOR_CASING" },
     "gt5u.gtBlockcasings10.2": { "side": "BLOCK_QUARK_CONTAINMENT_CASING" },
     "gt5u.gtBlockcasings10.4": { "side": "COMPRESSOR_CASING" },
-    "gt5u.gtBlockcasings10.5": { "side": "COMPRESSOR_PIPE_CASING" },
+    "gt5u.gtBlockcasings10.5": {
+      "side": "COMPRESSOR_PIPE_CASING",
+      "top": "COMPRESSOR_PIPE_CASING_TOP",
+      "bottom": "COMPRESSOR_PIPE_CASING_TOP"
+    },
     "gt5u.gtBlockcasings10.6": { "side": "NEUTRONIUM_CASING" },
     "gt5u.gtBlockcasings10.7": { "side": "NEUTRONIUM_ACTIVE_CASING" },
     "gt5u.gtBlockcasings10.8": { "side": "NEUTRONIUM_STABLE_CASING" },
@@ -979,6 +1469,7 @@
     "gt5u.gtBlockcasings12.14": { "side": "FORMING_CORE" },
     "gt5u.gtBlockcasings12.15": { "side": "ALGAE_CASING" },
     "gt5u.gtBlockcasings12.2": { "side": "NANOCHIP_REINFORCEMENT_CASING" },
+    "gt5u.gtBlockcasings12.5": { "side": "MACHINE_CASING_STRENGTHENED_INANIMATE" },
     "gt5u.gtBlockcasings12.9": { "side": "SPINMATRON_CASING" },
     "gt5u.gtBlockcasings13.0": { "side": "MACHINE_CASING_CABLE" },
     "gt5u.gtBlockcasings13.1": { "side": "MACHINE_CASING_GRAPHITE_MODERATOR" },
@@ -986,8 +1477,14 @@
     "gt5u.gtBlockcasings13.2": { "side": "MACHINE_CASING_INSULATED_FLUID_PIPE" },
     "gt5u.gtBlockcasings13.3": { "side": "MACHINE_CASING_BERYLLIUM_INTEGRATED_REACTOR" },
     "gt5u.gtBlockcasings13.4": { "side": "MACHINE_CASING_REFINED_GRAPHITE" },
-    "gt5u.gtBlockcasings14.3": { "side": "MACHINE_CASING_HEARTH_SIDE" },
-    "gt5u.gtBlockcasings14.4": { "side": "MACHINE_CASING_FRIDGE_SIDE" },
+    "gt5u.gtBlockcasings14.3": {
+      "side": "MACHINE_CASING_HEARTH_SIDE",
+      "bottom": "MACHINE_CASING_HEARTH_BOTTOM"
+    },
+    "gt5u.gtBlockcasings14.4": {
+      "side": "MACHINE_CASING_FRIDGE_SIDE",
+      "bottom": "MACHINE_CASING_FRIDGE_BOTTOM"
+    },
     "gt5u.gtBlockcasings14.5": { "side": "MACHINE_CASING_NAQUADAH_REINFORCED_DISTILLATION" },
     "gt5u.gtBlockcasings2.10": { "side": "MACHINE_CASING_PUMP" },
     "gt5u.gtBlockcasings2.11": { "side": "MACHINE_CASING_MOTOR" },
@@ -1016,7 +1513,11 @@
     "gt5u.gtBlockcasings9.13": { "side": "UV_BACKLIGHT_STERILIZER_CASING" },
     "gt5u.gtBlockcasings9.14": { "side": "BLOCK_QUARK_PIPE" },
     "gt5u.gtBlockcasings9.15": { "side": "BLOCK_QUARK_RELEASE_CHAMBER" },
-    "gt5u.gtBlockcasings9.2": { "side": "PRIMITIVE_WOODEN_CASING_SIDE" },
+    "gt5u.gtBlockcasings9.2": {
+      "side": "PRIMITIVE_WOODEN_CASING_SIDE",
+      "top": "PRIMITIVE_WOODEN_CASING_TOP",
+      "bottom": "PRIMITIVE_WOODEN_CASING_TOP"
+    },
     "gt5u.gtBlockcasings9.4": { "side": "MACHINE_CASING_INDUSTRIAL_WATER_PLANT" },
     "gt5u.gtBlockcasings9.5": { "side": "WATER_PLANT_CONCRETE_CASING" },
     "gt5u.gtBlockcasings9.7": { "side": "MACHINE_CASING_NAQUADAH_REINFORCED_WATER_PLANT" },
@@ -1026,28 +1527,62 @@
     "gt5u.gtBlockcasingsBA0.11": { "side": "EM_OUTER_SPACETIME_REINFORCED_EOH_CASING" },
     "gt5u.gtBlockcasingsBA0.12": { "side": "EM_POWER_INFINITE" },
     "gt5u.gtBlockcasingsBA0.7": { "side": "TM_TESLA_TOROID" },
-    "gt5u.gtBlockcasingsCyclotronCoils.0": { "side": "MV_SIDE_CYCLOTRON_SOLENOID" },
-    "gt5u.gtBlockcasingsCyclotronCoils.7": { "side": "UHV_SIDE_CYCLOTRON_SOLENOID" },
-    "gt5u.gtBlockcasingsCyclotronCoils.8": { "side": "UEV_SIDE_CYCLOTRON_SOLENOID" },
+    "gt5u.gtBlockcasingsCyclotronCoils.0": {
+      "side": "MV_SIDE_CYCLOTRON_SOLENOID",
+      "top": "MV_TOP_CYCLOTRON_SOLENOID",
+      "bottom": "MV_TOP_CYCLOTRON_SOLENOID"
+    },
+    "gt5u.gtBlockcasingsCyclotronCoils.7": {
+      "side": "UHV_SIDE_CYCLOTRON_SOLENOID",
+      "top": "UHV_TOP_CYCLOTRON_SOLENOID",
+      "bottom": "UHV_TOP_CYCLOTRON_SOLENOID"
+    },
+    "gt5u.gtBlockcasingsCyclotronCoils.8": {
+      "side": "UEV_SIDE_CYCLOTRON_SOLENOID",
+      "top": "UEV_TOP_CYCLOTRON_SOLENOID",
+      "bottom": "UEV_TOP_CYCLOTRON_SOLENOID"
+    },
     "gt5u.gtBlockcasingsNH.10": { "side": "MACHINE_UEV_BOTTOM" },
     "gt5u.gtBlockcasingsSE.0": { "side": "GTNHINTERGALACTIC_BASECASING" },
     "gt5u.gtBlockcasingsSE.1": { "side": "GTNHINTERGALACTIC_INTERNALSTRUCTURE" },
     "gt5u.gtBlockcasingsTT.0": { "side": "EM_POWER" },
-    "gt5u.gtBlockcasingsTT.1": { "side": "EM_PC" },
-    "gt5u.gtBlockcasingsTT.2": { "side": "EM_PC_VENT" },
-    "gt5u.gtBlockcasingsTT.3": { "side": "EM_PC_ADV" },
+    "gt5u.gtBlockcasingsTT.1": { "side": "EM_PC", "top": "EM_PC_NONSIDE", "bottom": "EM_PC_NONSIDE" },
+    "gt5u.gtBlockcasingsTT.2": {
+      "side": "EM_PC_VENT",
+      "top": "EM_PC_VENT_NONSIDE",
+      "bottom": "EM_PC_VENT_NONSIDE"
+    },
+    "gt5u.gtBlockcasingsTT.3": {
+      "side": "EM_PC_ADV",
+      "top": "EM_PC_ADV_NONSIDE",
+      "bottom": "EM_PC_ADV_NONSIDE"
+    },
     "gt5u.gtBlockcasingsTT.4": { "side": "EM_CASING" },
-    "gt5u.gtBlockcasingsTT.7": { "side": "EM_COIL" },
+    "gt5u.gtBlockcasingsTT.7": { "side": "EM_COIL", "top": "EM_COIL_NONSIDE", "bottom": "EM_COIL_NONSIDE" },
     "gt5u.gtBlockconcretes.8": { "side": "CONCRETE_LIGHT_STONE" },
     "gt5u.gtBlockglass1.8": { "side": "NANOCHIP_GLASS" },
-    "gt5u.gtplusplusBlockcasings4.10": { "side": "VACUUM_CASING_SIDE" },
+    "gt5u.gtplusplusBlockcasings4.10": {
+      "side": "VACUUM_CASING_SIDE",
+      "top": "VACUUM_CASING_TOP",
+      "bottom": "VACUUM_CASING_TOP"
+    },
     "gt5u.gtplusplusBlockcasings4.4": { "side": "MACHINE_CASING_QFT_COIL" },
     "gt5u.gtplusplusBlockcasings5.1": { "side": "MISCUTILS_MACHINE_CASING_GRINDING_FACTORY" },
-    "gt5u.gtplusplusBlockcasings5.15": { "side": "FORCEFIELDGLASS" },
+    "gt5u.gtplusplusBlockcasings5.11": { "side": "NEUTRONSHIELDINGCORE" },
+    "gt5u.gtplusplusBlockcasings5.15": {
+      "side": "FORCEFIELDGLASS",
+      "top": "FORCEFIELDGLASSTOP",
+      "bottom": "FORCEFIELDGLASSTOP"
+    },
     "gt5u.gtplusplusBlockcasings5.2": { "side": "MISCUTILS_MACHINE_CASING_GEARBOX_T1" },
     "gt5u.gtplusplusBlockcasings5.4": { "side": "SPARGE_TOWER_EXTERIOR_CASING" },
     "gt5u.gtplusplusBlockcasings5.5": { "side": "STURDY_PRINTER_CASING" },
     "gt5u.gtplusplusBlockcasings5.6": { "side": "FORGE_CASING" },
+    "gt5u.gtplusplusBlockcasings5.7": {
+      "side": "NEUTRONPULSEMANIPULATOR",
+      "top": "MANIPULATOR_TOP",
+      "bottom": "MANIPULATOR_TOP"
+    },
     "gt5u.gtSpacetimeCompressionFieldGenerator.0": { "side": "EM_DIM_0" },
     "gt5u.gtStabilisationFieldGenerator.0": { "side": "STABILITY_CASING_0" },
     "gt5u.gtTimeAccelerationFieldGenerator.0": { "side": "EM_FIELD_0" },
@@ -1076,6 +1611,642 @@
     "gt5u.speedingPipe.0": { "side": "GOODGENERATOR_SPEEDINGPIPE_SIDE" },
     "gt5u.sSpaceElevatorCable.0": { "side": "GTNHINTERGALACTIC_CABLEPART" },
     "gt5u.tARGETHOLDER.0": { "side": "GTNHLANTH_CASING_TARGET_HOLDER" },
-    "gt5u.tARGETRECEPTACLECASING.0": { "side": "GTNHLANTH_CASING_TARGET_RECEPTACLE" }
+    "gt5u.tARGETRECEPTACLECASING.0": { "side": "GTNHLANTH_CASING_TARGET_RECEPTACLE" },
+    "gt5u.controller.absoluteBaryonicPerfectionPurificationUnit": {
+      "side": "BLOCK_QUARK_CONTAINMENT_CASING",
+      "front": "OVERLAY_FRONT_WATER_T8"
+    },
+    "gt5u.controller.activeTransformer": { "side": "EM_POWER", "front": "EM_CONTROLLER" },
+    "gt5u.controller.advancedAssemblyLine": {
+      "side": "MACHINE_CASING_SOLID_STEEL",
+      "front": "GGFAB_OVERLAY_FRONT_ADV_ASSLINE"
+    },
+    "gt5u.controller.advancedConcreteBackfiller": {
+      "side": "MACHINE_CASING_STABLE_TITANIUM",
+      "front": "OVERLAY_FRONT_ORE_DRILL"
+    },
+    "gt5u.controller.algaeFarm": { "side": "ALGAE_CASING", "front": "MISCUTILS_ALGAEPONDBASE" },
+    "gt5u.controller.alloyBlastSmelter": {
+      "side": "MISCUTILS_MACHINE_CASING_STABLE_ZIRCONIUM_CARBIDE",
+      "front": "MISCUTILS_ALLOYBLASTSMELTER"
+    },
+    "gt5u.controller.amazonWarehousingDepot": {
+      "side": "MISCUTILS_CASING_AMAZON",
+      "front": "MISCUTILS_AMAZONPACKAGER"
+    },
+    "gt5u.controller.beamCrafter": {
+      "side": "GTNHLANTH_CASING_SHIELDED_ACCELERATOR",
+      "front": "OVERLAY_FRONT_BEAMCRAFTER"
+    },
+    "gt5u.controller.beamMirror": {
+      "side": "GTNHLANTH_CASING_SHIELDED_ACCELERATOR",
+      "front": "OVERLAY_FRONT_BEAM_MIRROR"
+    },
+    "gt5u.controller.beamSplitter": {
+      "side": "GTNHLANTH_CASING_SHIELDED_ACCELERATOR",
+      "front": "OVERLAY_FRONT_BEAM_SPLITTER"
+    },
+    "gt5u.controller.beamStabilizer": {
+      "side": "GTNHLANTH_CASING_SHIELDED_ACCELERATOR",
+      "front": "OVERLAY_FRONT_BEAM_STABILIZER"
+    },
+    "gt5u.controller.bioChamber": {
+      "side": "MACHINE_CASING_CLEAN_STAINLESSSTEEL",
+      "front": "OVERLAY_FRONT_PURIFICATION_PLANT"
+    },
+    "gt5u.controller.bioVat": {
+      "side": "MACHINE_CASING_CLEAN_STAINLESSSTEEL",
+      "front": "OVERLAY_FRONT_DISTILLATION_TOWER"
+    },
+    "gt5u.controller.boldarnator": {
+      "side": "MISCUTILS_MACHINE_CASING_STABLE_RED_STEEL",
+      "front": "MISCUTILS_INDUSTRIALROCKBREAKER"
+    },
+    "gt5u.controller.circuitAssemblyLine": {
+      "side": "MACHINE_CASING_GRATE",
+      "front": "OVERLAY_FRONT_ASSEMBLY_LINE"
+    },
+    "gt5u.controller.clarifierPurificationUnit": {
+      "side": "WATER_PLANT_CONCRETE_CASING",
+      "front": "OVERLAY_FRONT_DISTILLATION_TOWER"
+    },
+    "gt5u.controller.cometCompactCyclotron": {
+      "side": "MACHINE_CASING_RADIATIONPROOF",
+      "front": "MISCUTILS_ADV_MACHINE_MATTERFAB_ANIMATED"
+    },
+    "gt5u.controller.compactFusionComputerMkIi": {
+      "side": "MACHINE_CASING_FUSION",
+      "front": "OVERLAY_FUSION2"
+    },
+    "gt5u.controller.compactFusionComputerMkIii": {
+      "side": "MACHINE_CASING_FUSION_2",
+      "front": "OVERLAY_FUSION3"
+    },
+    "gt5u.controller.compactFusionComputerMkIPrototype": {
+      "side": "MACHINE_LUV_SIDE",
+      "front": "OVERLAY_FUSION1"
+    },
+    "gt5u.controller.compactFusionComputerMkIvPrototype": {
+      "side": "MISCUTILS_MACHINE_CASING_FUSION_3",
+      "front": "MISCUTILS_ADV_MACHINE_SCREEN_RANDOM3"
+    },
+    "gt5u.controller.compactFusionComputerMkV": {
+      "side": "MISCUTILS_MACHINE_CASING_FUSION_4",
+      "front": "MISCUTILS_OVERLAY_RAINBOWSCREEN"
+    },
+    "gt5u.controller.componentAssemblyLine": {
+      "side": "MACHINE_CASING_IRIDIUM",
+      "front": "OVERLAY_FRONT_COMPONENT_ASSEMBLY_LINE"
+    },
+    "gt5u.controller.concreteBackfiller": {
+      "side": "MACHINE_CASING_SOLID_STEEL",
+      "front": "OVERLAY_FRONT_ORE_DRILL"
+    },
+    "gt5u.controller.coolantTower": {
+      "side": "CONCRETE_LIGHT_STONE",
+      "front": "OVERLAY_FRONT_HEAT_EXCHANGER"
+    },
+    "gt5u.controller.coolingTower": {
+      "side": "MACHINE_CASING_RADIANT_NAQUADAH_ALLOY",
+      "front": "OVERLAY_FRONT_PURIFICATION_PLANT"
+    },
+    "gt5u.controller.cryogenicFreezer": {
+      "side": "MISCUTILS_MACHINE_CASING_ADVANCED_CRYOGENIC",
+      "front": "MISCUTILS_INDUSTRIALVACUUMFREEZER"
+    },
+    "gt5u.controller.dangoteDistillus": {
+      "side": "MACHINE_CASING_CLEAN_STAINLESSSTEEL",
+      "front": "OVERLAY_FRONT_DISTILLATION_TOWER"
+    },
+    "gt5u.controller.dataBank": { "side": "EM_POWER", "front": "EM_CONTROLLER" },
+    "gt5u.controller.deepEarthHeatingPump": {
+      "side": "MACHINE_HEATPROOFCASING",
+      "front": "OVERLAY_FRONT_ORE_DRILL"
+    },
+    "gt5u.controller.density2": {
+      "side": "MACHINE_CASING_ROBUST_TUNGSTENSTEEL",
+      "front": "MISCUTILS_ADVANCEDIMPLOSION"
+    },
+    "gt5u.controller.digester": {
+      "side": "MACHINE_CASING_ROBUST_TUNGSTENSTEEL",
+      "front": "OVERLAY_FRONT_OIL_CRACKER"
+    },
+    "gt5u.controller.dimensionallyTranscendentPlasmaForge": {
+      "side": "MACHINE_DIM_INJECTOR",
+      "front": "OVERLAY_DTPF_OFF"
+    },
+    "gt5u.controller.dissolutionTank": {
+      "side": "MACHINE_CASING_CLEAN_STAINLESSSTEEL",
+      "front": "OVERLAY_FRONT_OIL_CRACKER"
+    },
+    "gt5u.controller.draconicEvolutionFusionCrafter": {
+      "side": "MACHINE_CASING_SOLID_STEEL",
+      "front": "OVERLAY_TELEPORTER"
+    },
+    "gt5u.controller.droneCentre": { "side": "MACHINE_CASING_SOLID_STEEL", "front": "DRONE_CENTRE_INACTIVE" },
+    "gt5u.controller.dysonSwarm": {
+      "side": "MACHINE_CASING_SOLID_STEEL",
+      "front": "OVERLAY_FRONT_DYSONSPHERE"
+    },
+    "gt5u.controller.electricAirFilterT1": {
+      "side": "MACHINE_CASING_TURBINE_STEEL",
+      "front": "OVERLAY_FRONT_DIESEL_ENGINE"
+    },
+    "gt5u.controller.electricAirFilterT2": {
+      "side": "MACHINE_CASING_STABLE_TITANIUM",
+      "front": "OVERLAY_FRONT_DIESEL_ENGINE"
+    },
+    "gt5u.controller.electricAirFilterT3": {
+      "side": "MACHINE_CASING_ROBUST_TUNGSTENSTEEL",
+      "front": "OVERLAY_FRONT_DIESEL_ENGINE"
+    },
+    "gt5u.controller.electricImplosionCompressor": {
+      "side": "BLOCK_NAQUADAHPREIN",
+      "front": "OVERLAY_FRONT_IMPLOSION_COMPRESSOR"
+    },
+    "gt5u.controller.elementalDuplicator": {
+      "side": "MATTER_FABRICATOR_CASING",
+      "front": "MISCUTILS_ELEMENTALDUPLICATOR"
+    },
+    "gt5u.controller.endothermicFridge": {
+      "side": "MACHINE_CASING_FRIDGE_SIDE",
+      "bottom": "MACHINE_CASING_FRIDGE_BOTTOM",
+      "front": "OVERLAY_FRONT_FRIDGE"
+    },
+    "gt5u.controller.energyInfuser": { "side": "EM_POWER", "front": "EM_CONTROLLER" },
+    "gt5u.controller.exothermicHearth": {
+      "side": "MACHINE_CASING_HEARTH_SIDE",
+      "bottom": "MACHINE_CASING_HEARTH_BOTTOM",
+      "front": "OVERLAY_FRONT_HEARTH"
+    },
+    "gt5u.controller.extremeEntityCrusher": {
+      "side": "MACHINE_CASING_SOLID_STEEL",
+      "front": "OVERLAY_FRONT_DISTILLATION_TOWER"
+    },
+    "gt5u.controller.extremeHeatExchanger": {
+      "side": "MACHINE_CASING_ROBUST_TUNGSTENSTEEL",
+      "front": "OVERLAY_FRONT_HEAT_EXCHANGER"
+    },
+    "gt5u.controller.extremeTemperatureFluctuationPurificationUnit": {
+      "side": "MACHINE_CASING_PLASMA_HEATER",
+      "front": "OVERLAY_FRONT_LARGE_CHEMICAL_REACTOR"
+    },
+    "gt5u.controller.exxonmobilChemicalPlant": {
+      "side": "MACHINE_ULV_SIDE",
+      "front": "MISCUTILS_CHEMICALPLANT"
+    },
+    "gt5u.controller.eyeOfHarmony": { "side": "EM_POWER_INFINITE", "front": "EM_BHG" },
+    "gt5u.controller.flocculationPurificationUnit": {
+      "side": "MACHINE_CASING_INDUSTRIAL_WATER_PLANT",
+      "front": "OVERLAY_FRONT_LARGE_CHEMICAL_REACTOR"
+    },
+    "gt5u.controller.flotationCellRegulator": {
+      "side": "INCONEL_REINFORCED_CASING",
+      "front": "MISCUTILS_FROTHFLOTATIONCELL"
+    },
+    "gt5u.controller.fluidDrillingRig": {
+      "side": "MACHINE_CASING_SOLID_STEEL",
+      "front": "OVERLAY_FRONT_OIL_DRILL"
+    },
+    "gt5u.controller.fluidDrillingRigIi": {
+      "side": "MACHINE_CASING_CLEAN_STAINLESSSTEEL",
+      "front": "OVERLAY_FRONT_OIL_DRILL"
+    },
+    "gt5u.controller.fluidDrillingRigIii": {
+      "side": "MACHINE_CASING_STABLE_TITANIUM",
+      "front": "OVERLAY_FRONT_OIL_DRILL"
+    },
+    "gt5u.controller.fluidDrillingRigIv": {
+      "side": "MACHINE_CASING_ROBUST_TUNGSTENSTEEL",
+      "front": "OVERLAY_FRONT_OIL_DRILL"
+    },
+    "gt5u.controller.fluidShaper": {
+      "side": "MASS_SOLIDIFIER_CASING",
+      "front": "OVERLAY_FRONT_MULTI_CANNER"
+    },
+    "gt5u.controller.fullBoardImmersionDevice": {
+      "side": "NANOCHIP_MESH_INTERFACE_CASING",
+      "front": "OVERLAY_FRONT_BOARD_PROCESSOR"
+    },
+    "gt5u.controller.fusionControlComputerMarkI": { "side": "MACHINE_LUV_SIDE", "front": "OVERLAY_FUSION1" },
+    "gt5u.controller.fusionControlComputerMarkIi": {
+      "side": "MACHINE_CASING_FUSION",
+      "front": "OVERLAY_FUSION2"
+    },
+    "gt5u.controller.fusionControlComputerMarkIii": {
+      "side": "MACHINE_CASING_FUSION_2",
+      "front": "OVERLAY_FUSION3"
+    },
+    "gt5u.controller.fusiontechMkIv": {
+      "side": "MISCUTILS_MACHINE_CASING_FUSION_3",
+      "front": "MISCUTILS_ADV_MACHINE_SCREEN_RANDOM3"
+    },
+    "gt5u.controller.fusiontechMkV": {
+      "side": "MISCUTILS_MACHINE_CASING_FUSION_4",
+      "front": "MISCUTILS_OVERLAY_RAINBOWSCREEN"
+    },
+    "gt5u.controller.highEnergyLaserPurificationUnit": {
+      "side": "NAQUADRIA_REINFORCED_WATER_PLANT_CASING",
+      "front": "OVERLAY_FRONT_LARGE_CHEMICAL_REACTOR"
+    },
+    "gt5u.controller.highTemperatureGasCooledReactor": {
+      "side": "MACHINE_CASING_BERYLLIUM_INTEGRATED_REACTOR",
+      "front": "OVERLAY_FRONT_HEAT_EXCHANGER"
+    },
+    "gt5u.controller.hotIsostaticPressurizationUnit": {
+      "side": "COMPRESSOR_CASING",
+      "front": "OVERLAY_FRONT_MULTI_COMPRESSOR"
+    },
+    "gt5u.controller.hyperIntensityLaserEngraver": {
+      "side": "MACHINE_CASING_LASER",
+      "front": "OVERLAY_FRONT_ENGRAVER"
+    },
+    "gt5u.controller.industrial3dCopyingMachine": {
+      "side": "STURDY_PRINTER_CASING",
+      "front": "MISCUTILS_INDUSTRIALCHISEL"
+    },
+    "gt5u.controller.industrialArcFurnace": {
+      "side": "MACHINE_CASING_SOLID_STEEL",
+      "front": "OVERLAY_FRONT_DISTILLATION_TOWER"
+    },
+    "gt5u.controller.industrialBendingMachine": {
+      "side": "MACHINE_CASING_STABLE_TITANIUM",
+      "front": "MISCUTILS_INDUSTRIALPLATEPRESS"
+    },
+    "gt5u.controller.industrialChemicalBath": {
+      "side": "MISCUTILS_MACHINE_CASING_STABLE_GRISIUM",
+      "top": "MISCUTILS_MACHINE_CASING_STABLE_GRISIUM_TOP",
+      "bottom": "MISCUTILS_MACHINE_CASING_STABLE_GRISIUM_TOP",
+      "front": "MISCUTILS_INDUSTRIALWASHPLANT"
+    },
+    "gt5u.controller.industrialCokeOven": {
+      "side": "MISCUTILS_MACHINE_CASING_STABLE_TANTALLOY61",
+      "front": "MISCUTILS_COKEOVEN"
+    },
+    "gt5u.controller.industrialCuttingFactory": {
+      "side": "CUTTING_FACTORY_FRAME",
+      "front": "MISCUTILS_INDUSTRIALCUTTINGMACHINE"
+    },
+    "gt5u.controller.industrialElectrolyzer": {
+      "side": "MISCUTILS_MACHINE_CASING_STABLE_POTIN",
+      "front": "MISCUTILS_INDUSTRIALELECTROLYZER"
+    },
+    "gt5u.controller.industrialExtrusionMachine": {
+      "side": "MACHINE_CASING_AUTOCLAVE",
+      "front": "MISCUTILS_INDUSTRIALEXTRUDER"
+    },
+    "gt5u.controller.industrialFormingPress": {
+      "side": "MACHINE_CASING_STABLE_TITANIUM",
+      "front": "MISCUTILS_INDUSTRIALPLATEPRESS"
+    },
+    "gt5u.controller.industrialMacerationStack": {
+      "side": "MACHINE_CASING_STABLE_TITANIUM",
+      "front": "MISCUTILS_ADV_MACHINE_MATTERFAB"
+    },
+    "gt5u.controller.industrialMixingMachine": {
+      "side": "MIXING_CASING",
+      "front": "MISCUTILS_INDUSTRIALMIXER"
+    },
+    "gt5u.controller.industrialPrecisionLathe": {
+      "side": "MACHINE_CASING_SOLID_STEEL",
+      "front": "OVERLAY_FRONT_MULTI_LATHE"
+    },
+    "gt5u.controller.industrialSledgehammer": {
+      "side": "FORGE_CASING",
+      "front": "MISCUTILS_INDUSTRIALFORGEHAMMER"
+    },
+    "gt5u.controller.industrialWireFactory": {
+      "side": "MISCUTILS_MACHINE_CASING_STABLE_MARAGINGSTEEL",
+      "front": "MISCUTILS_INDUSTRIALWIREMILL"
+    },
+    "gt5u.controller.infiniteFluidDrillingRig": {
+      "side": "MACHINE_CASING_MINING_NEUTRONIUM",
+      "front": "OVERLAY_FRONT_OIL_DRILL"
+    },
+    "gt5u.controller.integratedOreFactory": {
+      "side": "MACHINE_CASING_CLEAN_STAINLESSSTEEL",
+      "front": "OVERLAY_FRONT_ORE_FACTORY"
+    },
+    "gt5u.controller.isamillGrindingMachine": {
+      "side": "MISCUTILS_MACHINE_CASING_GRINDING_FACTORY",
+      "front": "MISCUTILS_GRINDER5"
+    },
+    "gt5u.controller.lapotronicSupercapacitor": {
+      "side": "MACHINE_CASING_SOLID_STEEL",
+      "front": "MACHINE_CASING_FUSION_GLASS"
+    },
+    "gt5u.controller.largeElectricCompressor": {
+      "side": "COMPRESSOR_CASING",
+      "front": "OVERLAY_FRONT_MULTI_COMPRESSOR"
+    },
+    "gt5u.controller.largeEssentiaSmeltery": {
+      "side": "GOODGENERATOR_MAGICCASING",
+      "front": "LARGEESSENTIASMELTERY_OFF"
+    },
+    "gt5u.controller.largeMolecularAssembler": {
+      "side": "MACHINE_CASING_ROBUST_TUNGSTENSTEEL",
+      "front": "OVERLAY_ME_HATCH"
+    },
+    "gt5u.controller.largeNaquadahReactor": {
+      "side": "NAQUADAH_REACTOR_CASING",
+      "front": "NAQUADAH_REACTOR_SOLID_FRONT"
+    },
+    "gt5u.controller.largeNeutralizationEngine": {
+      "side": "MACHINE_CASING_STRENGTHENED_INANIMATE",
+      "front": "OVERLAY_FRONT_LNE"
+    },
+    "gt5u.controller.largeScaleAutoAssemblerV101": {
+      "side": "MISCUTILS_MACHINE_TOP",
+      "front": "OVERLAY_FRONT_DISASSEMBLER"
+    },
+    "gt5u.controller.largeSifter": {
+      "side": "INDUSTRIAL_SIEVE_CASING",
+      "front": "MISCUTILS_INDUSTRIALSIFTER"
+    },
+    "gt5u.controller.largeThermalRefinery": {
+      "side": "MISCUTILS_MACHINE_CASING_STABLE_RED_STEEL",
+      "front": "MISCUTILS_INDUSTRIALTHERMALCENTRIFUGE"
+    },
+    "gt5u.controller.lATEX": {
+      "side": "MACHINE_CASING_CHEMICALLY_INERT",
+      "front": "OVERLAY_FRONT_MULTI_LATEX"
+    },
+    "gt5u.controller.linearAccelerator": {
+      "side": "GTNHLANTH_CASING_SHIELDED_ACCELERATOR",
+      "front": "OVERLAY_FRONT_OIL_CRACKER"
+    },
+    "gt5u.controller.magneticFluxExhibitor": { "side": "MACHINE_CASING_EMS", "front": "OVERLAY_FRONT_EMS" },
+    "gt5u.controller.massSolidifier": {
+      "side": "MASS_SOLIDIFIER_CASING",
+      "front": "OVERLAY_FRONT_MASS_SOLIDIFIER"
+    },
+    "gt5u.controller.matterFabricationCpu": {
+      "side": "MATTER_FABRICATOR_CASING",
+      "front": "MISCUTILS_ADV_MACHINE_MATTERFAB_ANIMATED"
+    },
+    "gt5u.controller.megaAlloyBlastSmelter": {
+      "side": "MISCUTILS_MACHINE_CASING_STABLE_ZIRCONIUM_CARBIDE",
+      "front": "MISCUTILS_MEGAALLOYBLASTSMELTER"
+    },
+    "gt5u.controller.megaChemicalReactor": {
+      "side": "MACHINE_CASING_CHEMICALLY_INERT",
+      "front": "OVERLAY_FRONT_MEGA_CHEMICAL_REACTOR"
+    },
+    "gt5u.controller.megaDistillationTower": {
+      "side": "MACHINE_CASING_NAQUADAH_REINFORCED_DISTILLATION",
+      "front": "OVERLAY_FRONT_MEGA_DISTILLATION_TOWER"
+    },
+    "gt5u.controller.megaOilCracker": {
+      "side": "MACHINE_CASING_NAQUADAH_REINFORCED_DISTILLATION",
+      "front": "OVERLAY_FRONT_MEGA_OIL_CRACKER"
+    },
+    "gt5u.controller.microwaveGrinder": {
+      "side": "MACHINE_CASING_CLEAN_STAINLESSSTEEL",
+      "front": "OVERLAY_FRONT_ELECTRIC_BLAST_FURNACE"
+    },
+    "gt5u.controller.miniatureWormholeGenerator": {
+      "side": "EM_POWER",
+      "front": "MISCUTILS_OVERLAY_FRONT_ADVANCED_MULTIBLOCK_ANIMATED"
+    },
+    "gt5u.controller.molecularTransformer": {
+      "side": "MOLECULAR_CONTAINMENT_CASING",
+      "front": "MISCUTILS_INDUSTRIALMOLECULARTRANSFORMER"
+    },
+    "gt5u.controller.nanochipAssemblyMatrix": {
+      "side": "NANOCHIP_MESH_INTERFACE_CASING",
+      "front": "OVERLAY_FRONT_ASSEMBLY_MATRIX"
+    },
+    "gt5u.controller.nanoForge": {
+      "side": "MACHINE_CASING_RADIANT_NAQUADAH_ALLOY",
+      "front": "OVERLAY_FRONT_ASSEMBLY_LINE"
+    },
+    "gt5u.controller.nanometerEncasementWrapper": {
+      "side": "NANOCHIP_MESH_INTERFACE_CASING",
+      "front": "OVERLAY_FRONT_ENCASEMENT_WRAPPER"
+    },
+    "gt5u.controller.nanopartSplitter": {
+      "side": "NANOCHIP_MESH_INTERFACE_CASING",
+      "front": "OVERLAY_FRONT_SPLITTER"
+    },
+    "gt5u.controller.nanoprecisionCuttingChamber": {
+      "side": "NANOCHIP_MESH_INTERFACE_CASING",
+      "front": "OVERLAY_FRONT_CUTTING_CHAMBER"
+    },
+    "gt5u.controller.nanoprecisionWireTracer": {
+      "side": "NANOCHIP_MESH_INTERFACE_CASING",
+      "front": "OVERLAY_FRONT_WIRE_TRACER"
+    },
+    "gt5u.controller.naquadahFuelRefinery": {
+      "side": "MACHINE_CASING_MINING_BLACKPLUTONIUM",
+      "front": "OVERLAY_FRONT_ASSEMBLY_LINE"
+    },
+    "gt5u.controller.neutronActivator": {
+      "side": "MACHINE_CASING_CLEAN_STAINLESSSTEEL",
+      "front": "NEUTRONACTIVATOR_OFF"
+    },
+    "gt5u.controller.neutroniumCompressor": {
+      "side": "NEUTRONIUM_CASING",
+      "front": "OVERLAY_MULTI_NEUTRONIUM"
+    },
+    "gt5u.controller.nuclearSaltProcessingPlant": {
+      "side": "MISCUTILS_MACHINE_TOP",
+      "front": "OVERLAY_FRONT_DISASSEMBLER"
+    },
+    "gt5u.controller.opticallyOptimizedOrganizer": {
+      "side": "NANOCHIP_MESH_INTERFACE_CASING",
+      "front": "OVERLAY_FRONT_OPTICAL_ORGANIZER"
+    },
+    "gt5u.controller.oreDrillingPlant": {
+      "side": "MACHINE_CASING_SOLID_STEEL",
+      "front": "OVERLAY_FRONT_ORE_DRILL"
+    },
+    "gt5u.controller.oreDrillingPlantIi": {
+      "side": "MACHINE_CASING_STABLE_TITANIUM",
+      "front": "OVERLAY_FRONT_ORE_DRILL"
+    },
+    "gt5u.controller.oreDrillingPlantIii": {
+      "side": "MACHINE_CASING_ROBUST_TUNGSTENSTEEL",
+      "front": "OVERLAY_FRONT_ORE_DRILL"
+    },
+    "gt5u.controller.oreDrillingPlantIv": {
+      "side": "MACHINE_CASING_MINING_OSMIRIDIUM",
+      "front": "OVERLAY_FRONT_ORE_DRILL"
+    },
+    "gt5u.controller.oreWashingPlant": {
+      "side": "MISCUTILS_MACHINE_CASING_STABLE_GRISIUM",
+      "top": "MISCUTILS_MACHINE_CASING_STABLE_GRISIUM_TOP",
+      "bottom": "MISCUTILS_MACHINE_CASING_STABLE_GRISIUM_TOP",
+      "front": "MISCUTILS_INDUSTRIALWASHPLANT"
+    },
+    "gt5u.controller.ozonationPurificationUnit": {
+      "side": "MACHINE_CASING_OZONE",
+      "front": "OVERLAY_FRONT_LARGE_CHEMICAL_REACTOR"
+    },
+    "gt5u.controller.partPreparationApparatus": {
+      "side": "NANOCHIP_MESH_INTERFACE_CASING",
+      "front": "OVERLAY_FRONT_SMD_PROCESSOR"
+    },
+    "gt5u.controller.pcbFactory": {
+      "side": "MACHINE_CASING_PCB_TIER_1",
+      "front": "OVERLAY_FRONT_ASSEMBLY_LINE"
+    },
+    "gt5u.controller.phNeutralizationPurificationUnit": {
+      "side": "MACHINE_CASING_NAQUADAH_REINFORCED_WATER_PLANT",
+      "front": "OVERLAY_FRONT_LARGE_CHEMICAL_REACTOR"
+    },
+    "gt5u.controller.planetaryGasSiphon": {
+      "side": "MACHINE_CASING_SOLID_STEEL",
+      "front": "OVERLAY_FRONT_PLANETARYSIPHON"
+    },
+    "gt5u.controller.powerStationControlNode": {
+      "side": "SUB_STATION_EXTERNAL_CASING",
+      "front": "OVERLAY_FRONT_DISASSEMBLER"
+    },
+    "gt5u.controller.preciseAutoAssemblerMt3662": { "side": "GOODGENERATOR_0", "front": "OVERLAY_QCHEST" },
+    "gt5u.controller.pseudostableBlackHoleContainmentField": {
+      "side": "RADIATION_ABSORBENT_CASING",
+      "front": "OVERLAY_MULTI_BLACKHOLE"
+    },
+    "gt5u.controller.quantumComputer": {
+      "side": "EM_PC",
+      "top": "EM_PC_NONSIDE",
+      "bottom": "EM_PC_NONSIDE",
+      "front": "EM_COMPUTER"
+    },
+    "gt5u.controller.quantumForceTransformer": {
+      "side": "MISCUTILS_MACHINE_TOP",
+      "front": "MISCUTILS_QUANTUMFORCETRANSFORMER"
+    },
+    "gt5u.controller.reactorFuelProcessingPlant": {
+      "side": "MISCUTILS_MACHINE_CASING_STABLE_HASTELLOY_N",
+      "front": "OVERLAY_FRONT_MULTI_SMELTER"
+    },
+    "gt5u.controller.researchCompleter": {
+      "side": "MACHINE_CASING_MAGICAL",
+      "front": "OVERLAY_FRONT_RESEARCH_COMPLETER"
+    },
+    "gt5u.controller.researchStation": {
+      "side": "EM_PC",
+      "top": "EM_PC_NONSIDE",
+      "bottom": "EM_PC_NONSIDE",
+      "front": "EM_CONTROLLER"
+    },
+    "gt5u.controller.residualDecontaminantDegasserPurificationUnit": {
+      "side": "MACHINE_CASING_PLASMA_HEATER",
+      "front": "OVERLAY_FRONT_LARGE_CHEMICAL_REACTOR"
+    },
+    "gt5u.controller.solarFactory": {
+      "side": "MACHINE_CASING_CLEAN_STAINLESSSTEEL",
+      "front": "OVERLAY_FRONT_SOLAR_FACTORY_INACTIVE"
+    },
+    "gt5u.controller.solidOxideFuelCellMkI": {
+      "side": "MACHINE_CASING_CLEAN_STAINLESSSTEEL",
+      "front": "OVERLAY_FRONT_HEAT_EXCHANGER"
+    },
+    "gt5u.controller.solidOxideFuelCellMkIi": {
+      "side": "MACHINE_CASING_ROBUST_TUNGSTENSTEEL",
+      "front": "OVERLAY_FRONT_HEAT_EXCHANGER"
+    },
+    "gt5u.controller.sourceChamber": {
+      "side": "GTNHLANTH_CASING_SHIELDED_ACCELERATOR",
+      "front": "OVERLAY_FRONT_OIL_CRACKER"
+    },
+    "gt5u.controller.spaceElevator": { "side": "GTNHINTERGALACTIC_BASECASING", "front": "EM_CONTROLLER" },
+    "gt5u.controller.spargeTowerController": {
+      "side": "SPARGE_TOWER_EXTERIOR_CASING",
+      "front": "MISCUTILS_SPARGETOWER"
+    },
+    "gt5u.controller.spinmatron2737": { "side": "SPINMATRON_CASING", "front": "TFFT" },
+    "gt5u.controller.superconductiveStrandSplitter": {
+      "side": "NANOCHIP_MESH_INTERFACE_CASING",
+      "front": "OVERLAY_FRONT_SUPERCONDUCTOR_SPLITTER"
+    },
+    "gt5u.controller.synchrotron": {
+      "side": "GTNHLANTH_CASING_SHIELDED_ACCELERATOR",
+      "front": "OVERLAY_FRONT_OIL_CRACKER"
+    },
+    "gt5u.controller.targetChamber": { "side": "MACHINE_CASING_GRATE", "front": "OVERLAY_FRONT_OIL_CRACKER" },
+    "gt5u.controller.teslaTower": { "side": "MACHINE_CASING_SOLID_STEEL", "front": "TM_TESLA_TOWER" },
+    "gt5u.controller.tfft": { "side": "MACHINE_CASING_SOLID_STEEL", "front": "TFFT" },
+    "gt5u.controller.thermalBoiler": {
+      "side": "MISCUTILS_MACHINE_CASING_STABLE_TANTALLOY61",
+      "front": "MISCUTILS_THERMALBOILER"
+    },
+    "gt5u.controller.thermicHeatingDevice": { "side": "MULTI_USE_CASING", "front": "MISCUTILS_FLUIDHEATER" },
+    "gt5u.controller.thoriumHighTemperatureReactor": {
+      "side": "MACHINE_CASING_RADIATIONPROOF",
+      "front": "OVERLAY_FRONT_HEAT_EXCHANGER"
+    },
+    "gt5u.controller.thoriumReactorLftr": {
+      "side": "MISCUTILS_MACHINE_CASING_STABLE_STELLITE",
+      "front": "OVERLAY_FRONT_NUCLEAR_REACTOR"
+    },
+    "gt5u.controller.transcendentPlasmaMixer": {
+      "side": "MACHINE_DIM_INJECTOR",
+      "front": "OVERLAY_DTPF_OFF"
+    },
+    "gt5u.controller.treeGrowthSimulator": {
+      "side": "MISCUTILS_STERILECASING",
+      "front": "MISCUTILS_TREEFARM"
+    },
+    "gt5u.controller.ultraHighEnergyEtchingArray": {
+      "side": "NANOCHIP_MESH_INTERFACE_CASING",
+      "front": "OVERLAY_FRONT_ETCHING_ARRAY"
+    },
+    "gt5u.controller.universalChemicalFuelEngine": {
+      "side": "MACHINE_CASING_STABLE_TITANIUM",
+      "front": "OVERLAY_FRONT_DIESEL_ENGINE"
+    },
+    "gt5u.controller.utupuTanuri": {
+      "side": "VACUUM_CASING_SIDE",
+      "top": "VACUUM_CASING_TOP",
+      "bottom": "VACUUM_CASING_TOP",
+      "front": "MISCUTILS_INDUSTRIALDEHYDRATOR"
+    },
+    "gt5u.controller.voidMiners": {
+      "side": "MACHINE_CASING_MINING_NEUTRONIUM",
+      "front": "OVERLAY_FRONT_ORE_DRILL"
+    },
+    "gt5u.controller.volcanus": {
+      "side": "MISCUTILS_MACHINE_CASING_ADVANCED_VOLCANUS",
+      "front": "MISCUTILS_ADVANCEDEBF"
+    },
+    "gt5u.controller.waterPump": {
+      "side": "PRIMITIVE_WOODEN_CASING_SIDE",
+      "top": "PRIMITIVE_WOODEN_CASING_TOP",
+      "bottom": "PRIMITIVE_WOODEN_CASING_TOP",
+      "front": "OVERLAY_FRONT_WATER_PUMP"
+    },
+    "gt5u.controller.whakawhitiWeraXl": {
+      "side": "MISCUTILS_MACHINE_CASING_STABLE_TALONITE",
+      "front": "MISCUTILS_ADVANCEDHEATEXCHANGER"
+    },
+    "gt5u.controller.xlTurboGasTurbine": {
+      "side": "MACHINE_CASING_TURBINE_STAINLESSSTEEL",
+      "front": "MISCUTILS_OVERLAY_FRONT_ADVANCED_MULTIBLOCK_ANIMATED"
+    },
+    "gt5u.controller.xlTurboHpSteamTurbine": {
+      "side": "MACHINE_CASING_TURBINE_TITANIUM",
+      "front": "MISCUTILS_OVERLAY_FRONT_ADVANCED_MULTIBLOCK_ANIMATED"
+    },
+    "gt5u.controller.xlTurboPlasmaTurbine": {
+      "side": "MACHINE_CASING_TURBINE_TUNGSTENSTEEL",
+      "front": "MISCUTILS_OVERLAY_FRONT_ADVANCED_MULTIBLOCK_ANIMATED"
+    },
+    "gt5u.controller.xlTurboScSteamTurbine": {
+      "side": "MACHINE_CASING_SOLID_STEEL",
+      "front": "MISCUTILS_OVERLAY_FRONT_ADVANCED_MULTIBLOCK_ANIMATED"
+    },
+    "gt5u.controller.xlTurboSteamTurbine": {
+      "side": "MACHINE_CASING_TURBINE_STEEL",
+      "front": "MISCUTILS_OVERLAY_FRONT_ADVANCED_MULTIBLOCK_ANIMATED"
+    },
+    "gt5u.controller.zhuhaiFishingPort": {
+      "side": "AQUATIC_CASING",
+      "top": "AQUATIC_CASING_TOP",
+      "bottom": "AQUATIC_CASING_TOP",
+      "front": "OVERLAY_FRONT_VACUUM_FREEZER"
+    },
+    "gt5u.controller.zyngen": { "side": "INCONEL_REINFORCED_CASING", "front": "OVERLAY_FRONT_MULTI_SMELTER" }
   }
 }

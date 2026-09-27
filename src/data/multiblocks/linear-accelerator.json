@@ -193,7 +193,7 @@
   "controller": {
     "pos": [3, 0, 0],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.linearAccelerator"
   },
   "hatchBlocks": {
     "fluidIn": "gt.hatch.inputHatch",

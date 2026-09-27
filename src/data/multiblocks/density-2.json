@@ -36,7 +36,7 @@
   "controller": {
     "pos": [3, 1, 0],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.density2"
   },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",

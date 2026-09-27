@@ -284,7 +284,7 @@
   "controller": {
     "pos": [4, 4, 1],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.xlTurboPlasmaTurbine"
   },
   "hatchBlocks": {},
   "shareableHatches": [],

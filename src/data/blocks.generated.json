@@ -77,6 +77,7 @@
   { "id": "gt5u.blockCasings2Misc.3", "name": "blockCasings2Misc 3", "color": "#27322b" },
   { "id": "gt5u.blockCasings2Misc.4", "name": "blockCasings2Misc 4", "color": "#28505c" },
   { "id": "gt5u.blockCasings2Misc.5", "name": "blockCasings2Misc 5", "color": "#2a2827" },
+  { "id": "gt5u.blockCasings2Misc.7", "name": "blockCasings2Misc 7", "color": "#4b494b" },
   { "id": "gt5u.blockCasings2Misc.8", "name": "blockCasings2Misc 8", "color": "#2d1a1a" },
   { "id": "gt5u.blockCasings2Misc.9", "name": "blockCasings2Misc 9", "color": "#2d4672" },
   { "id": "gt5u.blockCasings3Misc.0", "name": "blockCasings3Misc 0", "color": "#1d4556" },
@@ -111,8 +112,613 @@
   { "id": "gt5u.compactFusionCoil.2", "name": "compactFusionCoil 2", "color": "#9b84cb" },
   { "id": "gt5u.compactFusionCoil.3", "name": "compactFusionCoil 3", "color": "#3c583c" },
   { "id": "gt5u.compactFusionCoil.4", "name": "compactFusionCoil 4", "color": "#393a61" },
+  { "id": "gt5u.componentAssemblylineCasing.0", "name": "componentAssemblylineCasing 0", "color": "#6e5941" },
+  {
+    "id": "gt5u.controller.absoluteBaryonicPerfectionPurificationUnit",
+    "name": "Absolute Baryonic Perfection Purification Unit Controller",
+    "color": "#004c88"
+  },
+  { "id": "gt5u.controller.activeTransformer", "name": "Active Transformer Controller", "color": "#6ba2c9" },
+  {
+    "id": "gt5u.controller.advancedAssemblyLine",
+    "name": "Advanced Assembly Line Controller",
+    "color": "#8f959c"
+  },
+  {
+    "id": "gt5u.controller.advancedConcreteBackfiller",
+    "name": "Advanced Concrete Backfiller Controller",
+    "color": "#9d93b0"
+  },
+  { "id": "gt5u.controller.algaeFarm", "name": "Algae Farm Controller", "color": "#cab9b8" },
+  { "id": "gt5u.controller.alloyBlastSmelter", "name": "Alloy Blast Smelter Controller", "color": "#8e8174" },
+  {
+    "id": "gt5u.controller.amazonWarehousingDepot",
+    "name": "Amazon Warehousing Depot Controller",
+    "color": "#42392a"
+  },
+  { "id": "gt5u.controller.beamCrafter", "name": "Beam Crafter Controller", "color": "#727271" },
+  { "id": "gt5u.controller.beamMirror", "name": "Beam Mirror Controller", "color": "#727271" },
+  { "id": "gt5u.controller.beamSplitter", "name": "Beam Splitter Controller", "color": "#727271" },
+  { "id": "gt5u.controller.beamStabilizer", "name": "Beam Stabilizer Controller", "color": "#727271" },
+  { "id": "gt5u.controller.bioChamber", "name": "Bio Chamber Controller", "color": "#c9ced4" },
+  { "id": "gt5u.controller.bioVat", "name": "Bio Vat Controller", "color": "#c9ced4" },
+  { "id": "gt5u.controller.boldarnator", "name": "Boldarnator Controller", "color": "#6c1817" },
+  {
+    "id": "gt5u.controller.circuitAssemblyLine",
+    "name": "Circuit Assembly Line Controller",
+    "color": "#6e7479"
+  },
+  {
+    "id": "gt5u.controller.clarifierPurificationUnit",
+    "name": "Clarifier Purification Unit Controller",
+    "color": "#a9aba9"
+  },
+  {
+    "id": "gt5u.controller.cometCompactCyclotron",
+    "name": "COMET - Compact Cyclotron Controller",
+    "color": "#48387b"
+  },
+  {
+    "id": "gt5u.controller.compactFusionComputerMkIi",
+    "name": "Compact Fusion Computer MK-II Controller",
+    "color": "#8b9faf"
+  },
+  {
+    "id": "gt5u.controller.compactFusionComputerMkIii",
+    "name": "Compact Fusion Computer MK-III Controller",
+    "color": "#d8cde0"
+  },
+  {
+    "id": "gt5u.controller.compactFusionComputerMkIPrototype",
+    "name": "Compact Fusion Computer MK-I Prototype Controller",
+    "color": "#ececec"
+  },
+  {
+    "id": "gt5u.controller.compactFusionComputerMkIvPrototype",
+    "name": "Compact Fusion Computer MK-IV Prototype Controller",
+    "color": "#b6c4aa"
+  },
+  {
+    "id": "gt5u.controller.compactFusionComputerMkV",
+    "name": "Compact Fusion Computer MK-V Controller",
+    "color": "#d2c4dc"
+  },
+  {
+    "id": "gt5u.controller.componentAssemblyLine",
+    "name": "Component Assembly Line Controller",
+    "color": "#c9c9c9"
+  },
+  {
+    "id": "gt5u.controller.concreteBackfiller",
+    "name": "Concrete Backfiller Controller",
+    "color": "#8f959c"
+  },
+  { "id": "gt5u.controller.coolantTower", "name": "Coolant Tower Controller", "color": "#988867" },
+  { "id": "gt5u.controller.coolingTower", "name": "Cooling Tower Controller", "color": "#303030" },
+  { "id": "gt5u.controller.cryogenicFreezer", "name": "Cryogenic Freezer Controller", "color": "#526278" },
+  { "id": "gt5u.controller.dangoteDistillus", "name": "Dangote Distillus Controller", "color": "#c9ced4" },
+  { "id": "gt5u.controller.dataBank", "name": "Data Bank Controller", "color": "#6ba2c9" },
+  {
+    "id": "gt5u.controller.deepEarthHeatingPump",
+    "name": "Deep Earth Heating Pump Controller",
+    "color": "#b8a58c"
+  },
+  { "id": "gt5u.controller.density2", "name": "Density^2 Controller", "color": "#4b5058" },
+  { "id": "gt5u.controller.digester", "name": "Digester Controller", "color": "#4b5058" },
+  {
+    "id": "gt5u.controller.dimensionallyTranscendentPlasmaForge",
+    "name": "Dimensionally Transcendent Plasma Forge Controller",
+    "color": "#6ba2c9"
+  },
+  { "id": "gt5u.controller.dissolutionTank", "name": "Dissolution Tank Controller", "color": "#c9ced4" },
+  {
+    "id": "gt5u.controller.draconicEvolutionFusionCrafter",
+    "name": "Draconic Evolution Fusion Crafter Controller",
+    "color": "#8f8f8f"
+  },
+  { "id": "gt5u.controller.droneCentre", "name": "Drone Centre Controller", "color": "#8f959c" },
+  { "id": "gt5u.controller.dysonSwarm", "name": "Dyson Swarm Controller", "color": "#8f8f8f" },
+  {
+    "id": "gt5u.controller.electricAirFilterT1",
+    "name": "Electric Air Filter T1 Controller",
+    "color": "#8d949b"
+  },
+  {
+    "id": "gt5u.controller.electricAirFilterT2",
+    "name": "Electric Air Filter T2 Controller",
+    "color": "#9d93b0"
+  },
+  {
+    "id": "gt5u.controller.electricAirFilterT3",
+    "name": "Electric Air Filter T3 Controller",
+    "color": "#4b5058"
+  },
+  {
+    "id": "gt5u.controller.electricImplosionCompressor",
+    "name": "Electric Implosion Compressor Controller",
+    "color": "#282828"
+  },
+  {
+    "id": "gt5u.controller.elementalDuplicator",
+    "name": "Elemental Duplicator Controller",
+    "color": "#292925"
+  },
+  { "id": "gt5u.controller.endothermicFridge", "name": "Endothermic Fridge Controller", "color": "#5b849a" },
+  { "id": "gt5u.controller.energyInfuser", "name": "Energy Infuser Controller", "color": "#6ba2c9" },
+  { "id": "gt5u.controller.exothermicHearth", "name": "Exothermic Hearth Controller", "color": "#366436" },
+  {
+    "id": "gt5u.controller.extremeEntityCrusher",
+    "name": "Extreme Entity Crusher Controller",
+    "color": "#8f959c"
+  },
+  {
+    "id": "gt5u.controller.extremeHeatExchanger",
+    "name": "Extreme Heat Exchanger Controller",
+    "color": "#4b5058"
+  },
+  {
+    "id": "gt5u.controller.extremeTemperatureFluctuationPurificationUnit",
+    "name": "Extreme Temperature Fluctuation Purification Unit Controller",
+    "color": "#f5f5f5"
+  },
+  {
+    "id": "gt5u.controller.exxonmobilChemicalPlant",
+    "name": "ExxonMobil Chemical Plant Controller",
+    "color": "#6e6e6e"
+  },
+  { "id": "gt5u.controller.eyeOfHarmony", "name": "Eye of Harmony Controller", "color": "#6ba2c9" },
+  {
+    "id": "gt5u.controller.flocculationPurificationUnit",
+    "name": "Flocculation Purification Unit Controller",
+    "color": "#589fd2"
+  },
+  {
+    "id": "gt5u.controller.flotationCellRegulator",
+    "name": "Flotation Cell Regulator Controller",
+    "color": "#575737"
+  },
+  { "id": "gt5u.controller.fluidDrillingRig", "name": "Fluid Drilling Rig Controller", "color": "#8f959c" },
+  {
+    "id": "gt5u.controller.fluidDrillingRigIi",
+    "name": "Fluid Drilling Rig II Controller",
+    "color": "#c9ced4"
+  },
+  {
+    "id": "gt5u.controller.fluidDrillingRigIii",
+    "name": "Fluid Drilling Rig III Controller",
+    "color": "#9d93b0"
+  },
+  {
+    "id": "gt5u.controller.fluidDrillingRigIv",
+    "name": "Fluid Drilling Rig IV Controller",
+    "color": "#4b5058"
+  },
+  { "id": "gt5u.controller.fluidShaper", "name": "Fluid Shaper Controller", "color": "#6c6140" },
+  {
+    "id": "gt5u.controller.fullBoardImmersionDevice",
+    "name": "Full-Board Immersion Device Controller",
+    "color": "#ede9ee"
+  },
+  {
+    "id": "gt5u.controller.fusionControlComputerMarkI",
+    "name": "Fusion Control Computer Mark I Controller",
+    "color": "#ececec"
+  },
+  {
+    "id": "gt5u.controller.fusionControlComputerMarkIi",
+    "name": "Fusion Control Computer Mark II Controller",
+    "color": "#8b9faf"
+  },
+  {
+    "id": "gt5u.controller.fusionControlComputerMarkIii",
+    "name": "Fusion Control Computer Mark III Controller",
+    "color": "#d8cde0"
+  },
+  { "id": "gt5u.controller.fusiontechMkIv", "name": "FusionTech MK IV Controller", "color": "#b6c4aa" },
+  { "id": "gt5u.controller.fusiontechMkV", "name": "FusionTech MK V Controller", "color": "#d2c4dc" },
+  {
+    "id": "gt5u.controller.highEnergyLaserPurificationUnit",
+    "name": "High Energy Laser Purification Unit Controller",
+    "color": "#242424"
+  },
+  {
+    "id": "gt5u.controller.highTemperatureGasCooledReactor",
+    "name": "High Temperature Gas-cooled Reactor Controller",
+    "color": "#3f3f65"
+  },
+  {
+    "id": "gt5u.controller.hotIsostaticPressurizationUnit",
+    "name": "Hot Isostatic Pressurization Unit Controller",
+    "color": "#7c716a"
+  },
+  {
+    "id": "gt5u.controller.hyperIntensityLaserEngraver",
+    "name": "Hyper-Intensity Laser Engraver Controller",
+    "color": "#4950a6"
+  },
+  {
+    "id": "gt5u.controller.industrial3dCopyingMachine",
+    "name": "Industrial 3D Copying Machine Controller",
+    "color": "#827e74"
+  },
+  {
+    "id": "gt5u.controller.industrialArcFurnace",
+    "name": "Industrial Arc Furnace Controller",
+    "color": "#8f959c"
+  },
+  {
+    "id": "gt5u.controller.industrialBendingMachine",
+    "name": "Industrial Bending Machine Controller",
+    "color": "#9d93b0"
+  },
+  {
+    "id": "gt5u.controller.industrialChemicalBath",
+    "name": "Industrial Chemical Bath Controller",
+    "color": "#28505c"
+  },
+  {
+    "id": "gt5u.controller.industrialCokeOven",
+    "name": "Industrial Coke Oven Controller",
+    "color": "#637386"
+  },
+  {
+    "id": "gt5u.controller.industrialCuttingFactory",
+    "name": "Industrial Cutting Factory Controller",
+    "color": "#937ac7"
+  },
+  {
+    "id": "gt5u.controller.industrialElectrolyzer",
+    "name": "Industrial Electrolyzer Controller",
+    "color": "#745a4f"
+  },
+  {
+    "id": "gt5u.controller.industrialExtrusionMachine",
+    "name": "Industrial Extrusion Machine Controller",
+    "color": "#7b8189"
+  },
+  {
+    "id": "gt5u.controller.industrialFormingPress",
+    "name": "Industrial Forming Press Controller",
+    "color": "#9d93b0"
+  },
+  {
+    "id": "gt5u.controller.industrialMacerationStack",
+    "name": "Industrial Maceration Stack Controller",
+    "color": "#9d93b0"
+  },
+  {
+    "id": "gt5u.controller.industrialMixingMachine",
+    "name": "Industrial Mixing Machine Controller",
+    "color": "#6363a4"
+  },
+  {
+    "id": "gt5u.controller.industrialPrecisionLathe",
+    "name": "Industrial Precision Lathe Controller",
+    "color": "#8f959c"
+  },
+  {
+    "id": "gt5u.controller.industrialSledgehammer",
+    "name": "Industrial Sledgehammer Controller",
+    "color": "#3b3a3b"
+  },
+  {
+    "id": "gt5u.controller.industrialWireFactory",
+    "name": "Industrial Wire Factory Controller",
+    "color": "#2f2f2f"
+  },
+  {
+    "id": "gt5u.controller.infiniteFluidDrillingRig",
+    "name": "Infinite Fluid Drilling Rig Controller",
+    "color": "#a5a5a7"
+  },
+  {
+    "id": "gt5u.controller.integratedOreFactory",
+    "name": "Integrated Ore Factory Controller",
+    "color": "#c9ced4"
+  },
+  {
+    "id": "gt5u.controller.isamillGrindingMachine",
+    "name": "IsaMill Grinding Machine Controller",
+    "color": "#498846"
+  },
+  {
+    "id": "gt5u.controller.lapotronicSupercapacitor",
+    "name": "Lapotronic Supercapacitor Controller",
+    "color": "#8a7f73"
+  },
+  {
+    "id": "gt5u.controller.largeElectricCompressor",
+    "name": "Large Electric Compressor Controller",
+    "color": "#7c716a"
+  },
+  {
+    "id": "gt5u.controller.largeEssentiaSmeltery",
+    "name": "Large Essentia Smeltery Controller",
+    "color": "#a6a7a8"
+  },
+  {
+    "id": "gt5u.controller.largeMolecularAssembler",
+    "name": "Large Molecular Assembler Controller",
+    "color": "#4b5058"
+  },
+  {
+    "id": "gt5u.controller.largeNaquadahReactor",
+    "name": "Large Naquadah Reactor Controller",
+    "color": "#080713"
+  },
+  {
+    "id": "gt5u.controller.largeNeutralizationEngine",
+    "name": "Large Neutralization Engine Controller",
+    "color": "#3c182c"
+  },
+  {
+    "id": "gt5u.controller.largeScaleAutoAssemblerV101",
+    "name": "Large Scale Auto-Assembler v1.01 Controller",
+    "color": "#bfcdce"
+  },
+  { "id": "gt5u.controller.largeSifter", "name": "Large Sifter Controller", "color": "#2a2827" },
+  {
+    "id": "gt5u.controller.largeThermalRefinery",
+    "name": "Large Thermal Refinery Controller",
+    "color": "#6c1817"
+  },
+  { "id": "gt5u.controller.lATEX", "name": "L.A.T.E.X. Controller", "color": "#e3e3dc" },
+  { "id": "gt5u.controller.linearAccelerator", "name": "Linear Accelerator Controller", "color": "#727271" },
+  {
+    "id": "gt5u.controller.magneticFluxExhibitor",
+    "name": "Magnetic Flux Exhibitor Controller",
+    "color": "#3c1c47"
+  },
+  { "id": "gt5u.controller.massSolidifier", "name": "Mass Solidifier Controller", "color": "#6c6140" },
+  {
+    "id": "gt5u.controller.matterFabricationCpu",
+    "name": "Matter Fabrication CPU Controller",
+    "color": "#292925"
+  },
+  {
+    "id": "gt5u.controller.megaAlloyBlastSmelter",
+    "name": "Mega Alloy Blast Smelter Controller",
+    "color": "#8e8174"
+  },
+  {
+    "id": "gt5u.controller.megaChemicalReactor",
+    "name": "Mega Chemical Reactor Controller",
+    "color": "#e3e3dc"
+  },
+  {
+    "id": "gt5u.controller.megaDistillationTower",
+    "name": "Mega Distillation Tower Controller",
+    "color": "#67727b"
+  },
+  { "id": "gt5u.controller.megaOilCracker", "name": "Mega Oil Cracker Controller", "color": "#67727b" },
+  { "id": "gt5u.controller.microwaveGrinder", "name": "Microwave Grinder Controller", "color": "#c9ced4" },
+  {
+    "id": "gt5u.controller.miniatureWormholeGenerator",
+    "name": "Miniature Wormhole Generator Controller",
+    "color": "#6ba2c9"
+  },
+  {
+    "id": "gt5u.controller.molecularTransformer",
+    "name": "Molecular Transformer Controller",
+    "color": "#2d2d2d"
+  },
+  {
+    "id": "gt5u.controller.nanochipAssemblyMatrix",
+    "name": "Nanochip Assembly Matrix Controller",
+    "color": "#ede9ee"
+  },
+  { "id": "gt5u.controller.nanoForge", "name": "Nano Forge Controller", "color": "#303030" },
+  {
+    "id": "gt5u.controller.nanometerEncasementWrapper",
+    "name": "Nanometer Encasement Wrapper Controller",
+    "color": "#ede9ee"
+  },
+  { "id": "gt5u.controller.nanopartSplitter", "name": "Nanopart Splitter Controller", "color": "#ede9ee" },
+  {
+    "id": "gt5u.controller.nanoprecisionCuttingChamber",
+    "name": "Nanoprecision Cutting Chamber Controller",
+    "color": "#ede9ee"
+  },
+  {
+    "id": "gt5u.controller.nanoprecisionWireTracer",
+    "name": "Nanoprecision Wire Tracer Controller",
+    "color": "#ede9ee"
+  },
+  {
+    "id": "gt5u.controller.naquadahFuelRefinery",
+    "name": "Naquadah Fuel Refinery Controller",
+    "color": "#262626"
+  },
+  { "id": "gt5u.controller.neutronActivator", "name": "Neutron Activator Controller", "color": "#c9ced4" },
+  {
+    "id": "gt5u.controller.neutroniumCompressor",
+    "name": "Neutronium Compressor Controller",
+    "color": "#bbc8ee"
+  },
+  {
+    "id": "gt5u.controller.nuclearSaltProcessingPlant",
+    "name": "Nuclear Salt Processing Plant Controller",
+    "color": "#bfcdce"
+  },
+  {
+    "id": "gt5u.controller.opticallyOptimizedOrganizer",
+    "name": "Optically Optimized Organizer Controller",
+    "color": "#ede9ee"
+  },
+  { "id": "gt5u.controller.oreDrillingPlant", "name": "Ore Drilling Plant Controller", "color": "#8f959c" },
+  {
+    "id": "gt5u.controller.oreDrillingPlantIi",
+    "name": "Ore Drilling Plant II Controller",
+    "color": "#9d93b0"
+  },
+  {
+    "id": "gt5u.controller.oreDrillingPlantIii",
+    "name": "Ore Drilling Plant III Controller",
+    "color": "#4b5058"
+  },
+  {
+    "id": "gt5u.controller.oreDrillingPlantIv",
+    "name": "Ore Drilling Plant IV Controller",
+    "color": "#154697"
+  },
+  { "id": "gt5u.controller.oreWashingPlant", "name": "Ore Washing Plant Controller", "color": "#28505c" },
+  {
+    "id": "gt5u.controller.ozonationPurificationUnit",
+    "name": "Ozonation Purification Unit Controller",
+    "color": "#a97aa2"
+  },
+  {
+    "id": "gt5u.controller.partPreparationApparatus",
+    "name": "Part Preparation Apparatus Controller",
+    "color": "#ede9ee"
+  },
+  { "id": "gt5u.controller.pcbFactory", "name": "PCB Factory Controller", "color": "#6c9d9d" },
+  {
+    "id": "gt5u.controller.phNeutralizationPurificationUnit",
+    "name": "pH Neutralization Purification Unit Controller",
+    "color": "#414141"
+  },
+  {
+    "id": "gt5u.controller.planetaryGasSiphon",
+    "name": "Planetary Gas Siphon Controller",
+    "color": "#8f8f8f"
+  },
+  {
+    "id": "gt5u.controller.powerStationControlNode",
+    "name": "Power Station Control Node Controller",
+    "color": "#2d1a1a"
+  },
+  {
+    "id": "gt5u.controller.preciseAutoAssemblerMt3662",
+    "name": "Precise Auto-Assembler MT-3662 Controller",
+    "color": "#6e5941"
+  },
+  {
+    "id": "gt5u.controller.pseudostableBlackHoleContainmentField",
+    "name": "Pseudostable Black Hole Containment Field Controller",
+    "color": "#9f9da6"
+  },
+  { "id": "gt5u.controller.quantumComputer", "name": "Quantum Computer Controller", "color": "#dae7f1" },
+  {
+    "id": "gt5u.controller.quantumForceTransformer",
+    "name": "Quantum Force Transformer Controller",
+    "color": "#bfcdce"
+  },
+  {
+    "id": "gt5u.controller.reactorFuelProcessingPlant",
+    "name": "Reactor Fuel Processing Plant Controller",
+    "color": "#b2aac0"
+  },
+  { "id": "gt5u.controller.researchCompleter", "name": "Research Completer Controller", "color": "#917ca9" },
+  { "id": "gt5u.controller.researchStation", "name": "Research Station Controller", "color": "#dae7f1" },
+  {
+    "id": "gt5u.controller.residualDecontaminantDegasserPurificationUnit",
+    "name": "Residual Decontaminant Degasser Purification Unit Controller",
+    "color": "#f5f5f5"
+  },
+  { "id": "gt5u.controller.solarFactory", "name": "Solar Factory Controller", "color": "#c9ced4" },
+  {
+    "id": "gt5u.controller.solidOxideFuelCellMkI",
+    "name": "Solid-Oxide Fuel Cell Mk I Controller",
+    "color": "#c9ced4"
+  },
+  {
+    "id": "gt5u.controller.solidOxideFuelCellMkIi",
+    "name": "Solid-Oxide Fuel Cell Mk II Controller",
+    "color": "#4b5058"
+  },
+  { "id": "gt5u.controller.sourceChamber", "name": "Source Chamber Controller", "color": "#727271" },
+  { "id": "gt5u.controller.spaceElevator", "name": "Space Elevator Controller", "color": "#00679b" },
+  {
+    "id": "gt5u.controller.spargeTowerController",
+    "name": "Sparge Tower Controller Controller",
+    "color": "#3c3c3c"
+  },
+  { "id": "gt5u.controller.spinmatron2737", "name": "Spinmatron-2737 Controller", "color": "#2a4c1c" },
+  {
+    "id": "gt5u.controller.superconductiveStrandSplitter",
+    "name": "Superconductive Strand Splitter Controller",
+    "color": "#ede9ee"
+  },
+  { "id": "gt5u.controller.synchrotron", "name": "Synchrotron Controller", "color": "#727271" },
+  { "id": "gt5u.controller.targetChamber", "name": "Target Chamber Controller", "color": "#6e7479" },
+  { "id": "gt5u.controller.teslaTower", "name": "Tesla Tower Controller", "color": "#8f8f8f" },
+  { "id": "gt5u.controller.tfft", "name": "TFFT Controller", "color": "#8a7f73" },
+  { "id": "gt5u.controller.thermalBoiler", "name": "Thermal Boiler Controller", "color": "#637386" },
+  {
+    "id": "gt5u.controller.thermicHeatingDevice",
+    "name": "Thermic Heating Device Controller",
+    "color": "#757673"
+  },
+  {
+    "id": "gt5u.controller.thoriumHighTemperatureReactor",
+    "name": "Thorium High Temperature Reactor Controller",
+    "color": "#48387b"
+  },
+  {
+    "id": "gt5u.controller.thoriumReactorLftr",
+    "name": "Thorium Reactor [LFTR] Controller",
+    "color": "#3a1c4a"
+  },
+  {
+    "id": "gt5u.controller.transcendentPlasmaMixer",
+    "name": "Transcendent Plasma Mixer Controller",
+    "color": "#6ba2c9"
+  },
+  {
+    "id": "gt5u.controller.treeGrowthSimulator",
+    "name": "Tree Growth Simulator Controller",
+    "color": "#ae6f41"
+  },
+  {
+    "id": "gt5u.controller.ultraHighEnergyEtchingArray",
+    "name": "Ultra-high Energy Etching Array Controller",
+    "color": "#ede9ee"
+  },
+  {
+    "id": "gt5u.controller.universalChemicalFuelEngine",
+    "name": "Universal Chemical Fuel Engine Controller",
+    "color": "#9d93b0"
+  },
+  { "id": "gt5u.controller.utupuTanuri", "name": "Utupu-Tanuri Controller", "color": "#53110a" },
+  { "id": "gt5u.controller.voidMiners", "name": "Void Miners Controller", "color": "#a5a5a7" },
+  { "id": "gt5u.controller.volcanus", "name": "Volcanus Controller", "color": "#a87b37" },
+  { "id": "gt5u.controller.waterPump", "name": "Water Pump Controller", "color": "#7a5a3d" },
+  { "id": "gt5u.controller.whakawhitiWeraXl", "name": "Whakawhiti Wera XL Controller", "color": "#8b1b52" },
+  {
+    "id": "gt5u.controller.xlTurboGasTurbine",
+    "name": "XL Turbo Gas Turbine Controller",
+    "color": "#c3c9cf"
+  },
+  {
+    "id": "gt5u.controller.xlTurboHpSteamTurbine",
+    "name": "XL Turbo HP Steam Turbine Controller",
+    "color": "#a197b4"
+  },
+  {
+    "id": "gt5u.controller.xlTurboPlasmaTurbine",
+    "name": "XL Turbo Plasma Turbine Controller",
+    "color": "#50565f"
+  },
+  {
+    "id": "gt5u.controller.xlTurboScSteamTurbine",
+    "name": "XL Turbo SC Steam Turbine Controller",
+    "color": "#8f8f8f"
+  },
+  {
+    "id": "gt5u.controller.xlTurboSteamTurbine",
+    "name": "XL Turbo Steam Turbine Controller",
+    "color": "#8d949b"
+  },
+  {
+    "id": "gt5u.controller.zhuhaiFishingPort",
+    "name": "Zhuhai - Fishing Port Controller",
+    "color": "#1d4556"
+  },
+  { "id": "gt5u.controller.zyngen", "name": "Zyngen Controller", "color": "#575737" },
   { "id": "gt5u.cOOLANTDELIVERYCASING.0", "name": "COOLANT_DELIVERY_CASING 0", "color": "#5b777e" },
   { "id": "gt5u.defcCasing.7", "name": "Naquadah Alloy Fusion Casing", "color": "#8f8f8f" },
+  { "id": "gt5u.defcCasing.8", "name": "Bloody Ichorium Fusion Casing", "color": "#8f8f8f" },
   { "id": "gt5u.eLECTRODECASING.0", "name": "ELECTRODE_CASING 0", "color": "#adad5e" },
   { "id": "gt5u.essentiaCell.0", "name": "essentiaCell 0", "color": "#969592" },
   { "id": "gt5u.essentiaFilterCasing.0", "name": "essentiaFilterCasing 0", "color": "#e4ae97" },
@@ -148,6 +754,7 @@
   { "id": "gt5u.gtBlockcasings12.14", "name": "Forming Core", "color": "#9b9c9e" },
   { "id": "gt5u.gtBlockcasings12.15", "name": "Algae Casing", "color": "#cab9b8" },
   { "id": "gt5u.gtBlockcasings12.2", "name": "Nanochip Reinforcement Casing", "color": "#171718" },
+  { "id": "gt5u.gtBlockcasings12.5", "name": "Strengthened Inanimate Machine Casing", "color": "#3c182c" },
   { "id": "gt5u.gtBlockcasings12.9", "name": "Vibration-Safe Casing", "color": "#2a4c1c" },
   { "id": "gt5u.gtBlockcasings13.0", "name": "Cable Casing", "color": "#1b1d22" },
   { "id": "gt5u.gtBlockcasings13.1", "name": "Graphite Moderator Casing", "color": "#2a2a2a" },
@@ -203,6 +810,7 @@
   { "id": "gt5u.gtBlockcasings9.7", "name": "Stabilized Naquadah Water Plant Casing", "color": "#414141" },
   { "id": "gt5u.gtBlockcasings9.8", "name": "Inert Neutralization Water Plant Casing", "color": "#795975" },
   { "id": "gt5u.gtBlockcasings9.9", "name": "Reactive Gas Containment Casing", "color": "#9e9eb8" },
+  { "id": "gt5u.gtBlockcasingsBA0.0", "name": "Redstone Alloy Primary Tesla Windings", "color": "#8f8f8f" },
   { "id": "gt5u.gtBlockcasingsBA0.10", "name": "Reinforced Temporal Structure Casing", "color": "#00315a" },
   { "id": "gt5u.gtBlockcasingsBA0.11", "name": "Reinforced Spatial Structure Casing", "color": "#00345c" },
   {
@@ -247,11 +855,13 @@
     "color": "#56b9d4"
   },
   { "id": "gt5u.gtplusplusBlockcasings5.1", "name": "IsaMill Piping", "color": "#498846" },
+  { "id": "gt5u.gtplusplusBlockcasings5.11", "name": "Neutron Shielding Core", "color": "#a2acad" },
   { "id": "gt5u.gtplusplusBlockcasings5.15", "name": "Force Field Glass", "color": "#616365" },
   { "id": "gt5u.gtplusplusBlockcasings5.2", "name": "IsaMill Gearbox", "color": "#6a9464" },
   { "id": "gt5u.gtplusplusBlockcasings5.4", "name": "Sparge Tower Exterior Casing", "color": "#3c3c3c" },
   { "id": "gt5u.gtplusplusBlockcasings5.5", "name": "Sturdy Printer Casing", "color": "#827e74" },
   { "id": "gt5u.gtplusplusBlockcasings5.6", "name": "Forge Casing", "color": "#3b3a3b" },
+  { "id": "gt5u.gtplusplusBlockcasings5.7", "name": "Neutron Pulse Manipulator", "color": "#b8c5c6" },
   {
     "id": "gt5u.gtSpacetimeCompressionFieldGenerator.0",
     "name": "gt.spacetime_compression_field_generator 0",
@@ -305,6 +915,7 @@
   { "id": "gt5u.sBlockFrames.81", "name": "sBlockFrames 81", "color": "#8f8f8f" },
   { "id": "gt5u.sBlockMetal2.7", "name": "sBlockMetal2 7", "color": "#8f8f8f" },
   { "id": "gt5u.sBlockMetal4.13", "name": "sBlockMetal4 13", "color": "#8f8f8f" },
+  { "id": "gt5u.sBlockMetal5.2", "name": "sBlockMetal5 2", "color": "#8f8f8f" },
   { "id": "gt5u.sBlockMetal8.6", "name": "sBlockMetal8 6", "color": "#8f8f8f" },
   { "id": "gt5u.sBlockReinforced.10", "name": "sBlockReinforced 10", "color": "#282828" },
   { "id": "gt5u.sBlockReinforced.2", "name": "sBlockReinforced 2", "color": "#dfdfdf" },

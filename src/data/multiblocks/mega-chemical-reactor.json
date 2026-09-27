@@ -29,7 +29,7 @@
   "controller": {
     "pos": [2, 2, 0],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.megaChemicalReactor"
   },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",

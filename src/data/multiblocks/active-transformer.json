@@ -21,7 +21,7 @@
   "controller": {
     "pos": [1, 1, 0],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.activeTransformer"
   },
   "hatchBlocks": {
     "energy": "gt.hatch.energy",

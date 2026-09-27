@@ -124,7 +124,7 @@
   "controller": {
     "pos": [7, 0, 0],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.hotIsostaticPressurizationUnit"
   },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",

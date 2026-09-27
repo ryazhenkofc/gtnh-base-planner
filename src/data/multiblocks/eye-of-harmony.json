@@ -1185,7 +1185,7 @@
   "controller": {
     "pos": [16, 16, 0],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.eyeOfHarmony"
   },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",

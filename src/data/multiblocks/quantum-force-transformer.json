@@ -365,10 +365,10 @@
   ],
   "legend": {
     "B": {
-      "blockId": "gt5u.tieredCasing"
+      "blockId": "gt5u.gtplusplusBlockcasings5.11"
     },
     "A": {
-      "blockId": "gt5u.tieredCasing"
+      "blockId": "gt5u.gtplusplusBlockcasings5.7"
     },
     "T": {
       "blockId": "gt5u.blockCasings2Misc.12",
@@ -391,7 +391,7 @@
   "controller": {
     "pos": [7, 0, 4],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.quantumForceTransformer"
   },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",

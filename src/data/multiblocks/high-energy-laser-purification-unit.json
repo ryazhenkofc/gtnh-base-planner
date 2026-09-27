@@ -132,7 +132,7 @@
   "controller": {
     "pos": [6, 0, 0],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.highEnergyLaserPurificationUnit"
   },
   "hatchBlocks": {
     "fluidIn": "gt.hatch.inputHatch",

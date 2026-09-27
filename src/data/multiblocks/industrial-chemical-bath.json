@@ -31,7 +31,7 @@
   "controller": {
     "pos": [2, 1, 0],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.industrialChemicalBath"
   },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",

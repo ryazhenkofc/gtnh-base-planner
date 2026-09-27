@@ -295,7 +295,7 @@
   "controller": {
     "pos": [5, 3, 0],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.megaAlloyBlastSmelter"
   },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",

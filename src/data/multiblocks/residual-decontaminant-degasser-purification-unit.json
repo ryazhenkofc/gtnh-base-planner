@@ -496,7 +496,7 @@
   "controller": {
     "pos": [8, 1, 1],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.residualDecontaminantDegasserPurificationUnit"
   },
   "hatchBlocks": {
     "fluidIn": "gt.hatch.inputHatch",

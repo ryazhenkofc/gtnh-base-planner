@@ -36,7 +36,7 @@
   "controller": {
     "pos": [2, 0, 0],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.massSolidifier"
   },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",

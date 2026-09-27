@@ -14,14 +14,14 @@
   ],
   "legend": {
     "C": {
-      "blockId": "gt5u.tieredCasing",
+      "blockId": "gt.casing.stableTitanium",
       "hatches": ["itemIn", "itemOut", "energy", "maintenance", "muffler"]
     }
   },
   "controller": {
     "pos": [1, 0, 0],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.industrialMacerationStack"
   },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",

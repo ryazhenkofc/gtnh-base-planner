@@ -24,13 +24,13 @@
       "hatches": ["energy", "dynamo", "maintenance"]
     },
     "H": {
-      "blockId": "gt5u.tieredCasing"
+      "blockId": "gt5u.blockCasings2Misc.7"
     }
   },
   "controller": {
     "pos": [2, 0, 0],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.powerStationControlNode"
   },
   "hatchBlocks": {
     "energy": "gt.hatch.energy",

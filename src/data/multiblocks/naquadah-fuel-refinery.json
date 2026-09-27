@@ -216,7 +216,7 @@
   "controller": {
     "pos": [13, 13, 0],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.naquadahFuelRefinery"
   },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",

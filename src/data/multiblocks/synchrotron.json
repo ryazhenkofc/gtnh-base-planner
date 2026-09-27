@@ -303,7 +303,7 @@
   "controller": {
     "pos": [16, 3, 1],
     "facing": "north",
-    "blockId": "gt.controller"
+    "blockId": "gt5u.controller.synchrotron"
   },
   "hatchBlocks": {
     "fluidIn": "gt.hatch.inputHatch",

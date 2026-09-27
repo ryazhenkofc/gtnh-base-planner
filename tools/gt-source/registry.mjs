@@ -249,6 +249,11 @@ export class Registry {
         const ys = [...seg.matchAll(/(?:yield|return)\s+([^;]+);/g)];
         let expr = ys.length ? ys[ys.length - 1][1] : /^[^;{]+/.exec(seg)?.[0];
         if (!expr || !expr.trim() || /^\s*case\b/.test(expr)) expr = null;
+        // `if (side < 2) return TOP;` before the side value: fold into `side < 2 ? TOP : SIDE`.
+        if (expr && ys.length > 1) {
+          const cond = /\bif\s*\(([^{};]+?)\)\s*\{?\s*(?:return|yield)\s+([^;]+);/.exec(seg);
+          if (cond && SIDE_VAR.test(cond[1])) expr = `${cond[1]} ? ${cond[2].trim()} : ${expr.trim()}`;
+        }
         if (expr) for (const n of m[1].split(',')) icons.set(Number(n.trim()), expr.trim());
       }
       // Cases with no value of their own fall through to the next one that has one.
@@ -286,14 +291,17 @@ export class Registry {
    * Texture file (repo-relative) for an icon expression such as `Textures.BlockIcons.MACHINE_CASING_ROBUST_TUNGSTENSTEEL.getIcon()`
    * or `TexturesGtBlock.Casing_Material_Centrifuge.getIcon()`; the side texture when the expression picks by side.
    */
-  iconTexture(expr, src = '') {
+  iconTexture(expr, src = '', face = 'side') {
     if (!expr) return null;
     let e = expr.trim();
-    // `side > 1 ? SIDE : TOP` / `side < 2 ? TOP : SIDE`: evaluate the condition for a side face (north = 2).
+    // `side > 1 ? SIDE : TOP` / `side < 2 ? TOP : SIDE`: evaluate the condition for the face (down = 0,
+    // up = 1, north = 2).
     const tern = /^([^?]+)\?([^:]+):(.+)$/s.exec(e);
     if (tern) {
       const cond = tern[1]
-        .replace(/\b(?:ordinalSide|aSide|side|aOrdinalSide)\b/g, '2')
+        .replace(/\bForgeDirection\.DOWN\.ordinal\(\s*\)/g, '0')
+        .replace(/\bForgeDirection\.UP\.ordinal\(\s*\)/g, '1')
+        .replace(SIDE_VAR_G, face === 'bottom' ? '0' : face === 'top' ? '1' : '2')
         .replace(/[^\d<>=!&|() ]/g, '');
       let side = true;
       try {
@@ -361,6 +369,80 @@ export class Registry {
     return byBase ? byBase[0] : null;
   }
 
+  /**
+   * Front overlay of an idle controller (texture file, or null): the first icon its `getTexture(...)` draws
+   * (or `getInactiveOverlay()` / `getFrontOverlay()`, as GT++ bases draw) that is not an active or glow
+   * variant. `chain` is the class source followed by its parents; the most derived definition wins.
+   */
+  controllerFront(chain) {
+    const idle = (name) => !/(?<!in)active|glow|unstable/i.test(name) && !/(?:[a-z_]ON|On)$/.test(name);
+    const scan = (body, depth) => {
+      for (const m of body.matchAll(/\b((?:[A-Z]\w*\.)*)(\w+)\b(\s*\(\s*\))?/g)) {
+        const [, owner, name, call] = m;
+        if (!idle(name)) continue;
+        if (call) {
+          // A method of the machine that returns the overlay: `getTextureOverlay()`, `getInactiveOverlay()`.
+          if (owner || depth > 2 || /casing/i.test(name) || !/overlay|texture|icon|front|screen/i.test(name))
+            continue;
+          for (const s of chain) {
+            const b = methodBody(s, name);
+            const t = b && scan(b, depth + 1);
+            if (t) return t;
+          }
+          continue;
+        }
+        const iconish =
+          /^[A-Z][A-Z0-9]*_[A-Z0-9_]+$|^[A-Z]{4,}$/.test(name) ||
+          /overlay|screen|texture|font|face|front|controller|^oM[A-Z]/i.test(name);
+        // Casing icons are the controller's sides, not its front.
+        if (!iconish || (/casing/i.test(name) && !/overlay|screen|front/i.test(name))) continue;
+        const t = this.iconField(
+          owner.replace(/\.$/, ''),
+          name,
+          chain,
+          (v) => depth < 3 && scan(v, depth + 1),
+        );
+        if (t && idle(basename(t, '.png'))) return t;
+      }
+      return null;
+    };
+    // The most derived definition is the one the game calls.
+    for (const s of chain)
+      for (const name of ['getTexture', 'getInactiveOverlay', 'getFrontOverlay']) {
+        const b = methodBody(s, name);
+        if (b) return scan(b, 0);
+      }
+    return null;
+  }
+
+  /**
+   * An icon by name (`OVERLAY_X`, `TexturesGtBlock.oMCX`, `IGTextures.X`, or an icon field of the machine:
+   * `X = Textures.BlockIcons.custom(domain, "iconsets/X")`, `new CustomIcon("X")`) → the texture file. `scan`
+   * looks into a field that holds a whole texture: `X = TextureFactory.of(...addIcon(OVERLAY_X)...)`.
+   */
+  iconField(owner, name, chain, scan) {
+    const cls = owner.split('.').pop();
+    const srcs =
+      cls && !/^(?:Textures|BlockIcons|TexturesGtBlock)$/.test(cls) ? [this.classSrc(cls) ?? ''] : chain;
+    for (const s of srcs) {
+      const d = new RegExp(`\\b${name}\\s*=\\s*([^;]+);`).exec(s);
+      if (!d) continue;
+      const lit =
+        /\b(?:custom(?:Optional)?|CustomIcon|registerIcon)\s*\(\s*(?:[\w.]+\s*,\s*)?((?:"[^"]*"\s*\+?\s*)+)\)/.exec(
+          d[1],
+        );
+      if (lit) {
+        const path = [...lit[1].matchAll(/"([^"]*)"/g)].map((x) => x[1]).join('');
+        const t = this.registeredTexture(path.includes(':') ? path : `gregtech:${path}`);
+        if (t) return t;
+      }
+      const t = this.iconTexture(d[1], s) ?? (scan && scan(d[1]));
+      if (t) return t;
+    }
+    if (owner && !/^(?:Textures|BlockIcons|TexturesGtBlock|Textures\.BlockIcons)$/.test(owner)) return null;
+    return this.iconTexture(`${owner ? owner + '.' : 'BlockIcons.'}${name}`);
+  }
+
   /** A texture whose file name is `name` or `casing.name`, or null. */
   namedTexture(name) {
     if (!name) return null;
@@ -385,6 +467,9 @@ export class Registry {
     return byBase.find((p) => p.endsWith(`/${rel}.png`)) ?? byBase[0];
   }
 }
+
+const SIDE_VAR = /\b(?:ordinalSide|aSide|side|aOrdinalSide)\b/;
+const SIDE_VAR_G = new RegExp(SIDE_VAR.source, 'g');
 
 /** Body of the block's `getIcon(int side, int meta)`, following a delegation such as `return getStaticIcon(side, meta);`. */
 function iconMethodBody(src) {
