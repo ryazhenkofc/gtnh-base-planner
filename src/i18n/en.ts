@@ -270,6 +270,8 @@ export const t = {
     aspects: (n: number) => `${n} Thaumcraft ${n === 1 ? 'flow was' : 'flows were'} left out.`,
     placeholders: (names: string[]) => `Placeholders (not in the catalog yet): ${names.join(', ')}.`,
     truncated: 'The chain is larger than a template can hold; the rest was left out.',
+    newerSchema: (v: number) =>
+      `This file comes from a newer GTNH Planner (format ${v}). Check the result: new fields are not read.`,
     sized: (w: number, d: number) => `Template: ${w} × ${d}.`,
   },
 

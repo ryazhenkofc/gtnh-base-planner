@@ -49,6 +49,16 @@ import type { MultiblockDef, PlanLimits } from '../model/multiblock/types';
 
 export const MAX_IMPORT_BYTES = 16 * 1024 * 1024;
 
+/**
+ * Most entries per section of an imported project, and per recipe side. Far above real projects (a large
+ * GTNH base plan has a few hundred of each), low enough that a crafted file is refused before the page
+ * spends seconds and memory on it.
+ */
+export const IMPORT_LIMITS = { recipes: 20_000, nodes: 5_000, storages: 5_000, edges: 20_000, stacks: 256 };
+
+/** Newest `schemaVersion` of GTNH Planner's export this importer was written for. */
+export const KNOWN_SCHEMA_VERSION = 1;
+
 export type GtnhKind = 'item' | 'fluid' | 'aspect' | 'power';
 
 export interface GtnhStack {
@@ -105,6 +115,8 @@ export interface GtnhEdge {
 export interface GtnhProject {
   name: string;
   schemaVersion?: number;
+  /** The file comes from a newer export format than `KNOWN_SCHEMA_VERSION`: fields may have been missed. */
+  newerSchema?: boolean;
   recipes: Map<string, GtnhRecipe>;
   nodes: GtnhNode[];
   storages: GtnhStorage[];
@@ -164,10 +176,21 @@ export function parseGtnhProject(text: string): GtnhProject {
   if (!isObj(data) || !Array.isArray(data.nodes) || !Array.isArray(data.recipes)) {
     throw new ImportError('This does not look like a GTNH Planner project (no nodes or recipes).');
   }
+  for (const section of ['recipes', 'nodes', 'storages', 'edges'] as const) {
+    const n = list(data[section]).length;
+    if (n > IMPORT_LIMITS[section])
+      throw new ImportError(`Too many ${section} (${n}); at most ${IMPORT_LIMITS[section]} can be imported.`);
+  }
   let skipped = 0;
   const recipes = new Map<string, GtnhRecipe>();
   for (const r of list(data.recipes)) {
-    if (!isObj(r) || !str(r.id) || !str(r.machineType)) {
+    if (
+      !isObj(r) ||
+      !str(r.id) ||
+      !str(r.machineType) ||
+      list(r.inputs).length > IMPORT_LIMITS.stacks ||
+      list(r.outputs).length > IMPORT_LIMITS.stacks
+    ) {
       skipped++;
       continue;
     }
@@ -246,9 +269,11 @@ export function parseGtnhProject(text: string): GtnhProject {
       ratePerSecond: num(e.ratePerSecond),
     });
   }
+  const schemaVersion = num(data.schemaVersion);
   return {
     name: str(data.name) ?? 'GTNH Planner import',
-    schemaVersion: num(data.schemaVersion),
+    schemaVersion,
+    newerSchema: schemaVersion !== undefined && schemaVersion > KNOWN_SCHEMA_VERSION,
     recipes,
     nodes,
     storages,
