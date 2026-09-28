@@ -1,5 +1,6 @@
 import { key } from '../geometry';
-import type { MultiblockDef, PlanLimits, Vec3 } from '../types';
+import type { Vec3 } from '../core/types';
+import type { MultiblockDef, PlanLimits } from '../multiblock/types';
 import { coord, modeCaps } from './modes';
 import type { Candidate, Mode, Order, Spacing } from './types';
 

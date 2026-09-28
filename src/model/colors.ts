@@ -1,4 +1,4 @@
-import type { HatchKind } from './types';
+import type { HatchKind } from './multiblock/types';
 
 /** Default hatch colours (SIMPLE view and legend). */
 export const DEFAULT_HATCH_COLORS: Record<HatchKind, string> = {

@@ -8,7 +8,8 @@ import {
   rotateLocal,
   step,
 } from '../geometry';
-import type { Dir, HatchKind, MultiblockDef, Unit, Vec3 } from '../types';
+import type { Dir, Vec3 } from '../core/types';
+import type { HatchKind, MultiblockDef, Unit } from '../multiblock/types';
 import { CLEAR_AHEAD, FACE_ORDER, FLOOD_LIMIT } from './constants';
 import { comparePos } from './geometry';
 import type { Site } from './types';

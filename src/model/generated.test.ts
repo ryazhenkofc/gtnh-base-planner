@@ -6,7 +6,7 @@ import { key, localCells, rotateDir, toWorld } from './geometry';
 import { layoutCandidates, packUnits } from './layout/packer';
 import { resolveLayout } from './plan';
 import { placeHatches } from './hatches/placement';
-import type { PlanLimits } from './types';
+import type { PlanLimits } from './multiblock/types';
 
 /**
  * Catalog entries written by tools/gt-source/generate.mjs: a few units of each must plan like the hand-made

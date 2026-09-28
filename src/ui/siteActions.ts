@@ -4,7 +4,9 @@ import { arrangeSite } from '../model/site/arrange';
 import { IO_KINDS } from '../model/site/group';
 import type { Endpoint, ResourceKind, SiteGroup, SiteState } from '../model/site/types';
 import { effectiveSize } from '../model/resize';
-import type { HatchKind, PlanLimits, PlanState, Rotation } from '../model/types';
+import type { Rotation } from '../model/core/types';
+import type { HatchKind, PlanLimits } from '../model/multiblock/types';
+import type { PlanState } from '../model/plan/types';
 import {
   MAX_CORRIDOR,
   MAX_GROUPS,

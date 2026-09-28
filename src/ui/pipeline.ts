@@ -11,16 +11,10 @@ import { withPipeFaces } from '../model/routing/attachments';
 import { CABLE_KINDS, PIPE_KINDS, type RoutedKind } from '../model/routing/kinds';
 import { routePipes } from '../model/routing/router';
 import { buildSceneModel } from '../model/scene';
-import type {
-  HatchKind,
-  HatchResult,
-  MultiblockDef,
-  PackResult,
-  PlanState,
-  RouteNet,
-  SceneModel,
-  WallStats,
-} from '../model/types';
+import type { HatchKind, MultiblockDef } from '../model/multiblock/types';
+import type { HatchResult, PackResult, PlanState, WallStats } from '../model/plan/types';
+import type { SceneModel } from '../model/render/types';
+import type { RouteNet } from '../model/routing/routeNet';
 import { computeWallStats } from '../model/walls';
 import { connectBelow, plan, showCables, showPipes } from '../state/store';
 import { withBuildDimensions } from './dimensions';

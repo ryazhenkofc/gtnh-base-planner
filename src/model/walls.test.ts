@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { getMultiblock } from '../data/catalog';
-import type { HatchPlacement, MultiblockDef, Rotation, Unit, Vec3 } from './types';
+import type { Rotation, Vec3 } from './core/types';
+import type { MultiblockDef, Unit } from './multiblock/types';
+import type { HatchPlacement } from './plan/types';
 import { computeWallStats } from './walls';
 
 const coke = getMultiblock('coke-oven')!;

@@ -1,5 +1,6 @@
 import { key } from '../geometry';
-import type { MultiblockDef, PackResult, PlanLimits, Unit } from '../types';
+import type { MultiblockDef, PlanLimits, Unit } from '../multiblock/types';
+import type { PackResult } from '../plan/types';
 import { cloneResult, defCache, RESULT_CACHE_SIZE } from './cache';
 import { candidates } from './candidates';
 import { modesFor, sanitizeLimits } from './modes';

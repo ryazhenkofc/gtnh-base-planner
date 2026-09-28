@@ -1,4 +1,4 @@
-import type { MultiblockDef } from '../model/types';
+import type { MultiblockDef } from '../model/multiblock/types';
 import { catalog, getMultiblock } from './catalog';
 
 /**

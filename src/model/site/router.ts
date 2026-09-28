@@ -1,5 +1,5 @@
 import { DIRS, dirBetween, dirVec } from '../geometry';
-import type { Dir, Vec3 } from '../types';
+import type { Dir, Vec3 } from '../core/types';
 
 /**
  * Net router for sites. Unlike `routing.ts` (one network per hatch kind inside one build), every net here

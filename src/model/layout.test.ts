@@ -3,7 +3,8 @@ import { getMultiblock } from '../data/catalog';
 import { controllerFacing, key, step, unitBounds, unitCells } from './geometry';
 import { layoutCandidates, packUnits } from './layout/packer';
 import { loosenings } from './layout/variants';
-import type { MultiblockDef, PlanLimits, Unit, Vec3 } from './types';
+import type { Vec3 } from './core/types';
+import type { MultiblockDef, PlanLimits, Unit } from './multiblock/types';
 
 const coke = getMultiblock('coke-oven')!;
 const NO_LIMITS: PlanLimits = { x: null, y: null, z: null };

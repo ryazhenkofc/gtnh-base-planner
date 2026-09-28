@@ -652,7 +652,7 @@ const NEIGHBOURS = [
 ];
 
 /**
- * Empty cells connected to the outside of the structure (as src/model/ports.ts counts open faces): cells
+ * Empty cells connected to the outside of the structure (as src/model/hatches/sites.ts counts open faces): cells
  * outside the bounding box or not part of the structure (' '), never below the ground and never the cell in
  * front of the controller.
  */

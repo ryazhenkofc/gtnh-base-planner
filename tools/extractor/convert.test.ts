@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { afterAll, describe, expect, it } from 'vitest';
 import { BLOCKS } from '../../src/data/blocks';
 import { localCells } from '../../src/model/geometry';
-import type { MultiblockDef } from '../../src/model/types';
+import type { MultiblockDef } from '../../src/model/multiblock/types';
 import {
   convertDump,
   formatJson,

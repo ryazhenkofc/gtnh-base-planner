@@ -1,4 +1,4 @@
-import type { HatchKind, PlanLimits, Unit } from '../model/types';
+import type { HatchKind, PlanLimits, Unit } from '../model/multiblock/types';
 import type { RoutedKind } from '../model/routing/kinds';
 
 /**

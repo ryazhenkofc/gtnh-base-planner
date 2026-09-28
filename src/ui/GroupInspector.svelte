@@ -4,7 +4,7 @@
   import type { PlacedGroup } from '../model/site/buildTypes';
   import { IO_KINDS } from '../model/site/group';
   import type { SiteGroup } from '../model/site/types';
-  import type { HatchKind } from '../model/types';
+  import type { HatchKind } from '../model/multiblock/types';
   import { SITE_MAX_SIZE } from '../share/siteCodec';
   import { siteGroup } from '../state/site';
   import { hatchKindsOf } from './catalogView';

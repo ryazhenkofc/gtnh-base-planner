@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { emptySite, validateSiteState } from '../share/siteCodec';
-import type { PlanState } from '../model/types';
+import type { PlanState } from '../model/plan/types';
 import {
   groupLimitAxis,
   pruned,

@@ -1,6 +1,9 @@
 import { describe, expect, it, vi } from 'vitest';
 import { getMultiblock } from '../data/catalog';
-import type { RouteNet, SceneModel, Unit, WallStats } from '../model/types';
+import type { Unit } from '../model/multiblock/types';
+import type { WallStats } from '../model/plan/types';
+import type { SceneModel } from '../model/render/types';
+import type { RouteNet } from '../model/routing/routeNet';
 import { defaultPlan } from '../state/store';
 import { catalog } from '../data/catalog';
 import { dominantBlockId, hatchKindsOf, iconFaces, matchesQuery, shade } from './catalogView';

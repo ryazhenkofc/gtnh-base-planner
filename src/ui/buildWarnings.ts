@@ -1,5 +1,6 @@
 import { t } from '../i18n/en';
-import type { HatchResult, PackResult, RouteNet } from '../model/types';
+import type { HatchResult, PackResult } from '../model/plan/types';
+import type { RouteNet } from '../model/routing/routeNet';
 import { isSlowBuild } from './fields';
 import { clearSlot, notify } from './notices';
 import type { PipelineResult } from './pipeline';

@@ -1,5 +1,6 @@
 import type { CellKey } from '../geometry';
-import type { Dir, HatchKind, Vec3 } from '../types';
+import type { Dir, Vec3 } from '../core/types';
+import type { HatchKind } from '../multiblock/types';
 
 /** Hatch placement inputs, and the cells and ranks it works with. */
 

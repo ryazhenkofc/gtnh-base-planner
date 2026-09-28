@@ -67,7 +67,7 @@ through; product drains become output ports, trash drains void ports. Thaumcraft
 
 ## Data model
 
-Each multiblock is one JSON file in [`src/data/multiblocks/`](src/data/multiblocks/), typed as `MultiblockDef` in [`src/model/types.ts`](src/model/types.ts). Files are picked up at build time; there is no registry to edit.
+Each multiblock is one JSON file in [`src/data/multiblocks/`](src/data/multiblocks/), typed as `MultiblockDef` in [`src/model/multiblock/types.ts`](src/model/multiblock/types.ts). Files are picked up at build time; there is no registry to edit.
 
 | Field                | Meaning                                                                                      |
 | -------------------- | -------------------------------------------------------------------------------------------- |
@@ -137,8 +137,12 @@ Stack: TypeScript, Svelte 5, Three.js, Vite.
 ```
 src/
   data/        block registry, catalog, multiblocks/*.json
-  model/       pure logic: geometry, layout, walls, hatches (ports), routing, scene model
-    site/      sites: group builds, net router, auto-arrange, site scene
+  model/       pure logic: geometry, walls, scene model, and one folder per stage:
+    core/ multiblock/ plan/ render/   shared types, by domain
+    layout/    packing units that share walls
+    hatches/   placing hatches on the packed units
+    routing/   pipes and cables inside one build
+    site/      templates: group builds, ports, resource nets and their router, auto-arrange, scene
   import/      GTNH Planner project import
   render/      Three.js renderer, SIMPLE and DETAILED materials, texture mapping
   share/       share-link codec and local persistence

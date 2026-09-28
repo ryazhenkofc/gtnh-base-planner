@@ -131,7 +131,7 @@ Today: `plan → packUnits → placeHatches → computeWallStats → routePipes 
    v1, groups do not share walls with other groups (see open questions).
 4. **Terminal assignment**: for each link, choose the source and target hatches with its resource. When a
    group has several, pick the one nearest the other end.
-5. **Routing, generalised** (`routing.ts`): today there is one net per `HatchKind` and one `def`. Change it to
+5. **Routing, generalised** (then `routing.ts`, now `src/model/routing/`): today there is one net per `HatchKind` and one `def`. Change it to
    one net per link or port net, with explicit terminals and solids from every group.
    - `termMask` is a `Uint8Array` bitmask of 7 kinds. Replace it with a `Uint16Array` net index. `occ` becomes
      `PIPE + netIndex` in a `Uint16Array`.
@@ -202,7 +202,8 @@ Each milestone ships on its own, with `npm run check && npm test` green and e2e 
    migration.
 2. **Several groups**: per-group pipeline, world transform, collisions and bounds, scene for several groups,
    site ground grid, a group list in Settings with numeric placement.
-3. **Links and routing**: resource-tagged hatch demand in `ports.ts`, net-based routing in `routing.ts`, site
+3. **Links and routing**: resource-tagged hatch demand in `ports.ts` (now `src/model/hatches/`), net-based routing in `routing.ts` (now
+   `src/model/site/router.ts`), site
    ports. Tests: one link between two groups, a loop, a dense 30 × 30 case with a time budget.
 4. **I/O display**: resource colours, flow chevrons, tooltips, legend with isolation, labels, I/O panel.
 5. **Arranging**: layered auto-arrange, then drag and rotate in 3D.

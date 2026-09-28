@@ -1,4 +1,6 @@
-import type { MultiblockDef, PackResult, Unit, Vec3 } from '../types';
+import type { Vec3 } from '../core/types';
+import type { MultiblockDef, Unit } from '../multiblock/types';
+import type { PackResult } from '../plan/types';
 import { buildShapes } from './shapes';
 import type { Candidate, DefCache } from './types';
 

@@ -1,5 +1,5 @@
 import { key } from '../geometry';
-import type { MultiblockDef, Unit } from '../types';
+import type { MultiblockDef, Unit } from '../multiblock/types';
 import { defCache, sourceOf } from './cache';
 import { coord, modesFor } from './modes';
 import { realize } from './realize';

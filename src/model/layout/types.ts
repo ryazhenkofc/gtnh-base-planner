@@ -1,4 +1,5 @@
-import type { PackResult, Vec3 } from '../types';
+import type { Vec3 } from '../core/types';
+import type { PackResult } from '../plan/types';
 
 /** Internal types of the layout packer (see `packer.ts`). */
 

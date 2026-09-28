@@ -1,4 +1,4 @@
-import type { PlanState } from '../model/types';
+import type { PlanState } from '../model/plan/types';
 import { MAX_PAYLOAD_BYTES, PlanFormatError, encodePlan, decodePlan, validatePlanState } from './codec';
 
 /**

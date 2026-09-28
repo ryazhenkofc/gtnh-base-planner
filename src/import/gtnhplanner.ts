@@ -36,7 +36,7 @@ import { clampCount } from '../ui/fields';
 import { rotatedSize } from '../model/geometry';
 import { packUnits } from '../model/layout/packer';
 import { effectiveSize, sizedDef } from '../model/resize';
-import type { MultiblockDef, PlanLimits } from '../model/types';
+import type { MultiblockDef, PlanLimits } from '../model/multiblock/types';
 
 /**
  * Import of a GTNH Planner (gtnhplanner.com) project: the JSON their board's "Export JSON" writes

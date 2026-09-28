@@ -1,5 +1,7 @@
 import type * as THREE from 'three';
-import type { Dir, HatchKind, ViewMode, VoxelKind } from '../model/types';
+import type { Dir, ViewMode } from '../model/core/types';
+import type { HatchKind } from '../model/multiblock/types';
+import type { VoxelKind } from '../model/render/types';
 
 /** What a voxel looks like; the renderer groups instances by identical visuals. */
 export interface BlockVisual {

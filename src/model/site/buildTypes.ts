@@ -1,4 +1,6 @@
-import type { Dir, MultiblockDef, SceneModel, Unit, Vec3 } from '../types';
+import type { Dir, Vec3 } from '../core/types';
+import type { MultiblockDef, Unit } from '../multiblock/types';
+import type { SceneModel } from '../render/types';
 import type { Demand, GroupBuild, SiteHatch } from './group';
 import type { RouteResult } from './router';
 import type { ResourceKind, SiteGroup, SitePort, SiteState } from './types';

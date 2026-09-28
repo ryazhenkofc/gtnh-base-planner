@@ -1,5 +1,7 @@
 import { controllerFacing, rotateDir, step } from '../geometry';
-import type { Dir, HatchKind, HatchPlacement, MultiblockDef, Unit, UnitCell } from '../types';
+import type { Dir } from '../core/types';
+import type { HatchKind, MultiblockDef, Unit, UnitCell } from '../multiblock/types';
+import type { HatchPlacement } from '../plan/types';
 import { ATTACH_ORDER } from './attachments';
 import { BESIDE_HATCH_COST } from './constants';
 import { FREE, indexOf, reserve } from './grid';

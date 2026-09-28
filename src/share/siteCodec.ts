@@ -9,7 +9,8 @@ import {
   type SitePort,
   type SiteState,
 } from '../model/site/types';
-import type { HatchKind, PlanLimits, Rotation } from '../model/types';
+import type { Rotation } from '../model/core/types';
+import type { HatchKind, PlanLimits } from '../model/multiblock/types';
 import {
   MAX_PAYLOAD_BYTES,
   PlanFormatError,

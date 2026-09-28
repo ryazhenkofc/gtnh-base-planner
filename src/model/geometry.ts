@@ -1,4 +1,5 @@
-import type { Dir, HorizontalDir, MultiblockDef, Rotation, Unit, UnitCell, Vec3 } from './types';
+import type { Dir, HorizontalDir, Rotation, Vec3 } from './core/types';
+import type { MultiblockDef, Unit, UnitCell } from './multiblock/types';
 
 /** Shared geometry helpers. Implemented in the foundation; all model units must use these. */
 

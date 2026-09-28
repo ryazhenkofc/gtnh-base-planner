@@ -1,4 +1,6 @@
-import type { Dir, HatchPlacement, RouteNet } from '../types';
+import type { Dir } from '../core/types';
+import type { HatchPlacement } from '../plan/types';
+import type { RouteNet } from './routeNet';
 
 /** Which side of each hatch its pipe or cable attaches to. */
 

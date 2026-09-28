@@ -1,5 +1,5 @@
 import { dirVec, key } from '../geometry';
-import type { Dir, Vec3 } from '../types';
+import type { Dir, Vec3 } from '../core/types';
 import type { PlacedGroup, PlacedPort, SiteWarning } from './buildTypes';
 import type { SiteOccupancy } from './occupancy';
 import type { Endpoint, SiteState } from './types';

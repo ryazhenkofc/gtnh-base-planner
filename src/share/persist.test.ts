@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import type { PlanState } from '../model/types';
+import type { PlanState } from '../model/plan/types';
 import { defaultPlan } from '../state/store';
 import { encodePlan } from './codec';
 import {

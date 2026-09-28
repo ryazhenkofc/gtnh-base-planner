@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { DEFAULT_HATCH_COLORS } from '../model/colors';
-import type { PlanLimits, Unit } from '../model/types';
+import type { PlanLimits, Unit } from '../model/multiblock/types';
 import { hatchKey, layoutKey, pipesKey, sceneKey } from './pipelineKeys';
 
 type LayoutInput = Parameters<typeof layoutKey>[0];

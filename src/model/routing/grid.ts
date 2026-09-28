@@ -1,4 +1,4 @@
-import type { Vec3 } from '../types';
+import type { Vec3 } from '../core/types';
 import { MARGIN, MAX_GRID_CELLS } from './constants';
 import type { Grid } from './types';
 

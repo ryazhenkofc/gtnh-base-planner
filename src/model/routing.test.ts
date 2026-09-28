@@ -8,7 +8,10 @@ import { routePipes } from './routing/router';
 import { catalog } from '../data/catalog';
 import { createPipeline } from '../ui/pipeline';
 import { defaultPlan } from '../state/store';
-import type { Dir, HatchKind, HatchPlacement, MultiblockDef, RouteNet, Unit, Vec3 } from './types';
+import type { Dir, Vec3 } from './core/types';
+import type { HatchKind, MultiblockDef, Unit } from './multiblock/types';
+import type { HatchPlacement } from './plan/types';
+import type { RouteNet } from './routing/routeNet';
 
 /** Hand-made entries; generated ones (tools/gt-source) have lighter checks in generated.test.ts. */
 const handMade = catalog.filter((d) => !d.generated);

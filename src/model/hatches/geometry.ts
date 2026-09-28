@@ -1,4 +1,4 @@
-import type { Dir, Vec3 } from '../types';
+import type { Dir, Vec3 } from '../core/types';
 import { FACE_ORDER } from './constants';
 
 /** Face and cell helpers of hatch placement. */

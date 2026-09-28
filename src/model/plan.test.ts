@@ -17,7 +17,9 @@ import {
 import { placeHatches } from './hatches/placement';
 import { ROUTED_KINDS } from './routing/kinds';
 import { routePipes } from './routing/router';
-import type { HatchResult, PlanLimits, RouteNet, Unit } from './types';
+import type { PlanLimits, Unit } from './multiblock/types';
+import type { HatchResult } from './plan/types';
+import type { RouteNet } from './routing/routeNet';
 
 /** Hand-made entries; generated ones (tools/gt-source) have lighter checks in generated.test.ts. */
 const handMade = catalog.filter((d) => !d.generated);

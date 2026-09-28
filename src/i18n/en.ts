@@ -1,6 +1,6 @@
 import type { SiteWarning } from '../model/site/buildTypes';
 import type { ResourceKind } from '../model/site/types';
-import type { HatchKind } from '../model/types';
+import type { HatchKind } from '../model/multiblock/types';
 
 /** All user-visible strings (UNIT 8 owns this file). Use `t.key` in components; never build HTML strings. */
 export const t = {

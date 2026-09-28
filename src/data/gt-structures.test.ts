@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import type { HatchKind, MultiblockDef } from '../model/types';
+import type { HatchKind, MultiblockDef } from '../model/multiblock/types';
 import { sizedDef } from '../model/resize';
 import { catalog } from './catalog';
 import generatedShapes from './gt-shapes.generated.json';

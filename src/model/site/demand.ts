@@ -1,5 +1,5 @@
 import { getSiteDef, isSingleBlock } from '../../data/generic';
-import type { HatchKind, MultiblockDef } from '../types';
+import type { HatchKind, MultiblockDef } from '../multiblock/types';
 import type { Side, SiteWarning } from './buildTypes';
 import type { Demand } from './group';
 import type { Endpoint, ResourceDef, SiteState } from './types';

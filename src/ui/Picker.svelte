@@ -1,6 +1,6 @@
 <script lang="ts">
   import { catalog } from '../data/catalog';
-  import type { MultiblockDef } from '../model/types';
+  import type { MultiblockDef } from '../model/multiblock/types';
   import { t } from '../i18n/en';
   import { cachedIconFaces, matchesQuery } from './catalogView';
   import { blockIcon } from './icons';

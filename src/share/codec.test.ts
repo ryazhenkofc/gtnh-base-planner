@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import type { PlanState, Unit } from '../model/types';
+import type { Unit } from '../model/multiblock/types';
+import type { PlanState } from '../model/plan/types';
 import { defaultPlan } from '../state/store';
 import { deflateRaw, fromBase64Url, inflateRaw, toBase64Url } from './binary';
 import { HATCH_KINDS, PlanFormatError, decodePlan, encodePlan, plansEqual, validatePlanState } from './codec';

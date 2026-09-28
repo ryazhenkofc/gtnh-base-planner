@@ -3,7 +3,10 @@ import cokeOvenJson from '../data/multiblocks/coke-oven.json';
 import { DEFAULT_HATCH_COLORS } from './colors';
 import { key } from './geometry';
 import { buildSceneModel } from './scene';
-import type { HatchPlacement, MultiblockDef, RouteNet, Unit, Vec3, WallStats } from './types';
+import type { Vec3 } from './core/types';
+import type { MultiblockDef, Unit } from './multiblock/types';
+import type { HatchPlacement, WallStats } from './plan/types';
+import type { RouteNet } from './routing/routeNet';
 
 const coke = cokeOvenJson as unknown as MultiblockDef;
 

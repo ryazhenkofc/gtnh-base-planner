@@ -1,7 +1,8 @@
 <script lang="ts">
   import { onMount, untrack } from 'svelte';
   import { DEFAULT_HATCH_COLORS } from '../model/colors';
-  import type { SceneModel, Vec3, ViewMode } from '../model/types';
+  import type { Vec3, ViewMode } from '../model/core/types';
+  import type { SceneModel } from '../model/render/types';
   import { createRenderer, type Renderer } from '../render/renderer';
   import { warnOnce } from './notices';
 

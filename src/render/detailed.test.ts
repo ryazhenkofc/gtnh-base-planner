@@ -5,7 +5,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { decodePng } from '../../scripts/build-atlas.mjs';
 import { BLOCKS } from '../data/blocks';
 import { DEFAULT_HATCH_COLORS } from '../model/colors';
-import type { HatchKind } from '../model/types';
+import type { HatchKind } from '../model/multiblock/types';
 import { createDetailedProvider, TEXTURES } from './detailed';
 import { BOX_FACE_ORDER } from './materials';
 

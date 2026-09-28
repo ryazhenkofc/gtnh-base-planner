@@ -1,5 +1,6 @@
 import { add, dirVec, key, localCells, rotateDir, rotatedSize, rotateLocal } from '../geometry';
-import type { MultiblockDef, Vec3 } from '../types';
+import type { Vec3 } from '../core/types';
+import type { MultiblockDef } from '../multiblock/types';
 import type { DefCache, Shape } from './types';
 
 /** A multiblock turned into rotated occupancy grids, and whether two turned units may overlap. */

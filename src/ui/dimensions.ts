@@ -1,5 +1,5 @@
 import { t } from '../i18n/en';
-import type { SceneModel } from '../model/types';
+import type { SceneModel } from '../model/render/types';
 
 /**
  * The scene with its footprint from `min` to `max` (x, z, in blocks) measured on the ground plane `y`:

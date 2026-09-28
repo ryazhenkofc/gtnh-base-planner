@@ -1,4 +1,5 @@
-import type { HatchKind, PlanLimits, Rotation } from '../types';
+import type { Rotation } from '../core/types';
+import type { HatchKind, PlanLimits } from '../multiblock/types';
 
 /**
  * A site: several groups of multiblocks placed on a bounded ground area, with links that carry one

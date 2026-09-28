@@ -1,6 +1,6 @@
 <script lang="ts">
   import { t } from '../i18n/en';
-  import type { MultiblockDef, PlanLimits } from '../model/types';
+  import type { MultiblockDef, PlanLimits } from '../model/multiblock/types';
   import { connectBelow, plan, showCables, showPipes, xray } from '../state/store';
   import { resetColors, resetPlan, setHatchColor, setLimit, setSize, toggleHatch } from './actions';
   import { hatchKindsOf } from './catalogView';

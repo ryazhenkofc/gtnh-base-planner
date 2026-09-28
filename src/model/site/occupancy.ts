@@ -1,5 +1,5 @@
 import { controllerFacing, key, step, unitCells } from '../geometry';
-import type { Vec3 } from '../types';
+import type { Vec3 } from '../core/types';
 import type { PlacedGroup, SiteWarning } from './buildTypes';
 import type { SiteState } from './types';
 

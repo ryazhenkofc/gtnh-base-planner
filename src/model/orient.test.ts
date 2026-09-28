@@ -4,7 +4,7 @@ import { controllerFacing, rotateDir, unitCells } from './geometry';
 import { packUnits } from './layout/packer';
 import { alongX } from './orient';
 import { placeHatches } from './hatches/placement';
-import type { MultiblockDef, Unit } from './types';
+import type { MultiblockDef, Unit } from './multiblock/types';
 
 const NO_LIMITS = { x: null, y: null, z: null };
 

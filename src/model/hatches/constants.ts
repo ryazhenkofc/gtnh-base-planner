@@ -1,4 +1,5 @@
-import type { Dir, HatchKind } from '../types';
+import type { Dir } from '../core/types';
+import type { HatchKind } from '../multiblock/types';
 
 /** Order and tuning of hatch placement. */
 

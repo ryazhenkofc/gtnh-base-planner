@@ -1,5 +1,6 @@
 import { rotatedSize } from '../geometry';
-import type { MultiblockDef, PlanLimits, Rotation, Vec3 } from '../types';
+import type { Rotation, Vec3 } from '../core/types';
+import type { MultiblockDef, PlanLimits } from '../multiblock/types';
 import { axisVec, pairOk } from './shapes';
 import type { DefCache, Mode, Spacing } from './types';
 

@@ -1,4 +1,4 @@
-import type { Vec3 } from '../types';
+import type { Vec3 } from '../core/types';
 import type { CellHeap } from './heap';
 import type { RoutedKind } from './kinds';
 

@@ -1,4 +1,4 @@
-import type { HatchKind } from '../types';
+import type { HatchKind } from '../multiblock/types';
 
 /** Hatch kinds that routing connects with pipes or cables. */
 

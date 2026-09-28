@@ -1,4 +1,4 @@
-import type { HatchRequirement, LegendEntry, MultiblockDef, ResizeRule } from './types';
+import type { HatchRequirement, LegendEntry, MultiblockDef, ResizeRule } from './multiblock/types';
 
 const AXIS = { x: 0, y: 1, z: 2 } as const;
 const RESERVED = new Set(['~', '-', ' ']);

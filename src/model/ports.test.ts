@@ -4,7 +4,9 @@ import { key, rotateDir, step, unitCells } from './geometry';
 import { layoutCandidates, packUnits } from './layout/packer';
 import { placeHatches } from './hatches/placement';
 import { catalog } from '../data/catalog';
-import type { Dir, HatchKind, HatchResult, MultiblockDef, Rotation, Unit, Vec3 } from './types';
+import type { Dir, Rotation, Vec3 } from './core/types';
+import type { HatchKind, MultiblockDef, Unit } from './multiblock/types';
+import type { HatchResult } from './plan/types';
 
 /** Hand-made entries; generated ones (tools/gt-source) have lighter checks in generated.test.ts. */
 const handMade = catalog.filter((d) => !d.generated);

@@ -1,6 +1,7 @@
 <script lang="ts">
   import { t } from '../i18n/en';
-  import type { HatchKind, PlanState } from '../model/types';
+  import type { HatchKind } from '../model/multiblock/types';
+  import type { PlanState } from '../model/plan/types';
   import { mergeColors } from './pipeline';
 
   interface Props {

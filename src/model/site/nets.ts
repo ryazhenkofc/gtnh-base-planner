@@ -1,6 +1,7 @@
 import { isSingleBlock } from '../../data/generic';
 import { controllerFacing, step } from '../geometry';
-import type { Dir, HatchKind } from '../types';
+import type { Dir } from '../core/types';
+import type { HatchKind } from '../multiblock/types';
 import type { NetTerminalInfo, PlacedGroup, PlacedPort, SiteNet, SiteWarning } from './buildTypes';
 import { siteResource } from './demand';
 import { IN_KINDS, OUT_KINDS, type SiteHatch } from './group';

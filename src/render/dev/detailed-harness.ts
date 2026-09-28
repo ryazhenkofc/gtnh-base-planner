@@ -5,7 +5,7 @@
 import * as THREE from 'three';
 import { BLOCKS } from '../../data/blocks';
 import { DEFAULT_HATCH_COLORS } from '../../model/colors';
-import type { HatchKind } from '../../model/types';
+import type { HatchKind } from '../../model/multiblock/types';
 import { createDetailedProvider, TEXTURES } from '../detailed';
 import type { BlockVisual } from '../materials';
 

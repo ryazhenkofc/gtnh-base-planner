@@ -21,7 +21,8 @@
  * Offsets `d` are world deltas from the controller block, which the extractor places facing NORTH
  * (-Z). That is exactly our local frame, so the only transform is a translation to the min corner.
  */
-import type { HatchKind, HorizontalDir, LegendEntry, MultiblockDef, Vec3 } from '../../src/model/types';
+import type { HorizontalDir, Vec3 } from '../../src/model/core/types';
+import type { HatchKind, LegendEntry, MultiblockDef } from '../../src/model/multiblock/types';
 
 // ---------------------------------------------------------------------------------------------
 // Dump types
@@ -682,7 +683,7 @@ export function formatJson(value: unknown, width = 110, indent = '', lead = 0): 
 // Validation
 
 /**
- * Structural checks for a `MultiblockDef` (the contract in `src/model/types.ts`). Returns a list of
+ * Structural checks for a `MultiblockDef` (the contract in `src/model/multiblock/types.ts`). Returns a list of
  * problems; empty means valid. Does not check block ids against the registry (callers may).
  */
 export function validateDef(def: MultiblockDef): string[] {

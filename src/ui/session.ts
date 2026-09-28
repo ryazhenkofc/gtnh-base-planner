@@ -1,6 +1,6 @@
 import { get, writable } from 'svelte/store';
 import { t } from '../i18n/en';
-import type { PlanState } from '../model/types';
+import type { PlanState } from '../model/plan/types';
 import { encodePlan } from '../share/codec';
 import {
   clearHash,

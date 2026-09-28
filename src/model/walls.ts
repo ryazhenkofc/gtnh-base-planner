@@ -7,7 +7,9 @@ import {
   unitCells,
   type CellKey,
 } from './geometry';
-import type { CellRole, HatchPlacement, MultiblockDef, Rotation, Unit, Vec3, WallStats } from './types';
+import type { CellRole, Rotation, Vec3 } from './core/types';
+import type { MultiblockDef, Unit } from './multiblock/types';
+import type { HatchPlacement, WallStats } from './plan/types';
 
 interface Occupant {
   unitId: number;

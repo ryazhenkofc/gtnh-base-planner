@@ -1,5 +1,8 @@
 import { dirBetween, step, unitCells } from '../geometry';
-import type { Dir, HatchPlacement, MultiblockDef, RouteNet, Unit, Vec3 } from '../types';
+import type { Dir, Vec3 } from '../core/types';
+import type { MultiblockDef, Unit } from '../multiblock/types';
+import type { HatchPlacement } from '../plan/types';
+import type { RouteNet } from './routeNet';
 import { DEFAULT_TURN_COST, DEFAULT_WALL_COST, MAX_ROUNDS } from './constants';
 import { buildGrid, outsideCells, posOf } from './grid';
 import { CellHeap } from './heap';

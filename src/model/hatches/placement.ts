@@ -1,6 +1,8 @@
 import { type CellKey, step } from '../geometry';
 import { ROUTED_KINDS } from '../routing/kinds';
-import type { Dir, HatchKind, HatchPlacement, HatchResult, MultiblockDef, Unit, Vec3 } from '../types';
+import type { Dir, Vec3 } from '../core/types';
+import type { HatchKind, MultiblockDef, Unit } from '../multiblock/types';
+import type { HatchPlacement, HatchResult } from '../plan/types';
 import { HATCH_PRIORITY } from './constants';
 import { lineKeys, openRank } from './geometry';
 import { allUnplaced, kindsToPlace, quota, sortedIds } from './quota';

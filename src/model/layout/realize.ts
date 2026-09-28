@@ -1,5 +1,6 @@
 import { add } from '../geometry';
-import type { MultiblockDef, PlanLimits, Unit, Vec3 } from '../types';
+import type { Vec3 } from '../core/types';
+import type { MultiblockDef, PlanLimits, Unit } from '../multiblock/types';
 import { sourceOf } from './cache';
 import { candidates, decode, ordinal } from './candidates';
 import { coord, modeCaps, modesFor, neighbourCap, PATTERNS, rotationAt } from './modes';

@@ -1,4 +1,5 @@
-import type { HatchKind, HatchResult, MultiblockDef, Unit } from '../types';
+import type { HatchKind, MultiblockDef, Unit } from '../multiblock/types';
+import type { HatchResult } from '../plan/types';
 import { HATCH_PRIORITY } from './constants';
 
 /** Which hatch kinds to place and how many each unit wants. */

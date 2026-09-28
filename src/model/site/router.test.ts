@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { key } from '../geometry';
-import type { Vec3 } from '../types';
+import type { Vec3 } from '../core/types';
 import { routeNets, type RouteNetSpec } from './router';
 
 const box = (x: number, y: number, z: number) => ({ min: [0, 0, 0] as Vec3, max: [x, y, z] as Vec3 });

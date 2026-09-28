@@ -13,15 +13,11 @@ import { buildSceneModel } from '../../model/scene';
 import { defaultPlan } from '../../state/store';
 import { routePipes } from '../../model/routing/router';
 import { createPipeline, defaultDeps } from '../../ui/pipeline';
-import type {
-  HatchPlacement,
-  RouteNet,
-  SceneModel,
-  Unit,
-  Vec3,
-  ViewMode,
-  WallStats,
-} from '../../model/types';
+import type { Vec3, ViewMode } from '../../model/core/types';
+import type { Unit } from '../../model/multiblock/types';
+import type { HatchPlacement, WallStats } from '../../model/plan/types';
+import type { SceneModel } from '../../model/render/types';
+import type { RouteNet } from '../../model/routing/routeNet';
 import { createRenderer, type Renderer, type RendererDebug } from '../renderer';
 
 export interface Harness {

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { t } from '../i18n/en';
-  import type { MultiblockDef } from '../model/types';
+  import type { MultiblockDef } from '../model/multiblock/types';
   import { plan } from '../state/store';
   import { setCount } from './actions';
   import { COUNT_MAX, COUNT_MIN, parseCount } from './fields';

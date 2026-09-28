@@ -2,7 +2,7 @@ import { derived, writable } from 'svelte/store';
 import type { GtnhProject, ImportOptions, MachineChoice } from '../import/gtnhplanner';
 import type { SiteBuildOptions } from '../model/site/buildTypes';
 import type { SiteState } from '../model/site/types';
-import type { SceneModel } from '../model/types';
+import type { SceneModel } from '../model/render/types';
 import { isolate, site, siteCables, sitePipes } from '../state/site';
 import { connectBelow } from '../state/store';
 import { withDimensions } from './dimensions';

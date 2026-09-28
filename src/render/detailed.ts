@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { blockInfo } from '../data/blocks';
-import type { Dir, HatchKind } from '../model/types';
+import type { Dir } from '../model/core/types';
+import type { HatchKind } from '../model/multiblock/types';
 import { BOX_FACE_ORDER, type BlockVisual, type MaterialProvider } from './materials';
 import textureManifest from './textures.json';
 
