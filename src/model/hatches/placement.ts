@@ -1,5 +1,5 @@
 import { type CellKey, step } from '../geometry';
-import { ROUTED_KINDS } from '../routing';
+import { ROUTED_KINDS } from '../routing/kinds';
 import type { Dir, HatchKind, HatchPlacement, HatchResult, MultiblockDef, Unit, Vec3 } from '../types';
 import { HATCH_PRIORITY } from './constants';
 import { lineKeys, openRank } from './geometry';

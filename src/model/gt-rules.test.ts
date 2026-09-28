@@ -3,7 +3,7 @@ import { catalog } from '../data/catalog';
 import { defaultPlan } from '../state/store';
 import { createPipeline } from '../ui/pipeline';
 import { controllerFacing, key, localCells, rotateDir, step, toWorld } from './geometry';
-import { PIPE_KINDS } from './routing';
+import { PIPE_KINDS } from './routing/kinds';
 import type { MultiblockDef, PlanLimits, Unit } from './types';
 
 /** Hand-made entries; generated ones (tools/gt-source) have lighter checks in generated.test.ts. */

@@ -1,14 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import { getMultiblock } from '../data/catalog';
 import { key, unitCells } from './geometry';
-import {
-  CABLE_KINDS,
-  DEFAULT_TURN_COST,
-  MAX_GRID_CELLS,
-  PIPE_KINDS,
-  routePipes,
-  withPipeFaces,
-} from './routing';
+import { withPipeFaces } from './routing/attachments';
+import { DEFAULT_TURN_COST, MAX_GRID_CELLS } from './routing/constants';
+import { CABLE_KINDS, PIPE_KINDS } from './routing/kinds';
+import { routePipes } from './routing/router';
 import { catalog } from '../data/catalog';
 import { createPipeline } from '../ui/pipeline';
 import { defaultPlan } from '../state/store';

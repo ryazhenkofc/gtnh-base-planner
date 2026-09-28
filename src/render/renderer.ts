@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { dirVec, key } from '../model/geometry';
-import { isCable } from '../model/routing';
+import { isCable } from '../model/routing/kinds';
 import type { Dir, SceneModel, Vec3, ViewMode, Voxel } from '../model/types';
 import { DEFAULT_PHI, DEFAULT_THETA, fitPoints, fitView, OrbitControls } from './controls';
 import type { BlockVisual, MaterialProvider } from './materials';

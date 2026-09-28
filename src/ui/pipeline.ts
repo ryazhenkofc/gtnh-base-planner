@@ -7,7 +7,9 @@ import { alongX } from '../model/orient';
 import { resolveLayout, resolveRoutedLayout, type ResolvedLayout } from '../model/plan';
 import { effectiveSize, sizedDef } from '../model/resize';
 import { placeHatches } from '../model/hatches/placement';
-import { CABLE_KINDS, PIPE_KINDS, routePipes, withPipeFaces, type RoutedKind } from '../model/routing';
+import { withPipeFaces } from '../model/routing/attachments';
+import { CABLE_KINDS, PIPE_KINDS, type RoutedKind } from '../model/routing/kinds';
+import { routePipes } from '../model/routing/router';
 import { buildSceneModel } from '../model/scene';
 import type {
   HatchKind,

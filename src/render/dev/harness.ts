@@ -11,7 +11,7 @@ import { getMultiblock } from '../../data/catalog';
 import { DEFAULT_HATCH_COLORS } from '../../model/colors';
 import { buildSceneModel } from '../../model/scene';
 import { defaultPlan } from '../../state/store';
-import { routePipes } from '../../model/routing';
+import { routePipes } from '../../model/routing/router';
 import { createPipeline, defaultDeps } from '../../ui/pipeline';
 import type {
   HatchPlacement,

@@ -15,7 +15,8 @@ import {
   type RoutedLayoutDeps,
 } from './plan';
 import { placeHatches } from './hatches/placement';
-import { ROUTED_KINDS, routePipes } from './routing';
+import { ROUTED_KINDS } from './routing/kinds';
+import { routePipes } from './routing/router';
 import type { HatchResult, PlanLimits, RouteNet, Unit } from './types';
 
 /** Hand-made entries; generated ones (tools/gt-source) have lighter checks in generated.test.ts. */

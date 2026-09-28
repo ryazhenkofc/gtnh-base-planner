@@ -1,5 +1,5 @@
 import { t } from '../i18n/en';
-import { isCable } from '../model/routing';
+import { isCable } from '../model/routing/kinds';
 import type { PipelineResult } from './pipeline';
 
 export interface StatsParts {

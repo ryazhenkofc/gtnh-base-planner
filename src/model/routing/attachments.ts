@@ -1,0 +1,31 @@
+import type { Dir, HatchPlacement, RouteNet, Vec3 } from '../types';
+
+/** Which side of each hatch its pipe or cable attaches to. */
+
+/** Hatch sides tried for a pipe after the placed one: sides, then top, then bottom. */
+export const ATTACH_ORDER: readonly Dir[] = ['north', 'east', 'south', 'west', 'up', 'down'];
+
+export function dirBetween(from: Vec3, to: Vec3): Dir {
+  if (to[0] !== from[0]) return to[0] > from[0] ? 'east' : 'west';
+  if (to[1] !== from[1]) return to[1] > from[1] ? 'up' : 'down';
+  return to[2] > from[2] ? 'south' : 'north';
+}
+
+/**
+ * The hatches with each routed hatch turned to the side its pipe attaches to (see `RouteNet.attachments`).
+ * Hatches without a pipe keep their placed face. Returns `hatches` itself when nothing changes.
+ */
+export function withPipeFaces(hatches: HatchPlacement[], nets: RouteNet[] | null): HatchPlacement[] {
+  const faces = new Map<string, Dir>();
+  for (const n of nets ?? [])
+    for (const a of n.attachments ?? []) faces.set(`${n.kind}|${a.cell.join()}`, a.face);
+  if (faces.size === 0) return hatches;
+  let changed = false;
+  const out = hatches.map((h) => {
+    const face = faces.get(`${h.kind}|${h.cell.join()}`);
+    if (!face || face === h.face) return h;
+    changed = true;
+    return { ...h, face };
+  });
+  return changed ? out : hatches;
+}
