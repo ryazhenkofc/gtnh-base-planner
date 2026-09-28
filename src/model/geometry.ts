@@ -46,6 +46,13 @@ export function step(p: Vec3, d: Dir, n = 1): Vec3 {
   return [p[0] + v[0] * n, p[1] + v[1] * n, p[2] + v[2] * n];
 }
 
+/** Direction of the step from a cell to a neighbouring one. */
+export function dirBetween(from: Vec3, to: Vec3): Dir {
+  if (to[0] !== from[0]) return to[0] > from[0] ? 'east' : 'west';
+  if (to[1] !== from[1]) return to[1] > from[1] ? 'up' : 'down';
+  return to[2] > from[2] ? 'south' : 'north';
+}
+
 /** Stable string key for a cell, e.g. "1,0,-2". */
 export function key(p: Vec3): string {
   return `${p[0]},${p[1]},${p[2]}`;
