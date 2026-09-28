@@ -1,8 +1,22 @@
 import type { Dir, HorizontalDir, Rotation, Vec3 } from './core/types';
-import { DefinitionError } from './multiblock/errors';
 import type { MultiblockDef, Unit, UnitCell } from './multiblock/types';
 
-/** Shared geometry helpers. Implemented in the foundation; all model units must use these. */
+/**
+ * Shared geometry helpers. Implemented in the foundation; all model units must use these.
+ * tools/extractor runs this file under plain Node (type stripping), so it imports types only.
+ */
+
+/**
+ * A multiblock definition that cannot be read (e.g. a structure character missing from its legend). The
+ * one failure the model expects and turns into a result ("nothing placed"); any other error is a bug and
+ * is left to surface.
+ */
+export class DefinitionError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'DefinitionError';
+  }
+}
 
 export const DIRS: readonly Dir[] = ['north', 'south', 'east', 'west', 'up', 'down'];
 
