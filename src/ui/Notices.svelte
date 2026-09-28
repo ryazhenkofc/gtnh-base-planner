@@ -23,6 +23,16 @@
   {#each $notices as n (n.id)}
     <p class="notice">
       <span>{n.text}</span>
+      {#if n.action}
+        {@const action = n.action}
+        <button
+          class="link active"
+          onclick={() => {
+            dismissNotice(n.id);
+            action.run();
+          }}>{action.label}</button
+        >
+      {/if}
       <button class="link x" aria-label={t.dismiss} onclick={() => dismissNotice(n.id)}>{t.close}</button>
     </p>
   {/each}

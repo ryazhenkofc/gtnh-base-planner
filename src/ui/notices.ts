@@ -6,6 +6,13 @@ export interface Notice {
   text: string;
   /** Notices sharing a slot replace each other (e.g. the latest layout warning only). */
   slot?: string;
+  /** A link after the text (e.g. Undo); running it dismisses the notice. */
+  action?: NoticeAction;
+}
+
+export interface NoticeAction {
+  label: string;
+  run: () => void;
 }
 
 export const notices = writable<Notice[]>([]);
@@ -20,10 +27,12 @@ export function dismissNotice(id: number): void {
  * Show `text` for `ms` milliseconds (0 = until dismissed). The same text is never shown twice at once,
  * and a notice with a `slot` replaces the previous notice in that slot.
  */
-export function notify(text: string, ms = 4000, slot?: string): void {
+export function notify(text: string, ms = 4000, slot?: string, action?: NoticeAction): void {
   const id = nextId++;
   notices.update((list) =>
-    [...list.filter((n) => n.text !== text && (!slot || n.slot !== slot)), { id, text, slot }].slice(-3),
+    [...list.filter((n) => n.text !== text && (!slot || n.slot !== slot)), { id, text, slot, action }].slice(
+      -3,
+    ),
   );
   if (ms > 0) setTimeout(() => dismissNotice(id), ms);
 }

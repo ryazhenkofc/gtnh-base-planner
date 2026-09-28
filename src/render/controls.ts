@@ -168,6 +168,14 @@ export interface OrbitHome {
 export interface OrbitControlsOptions {
   onChange: () => void;
   onClick?: (event: PointerEvent) => void;
+  /**
+   * A primary-button press (no Shift) is about to start. Return true to take the drag over (e.g. to move
+   * the object under the pointer): the camera then stays put, `onDrag` follows the pointer and `onDragEnd`
+   * ends it (`cancelled` when a second finger, a pointercancel or `cancelDrag` ended it). No click follows.
+   */
+  onPressStart?: (event: PointerEvent) => boolean;
+  onDrag?: (event: PointerEvent) => void;
+  onDragEnd?: (event: PointerEvent | null, cancelled: boolean) => void;
 }
 
 interface PointerInfo {
@@ -189,7 +197,7 @@ export class OrbitControls {
     phi: DEFAULT_PHI,
   };
   private pointers = new Map<number, PointerInfo>();
-  private mode: 'rotate' | 'pan' | 'pinch' | null = null;
+  private mode: 'rotate' | 'pan' | 'pinch' | 'drag' | null = null;
   private pinchDist = 0;
   private pinchMid = { x: 0, y: 0 };
   private press: { x: number; y: number; id: number; clickable: boolean } | null = null;
@@ -221,6 +229,18 @@ export class OrbitControls {
     };
     this.minRadius = Math.max(0.5, radius * 0.05);
     this.maxRadius = Math.max(50, radius * 8);
+  }
+
+  /** End a drag started by `onPressStart` without moving anything (e.g. on Escape). */
+  cancelDrag(): void {
+    if (this.mode !== 'drag') return;
+    this.mode = null;
+    this.options.onDragEnd?.(null, true);
+  }
+
+  /** Whether a drag started by `onPressStart` is in progress. */
+  get dragging(): boolean {
+    return this.mode === 'drag';
   }
 
   reset(): void {
@@ -293,9 +313,16 @@ export class OrbitControls {
     this.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
     if (this.pointers.size === 1) {
       const pan = e.button === 1 || e.button === 2 || e.shiftKey;
+      if (!pan && e.button === 0 && this.options.onPressStart?.(e)) {
+        this.mode = 'drag';
+        this.press = null;
+        return;
+      }
       this.mode = pan ? 'pan' : 'rotate';
       this.press = { x: e.clientX, y: e.clientY, id: e.pointerId, clickable: e.button === 0 };
     } else if (this.pointers.size === 2) {
+      // A second finger turns a drag into a pinch: the drag is cancelled.
+      if (this.mode === 'drag') this.options.onDragEnd?.(e, true);
       this.mode = 'pinch';
       const s = this.pinchState();
       this.pinchDist = s.dist;
@@ -317,7 +344,8 @@ export class OrbitControls {
       if (Math.hypot(e.clientX - this.press.x, e.clientY - this.press.y) > CLICK_SLOP_PX)
         this.press.clickable = false;
     }
-    if (this.mode === 'rotate') this.rotate(dx, dy);
+    if (this.mode === 'drag') this.options.onDrag?.(e);
+    else if (this.mode === 'rotate') this.rotate(dx, dy);
     else if (this.mode === 'pan') this.pan(dx, dy);
     else if (this.mode === 'pinch' && this.pointers.size >= 2) {
       const s = this.pinchState();
@@ -332,6 +360,11 @@ export class OrbitControls {
 
   private endPointer(e: PointerEvent, allowClick: boolean): void {
     if (!this.pointers.delete(e.pointerId)) return;
+    if (this.mode === 'drag') {
+      this.mode = null;
+      this.options.onDragEnd?.(e, !allowClick);
+      return;
+    }
     const press = this.press;
     if (press && press.id === e.pointerId) {
       this.press = null;

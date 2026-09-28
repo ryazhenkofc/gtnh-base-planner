@@ -1,8 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { getSiteDef } from '../data/generic';
   import { t } from '../i18n/en';
-  import { DEFAULT_THETA } from '../render/controls';
   import { groupIndexOfUnit } from '../model/site/build';
   import type { HatchResult, PackResult, RouteNet } from '../model/types';
   import { appMode, flowAnimation, isolate, site, siteGroup, siteNet } from '../state/site';
@@ -17,17 +15,22 @@
   import Picker from './Picker.svelte';
   import { build } from './pipeline';
   import Scene from './Scene.svelte';
-  import { isArrowKey, screenStep } from './keys';
+  import { isArrowKey } from './keys';
   import MoveHint from './MoveHint.svelte';
   import { initSession, startAutosave } from './session';
   import Settings from './Settings.svelte';
+  import { updateSite, withGroupPatched } from './siteActions';
   import {
-    updateSite,
-    withGroupMoved,
-    withGroupPatched,
-    withGroupRemoved,
-    withGroupRotated,
-  } from './siteActions';
+    frameRequest,
+    frameSelected,
+    moveSelected,
+    moveSelectedBy,
+    removeSelected,
+    rotateSelected,
+    shiftHeld,
+    viewTheta,
+  } from './siteEditing';
+  import { redoSite, startSiteHistory, undoSite } from './siteHistory';
   import SiteBar from './SiteBar.svelte';
   import { addGroup } from './siteCommands';
   import SiteLegend from './SiteLegend.svelte';
@@ -46,26 +49,28 @@
   /** Site view: what the multiblock picker is open for. */
   let sitePicker = $state<'add' | 'change' | null>(null);
 
-  /** Camera azimuth: arrow keys move the selected group as seen on screen. */
-  let viewTheta = DEFAULT_THETA;
-
   const def = $derived($build.def);
   const siteMode = $derived($appMode === 'site');
 
   onMount(() => {
     let stop: (() => void) | undefined;
     let stopSite: (() => void) | undefined;
+    let stopHistory: (() => void) | undefined;
     let cancelled = false;
     void initSession().then(() => {
       if (!cancelled) stop = startAutosave();
     });
     void initSiteSession().then(() => {
-      if (!cancelled) stopSite = startSiteAutosave();
+      if (cancelled) return;
+      stopSite = startSiteAutosave();
+      // Loading the stored template is not an undo step.
+      stopHistory = startSiteHistory();
     });
     return () => {
       cancelled = true;
       stop?.();
       stopSite?.();
+      stopHistory?.();
     };
   });
 
@@ -154,27 +159,8 @@
     );
   }
 
-  /** Delete asks first (links go too and there is no undo): a second press within this time removes. */
-  const DELETE_CONFIRM_MS = 3000;
-  let deleteArmed: { id: string; until: number } | null = null;
-
-  function deleteGroup(gid: string) {
-    const now = Date.now();
-    if (deleteArmed?.id === gid && now < deleteArmed.until) {
-      deleteArmed = null;
-      clearSlot('delete');
-      siteGroup.set(null);
-      updateSite((s) => withGroupRemoved(s, gid));
-      notify(t.site.removed, 3000, 'delete');
-      return;
-    }
-    const g = $site.groups.find((x) => x.id === gid);
-    const name = g?.label ?? (g && getSiteDef(g.multiblockId)?.name) ?? gid;
-    deleteArmed = { id: gid, until: now + DELETE_CONFIRM_MS };
-    notify(t.site.deleteConfirm(name), DELETE_CONFIRM_MS, 'delete');
-  }
-
   function onkeydown(e: KeyboardEvent) {
+    if (e.key === 'Shift') shiftHeld.set(true);
     if (e.key === 'Escape') {
       if (siteMode) {
         if (importOpen) importOpen = false;
@@ -189,26 +175,75 @@
       else if (settingsOpen) settingsOpen = false;
       return;
     }
-    // Site view: move and turn the selected group from the keyboard.
-    if (!siteMode || importOpen || sitePicker || typing(e) || e.ctrlKey || e.metaKey || e.altKey) return;
+    if (!siteMode || importOpen || sitePicker || typing(e)) return;
+    // Site view: undo and redo anything, then move and turn the selected group from the keyboard.
+    if ((e.ctrlKey || e.metaKey) && !e.altKey) {
+      const k = e.key.toLowerCase();
+      if (k === 'z' || k === 'y') {
+        e.preventDefault();
+        if (k === 'y' || e.shiftKey) redoSite();
+        else undoSite();
+      }
+      return;
+    }
+    if (e.altKey) return;
     const gid = $siteGroup;
     if (!gid || !$site.groups.some((g) => g.id === gid)) return;
     if (isArrowKey(e.key)) {
       e.preventDefault();
-      const n = e.shiftKey ? 5 : 1;
-      const [dx, dz] = screenStep(e.key, viewTheta);
-      updateSite((s) => withGroupMoved(s, gid, dx * n, dz * n));
+      moveSelected(e.key, e.shiftKey);
     } else if (e.key === 'r' || e.key === 'R') {
       e.preventDefault();
-      updateSite((s) => withGroupRotated(s, gid));
+      rotateSelected(e.shiftKey ? -1 : 1);
+    } else if (e.key === 'f' || e.key === 'F') {
+      e.preventDefault();
+      frameSelected();
     } else if (e.key === 'Delete' || e.key === 'Backspace') {
       e.preventDefault();
-      deleteGroup(gid);
+      removeSelected();
     }
   }
+
+  function onkeyup(e: KeyboardEvent) {
+    if (e.key === 'Shift') shiftHeld.set(false);
+  }
+
+  /** Canvas pixels the open drawer covers: the view centres the model in the rest. */
+  let inset = $state({ right: 0, bottom: 0 });
+  $effect(() => {
+    // Re-measure whenever a drawer opens or closes.
+    void sitePanelOpen;
+    void settingsOpen;
+    void siteMode;
+    let observer: ResizeObserver | undefined;
+    const raf = requestAnimationFrame(() => {
+      const el = document.querySelector<HTMLElement>('aside.drawer');
+      const measure = () => {
+        if (!el?.isConnected) {
+          inset = { right: 0, bottom: 0 };
+          return;
+        }
+        const r = el.getBoundingClientRect();
+        // A side drawer on wide screens, a bottom sheet on phones.
+        inset =
+          r.left > 0
+            ? { right: Math.max(0, window.innerWidth - r.left), bottom: 0 }
+            : { right: 0, bottom: Math.max(0, window.innerHeight - r.top) };
+      };
+      measure();
+      if (el && typeof ResizeObserver !== 'undefined') {
+        observer = new ResizeObserver(measure);
+        observer.observe(el);
+      }
+    });
+    return () => {
+      cancelAnimationFrame(raf);
+      observer?.disconnect();
+    };
+  });
 </script>
 
-<svelte:window {onkeydown} />
+<svelte:window {onkeydown} {onkeyup} onblur={() => shiftHeld.set(false)} />
 
 <main>
   <Scene
@@ -217,7 +252,10 @@
     xray={$xray}
     selected={siteMode ? siteSelected : $selectedUnits}
     flow={$flowAnimation}
-    onview={(theta) => (viewTheta = theta)}
+    onview={(theta) => viewTheta.set(theta)}
+    onmove={siteMode ? (dx, dz) => moveSelectedBy(dx, dz, false) : undefined}
+    frame={siteMode ? $frameRequest : null}
+    {inset}
     {onpick}
     {onpicknet}
     onfail={() => (rendererFailed = true)}

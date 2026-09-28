@@ -4,9 +4,10 @@
   import { connectBelow, plan, showCables, showPipes, xray } from '../state/store';
   import { resetColors, resetPlan, setHatchColor, setLimit, setSize, toggleHatch } from './actions';
   import { hatchKindsOf } from './catalogView';
-  import { formatLimit, parseLimit, parseSize } from './fields';
+  import { LIMIT_MAX, LIMIT_MIN, formatLimit, parseLimit, parseSize } from './fields';
   import { notify } from './notices';
-  import NumberField from './NumberField.svelte';
+  import NumberStepper from './NumberStepper.svelte';
+  import ToggleRow from './ToggleRow.svelte';
   import { mergeColors } from './pipeline';
   import { copyShareLink, downloadJson, openJsonFile, shareFallback } from './session';
   import { addPlanToSite } from './siteCommands';
@@ -68,14 +69,20 @@
     <button class="link" onclick={onclose}>{t.close}</button>
   </div>
 
+  <button class="link active add-to-site" data-testid="add-to-site" onclick={addPlanToSite}
+    >{t.site.addToSite}</button
+  >
+
   {#if resize}
     <section>
       <h2>{t.size}</h2>
       <label class="limit">
         <span>{sizeLabel}</span>
-        <NumberField
+        <NumberStepper
           value={String($plan.size ?? resize.default)}
           label={sizeLabel}
+          min={resize.min}
+          max={resize.max}
           testid="size"
           oncommit={commitSize}
         />
@@ -90,9 +97,12 @@
       {#each axes as a (a.axis)}
         <label class="limit">
           <span>{a.label}</span>
-          <NumberField
+          <NumberStepper
             value={formatLimit($plan.limits[a.axis])}
             label={a.label}
+            min={LIMIT_MIN}
+            max={LIMIT_MAX}
+            empty
             placeholder={t.unlimited}
             testid={`limit-${a.axis}`}
             oncommit={(text) => commitLimit(a.axis, text)}
@@ -110,23 +120,23 @@
       <ul class="rows">
         {#each kinds as kind (kind)}
           {@const on = $plan.enabledHatches.includes(kind)}
-          <li class="row">
-            <label class="swatch" style:background={colors[kind]} title={t.hatchColor(t.hatchKinds[kind])}>
-              <input
-                type="color"
-                value={colors[kind]}
-                aria-label={t.hatchColor(t.hatchKinds[kind])}
-                onchange={(e) => setHatchColor(kind, e.currentTarget.value)}
-              />
-            </label>
-            <button
-              class="link"
-              class:active={on}
-              aria-pressed={on}
-              data-testid={`hatch-${kind}`}
-              onclick={() => toggleHatch(kind)}>{t.hatchKinds[kind]}</button
-            >
-          </li>
+          <ToggleRow
+            {on}
+            label={t.hatchKinds[kind]}
+            testid={`hatch-${kind}`}
+            ontoggle={() => toggleHatch(kind)}
+          >
+            {#snippet before()}
+              <label class="swatch" style:background={colors[kind]} title={t.hatchColor(t.hatchKinds[kind])}>
+                <input
+                  type="color"
+                  value={colors[kind]}
+                  aria-label={t.hatchColor(t.hatchKinds[kind])}
+                  onchange={(e) => setHatchColor(kind, e.currentTarget.value)}
+                />
+              </label>
+            {/snippet}
+          </ToggleRow>
         {/each}
       </ul>
       {#if Object.keys($plan.colors).length}
@@ -138,43 +148,26 @@
   <section>
     <h2>{t.view}</h2>
     <ul class="rows">
-      <li class="row">
-        <button
-          class="link"
-          class:active={$showPipes}
-          aria-pressed={$showPipes}
-          data-testid="toggle-pipes"
-          onclick={() => showPipes.update((v) => !v)}>{t.pipes}</button
-        >
-      </li>
-      <li class="row">
-        <button
-          class="link"
-          class:active={$showCables}
-          aria-pressed={$showCables}
-          data-testid="toggle-cables"
-          onclick={() => showCables.update((v) => !v)}>{t.cables}</button
-        >
-      </li>
-      <li class="row">
-        <button
-          class="link"
-          class:active={$connectBelow}
-          aria-pressed={$connectBelow}
-          title={t.belowHint}
-          data-testid="toggle-below"
-          onclick={() => connectBelow.update((v) => !v)}>{t.below}</button
-        >
-      </li>
-      <li class="row">
-        <button
-          class="link"
-          class:active={$xray}
-          aria-pressed={$xray}
-          data-testid="toggle-xray"
-          onclick={() => xray.update((v) => !v)}>{t.xray}</button
-        >
-      </li>
+      <ToggleRow
+        on={$showPipes}
+        label={t.pipes}
+        testid="toggle-pipes"
+        ontoggle={() => showPipes.update((v) => !v)}
+      />
+      <ToggleRow
+        on={$showCables}
+        label={t.cables}
+        testid="toggle-cables"
+        ontoggle={() => showCables.update((v) => !v)}
+      />
+      <ToggleRow
+        on={$connectBelow}
+        label={t.below}
+        title={t.belowHint}
+        testid="toggle-below"
+        ontoggle={() => connectBelow.update((v) => !v)}
+      />
+      <ToggleRow on={$xray} label={t.xray} testid="toggle-xray" ontoggle={() => xray.update((v) => !v)} />
     </ul>
   </section>
 
@@ -198,9 +191,6 @@
       {/if}
       <li class="row">
         <button class="link" onclick={downloadJson}>{t.downloadJson}</button>
-      </li>
-      <li class="row">
-        <button class="link" data-testid="add-to-site" onclick={addPlanToSite}>{t.site.addToSite}</button>
       </li>
       <li class="row">
         <button class="link" onclick={() => fileInput?.click()}>{t.uploadJson}</button>
@@ -244,6 +234,10 @@
   }
   .title {
     color: var(--text);
+  }
+  .add-to-site {
+    display: block;
+    margin-top: 4px;
   }
   section {
     margin-top: 36px;

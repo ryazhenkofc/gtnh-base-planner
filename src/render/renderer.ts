@@ -13,6 +13,13 @@ export interface RendererOptions {
   onPickNet?: (netId: number | null) => void;
   /** Called after a frame when the camera azimuth (`OrbitControls.theta`, radians) changed. */
   onView?: (theta: number) => void;
+  /**
+   * Dragging the selection (see `setDragEnabled`) ended at a new place: whole blocks along X and Z. The
+   * selection outline stays at the new place until the next scene arrives.
+   */
+  onMoveSelection?: (dx: number, dz: number) => void;
+  /** While dragging the selection: the offset so far (null when the drag ends). */
+  onDragOffset?: (offset: [number, number] | null) => void;
   /** Keep the drawing buffer after compositing so tests can read pixels back. Default false. */
   preserveDrawingBuffer?: boolean;
 }
@@ -26,6 +33,15 @@ export interface Renderer {
   setFlowAnimation(on: boolean): void;
   /** Reset camera to fit the scene. */
   resetView(): void;
+  /** Whether pressing on the selection and dragging moves it (site view) instead of orbiting. */
+  setDragEnabled(on: boolean): void;
+  /** Aim at a box (inclusive min, exclusive max, in blocks), keeping the camera angles. */
+  frameBox(min: Vec3, max: Vec3): void;
+  /**
+   * Pixels of the canvas covered on the right and at the bottom (a drawer or sheet): the view is shifted so
+   * the scene centres in the part left free.
+   */
+  setInset(right: number, bottom: number): void;
   resize(): void;
   dispose(): void;
 }
@@ -376,10 +392,17 @@ export function createRenderer(
   let reportedTheta = NaN;
   let width = 0;
   let height = 0;
+  let inset = { right: 0, bottom: 0 };
+  let dragEnabled = false;
+  /** A drag of the selection: the ground plane at the grabbed height, where it was grabbed, the offset. */
+  let drag: { plane: THREE.Plane; start: THREE.Vector3; dx: number; dz: number } | null = null;
 
   const controls = new OrbitControls(canvas, camera, {
     onChange: requestRender,
     onClick: pick,
+    onPressStart: startDrag,
+    onDrag: moveDrag,
+    onDragEnd: endDrag,
   });
   const stopAutoFit = (): void => {
     autoFit = false;
@@ -495,7 +518,7 @@ export function createRenderer(
     height = h;
     gl.setSize(w, h, false);
     camera.aspect = w / h;
-    camera.updateProjectionMatrix();
+    applyInset();
     for (const child of content.children) if (child instanceof THREE.Sprite) sizeLabel(child, h, camera.fov);
     if (autoFit && model) fit(false);
     requestRender();
@@ -874,6 +897,7 @@ export function createRenderer(
 
   function rebuildSelection(): void {
     disposeSelection();
+    selection.position.set(0, 0, 0);
     if (!model || selected.size === 0) return;
     const voxels = model.voxels.filter((v) => v.unitIds.some((id) => selected.has(id)));
     if (voxels.length === 0) return;
@@ -931,12 +955,83 @@ export function createRenderer(
   const raycaster = new THREE.Raycaster();
   const ndc = new THREE.Vector2();
 
-  function pick(e: PointerEvent): void {
-    if (!options.onPick || !model) return;
+  /** Aim the ray through the pointer; false when the canvas has no size. */
+  function aim(e: PointerEvent): boolean {
     const rect = canvas.getBoundingClientRect();
-    if (rect.width === 0 || rect.height === 0) return;
+    if (rect.width === 0 || rect.height === 0) return false;
     ndc.set(((e.clientX - rect.left) / rect.width) * 2 - 1, -((e.clientY - rect.top) / rect.height) * 2 + 1);
     raycaster.setFromCamera(ndc, camera);
+    return true;
+  }
+
+  function startDrag(e: PointerEvent): boolean {
+    if (!dragEnabled || !options.onMoveSelection || !model || selected.size === 0 || !aim(e)) return false;
+    const hits = raycaster.intersectObjects(
+      [...batches.map((b) => b.mesh), ...pipeBatches.map((b) => b.mesh)],
+      false,
+    );
+    const hit = hits.find((h) => h.instanceId !== undefined);
+    const batch = hit && batches.find((b) => b.mesh === hit.object);
+    if (!hit || !batch) return false;
+    const voxel = model.voxels[batch.indices[hit.instanceId!]];
+    if (!voxel.unitIds.some((id) => selected.has(id))) return false;
+    const plane = new THREE.Plane(Y_AXIS, -hit.point.y);
+    drag = { plane, start: hit.point.clone(), dx: 0, dz: 0 };
+    canvas.style.cursor = 'grabbing';
+    window.addEventListener('keydown', onDragKey, true);
+    return true;
+  }
+
+  function moveDrag(e: PointerEvent): void {
+    if (!drag || !aim(e)) return;
+    const p = raycaster.ray.intersectPlane(drag.plane, new THREE.Vector3());
+    if (!p) return;
+    const dx = Math.round(p.x - drag.start.x);
+    const dz = Math.round(p.z - drag.start.z);
+    if (dx === drag.dx && dz === drag.dz) return;
+    drag.dx = dx;
+    drag.dz = dz;
+    selection.position.set(dx, 0, dz);
+    options.onDragOffset?.([dx, dz]);
+    requestRender();
+  }
+
+  function endDrag(e: PointerEvent | null, cancelled: boolean): void {
+    const d = drag;
+    drag = null;
+    canvas.style.cursor = '';
+    window.removeEventListener('keydown', onDragKey, true);
+    options.onDragOffset?.(null);
+    if (!d) return;
+    if (cancelled || (d.dx === 0 && d.dz === 0)) {
+      selection.position.set(0, 0, 0);
+      requestRender();
+      // A press on the selection that did not move is a click.
+      if (!cancelled && e) pick(e);
+      return;
+    }
+    options.onMoveSelection?.(d.dx, d.dz);
+  }
+
+  /** Escape during a drag puts the selection back. */
+  function onDragKey(e: KeyboardEvent): void {
+    if (e.key !== 'Escape') return;
+    e.preventDefault();
+    e.stopPropagation();
+    controls.cancelDrag();
+  }
+
+  function applyInset(): void {
+    // Shift the view window so the scene centres in the uncovered part of the canvas.
+    if (inset.right > 0 || inset.bottom > 0)
+      camera.setViewOffset(width, height, inset.right / 2, inset.bottom / 2, width, height);
+    else camera.clearViewOffset();
+    camera.updateProjectionMatrix();
+  }
+
+  function pick(e: PointerEvent): void {
+    if (!options.onPick || !model) return;
+    if (!aim(e)) return;
     const hits = raycaster.intersectObjects(
       [...batches.map((b) => b.mesh), ...pipeBatches.map((b) => b.mesh)],
       false,
@@ -1021,6 +1116,8 @@ export function createRenderer(
     },
 
     setSelected(unitIds) {
+      // The same selection again (e.g. a new build of the same group) keeps a dragged outline in place.
+      if (unitIds.length === selected.size && unitIds.every((id) => selected.has(id))) return;
       selected = new Set(unitIds);
       rebuildSelection();
       requestRender();
@@ -1038,6 +1135,40 @@ export function createRenderer(
     },
 
     resize,
+
+    setDragEnabled(on) {
+      dragEnabled = on;
+      if (!on) controls.cancelDrag();
+    },
+
+    frameBox(min, max) {
+      if (disposed) return;
+      const pts = fitPoints([
+        [min[0], min[1], min[2]],
+        [max[0] - 1, max[1] - 1, max[2] - 1],
+      ]);
+      const { target, distance } = fitView(
+        pts,
+        controls.theta,
+        controls.phi,
+        camera.fov,
+        camera.aspect,
+        0.35,
+      );
+      autoFit = false;
+      controls.target.copy(target);
+      controls.radius = distance;
+      controls.update();
+    },
+
+    setInset(right, bottom) {
+      const next = { right: Math.max(0, Math.round(right)), bottom: Math.max(0, Math.round(bottom)) };
+      if (next.right === inset.right && next.bottom === inset.bottom) return;
+      inset = next;
+      if (width > 0 && height > 0) applyInset();
+      labelView = '';
+      requestRender();
+    },
 
     benchmark(frames) {
       const theta = controls.theta;
@@ -1077,6 +1208,7 @@ export function createRenderer(
       if (frame) cancelAnimationFrame(frame);
       frame = 0;
       resizeObserver?.disconnect();
+      window.removeEventListener('keydown', onDragKey, true);
       controls.dispose();
       canvas.removeEventListener('pointerdown', stopAutoFit);
       canvas.removeEventListener('wheel', stopAutoFit);

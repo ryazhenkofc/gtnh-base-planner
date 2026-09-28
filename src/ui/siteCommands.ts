@@ -6,6 +6,7 @@ import { appMode, site, siteGroup } from '../state/site';
 import { plan } from '../state/store';
 import { notify } from './notices';
 import { withArranged, withGroupAdded, withPlanAdded } from './siteActions';
+import { undoAction } from './siteHistory';
 import { siteBuild } from './sitePipeline';
 
 /** Where a new group goes: east of every built group, or at the start of the site. */
@@ -40,5 +41,10 @@ export function arrange(): void {
   if (!build) return;
   const r = withArranged(s, localFootprints(build));
   site.set(r.site);
-  notify(r.fits ? t.site.arranged : t.site.needs(r.needed[0], r.needed[1]), r.fits ? 3000 : 7000, 'arrange');
+  notify(
+    r.fits ? t.site.arranged : t.site.needs(r.needed[0], r.needed[1]),
+    r.fits ? 6000 : 8000,
+    'arrange',
+    undoAction(),
+  );
 }

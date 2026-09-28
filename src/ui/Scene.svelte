@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount, untrack } from 'svelte';
   import { DEFAULT_HATCH_COLORS } from '../model/colors';
-  import type { SceneModel, ViewMode } from '../model/types';
+  import type { SceneModel, Vec3, ViewMode } from '../model/types';
   import { createRenderer, type Renderer } from '../render/renderer';
   import { warnOnce } from './notices';
 
@@ -18,8 +18,30 @@
     flow?: boolean;
     /** The camera azimuth changed (see `RendererOptions.onView`). */
     onview?: (theta: number) => void;
+    /** Site view: dragging the selection moved it by whole blocks. Without it the selection cannot be dragged. */
+    onmove?: (dx: number, dz: number) => void;
+    /** While dragging: the offset so far, null when the drag ends. */
+    ondrag?: (offset: [number, number] | null) => void;
+    /** Aim the camera at this box whenever `seq` changes. */
+    frame?: { min: Vec3; max: Vec3; seq: number } | null;
+    /** Canvas pixels covered by a drawer (right) or sheet (bottom). */
+    inset?: { right: number; bottom: number };
   }
-  let { scene, mode, xray, selected, onpick, onfail, onpicknet, flow = true, onview }: Props = $props();
+  let {
+    scene,
+    mode,
+    xray,
+    selected,
+    onpick,
+    onfail,
+    onpicknet,
+    flow = true,
+    onview,
+    onmove,
+    ondrag,
+    frame = null,
+    inset = { right: 0, bottom: 0 },
+  }: Props = $props();
 
   const EMPTY_SCENE: SceneModel = {
     voxels: [],
@@ -50,6 +72,8 @@
         onPick: (ids) => onpick(ids),
         onPickNet: (id) => onpicknet?.(id),
         onView: (theta) => onview?.(theta),
+        onMoveSelection: (dx, dz) => onmove?.(dx, dz),
+        onDragOffset: (o) => ondrag?.(o),
       });
     } catch (err) {
       warnOnce('createRenderer', err);
@@ -99,6 +123,25 @@
     const r = renderer;
     const on = flow;
     if (r) guard('setFlowAnimation', () => r.setFlowAnimation(on));
+  });
+  $effect(() => {
+    const r = renderer;
+    const on = !!onmove;
+    if (r) guard('setDragEnabled', () => r.setDragEnabled(on));
+  });
+  // Only a new request moves the camera (not the same one coming back after a mode switch).
+  let framedSeq = -1;
+  $effect(() => {
+    const r = renderer;
+    const f = frame;
+    if (!r || !f || f.seq === framedSeq) return;
+    framedSeq = f.seq;
+    guard('frameBox', () => r.frameBox(f.min, f.max));
+  });
+  $effect(() => {
+    const r = renderer;
+    const { right, bottom } = inset;
+    if (r) guard('setInset', () => r.setInset(right, bottom));
   });
 </script>
 

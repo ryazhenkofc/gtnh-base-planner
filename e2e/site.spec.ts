@@ -95,6 +95,14 @@ test('imports a GTNH Planner chain into a routed site', async ({ page }) => {
   await expect(x).toHaveValue(String(before + 1));
   await page.keyboard.press('Shift+ArrowLeft');
   await expect(x).toHaveValue(String(before - 4));
+  // Both key moves were quick repeats of one move: one undo step takes them back, redo repeats them.
+  await page.keyboard.press('Control+z');
+  await expect(x).toHaveValue(String(before));
+  await page.keyboard.press('Control+Shift+z');
+  await expect(x).toHaveValue(String(before - 4));
+  // The nudge pad moves the same way as the keys.
+  await panel.getByTestId('nudge-ArrowRight').click();
+  await expect(x).toHaveValue(String(before - 3));
   await panel.getByTestId('site-group-rotate').click();
   await page.screenshot({ path: 'e2e/screenshots/site-panel.png' });
 
@@ -134,6 +142,7 @@ test('builds a site by hand and switches back to the machine view', async ({ pag
   await expect(page.getByTestId('site-stats')).toContainText('2 groups');
 
   // A link from a site input to the furnace, with a new resource.
+  await panel.getByTestId('site-link-open').click();
   const form = panel.getByTestId('site-link-form');
   await form.getByLabel('From').selectOption({ label: 'Template input' });
   await form.getByLabel('To').selectOption({ label: 'Electric Blast Furnace' });
@@ -141,6 +150,12 @@ test('builds a site by hand and switches back to the machine view', async ({ pag
   await panel.getByTestId('site-add-link').click();
   await expect(page.getByTestId('site-legend')).toContainText('Iron Dust');
   await expect(page.getByTestId('site-stats')).toContainText('2/2 connected');
+
+  // Removing a group is undone from its notice (the furnace is still selected since it was added).
+  await panel.getByTestId('site-group-remove').click();
+  await expect(page.getByTestId('site-stats')).toContainText('1 group');
+  await page.getByRole('status').getByRole('button', { name: 'Undo' }).click();
+  await expect(page.getByTestId('site-stats')).toContainText('2 groups');
 
   await panel.getByRole('button', { name: 'Close' }).click();
   await page.getByTestId('mode-machine').click();

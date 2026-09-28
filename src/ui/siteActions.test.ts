@@ -5,6 +5,7 @@ import {
   pruned,
   withCorridor,
   withGroupAdded,
+  withGroupDuplicated,
   withGroupMoved,
   withGroupPatched,
   withGroupRemoved,
@@ -89,6 +90,40 @@ describe('site actions', () => {
     s = withGroupPatched(s, 'g2', { size: 9 });
     expect(s.groups[1]).toMatchObject({ multiblockId: 'distillation-tower', size: 9 });
     expect(withGroupPatched(s, 'g2', { size: 9 })).toBe(s);
+  });
+
+  it('turns both ways', () => {
+    let s = two();
+    s = withGroupRotated(s, 'g1', -1);
+    expect(s.groups[0].rotation).toBe(3);
+    s = withGroupRotated(s, 'g1', 1);
+    expect(s.groups[0].rotation).toBe(0);
+  });
+
+  it('duplicates a group without its links or source', () => {
+    let s = two();
+    s = withGroupPatched(s, 'g1', { count: 3, label: 'Titanium EBF', rotation: 2 });
+    s = { ...s, groups: s.groups.map((g) => (g.id === 'g1' ? { ...g, source: { name: 'Titanium' } } : g)) };
+    s = withLinkAdded(s, { port: true }, { group: 'g1' }, { name: 'Iron Dust', kind: 'item' });
+    const d = withGroupDuplicated(s, 'g1', [20, 5]);
+    const copy = d.groups[2];
+    expect(copy).toMatchObject({
+      id: 'g3',
+      multiblockId: 'electric-blast-furnace',
+      count: 3,
+      label: 'Titanium EBF',
+      rotation: 2,
+      origin: [20, 5],
+    });
+    expect(copy.source).toBeUndefined();
+    expect(d.links).toEqual(s.links);
+    expect(withGroupDuplicated(s, 'nope', [0, 0])).toBe(s);
+    expect(() => validateSiteState(d)).not.toThrow();
+  });
+
+  it('sets extra hatches, never IO kinds', () => {
+    const s = withGroupPatched(two(), 'g1', { enabledHatches: ['maintenance', 'itemIn', 'maintenance'] });
+    expect(s.groups[0].enabledHatches).toEqual(['maintenance']);
   });
 
   it('clamps size and corridor, names and colours', () => {

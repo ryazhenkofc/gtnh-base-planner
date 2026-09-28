@@ -4,7 +4,7 @@ import { arrangeSite } from '../model/site/arrange';
 import { IO_KINDS } from '../model/site/group';
 import type { Endpoint, ResourceKind, SiteGroup, SiteState } from '../model/site/types';
 import { effectiveSize } from '../model/resize';
-import type { PlanLimits, PlanState, Rotation } from '../model/types';
+import type { HatchKind, PlanLimits, PlanState, Rotation } from '../model/types';
 import {
   MAX_CORRIDOR,
   MAX_GROUPS,
@@ -89,6 +89,8 @@ export interface GroupPatch {
   origin?: [number, number];
   rotation?: Rotation;
   label?: string | null;
+  /** Hatch kinds the group places besides its link hatches (IO kinds are dropped: links decide those). */
+  enabledHatches?: HatchKind[];
 }
 
 export function withGroupPatched(s: SiteState, id: string, patch: GroupPatch): SiteState {
@@ -117,6 +119,8 @@ export function withGroupPatched(s: SiteState, id: string, patch: GroupPatch): S
         clampInt(patch.origin[0], -SITE_MAX_SIZE, 2 * SITE_MAX_SIZE),
         clampInt(patch.origin[1], -SITE_MAX_SIZE, 2 * SITE_MAX_SIZE),
       ];
+    if (patch.enabledHatches)
+      next.enabledHatches = [...new Set(patch.enabledHatches)].filter((k) => !IO_KINDS.includes(k));
     if (patch.rotation !== undefined) next.rotation = (((patch.rotation % 4) + 4) % 4) as Rotation;
     if (patch.label === null || patch.label === '') delete next.label;
     else if (patch.label !== undefined) next.label = patch.label.slice(0, 120);
@@ -131,9 +135,28 @@ export function withGroupMoved(s: SiteState, id: string, dx: number, dz: number)
   return g ? withGroupPatched(s, id, { origin: [g.origin[0] + dx, g.origin[1] + dz] }) : s;
 }
 
-export function withGroupRotated(s: SiteState, id: string): SiteState {
+/** A quarter turn: `dir` 1 clockwise seen from above, -1 counter-clockwise. */
+export function withGroupRotated(s: SiteState, id: string, dir: 1 | -1 = 1): SiteState {
   const g = s.groups.find((x) => x.id === id);
-  return g ? withGroupPatched(s, id, { rotation: ((g.rotation + 1) % 4) as Rotation }) : s;
+  return g ? withGroupPatched(s, id, { rotation: ((g.rotation + dir + 4) % 4) as Rotation }) : s;
+}
+
+/** A copy of group `id` (machine, count, size, limits, hatches, turn and label) at `origin`; no links. */
+export function withGroupDuplicated(s: SiteState, id: string, origin: [number, number]): SiteState {
+  const g = s.groups.find((x) => x.id === id);
+  if (!g) return s;
+  const added = withGroupAdded(s, g.multiblockId, origin);
+  if (added === s) return s;
+  const { id: copyId, origin: copyOrigin } = added.groups[added.groups.length - 1];
+  const copy: SiteGroup = {
+    ...g,
+    id: copyId,
+    origin: copyOrigin,
+    limits: { ...g.limits },
+    enabledHatches: [...g.enabledHatches],
+  };
+  delete copy.source;
+  return { ...added, groups: [...added.groups.slice(0, -1), copy] };
 }
 
 /** One end of a new link: a group, or a boundary port (created on demand, one per direction and resource). */

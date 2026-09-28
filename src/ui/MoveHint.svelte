@@ -24,9 +24,12 @@
   }
 
   const rows: [string[], string][] = [
+    [['Drag'], t.site.hint.drag],
     [['←', '↑', '→', '↓'], t.site.hint.move],
     [['Shift', '+', '↑'], t.site.hint.fast],
     [['R'], t.site.hint.rotate],
+    [['F'], t.site.hint.frame],
+    [['Ctrl', '+', 'Z'], t.site.hint.undo],
     [['Del'], t.site.hint.remove],
     [['Esc'], t.site.hint.deselect],
   ];
@@ -118,7 +121,7 @@
     text-transform: none;
   }
   .plus {
-    color: var(--faint);
+    color: var(--muted);
   }
   .text,
   .note {
@@ -132,7 +135,7 @@
     margin: 8px 0 0;
     color: var(--muted);
   }
-  /* Phones have no arrow keys. */
+  /* Phones have no arrow keys: the nudge pad in the Template panel does the same. */
   @media (max-width: 640px), (pointer: coarse) {
     .card,
     .chip {
