@@ -239,6 +239,11 @@ describe('placeHatches', () => {
     expect(r).toEqual({ hatches: [], unplaced: [{ unitId: 0, kind: 'itemIn' }] });
   });
 
+  it('lets errors other than a malformed definition through', () => {
+    const broken = { ...coke, id: 'broken', legend: null } as unknown as MultiblockDef;
+    expect(() => placeHatches(broken, [unit(0, [0, 0, 0])], ['itemIn'])).toThrow(TypeError);
+  });
+
   it('is pure and independent of input order', () => {
     const units = deepFreeze([
       unit(0, [0, 0, 0]),

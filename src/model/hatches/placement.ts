@@ -1,6 +1,7 @@
 import { type CellKey, step } from '../geometry';
 import { ROUTED_KINDS } from '../routing/kinds';
 import type { Dir, Vec3 } from '../core/types';
+import { DefinitionError } from '../multiblock/errors';
 import type { HatchKind, MultiblockDef, Unit } from '../multiblock/types';
 import type { HatchPlacement, HatchResult } from '../plan/types';
 import { HATCH_PRIORITY } from './constants';
@@ -55,9 +56,10 @@ export function placeHatches(
     kinds = kindsToPlace(def, enabled);
     if (kinds.length === 0 || units.length === 0) return { hatches: [], unplaced: [] };
     return place(def, units, kinds, avoid, !!opts.below, opts.toward);
-  } catch {
-    // Malformed definition (e.g. unknown legend char): nothing can be placed, but never throw.
-    return allUnplaced(def, units, kinds);
+  } catch (err) {
+    // Malformed definition (e.g. unknown legend char): nothing can be placed. Anything else is a bug.
+    if (err instanceof DefinitionError) return allUnplaced(def, units, kinds);
+    throw err;
   }
 }
 

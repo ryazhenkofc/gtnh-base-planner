@@ -1,4 +1,5 @@
 import type { Dir, HorizontalDir, Rotation, Vec3 } from './core/types';
+import { DefinitionError } from './multiblock/errors';
 import type { MultiblockDef, Unit, UnitCell } from './multiblock/types';
 
 /** Shared geometry helpers. Implemented in the foundation; all model units must use these. */
@@ -137,7 +138,7 @@ export function localCells(def: MultiblockDef): LocalCell[] {
         else if (char === '-') out.push({ local, char, role: 'air' });
         else {
           const entry = def.legend[char];
-          if (!entry) throw new Error(`${def.id}: unknown legend char "${char}" at ${key(local)}`);
+          if (!entry) throw new DefinitionError(`${def.id}: unknown legend char "${char}" at ${key(local)}`);
           out.push({ local, char, role: 'casing', blockId: entry.blockId, hatches: entry.hatches });
         }
       }
