@@ -46,7 +46,10 @@ The planner checks layout rules for the transcribed structure only. It is not a 
    (a group or TEMPLATE INPUT), an end (a group or TEMPLATE OUTPUT) and a resource. In the single-machine view, SETTINGS →
    ADD TO TEMPLATE copies the current plan into the template as a group.
 3. ARRANGE lays the groups out west to east along the flow. Select a group (click it, or pick it in the panel)
-   and move it with the arrow keys as seen on screen (Shift: 5 blocks), R to turn it or Delete twice to remove it; X and Z in the panel place it exactly.
+   and drag it in the view, or move it with the arrow keys as seen on screen (Shift: 5 blocks) or the arrows in
+   the panel; R turns it (Shift+R back), F frames it and Delete removes it. The panel edits the selected group:
+   its label and machine, count, limits and extra hatches, and X and Z to place it exactly. Ctrl+Z undoes any
+   change to the template (Ctrl+Shift+Z or Ctrl+Y redoes it).
 4. Click a pipe or a legend entry to highlight one resource; the other nets fade. The bottom line shows the
    selected group or net, and PROBLEMS lists overlaps, groups outside the template, hatches that did not fit and
    pipes that could not be routed.
