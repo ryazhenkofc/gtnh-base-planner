@@ -119,7 +119,7 @@
   }
   .unverified {
     white-space: nowrap;
-    color: var(--pick);
+    color: var(--muted);
     cursor: help;
   }
   /* Centred on the page, independent of the side groups' widths. */

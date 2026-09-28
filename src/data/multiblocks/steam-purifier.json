@@ -5,22 +5,22 @@
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/steam/MTESteamWasher.java",
   "size": [9, 6, 5],
   "layers": [
-    ["    AAAAA", "AAA ABBBA", "AAA ABABA", "AAA ABBBA", "    AAAAA"],
-    ["    ADDDA", "A~A D---D", "AAA D-C-D", "AAA D---D", "    ADDDA"],
-    ["    ADDDA", "AAA D   D", "AAA D C D", "AAA D   D", "    ADDDA"],
-    ["     AAA ", "    A   A", " C  A C A", "    A   A", "     AAA "],
-    ["         ", "         ", " C    C  ", "         ", "         "],
-    ["         ", "         ", " CCCCCC  ", "         ", "         "]
+    ["AAAAA    ", "ABBBA AAA", "ABABA AAA", "ABBBA AAA", "AAAAA    "],
+    ["ADDDA    ", "D---D A~A", "D-C-D AAA", "D---D AAA", "ADDDA    "],
+    ["ADDDA    ", "D   D AAA", "D C D AAA", "D   D AAA", "ADDDA    "],
+    [" AAA     ", "A   A    ", "A C A  C ", "A   A    ", " AAA     "],
+    ["         ", "         ", "  C    C ", "         ", "         "],
+    ["         ", "         ", "  CCCCCC ", "         ", "         "]
   ],
   "legend": {
     "A": {
       "blockId": "gt.casing.bronzePlated",
       "hatches": ["steamIn", "itemIn", "itemOut", "fluidIn"],
       "disallowFaces": {
-        "steamIn": ["south", "east", "west", "up", "down"],
-        "itemIn": ["south", "east", "west", "up", "down"],
-        "itemOut": ["south", "east", "west", "up", "down"],
-        "fluidIn": ["south", "east", "west", "up", "down"]
+        "steamIn": ["south", "west", "east", "up", "down"],
+        "itemIn": ["south", "west", "east", "up", "down"],
+        "itemOut": ["south", "west", "east", "up", "down"],
+        "fluidIn": ["south", "west", "east", "up", "down"]
       }
     },
     "B": {
@@ -34,7 +34,7 @@
     }
   },
   "controller": {
-    "pos": [1, 1, 1],
+    "pos": [7, 1, 1],
     "facing": "north",
     "blockId": "gt.controller"
   },

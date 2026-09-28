@@ -13,7 +13,7 @@ import type { HatchKind, MultiblockDef, Unit } from './multiblock/types';
 import type { HatchPlacement } from './plan/types';
 import type { RouteNet } from './routing/routeNet';
 
-/** Hand-made entries; generated ones (tools/gt-source) have lighter checks in generated.test.ts. */
+/** Hand-made entries; generated ones (tools/game-dump) have lighter checks in generated.test.ts. */
 const handMade = catalog.filter((d) => !d.generated);
 
 const coke = getMultiblock('coke-oven')!;

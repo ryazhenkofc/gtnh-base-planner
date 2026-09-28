@@ -14,11 +14,23 @@
       "blockId": "gt.casing.stableTitanium",
       "hatches": ["itemIn", "itemOut", "fluidIn", "fluidOut", "maintenance"]
     },
-    "P": { "blockId": "gt.casing.titaniumPipe" },
-    "H": { "blockId": "gt.hatch.inputHatch", "hatches": ["fluidIn"] },
-    "O": { "blockId": "gt.hatch.outputHatch", "hatches": ["fluidOut"] }
+    "P": {
+      "blockId": "gt.casing.titaniumPipe"
+    },
+    "H": {
+      "blockId": "gt.hatch.inputHatch",
+      "hatches": ["fluidIn"]
+    },
+    "O": {
+      "blockId": "gt.hatch.outputHatch",
+      "hatches": ["fluidOut"]
+    }
   },
-  "controller": { "pos": [1, 0, 0], "facing": "north", "blockId": "gt.controller" },
+  "controller": {
+    "pos": [1, 0, 0],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",
     "itemOut": "gt.hatch.outputBus",
@@ -28,9 +40,15 @@
   },
   "shareableHatches": ["fluidIn", "fluidOut"],
   "requiredHatches": {
-    "fluidIn": { "min": 2 },
-    "fluidOut": { "min": 2 },
-    "maintenance": { "min": 1 }
+    "fluidIn": {
+      "min": 2
+    },
+    "fluidOut": {
+      "min": 2
+    },
+    "maintenance": {
+      "min": 1
+    }
   },
   "defaultHatches": ["fluidIn", "fluidOut", "maintenance"],
   "wallshare": true,

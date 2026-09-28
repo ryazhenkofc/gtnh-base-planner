@@ -372,10 +372,13 @@ export class Registry {
   /**
    * Front overlay of an idle controller (texture file, or null): the first icon its `getTexture(...)` draws
    * (or `getInactiveOverlay()` / `getFrontOverlay()`, as GT++ bases draw) that is not an active or glow
-   * variant. `chain` is the class source followed by its parents; the most derived definition wins.
+   * variant (with `allowActive`, any). `chain` is the class source followed by its parents; the most derived
+   * definition wins.
    */
-  controllerFront(chain) {
-    const idle = (name) => !/(?<!in)active|glow|unstable/i.test(name) && !/(?:[a-z_]ON|On)$/.test(name);
+  controllerFront(chain, { allowActive = false } = {}) {
+    // With `allowActive`, a controller that only ever draws its active screen (Forge of the Gods) still gets it.
+    const idle = (name) =>
+      allowActive || (!/(?<!in)active|glow|unstable/i.test(name) && !/(?:[a-z_]ON|On)$/.test(name));
     const scan = (body, depth) => {
       for (const m of body.matchAll(/\b((?:[A-Z]\w*\.)*)(\w+)\b(\s*\(\s*\))?/g)) {
         const [, owner, name, call] = m;

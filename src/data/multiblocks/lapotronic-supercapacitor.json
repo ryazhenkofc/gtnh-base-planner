@@ -5,44 +5,28 @@
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/kekztech/common/tileentities/MTELapotronicSuperCapacitor.java",
   "size": [5, 4, 5],
   "layers": [
-    ["bb~bb", "bbbbb", "bbbbb", "bbbbb", "bbbbb"],
-    ["bbbbb", "bbbbb", "bbbbb", "bbbbb", "bbbbb"],
-    ["ggggg", "gCCCg", "gCCCg", "gCCCg", "ggggg"],
-    ["ggggg", "ggggg", "ggggg", "ggggg", "ggggg"]
+    ["AA~AA", "AAAAA", "AAAAA", "AAAAA", "AAAAA"],
+    ["AAAAA", "AAAAA", "AAAAA", "AAAAA", "AAAAA"],
+    ["BBBBB", "BCCCB", "BCCCB", "BCCCB", "BBBBB"],
+    ["BBBBB", "BBBBB", "BBBBB", "BBBBB", "BBBBB"]
   ],
   "legend": {
-    "g": {
-      "blockId": "gt.glass.reinforced"
-    },
-    "b": {
-      "blockId": "ext.lSCPART",
+    "A": {
+      "blockId": "kekztech:kekztech_lapotronicenergyunit_block@0",
       "hatches": ["energy", "dynamo", "maintenance"]
     },
-    "C": {
-      "blockId": "gt5u.tieredCasing"
-    }
+    "B": { "blockId": "bartworks:BW_TieredGlass@0" },
+    "C": { "blockId": "kekztech:kekztech_lapotronicenergyunit_block@6" }
   },
-  "controller": {
-    "pos": [2, 0, 0],
-    "facing": "north",
-    "blockId": "gt5u.controller.lapotronicSupercapacitor"
-  },
+  "controller": { "pos": [2, 0, 0], "facing": "north", "blockId": "gregtech:gt.blockmachines@13106" },
   "hatchBlocks": {
     "energy": "gt.hatch.energy",
     "dynamo": "gt.hatch.dynamo",
     "maintenance": "gt.hatch.maintenance"
   },
   "shareableHatches": [],
-  "requiredHatches": {
-    "dynamo": {
-      "min": 1
-    },
-    "maintenance": {
-      "min": 1,
-      "max": 1
-    }
-  },
+  "requiredHatches": { "dynamo": { "min": 1 }, "maintenance": { "min": 1, "max": 1 } },
   "defaultHatches": ["energy", "dynamo", "maintenance"],
   "wallshare": true,
-  "notes": "Generated from MTELapotronicSuperCapacitor (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+  "notes": "Built by the game itself: MTELapotronicSuperCapacitor (GT5-Unofficial 5.09.54.133) placed every block with the hologram's construct() (tools/game-dump). Hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows); check the tooltip in game."
 }

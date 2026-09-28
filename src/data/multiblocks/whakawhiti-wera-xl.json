@@ -5,55 +5,36 @@
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gtPlusPlus/xmod/gregtech/common/tileentities/machines/multi/processing/advanced/MTEAdvHeatExchanger.java",
   "size": [5, 9, 5],
   "layers": [
-    [" f f ", "f   f", "     ", "f   f", " f f "],
-    [" f f ", "f   f", "     ", "f   f", " f f "],
-    [" hhh ", "hHHHh", "hHHHh", "hHHHh", " hhh "],
-    [" c~c ", "cPPPc", "cPPPc", "cPPPc", " ccc "],
-    [" ccc ", "cPPPc", "cPPPc", "cPPPc", " ccc "],
-    [" ccc ", "cPPPc", "cPPPc", "cPPPc", " ccc "],
-    [" ccc ", "cPPPc", "cPPPc", "cPPPc", " ccc "],
-    [" ccc ", "cPPPc", "cPPPc", "cPPPc", " ccc "],
-    [" ccc ", "cCCCc", "cCCCc", "cCCCc", " ccc "]
+    [" A A ", "A   A", "     ", "A   A", " A A "],
+    [" A A ", "A   A", "     ", "A   A", " A A "],
+    [" BBB ", "BCCCB", "BCCCB", "BCCCB", " BBB "],
+    [" D~D ", "DEEED", "DEEED", "DEEED", " DDD "],
+    [" DDD ", "DEEED", "DEEED", "DEEED", " DDD "],
+    [" DDD ", "DEEED", "DEEED", "DEEED", " DDD "],
+    [" DDD ", "DEEED", "DEEED", "DEEED", " DDD "],
+    [" DDD ", "DEEED", "DEEED", "DEEED", " DDD "],
+    [" DDD ", "DFFFD", "DFFFD", "DFFFD", " DDD "]
   ],
   "legend": {
-    "c": {
-      "blockId": "gt5u.blockSpecialMultiCasings.14"
-    },
-    "C": {
-      "blockId": "gt5u.specialHatch"
-    },
-    "P": {
-      "blockId": "gt.casing.tungstensteelPipe"
-    },
-    "h": {
-      "blockId": "gt5u.blockSpecialMultiCasings.14",
+    "A": { "blockId": "miscutils:blockFrameGtTalonite@0" },
+    "B": {
+      "blockId": "miscutils:gtplusplus.blockspecialcasings.1@14",
       "hatches": ["fluidIn", "fluidOut", "maintenance"]
     },
-    "H": {
-      "blockId": "gt5u.specialHatch"
-    },
-    "f": {
-      "blockId": "ext.sFrame"
-    }
+    "C": { "blockId": "miscutils:gtplusplus.blockspecialcasings.1@14", "hatches": ["fluidIn"] },
+    "D": { "blockId": "miscutils:gtplusplus.blockspecialcasings.1@14" },
+    "E": { "blockId": "gregtech:gt.blockcasings2@15" },
+    "F": { "blockId": "miscutils:gtplusplus.blockspecialcasings.1@14", "hatches": ["fluidOut"] }
   },
-  "controller": {
-    "pos": [2, 3, 0],
-    "facing": "north",
-    "blockId": "gt5u.controller.whakawhitiWeraXl"
-  },
+  "controller": { "pos": [2, 3, 0], "facing": "north", "blockId": "gregtech:gt.blockmachines@31079" },
   "hatchBlocks": {
     "fluidIn": "gt.hatch.inputHatch",
     "fluidOut": "gt.hatch.outputHatch",
     "maintenance": "gt.hatch.maintenance"
   },
   "shareableHatches": ["fluidIn", "fluidOut"],
-  "requiredHatches": {
-    "maintenance": {
-      "min": 1,
-      "max": 1
-    }
-  },
+  "requiredHatches": { "maintenance": { "min": 1, "max": 1 } },
   "defaultHatches": ["fluidIn", "fluidOut", "maintenance"],
   "wallshare": true,
-  "notes": "Generated from MTEAdvHeatExchanger (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+  "notes": "Built by the game itself: MTEAdvHeatExchanger (GT5-Unofficial 5.09.54.133) placed every block with the hologram's construct() (tools/game-dump). Hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows); check the tooltip in game."
 }

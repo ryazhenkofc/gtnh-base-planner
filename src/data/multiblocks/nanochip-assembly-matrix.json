@@ -3,48 +3,26 @@
   "name": "Nanochip Assembly Matrix",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/nanochip/modules/MTEAssemblyMatrixModule.java",
-  "size": [10, 4, 7],
+  "size": [7, 7, 7],
   "layers": [
-    ["     BFB  ", "    DEEED ", "   BE   EB", "   FE G EF", "   BE   EB", "    DEEED ", "     BFB  "],
-    [" VVVVVFDD ", "VPPPPPV BD", "VPPPPPV  D", "VPPPPPV  F", "VPPPPPV  D", "VPPPPPV BD", " VVVVVFDD "],
-    ["     BFB  ", " ZZZZZ  D ", " ZZZZZ   B", " ZZZZZG  F", " ZZZZZ   B", " ZZZZZ  D ", "     BFB  "],
-    [" VV~VV    ", "VPPPPPVC  ", "VPPPPPVFC ", "VPPPPPVFF ", "VPPPPPVFC ", "VPPPPPVC  ", " VVVVV    "]
+    [" AAAAA ", "ABBBBBA", "ABBBBBA", "ABBBBBA", "ABBBBBA", "ABBBBBA", " AAAAA "],
+    ["       ", " CCCCC ", " CCCCC ", " CCCCC ", " CCCCC ", " CCCCC ", "       "],
+    [" AA~AA ", "ABBBBBA", "ABBBBBA", "ABBBBBA", "ABBBBBA", "ABBBBBA", " AAAAA "],
+    ["  DED  ", " CFFFC ", "DF---FD", "EF-G-FE", "DF---FD", " CFFFC ", "  DED  "],
+    [" CCECC ", "CD---DC", "C-----C", "E--G--E", "C-----C", "CD---DC", " CCECC "],
+    ["  DED  ", " C---C ", "D-----D", "E--G--E", "D-----D", " C---C ", "  DED  "],
+    ["       ", "  BEB  ", " BEEEB ", " EECEE ", " BEEEB ", "  BEB  ", "       "]
   ],
   "legend": {
-    "V": {
-      "blockId": "gt5u.gtBlockcasings12.1",
-      "hatches": ["itemIn", "fluidIn", "fluidOut"]
-    },
-    "B": {
-      "blockId": "gt5u.componentAssemblylineCasing.0"
-    },
-    "F": {
-      "blockId": "gt5u.gtBlockglass1.8"
-    },
-    "D": {
-      "blockId": "gt5u.gtBlockcasings12.2"
-    },
-    "P": {
-      "blockId": "gt5u.gtBlockcasings12.1"
-    },
-    "C": {
-      "blockId": "gt5u.gtBlockcasings12.1"
-    },
-    "Z": {
-      "blockId": "gt5u.gtBlockcasings12.2"
-    },
-    "E": {
-      "blockId": "gt.frame.naquadahAlloy"
-    },
-    "G": {
-      "blockId": "gt.sheetmetal.naquadahAlloy"
-    }
+    "A": { "blockId": "gregtech:gt.blockcasings12@1", "hatches": ["itemIn", "fluidIn", "fluidOut"] },
+    "B": { "blockId": "gregtech:gt.blockcasings12@1" },
+    "C": { "blockId": "gregtech:gt.blockcasings12@2" },
+    "D": { "blockId": "GoodGenerator:componentAssemblylineCasing@0" },
+    "E": { "blockId": "gregtech:gt.blockglass1@8" },
+    "F": { "blockId": "gregtech:gt.blockframes@325" },
+    "G": { "blockId": "gregtech:gt.sheetmetal@325" }
   },
-  "controller": {
-    "pos": [3, 3, 0],
-    "facing": "north",
-    "blockId": "gt5u.controller.nanochipAssemblyMatrix"
-  },
+  "controller": { "pos": [3, 2, 0], "facing": "north", "blockId": "gregtech:gt.blockmachines@9504" },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",
     "fluidIn": "gt.hatch.inputHatch",
@@ -54,5 +32,5 @@
   "requiredHatches": {},
   "defaultHatches": ["itemIn"],
   "wallshare": true,
-  "notes": "Generated from MTEAssemblyMatrixModule (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+  "notes": "Built by the game itself: MTEAssemblyMatrixModule (GT5-Unofficial 5.09.54.133) placed every block with the hologram's construct() (tools/game-dump). Hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows); check the tooltip in game."
 }

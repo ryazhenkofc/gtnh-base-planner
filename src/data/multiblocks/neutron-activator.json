@@ -5,40 +5,22 @@
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/goodgenerator/blocks/tileEntity/MTENeutronActivator.java",
   "size": [5, 6, 5],
   "layers": [
-    ["XX~XX", "XDDDX", "XDDDX", "XDDDX", "XXXXX"],
-    ["F   F", " GGG ", " GPG ", " GGG ", "F   F"],
-    ["F   F", " GGG ", " GPG ", " GGG ", "F   F"],
-    ["F   F", " GGG ", " GPG ", " GGG ", "F   F"],
-    ["F   F", " GGG ", " GPG ", " GGG ", "F   F"],
-    ["CCCCC", "CDDDC", "CDDDC", "CDDDC", "CCCCC"]
+    ["AA~AA", "ABBBA", "ABBBA", "ABBBA", "AAAAA"],
+    ["C   C", " DDD ", " DED ", " DDD ", "C   C"],
+    ["C   C", " DDD ", " DED ", " DDD ", "C   C"],
+    ["C   C", " DDD ", " DED ", " DDD ", "C   C"],
+    ["C   C", " DDD ", " DED ", " DDD ", "C   C"],
+    ["FFFFF", "FBBBF", "FBBBF", "FBBBF", "FFFFF"]
   ],
   "legend": {
-    "C": {
-      "blockId": "gt.casing.cleanStainless",
-      "hatches": ["itemIn", "fluidIn", "maintenance"]
-    },
-    "F": {
-      "blockId": "gt.frame.steel"
-    },
-    "X": {
-      "blockId": "gt.casing.cleanStainless",
-      "hatches": ["itemOut", "fluidOut", "maintenance"]
-    },
-    "D": {
-      "blockId": "gt5u.gtBlockcasings2.6"
-    },
-    "G": {
-      "blockId": "gt.glass.reinforced"
-    },
-    "P": {
-      "blockId": "gt5u.speedingPipe.0"
-    }
+    "A": { "blockId": "gregtech:gt.blockcasings4@1", "hatches": ["itemOut", "fluidOut", "maintenance"] },
+    "B": { "blockId": "gregtech:gt.blockcasings2@6" },
+    "C": { "blockId": "gregtech:gt.blockframes@305" },
+    "D": { "blockId": "bartworks:BW_TieredGlass@0" },
+    "E": { "blockId": "GoodGenerator:speedingPipe@0" },
+    "F": { "blockId": "gregtech:gt.blockcasings4@1", "hatches": ["itemIn", "fluidIn", "maintenance"] }
   },
-  "controller": {
-    "pos": [2, 0, 0],
-    "facing": "north",
-    "blockId": "gt5u.controller.neutronActivator"
-  },
+  "controller": { "pos": [2, 0, 0], "facing": "north", "blockId": "gregtech:gt.blockmachines@32013" },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",
     "itemOut": "gt.hatch.outputBus",
@@ -47,13 +29,8 @@
     "maintenance": "gt.hatch.maintenance"
   },
   "shareableHatches": ["itemIn", "itemOut", "fluidIn", "fluidOut"],
-  "requiredHatches": {
-    "maintenance": {
-      "min": 1,
-      "max": 1
-    }
-  },
+  "requiredHatches": { "maintenance": { "min": 1, "max": 1 } },
   "defaultHatches": ["itemIn", "itemOut", "maintenance"],
   "wallshare": true,
-  "notes": "Generated from MTENeutronActivator (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+  "notes": "Built by the game itself: MTENeutronActivator (GT5-Unofficial 5.09.54.133) placed every block with the hologram's construct() (tools/game-dump). Hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows); check the tooltip in game."
 }

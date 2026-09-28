@@ -5,29 +5,22 @@
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gtPlusPlus/xmod/gregtech/common/tileentities/machines/multi/processing/MTEIndustrialAlloySmelter.java",
   "size": [3, 5, 3],
   "layers": [
-    ["C~C", "CCC", "CCC"],
-    ["HHH", "H-H", "HHH"],
-    ["VVV", "V-V", "VVV"],
-    ["HHH", "H-H", "HHH"],
-    ["CCC", "CCC", "CCC"]
+    ["A~A", "AAA", "AAA"],
+    ["BBB", "BCB", "BBB"],
+    ["DDD", "DCD", "DDD"],
+    ["BBB", "BCB", "BBB"],
+    ["AAA", "AAA", "AAA"]
   ],
   "legend": {
-    "C": {
-      "blockId": "gt5u.blockCasings3Misc.1",
+    "A": {
+      "blockId": "miscutils:gtplusplus.blockcasings.3@1",
       "hatches": ["itemIn", "itemOut", "energy", "maintenance", "muffler"]
     },
-    "H": {
-      "blockId": "gt.coil.cupronickel"
-    },
-    "V": {
-      "blockId": "gt5u.blockCasingsTieredGTPP.4"
-    }
+    "B": { "blockId": "gregtech:gt.blockcasings5@0" },
+    "C": { "blockId": "gt.hatch.special" },
+    "D": { "blockId": "miscutils:gtplusplus.blocktieredcasings.1@4" }
   },
-  "controller": {
-    "pos": [1, 0, 0],
-    "facing": "north",
-    "blockId": "gt5u.controller.zyngen"
-  },
+  "controller": { "pos": [1, 0, 0], "facing": "north", "blockId": "gregtech:gt.blockmachines@31023" },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",
     "itemOut": "gt.hatch.outputBus",
@@ -37,19 +30,11 @@
   },
   "shareableHatches": ["itemIn", "itemOut"],
   "requiredHatches": {
-    "energy": {
-      "min": 1
-    },
-    "maintenance": {
-      "min": 1,
-      "max": 1
-    },
-    "muffler": {
-      "min": 1,
-      "max": 1
-    }
+    "energy": { "min": 1 },
+    "maintenance": { "min": 1, "max": 1 },
+    "muffler": { "min": 1, "max": 1 }
   },
   "defaultHatches": ["itemIn", "itemOut", "energy", "maintenance", "muffler"],
   "wallshare": true,
-  "notes": "Generated from MTEIndustrialAlloySmelter (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+  "notes": "Built by the game itself: MTEIndustrialAlloySmelter (GT5-Unofficial 5.09.54.133) placed every block with the hologram's construct() (tools/game-dump). Hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows); check the tooltip in game."
 }

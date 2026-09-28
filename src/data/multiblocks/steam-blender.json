@@ -15,11 +15,11 @@
       "blockId": "gt.casing.bronzePlated",
       "hatches": ["steamIn", "itemIn", "itemOut", "fluidOut", "fluidIn"],
       "disallowFaces": {
-        "steamIn": ["south", "east", "west", "up", "down"],
-        "itemIn": ["south", "east", "west", "up", "down"],
-        "itemOut": ["south", "east", "west", "up", "down"],
-        "fluidOut": ["south", "east", "west", "up", "down"],
-        "fluidIn": ["south", "east", "west", "up", "down"]
+        "steamIn": ["south", "west", "east", "up", "down"],
+        "itemIn": ["south", "west", "east", "up", "down"],
+        "itemOut": ["south", "west", "east", "up", "down"],
+        "fluidOut": ["south", "west", "east", "up", "down"],
+        "fluidIn": ["south", "west", "east", "up", "down"]
       }
     },
     "B": {

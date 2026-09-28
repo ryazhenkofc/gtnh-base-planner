@@ -11,9 +11,15 @@
     ["ccc", "c-c", "ccc"]
   ],
   "legend": {
-    "c": { "blockId": "gt.casing.firebricks" }
+    "c": {
+      "blockId": "gt.casing.firebricks"
+    }
   },
-  "controller": { "pos": [1, 1, 0], "facing": "north", "blockId": "gt.controller" },
+  "controller": {
+    "pos": [1, 1, 0],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
   "hatchBlocks": {},
   "shareableHatches": [],
   "defaultHatches": [],

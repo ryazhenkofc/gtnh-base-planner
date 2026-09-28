@@ -54,6 +54,8 @@ export function buildSceneModel(
     }
   }
 
+  const hatchIds = new Set(Object.values(def.hatchBlocks));
+  const host = hatchHost(def);
   for (const h of hatches) {
     const k = key(h.cell);
     let voxel = byKey.get(k);
@@ -62,10 +64,14 @@ export function buildSceneModel(
       voxel = { pos: h.cell, blockId: '', kind: 'hatch', unitIds: [...h.unitIds] };
       byKey.set(k, voxel);
     }
+    // The casing it replaces; a cell only a hatch may fill takes the casing the machine's hatches go on.
+    const base =
+      voxel.kind === 'casing' && voxel.blockId && !hatchIds.has(voxel.blockId) ? voxel.blockId : host;
     voxel.kind = 'hatch';
     voxel.hatchKind = h.kind;
     voxel.facing = h.face;
     voxel.blockId = def.hatchBlocks[h.kind] ?? (voxel.blockId || 'gt.hatch.inputBus');
+    if (base) voxel.baseBlockId = base;
   }
 
   const voxels = [...byKey.values()];
@@ -87,4 +93,24 @@ export function buildSceneModel(
   }
 
   return { voxels, hatches, pipes, bounds: { min, max }, colors };
+}
+
+const hosts = new WeakMap<MultiblockDef, string | undefined>();
+
+/** The block most of a multiblock's hatch cells are made of (the casing its hatches go on), if any. */
+export function hatchHost(def: MultiblockDef): string | undefined {
+  if (hosts.has(def)) return hosts.get(def);
+  const hatchIds = new Set(Object.values(def.hatchBlocks));
+  const counts = new Map<string, number>();
+  for (const layer of def.layers)
+    for (const row of layer)
+      for (const ch of row) {
+        const e = def.legend[ch];
+        if (e?.hatches?.length && !hatchIds.has(e.blockId))
+          counts.set(e.blockId, (counts.get(e.blockId) ?? 0) + 1);
+      }
+  let best: string | undefined;
+  for (const [id, n] of counts) if (best === undefined || n > counts.get(best)!) best = id;
+  hosts.set(def, best);
+  return best;
 }

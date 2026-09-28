@@ -3,51 +3,29 @@
   "name": "Superconductive Strand Splitter",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/nanochip/modules/MTESuperconductorSplitterModule.java",
-  "size": [10, 7, 7],
+  "size": [7, 10, 7],
   "layers": [
-    ["    DEEED ", "   DDD DDD", "   EDCFCDE", "   E FAF E", "   EDCFCDE", "   DDD DDD", "    DEEED "],
-    ["          ", "    B   B ", "     CFC  ", "     FAF  ", "     CFC  ", "    B   B ", "          "],
-    ["          ", "    B   B ", "     CFC  ", "     FAF  ", "     CFC  ", "    B   B ", "          "],
-    ["          ", "    B   B ", "     CFC  ", "     FAF  ", "     CFC  ", "    B   B ", "          "],
-    [" VVVVVEED ", "VPPPPPVDBD", "VPPPPPVCDE", "VPPPPPVF E", "VPPPPPVCDE", "VPPPPPVDBD", " VVVVVEED "],
-    ["          ", " ZZZZZ  D ", " ZZZZZFC  ", " ZZZZZAF  ", " ZZZZZFC  ", " ZZZZZ  D ", "          "],
-    [" VV~VV    ", "VPPPPPV   ", "VPPPPPV   ", "VPPPPPVC  ", "VPPPPPV   ", "VPPPPPV   ", " VVVVV    "]
+    [" AAAAA ", "ABBBBBA", "ABBBBBA", "ABBBBBA", "ABBBBBA", "ABBBBBA", " AAAAA "],
+    ["       ", " CCCCC ", " CCCCC ", " CCCCC ", " CCCCC ", " CCCCC ", "       "],
+    [" AA~AA ", "ABBBBBA", "ABBBBBA", "ABBBBBA", "ABBBBBA", "ABBBBBA", " AAAAA "],
+    [" CDDDC ", "CCC CCC", "DCBEBCD", "D EFE D", "DCBEBCD", "CCC CCC", " CDDDC "],
+    ["       ", " G   G ", "  BEB  ", "  EFE  ", "  BEB  ", " G   G ", "       "],
+    ["       ", " G   G ", "  BEB  ", "  EFE  ", "  BEB  ", " G   G ", "       "],
+    ["       ", " G   G ", "  BEB  ", "  EFE  ", "  BEB  ", " G   G ", "       "],
+    [" CDDDC ", "CGC CGC", "DCBEBCD", "D EFE D", "DCBEBCD", "CGC CGC", " CDDDC "],
+    ["       ", " C   C ", "  BEB  ", "  EFE  ", "  BEB  ", " C   C ", "       "],
+    ["       ", "       ", "   B   ", "  BBB  ", "   B   ", "       ", "       "]
   ],
   "legend": {
-    "V": {
-      "blockId": "gt5u.gtBlockcasings12.1",
-      "hatches": ["itemIn", "fluidIn", "fluidOut"]
-    },
-    "E": {
-      "blockId": "gt.frame.naquadria"
-    },
-    "D": {
-      "blockId": "gt5u.gtBlockcasings12.2"
-    },
-    "P": {
-      "blockId": "gt5u.gtBlockcasings12.1"
-    },
-    "Z": {
-      "blockId": "gt5u.gtBlockcasings12.2"
-    },
-    "B": {
-      "blockId": "gt5u.gtBlockcasingsCyclotronCoils.8"
-    },
-    "F": {
-      "blockId": "gt5u.gtBlockglass1.8"
-    },
-    "C": {
-      "blockId": "gt5u.gtBlockcasings12.1"
-    },
-    "A": {
-      "blockId": "gt5u.gtBlockcasingsCyclotronCoils.7"
-    }
+    "A": { "blockId": "gregtech:gt.blockcasings12@1", "hatches": ["itemIn", "fluidIn", "fluidOut"] },
+    "B": { "blockId": "gregtech:gt.blockcasings12@1" },
+    "C": { "blockId": "gregtech:gt.blockcasings12@2" },
+    "D": { "blockId": "gregtech:gt.blockframes@327" },
+    "E": { "blockId": "gregtech:gt.blockglass1@8" },
+    "F": { "blockId": "gregtech:gt.blockcasings.cyclotron_coils@7" },
+    "G": { "blockId": "gregtech:gt.blockcasings.cyclotron_coils@8" }
   },
-  "controller": {
-    "pos": [3, 6, 0],
-    "facing": "north",
-    "blockId": "gt5u.controller.superconductiveStrandSplitter"
-  },
+  "controller": { "pos": [3, 2, 0], "facing": "north", "blockId": "gregtech:gt.blockmachines@9511" },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",
     "fluidIn": "gt.hatch.inputHatch",
@@ -57,5 +35,5 @@
   "requiredHatches": {},
   "defaultHatches": ["itemIn"],
   "wallshare": true,
-  "notes": "Generated from MTESuperconductorSplitterModule (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+  "notes": "Built by the game itself: MTESuperconductorSplitterModule (GT5-Unofficial 5.09.54.133) placed every block with the hologram's construct() (tools/game-dump). Hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows); check the tooltip in game."
 }

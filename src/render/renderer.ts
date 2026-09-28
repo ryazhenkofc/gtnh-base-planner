@@ -95,7 +95,7 @@ function center(p: Vec3): THREE.Vector3 {
 }
 
 function visualKey(v: Voxel): string {
-  return `${v.blockId}|${v.kind}|${v.hatchKind ?? ''}|${v.facing ?? ''}|${v.conflict ? 1 : 0}`;
+  return `${v.blockId}|${v.kind}|${v.hatchKind ?? ''}|${v.facing ?? ''}|${v.baseBlockId ?? ''}|${v.conflict ? 1 : 0}`;
 }
 
 interface VoxelBatch {
@@ -307,6 +307,7 @@ export function createRenderer(
   // Pipes and markers are a few pixels wide on screen: modest segment counts keep large plans light.
   const discGeo = new THREE.CircleGeometry(0.19, 20);
   const ringGeo = new THREE.RingGeometry(0.19, 0.28, 24);
+  const thinRingGeo = new THREE.RingGeometry(0.19, 0.235, 24);
   const pipeGeo = new THREE.BoxGeometry(PIPE_WIDTH, 1, PIPE_WIDTH);
   const jointGeo = new THREE.BoxGeometry(PIPE_WIDTH, PIPE_WIDTH, PIPE_WIDTH);
   const conflictMat = new THREE.MeshLambertMaterial({ color: CONFLICT_COLOR });
@@ -362,7 +363,7 @@ export function createRenderer(
     tintMat,
     lineMat,
   ];
-  const sharedGeometries = [boxGeo, discGeo, ringGeo, pipeGeo, jointGeo, flowGeo];
+  const sharedGeometries = [boxGeo, discGeo, ringGeo, thinRingGeo, pipeGeo, jointGeo, flowGeo];
 
   const simpleProvider = createSimpleProvider();
   let detailedProvider: MaterialProvider | null = null;
@@ -635,6 +636,7 @@ export function createRenderer(
         kind: first.kind,
         facing: first.facing,
         hatchKind: first.hatchKind,
+        baseBlockId: first.baseBlockId,
       };
       const conflict = !!first.conflict;
       const faces = conflict ? [conflictMat] : provider.materials(visual, m.colors);
@@ -651,7 +653,11 @@ export function createRenderer(
     }
   }
 
-  /** A white ring with a disc in the hatch colour on each hatch's outward face. */
+  /**
+   * A white ring with a disc in the hatch colour on each hatch's outward face. In DETAILED view a machine's
+   * hatches show their own textured front (framed in the kind colour), so they only get a thin ring in that
+   * colour, which stays visible around an attached pipe; site markers (resource colours) keep the disc.
+   */
   function buildHatchMarkers(m: SceneModel): void {
     const marks =
       m.markers ??
@@ -663,8 +669,26 @@ export function createRenderer(
           color: v.hatchKind ? m.colors[v.hatchKind] : '#ffffff',
         }));
     if (marks.length === 0) return;
+    const ringOnly = !m.markers && provider.mode === 'detailed';
+    const rings = new THREE.InstancedMesh(ringOnly ? thinRingGeo : ringGeo, ringMat, marks.length);
+    if (ringOnly) {
+      const matrix = new THREE.Matrix4();
+      const q = new THREE.Quaternion();
+      const one = new THREE.Vector3(1, 1, 1);
+      const color = new THREE.Color();
+      marks.forEach((v, i) => {
+        const n = dirVector(v.face);
+        q.setFromUnitVectors(Z_AXIS, n);
+        rings.setMatrixAt(i, matrix.compose(center(v.pos).addScaledVector(n, 0.502), q, one));
+        rings.setColorAt(i, color.set(v.color));
+      });
+      rings.instanceMatrix.needsUpdate = true;
+      if (rings.instanceColor) rings.instanceColor.needsUpdate = true;
+      rings.computeBoundingSphere();
+      content.add(rings);
+      return;
+    }
     const discs = new THREE.InstancedMesh(discGeo, discMat, marks.length);
-    const rings = new THREE.InstancedMesh(ringGeo, ringMat, marks.length);
     const matrix = new THREE.Matrix4();
     const q = new THREE.Quaternion();
     const one = new THREE.Vector3(1, 1, 1);

@@ -5,11 +5,11 @@
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTEExtremeCombustionEngine.java",
   "size": [10, 5, 5],
   "layers": [
-    ["FEFEFEEEEF", "FEFEFEEEEF", "FEFEFEEEEF", "FEFEFEEEEF", "FEFEFEEEEF"],
-    ["H H H    H", "C~C CBBBBC", "CCC CBBBBC", "CCC CBBBBC", "H H H    H"],
-    ["H H H    H", "CCC CDDDDC", "CCCAAAAAAI", "CCC CDDDDC", "H H H    H"],
-    ["    H    H", "H H CGGGGC", "H H CGGGGC", "H H CGGGGC", "    H    H"],
-    ["          ", "    H----H", "    H----H", "    H----H", "          "]
+    ["FEEEEFEFEF", "FEEEEFEFEF", "FEEEEFEFEF", "FEEEEFEFEF", "FEEEEFEFEF"],
+    ["H    H H H", "CBBBBC C~C", "CBBBBC CCC", "CBBBBC CCC", "H    H H H"],
+    ["H    H H H", "CDDDDC CCC", "IAAAAAACCC", "CDDDDC CCC", "H    H H H"],
+    ["H    H    ", "CGGGGC H H", "CGGGGC H H", "CGGGGC H H", "H    H    "],
+    ["          ", "H----H    ", "H----H    ", "H----H    ", "          "]
   ],
   "legend": {
     "A": {
@@ -44,7 +44,7 @@
     }
   },
   "controller": {
-    "pos": [1, 1, 1],
+    "pos": [8, 1, 1],
     "facing": "north",
     "blockId": "gt.controller"
   },

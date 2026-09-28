@@ -10,6 +10,8 @@ export interface BlockVisual {
   /** Controller front / hatch face (gets the front texture in DETAILED view). */
   facing?: Dir;
   hatchKind?: HatchKind;
+  /** Hatches: the casing drawn under the hatch overlay (see `Voxel.baseBlockId`). */
+  baseBlockId?: string;
 }
 
 /**

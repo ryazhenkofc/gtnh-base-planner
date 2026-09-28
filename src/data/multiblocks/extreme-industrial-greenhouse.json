@@ -1,0 +1,40 @@
+{
+  "id": "extreme-industrial-greenhouse",
+  "name": "Extreme Industrial Greenhouse",
+  "generated": true,
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/kubatech/tileentity/gregtech/multiblock/MTEExtremeIndustrialGreenhouse.java",
+  "size": [7, 7, 9],
+  "layers": [
+    ["AAA~AAA", "AAAAAAA", "AAAAAAA", "AAAAAAA", "AAAAAAA", "AAAAAAA", "AAAAAAA", "AAAAAAA", "AAAAAAA"],
+    ["AAAAAAA", "ABCCCBA", "ABCCCBA", "ABCCCBA", "ABCCCBA", "ABCCCBA", "ABCCCBA", "ABCCCBA", "AAAAAAA"],
+    ["DEEEEED", "E-----E", "E-----E", "E-----E", "D-----D", "E-----E", "E-----E", "E-----E", "DEEEEED"],
+    ["DEEEEED", "E-----E", "E-----E", "E-----E", "D-----D", "E-----E", "E-----E", "E-----E", "DEEEEED"],
+    ["DEEEEED", "E-----E", "E-----E", "E-----E", "D-----D", "E-----E", "E-----E", "E-----E", "DEEEEED"],
+    [" DEEED ", " E---E ", " E---E ", " E---E ", " DFFFD ", " E---E ", " E---E ", " E---E ", " DEEED "],
+    ["  DDD  ", "  EEE  ", "  EEE  ", "  EEE  ", "  DDD  ", "  EEE  ", "  EEE  ", "  EEE  ", "  DDD  "]
+  ],
+  "legend": {
+    "A": {
+      "blockId": "miscutils:gtplusplus.blockcasings.2@15",
+      "hatches": ["itemIn", "itemOut", "fluidIn", "energy", "maintenance"]
+    },
+    "B": { "blockId": "minecraft:water@0" },
+    "C": { "blockId": "minecraft:farmland@0" },
+    "D": { "blockId": "gregtech:gt.blockframes@316" },
+    "E": { "blockId": "bartworks:BW_TieredGlass@0" },
+    "F": { "blockId": "minecraft:redstone_lamp@0" }
+  },
+  "controller": { "pos": [3, 0, 0], "facing": "north", "blockId": "gregtech:gt.blockmachines@12792" },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus",
+    "itemOut": "gt.hatch.outputBus",
+    "fluidIn": "gt.hatch.inputHatch",
+    "energy": "gt.hatch.energy",
+    "maintenance": "gt.hatch.maintenance"
+  },
+  "shareableHatches": ["itemIn", "itemOut", "fluidIn"],
+  "requiredHatches": { "energy": { "min": 1 }, "maintenance": { "min": 1, "max": 1 } },
+  "defaultHatches": ["itemIn", "itemOut", "energy", "maintenance"],
+  "wallshare": true,
+  "notes": "Built by the game itself: MTEExtremeIndustrialGreenhouse (GT5-Unofficial 5.09.54.133) placed every block with the hologram's construct() (tools/game-dump). Hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows); check the tooltip in game."
+}

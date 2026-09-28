@@ -5,45 +5,29 @@
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gtPlusPlus/xmod/gregtech/common/tileentities/machines/multi/production/MTEElementalDuplicator.java",
   "size": [9, 9, 6],
   "layers": [
-    ["   ccc   ", "   cac   ", "   cec   ", "   cec   ", "   cac   ", "   ccc   "],
-    ["  ccccc  ", "  abfba  ", "  e   e  ", "  e   e  ", "  abfba  ", "  ccccc  "],
-    [" ccccccc ", " abfgfba ", " e     e ", " e     e ", " abfgfba ", " ccccccc "],
-    ["ccccccccc", "cbfgdgfbc", "c   d   c", "c   d   c", "cbfgdgfbc", "ccccccccc"],
-    ["cccc~cccc", "afgdddgfa", "e  ddd  e", "e  ddd  e", "afgdddgfa", "ccccccccc"],
-    ["ccccccccc", "cbfgdgfbc", "c   d   c", "c   d   c", "cbfgdgfbc", "ccccccccc"],
-    [" ccccccc ", " abfgfba ", " e     e ", " e     e ", " abfgfba ", " ccccccc "],
-    ["  ccccc  ", "  abfba  ", "  e   e  ", "  e   e  ", "  abfba  ", "  ccccc  "],
-    ["   ccc   ", "   cac   ", "   cec   ", "   cec   ", "   cac   ", "   ccc   "]
+    ["   AAA   ", "   ABA   ", "   ACA   ", "   ACA   ", "   ABA   ", "   AAA   "],
+    ["  AAAAA  ", "  BDEDB  ", "  C---C  ", "  C---C  ", "  BDEDB  ", "  AAAAA  "],
+    [" AAAAAAA ", " BDEFEDB ", " C-----C ", " C-----C ", " BDEFEDB ", " AAAAAAA "],
+    ["AAAAAAAAA", "ADEFGFEDA", "A---G---A", "A---G---A", "ADEFGFEDA", "AAAAAAAAA"],
+    ["AAAA~AAAA", "BEFGGGFEB", "C--GGG--C", "C--GGG--C", "BEFGGGFEB", "AAAAAAAAA"],
+    ["AAAAAAAAA", "ADEFGFEDA", "A---G---A", "A---G---A", "ADEFGFEDA", "AAAAAAAAA"],
+    [" AAAAAAA ", " BDEFEDB ", " C-----C ", " C-----C ", " BDEFEDB ", " AAAAAAA "],
+    ["  AAAAA  ", "  BDEDB  ", "  C---C  ", "  C---C  ", "  BDEDB  ", "  AAAAA  "],
+    ["   AAA   ", "   ABA   ", "   ACA   ", "   ACA   ", "   ABA   ", "   AAA   "]
   ],
   "legend": {
-    "c": {
-      "blockId": "gt5u.specialHatch",
+    "A": {
+      "blockId": "miscutils:gtplusplus.blockcasings.5@3",
       "hatches": ["itemOut", "fluidIn", "fluidOut", "energy", "maintenance", "muffler"]
     },
-    "a": {
-      "blockId": "gt5u.miscutilsBlockcasings.9"
-    },
-    "b": {
-      "blockId": "gt5u.miscutilsBlockcasings.8"
-    },
-    "f": {
-      "blockId": "gt5u.blockSpecialMultiCasings2.2"
-    },
-    "g": {
-      "blockId": "gt5u.blockSpecialMultiCasings2.6"
-    },
-    "d": {
-      "blockId": "gt5u.blockSpecialMultiCasings.12"
-    },
-    "e": {
-      "blockId": "gt5u.blockSpecialMultiCasings.13"
-    }
+    "B": { "blockId": "miscutils:miscutils.blockcasings@9" },
+    "C": { "blockId": "miscutils:gtplusplus.blockspecialcasings.1@13" },
+    "D": { "blockId": "miscutils:miscutils.blockcasings@8" },
+    "E": { "blockId": "miscutils:gtplusplus.blockspecialcasings.3@2" },
+    "F": { "blockId": "miscutils:gtplusplus.blockspecialcasings.3@6" },
+    "G": { "blockId": "miscutils:gtplusplus.blockspecialcasings.1@12" }
   },
-  "controller": {
-    "pos": [4, 4, 0],
-    "facing": "north",
-    "blockId": "gt5u.controller.elementalDuplicator"
-  },
+  "controller": { "pos": [4, 4, 0], "facing": "north", "blockId": "gregtech:gt.blockmachines@31050" },
   "hatchBlocks": {
     "itemOut": "gt.hatch.outputBus",
     "fluidIn": "gt.hatch.inputHatch",
@@ -54,19 +38,11 @@
   },
   "shareableHatches": ["itemOut", "fluidIn", "fluidOut"],
   "requiredHatches": {
-    "energy": {
-      "min": 1
-    },
-    "maintenance": {
-      "min": 1,
-      "max": 1
-    },
-    "muffler": {
-      "min": 1,
-      "max": 1
-    }
+    "energy": { "min": 1 },
+    "maintenance": { "min": 1, "max": 1 },
+    "muffler": { "min": 1, "max": 1 }
   },
   "defaultHatches": ["itemOut", "energy", "maintenance", "muffler"],
   "wallshare": true,
-  "notes": "Generated from MTEElementalDuplicator (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+  "notes": "Built by the game itself: MTEElementalDuplicator (GT5-Unofficial 5.09.54.133) placed every block with the hologram's construct() (tools/game-dump). Hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows); check the tooltip in game."
 }

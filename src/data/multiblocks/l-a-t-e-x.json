@@ -5,35 +5,25 @@
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTELatex.java",
   "size": [5, 8, 5],
   "layers": [
-    [" C~C ", "CCCCC", "CCCCC", "CCCCC", " CCC "],
-    ["     ", " DDD ", " DBD ", " DDD ", "     "],
-    ["     ", " AAA ", " ABA ", " AAA ", "     "],
-    ["     ", " AAA ", " ABA ", " AAA ", "     "],
-    ["     ", " AAA ", " ABA ", " AAA ", "     "],
-    ["     ", " AAA ", " ABA ", " AAA ", "     "],
-    ["     ", " DDD ", " DBD ", " DDD ", "     "],
-    [" CCC ", "CCCCC", "CCCCC", "CCCCC", " CCC "]
+    [" A~A ", "AAAAA", "AAAAA", "AAAAA", " AAA "],
+    ["     ", " BBB ", " BCB ", " BBB ", "     "],
+    ["     ", " DDD ", " DCD ", " DDD ", "     "],
+    ["     ", " DDD ", " DCD ", " DDD ", "     "],
+    ["     ", " DDD ", " DCD ", " DDD ", "     "],
+    ["     ", " DDD ", " DCD ", " DDD ", "     "],
+    ["     ", " BBB ", " BCB ", " BBB ", "     "],
+    [" AAA ", "AAAAA", "AAAAA", "AAAAA", " AAA "]
   ],
   "legend": {
-    "C": {
-      "blockId": "gt.casing.chemicallyInert",
+    "A": {
+      "blockId": "gregtech:gt.blockcasings8@0",
       "hatches": ["itemIn", "itemOut", "fluidIn", "energy", "maintenance"]
     },
-    "D": {
-      "blockId": "gt.frame.polyvinylChloride"
-    },
-    "A": {
-      "blockId": "gt.glass.reinforced"
-    },
-    "B": {
-      "blockId": "gt.casing.itemPipeTin"
-    }
+    "B": { "blockId": "gregtech:gt.blockframes@649" },
+    "C": { "blockId": "gregtech:gt.blockcasings11@0" },
+    "D": { "blockId": "bartworks:BW_TieredGlass@0" }
   },
-  "controller": {
-    "pos": [2, 0, 0],
-    "facing": "north",
-    "blockId": "gt5u.controller.lATEX"
-  },
+  "controller": { "pos": [2, 0, 0], "facing": "north", "blockId": "gregtech:gt.blockmachines@15752" },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",
     "itemOut": "gt.hatch.outputBus",
@@ -42,16 +32,8 @@
     "maintenance": "gt.hatch.maintenance"
   },
   "shareableHatches": ["itemIn", "itemOut", "fluidIn"],
-  "requiredHatches": {
-    "energy": {
-      "min": 1
-    },
-    "maintenance": {
-      "min": 1,
-      "max": 1
-    }
-  },
+  "requiredHatches": { "energy": { "min": 1 }, "maintenance": { "min": 1, "max": 1 } },
   "defaultHatches": ["itemIn", "itemOut", "energy", "maintenance"],
   "wallshare": true,
-  "notes": "Generated from MTELatex (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+  "notes": "Built by the game itself: MTELatex (GT5-Unofficial 5.09.54.133) placed every block with the hologram's construct() (tools/game-dump). Hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows); check the tooltip in game."
 }

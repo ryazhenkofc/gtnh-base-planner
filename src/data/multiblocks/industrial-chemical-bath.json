@@ -5,34 +5,23 @@
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTEIndustrialChemicalBath.java",
   "size": [5, 4, 5],
   "layers": [
-    ["AEEEA", "EEEEE", "EEEEE", "EEEEE", "AEEEA"],
-    ["AE~EA", "E-D-E", "E---E", "E-C-E", "AEEEA"],
-    ["AEEEA", "E-D-E", "E---E", "E-C-E", "AEEEA"],
-    ["AABAA", "  B  ", "     ", "  B  ", "AABAA"]
+    ["ABBBA", "BBBBB", "BBBBB", "BBBBB", "ABBBA"],
+    ["AB~BA", "BCDCB", "BCCCB", "BCECB", "ABBBA"],
+    ["ABBBA", "BCDCB", "BCCCB", "BCECB", "ABBBA"],
+    ["AAFAA", "  F  ", "     ", "  F  ", "AAFAA"]
   ],
   "legend": {
-    "A": {
-      "blockId": "gt.frame.aquaticSteel"
-    },
+    "A": { "blockId": "miscutils:blockFrameGtWatertightSteel@0" },
     "B": {
-      "blockId": "gt.casing.chemicallyInert"
-    },
-    "E": {
-      "blockId": "gt5u.blockCasings2Misc.4",
+      "blockId": "miscutils:gtplusplus.blockcasings.2@4",
       "hatches": ["itemIn", "itemOut", "fluidIn", "fluidOut", "energy", "maintenance", "muffler"]
     },
-    "D": {
-      "blockId": "gt5u.sBlockMetal8.6"
-    },
-    "C": {
-      "blockId": "gt5u.sBlockMetal2.7"
-    }
+    "C": { "blockId": "minecraft:water@0" },
+    "D": { "blockId": "gregtech:gt.blockmetal8@6" },
+    "E": { "blockId": "gregtech:gt.blockmetal2@7" },
+    "F": { "blockId": "gregtech:gt.blockcasings8@0" }
   },
-  "controller": {
-    "pos": [2, 1, 0],
-    "facing": "north",
-    "blockId": "gt5u.controller.industrialChemicalBath"
-  },
+  "controller": { "pos": [2, 1, 0], "facing": "north", "blockId": "gregtech:gt.blockmachines@15551" },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",
     "itemOut": "gt.hatch.outputBus",
@@ -44,19 +33,11 @@
   },
   "shareableHatches": ["itemIn", "itemOut", "fluidIn", "fluidOut"],
   "requiredHatches": {
-    "energy": {
-      "min": 1
-    },
-    "maintenance": {
-      "min": 1,
-      "max": 1
-    },
-    "muffler": {
-      "min": 1,
-      "max": 1
-    }
+    "energy": { "min": 1 },
+    "maintenance": { "min": 1, "max": 1 },
+    "muffler": { "min": 1, "max": 1 }
   },
   "defaultHatches": ["itemIn", "itemOut", "energy", "maintenance", "muffler"],
   "wallshare": true,
-  "notes": "Generated from MTEIndustrialChemicalBath (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+  "notes": "Built by the game itself: MTEIndustrialChemicalBath (GT5-Unofficial 5.09.54.133) placed every block with the hologram's construct() (tools/game-dump). Hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows); check the tooltip in game."
 }

@@ -1,46 +1,209 @@
 {
   "id": "void-miners",
-  "name": "Void Miners",
+  "name": "Void Miner III",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/bwcrossmod/galacticgreg/MTEVoidMiners.java",
-  "size": [7, 9, 7],
+  "size": [9, 16, 9],
   "layers": [
-    ["  E E  ", " BBBBB ", "EB   BE", " B C B ", "EB   BE", " BBBBB ", "  E E  "],
-    ["  D D  ", " BA~AB ", " A   A ", " B C B ", " A   A ", " BABAB ", "       "],
-    ["       ", " B   B ", "  DAD  ", "  ACA  ", "  DAD  ", " B   B ", "       "],
-    ["       ", "       ", "   B   ", "  BCB  ", "   B   ", "       ", "       "],
-    ["       ", "       ", "   B   ", "  BCB  ", "   B   ", "       ", "       "],
-    ["       ", "       ", "   B   ", "  BCB  ", "   B   ", "       ", "       "],
-    ["       ", "       ", "       ", "   B   ", "       ", "       ", "       "],
-    ["       ", "       ", "       ", "   B   ", "       ", "       ", "       "],
-    ["       ", "       ", "       ", "   B   ", "       ", "       ", "       "]
+    [
+      "   A A   ",
+      "  B   B  ",
+      " BBBBBBB ",
+      "A B   B A",
+      "  B C B  ",
+      "A B   B A",
+      " BBBBBBB ",
+      "  B   B  ",
+      "   A A   "
+    ],
+    [
+      "   A A   ",
+      "         ",
+      "  BDDDB  ",
+      "A D   D A",
+      "  D C D  ",
+      "A D   D A",
+      "  BDDDB  ",
+      "         ",
+      "   A A   "
+    ],
+    [
+      "   E E   ",
+      "   D D   ",
+      "  BD~DB  ",
+      "EDD   DDE",
+      "  D C D  ",
+      "EDD   DDE",
+      "  BDDDB  ",
+      "   D D   ",
+      "   E E   "
+    ],
+    [
+      "         ",
+      "         ",
+      "  BEEEB  ",
+      "  EFFFE  ",
+      "  EFCFE  ",
+      "  EFFFE  ",
+      "  BEEEB  ",
+      "         ",
+      "         "
+    ],
+    [
+      "         ",
+      "         ",
+      "  B   B  ",
+      "   CCC   ",
+      "   CCC   ",
+      "   CCC   ",
+      "  B   B  ",
+      "         ",
+      "         "
+    ],
+    [
+      "         ",
+      "         ",
+      "         ",
+      "   CBC   ",
+      "   BCB   ",
+      "   CBC   ",
+      "         ",
+      "         ",
+      "         "
+    ],
+    [
+      "         ",
+      "         ",
+      "         ",
+      "   CBC   ",
+      "   BCB   ",
+      "   CBC   ",
+      "         ",
+      "         ",
+      "         "
+    ],
+    [
+      "         ",
+      "         ",
+      "         ",
+      "   CBC   ",
+      "   BCB   ",
+      "   CBC   ",
+      "         ",
+      "         ",
+      "         "
+    ],
+    [
+      "         ",
+      "         ",
+      "         ",
+      "   CBC   ",
+      "   BCB   ",
+      "   CBC   ",
+      "         ",
+      "         ",
+      "         "
+    ],
+    [
+      "         ",
+      "         ",
+      "         ",
+      "    B    ",
+      "   BCB   ",
+      "    B    ",
+      "         ",
+      "         ",
+      "         "
+    ],
+    [
+      "         ",
+      "         ",
+      "         ",
+      "    B    ",
+      "   BCB   ",
+      "    B    ",
+      "         ",
+      "         ",
+      "         "
+    ],
+    [
+      "         ",
+      "         ",
+      "         ",
+      "    B    ",
+      "   BCB   ",
+      "    B    ",
+      "         ",
+      "         ",
+      "         "
+    ],
+    [
+      "         ",
+      "         ",
+      "         ",
+      "         ",
+      "    B    ",
+      "         ",
+      "         ",
+      "         ",
+      "         "
+    ],
+    [
+      "         ",
+      "         ",
+      "         ",
+      "         ",
+      "    B    ",
+      "         ",
+      "         ",
+      "         ",
+      "         "
+    ],
+    [
+      "         ",
+      "         ",
+      "         ",
+      "         ",
+      "    B    ",
+      "         ",
+      "         ",
+      "         ",
+      "         "
+    ],
+    [
+      "         ",
+      "         ",
+      "         ",
+      "         ",
+      "    B    ",
+      "         ",
+      "         ",
+      "         ",
+      "         "
+    ]
   ],
   "legend": {
-    "B": {
-      "blockId": "gt5u.gtBlockcasings8.2"
-    },
-    "C": {
-      "blockId": "gt.frame.adamantium"
-    },
-    "D": {
-      "blockId": "gt5u.bWBlockCasingsAdvanced.31850"
-    },
     "A": {
-      "blockId": "gt5u.gtBlockcasings11.7"
+      "blockId": "gregtech:gt.blockcasings8@2",
+      "hatches": ["itemIn", "itemOut", "fluidIn", "energy", "maintenance"]
     },
-    "E": {
-      "blockId": "gt5u.bWBlockCasings.31850"
-    }
+    "B": { "blockId": "gregtech:gt.blockframes@319" },
+    "C": { "blockId": "bartworks:bw.werkstoffblockscasingadvanced.01@31850" },
+    "D": { "blockId": "gregtech:gt.blockcasings8@2" },
+    "E": { "blockId": "bartworks:bw.werkstoffblockscasing.01@31850" },
+    "F": { "blockId": "gregtech:gt.blockcasings11@7" }
   },
-  "controller": {
-    "pos": [3, 1, 1],
-    "facing": "north",
-    "blockId": "gt5u.controller.voidMiners"
+  "controller": { "pos": [4, 2, 2], "facing": "north", "blockId": "gregtech:gt.blockmachines@12739" },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus",
+    "itemOut": "gt.hatch.outputBus",
+    "fluidIn": "gt.hatch.inputHatch",
+    "energy": "gt.hatch.energy",
+    "maintenance": "gt.hatch.maintenance"
   },
-  "hatchBlocks": {},
-  "shareableHatches": [],
-  "requiredHatches": {},
-  "defaultHatches": [],
+  "shareableHatches": ["itemIn", "itemOut", "fluidIn"],
+  "requiredHatches": { "energy": { "min": 1 }, "maintenance": { "min": 1, "max": 1 } },
+  "defaultHatches": ["itemIn", "itemOut", "energy", "maintenance"],
   "wallshare": true,
-  "notes": "Generated from MTEVoidMiners (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+  "notes": "Built by the game itself: VMUV (GT5-Unofficial 5.09.54.133) placed every block with the hologram's construct() (tools/game-dump). Hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows); check the tooltip in game."
 }

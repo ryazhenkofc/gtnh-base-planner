@@ -91,6 +91,8 @@ describe('buildSceneModel', () => {
       unitIds: [1, 2],
     });
     expect(map.get('4,1,1')).toMatchObject({ kind: 'hatch', hatchKind: 'fluidOut', facing: 'east' });
+    // A hatch keeps the casing it replaces, for DETAILED view.
+    expect(map.get('2,2,1')!.baseBlockId).toBe('gt.cokeOvenBrick');
     expect(m.hatches).toBe(hatches);
     expect(m.pipes).toBe(pipes);
     expect(m.voxels.filter((v) => v.kind === 'hatch')).toHaveLength(2);

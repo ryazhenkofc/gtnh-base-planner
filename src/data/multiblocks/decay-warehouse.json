@@ -1,0 +1,33 @@
+{
+  "id": "decay-warehouse",
+  "name": "Decay Warehouse",
+  "generated": true,
+  "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTEDecayWarehouse.java",
+  "size": [5, 3, 5],
+  "layers": [
+    ["AAAAA", "AAAAA", "AAAAA", "AAAAA", "AAAAA"],
+    ["AA~AA", "ABCBA", "ABDCA", "ABBBA", "AAAAA"],
+    ["AAAAA", "ABBBA", "ABCBA", "ABBBA", "AAAAA"]
+  ],
+  "legend": {
+    "A": {
+      "blockId": "gregtech:gt.blockcasings3@12",
+      "hatches": ["itemIn", "itemOut", "energy", "maintenance"]
+    },
+    "B": { "blockId": "minecraft:water@0" },
+    "C": { "blockId": "minecraft:flowing_water@0" },
+    "D": { "blockId": "gt.hatch.special" }
+  },
+  "controller": { "pos": [2, 1, 0], "facing": "north", "blockId": "gregtech:gt.blockmachines@15751" },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus",
+    "itemOut": "gt.hatch.outputBus",
+    "energy": "gt.hatch.energy",
+    "maintenance": "gt.hatch.maintenance"
+  },
+  "shareableHatches": ["itemIn", "itemOut"],
+  "requiredHatches": { "energy": { "min": 1 }, "maintenance": { "min": 1, "max": 1 } },
+  "defaultHatches": ["itemIn", "itemOut", "energy", "maintenance"],
+  "wallshare": true,
+  "notes": "Built by the game itself: MTEDecayWarehouse (GT5-Unofficial 5.09.54.133) placed every block with the hologram's construct() (tools/game-dump). Hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows); check the tooltip in game."
+}

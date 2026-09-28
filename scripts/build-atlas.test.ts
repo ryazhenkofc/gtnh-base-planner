@@ -101,9 +101,12 @@ describe('committed atlas', () => {
   it('credits every texture file in ATTRIBUTION.md', () => {
     const attribution = readFileSync(join(ROOT, 'ATTRIBUTION.md'), 'utf8');
     expect(attribution).toContain('LGPL-3.0');
-    for (const name of Object.keys(TILES)) {
+    for (const [name, tile] of Object.entries(TILES)) {
       expect(existsSync(join(SRC, `${name}.png`)), name).toBe(true);
-      expect(attribution, name).toContain(tileSourcePath(name));
+      // A composited tile (tools/game-dump) credits every sprite it is made from.
+      const sources = tile.from ? tile.from.map((p) => `src/main/resources/${p}`) : [tileSourcePath(name)];
+      expect(sources.length, name).toBeGreaterThan(0);
+      for (const s of sources) expect(attribution, name).toContain(s);
     }
   });
 });

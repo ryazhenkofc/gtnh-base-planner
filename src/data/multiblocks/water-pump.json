@@ -5,31 +5,19 @@
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/steam/MTESteamWaterPump.java",
   "size": [3, 3, 4],
   "layers": [
-    ["C~C", "CCC", "CCC", "CCC"],
-    [" A ", "   ", "A A", " A "],
-    [" A ", " A ", "AAA", " A "]
+    ["A~A", "AAA", "AAA", "AAA"],
+    [" B ", "   ", "B B", " B "],
+    [" B ", " B ", "BBB", " B "]
   ],
   "legend": {
-    "A": {
-      "blockId": "gt.frame.bronze"
-    },
-    "C": {
-      "blockId": "gt5u.gtBlockcasings9.2",
-      "hatches": ["fluidOut", "steamIn"]
-    }
+    "A": { "blockId": "gregtech:gt.blockcasings9@2", "hatches": ["fluidOut"] },
+    "B": { "blockId": "gregtech:gt.blockframes@300" }
   },
-  "controller": {
-    "pos": [1, 0, 0],
-    "facing": "north",
-    "blockId": "gt5u.controller.waterPump"
-  },
-  "hatchBlocks": {
-    "fluidOut": "gt.hatch.outputHatch",
-    "steamIn": "gt.hatch.steamInput"
-  },
-  "shareableHatches": ["fluidOut", "steamIn"],
+  "controller": { "pos": [1, 0, 0], "facing": "north", "blockId": "gregtech:gt.blockmachines@31085" },
+  "hatchBlocks": { "fluidOut": "gt.hatch.outputHatch" },
+  "shareableHatches": ["fluidOut"],
   "requiredHatches": {},
-  "defaultHatches": ["fluidOut", "steamIn"],
+  "defaultHatches": ["fluidOut"],
   "wallshare": true,
-  "notes": "Generated from MTESteamWaterPump (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+  "notes": "Built by the game itself: MTESteamWaterPump (GT5-Unofficial 5.09.54.133) placed every block with the hologram's construct() (tools/game-dump). Hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows); check the tooltip in game."
 }

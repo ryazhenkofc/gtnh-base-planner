@@ -15,6 +15,11 @@ export interface Voxel {
   /** Controller front / hatch face. */
   facing?: Dir;
   hatchKind?: HatchKind;
+  /**
+   * Hatches: the casing the hatch takes the place of. In game a hatch built into a multiblock shows that casing
+   * with its own overlay on the front, so DETAILED view draws it that way.
+   */
+  baseBlockId?: string;
   conflict?: boolean;
 }
 

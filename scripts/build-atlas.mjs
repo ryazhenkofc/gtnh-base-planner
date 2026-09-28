@@ -13,8 +13,8 @@
  *   src/render/textures.json   — tile rects + blockId → faces mapping + hatch overlays
  *
  * Adding a block: map its id in HAND_BLOCK_MAP (tile names are keys of HAND_TILES) and rerun the script.
- * Blocks of the generated catalog entries come from tools/gt-source/textures.generated.json (written by
- * tools/gt-source/generate.mjs together with their source files) and are merged into TILES / BLOCK_MAP.
+ * Blocks of the generated catalog entries come from tools/game-dump/textures.generated.json (written by
+ * tools/game-dump/build.mjs together with their face tiles) and are merged into TILES / BLOCK_MAP.
  * Ids from src/data/blocks.ts and src/data/blocks.generated.json that are not mapped get `{ "flat": true }`
  * (flat colour in DETAILED view).
  */
@@ -30,7 +30,7 @@ const ATLAS_PNG = join(ROOT, 'public/textures/atlas.png');
 const TEXTURES_JSON = join(ROOT, 'src/render/textures.json');
 const BLOCKS_TS = join(ROOT, 'src/data/blocks.ts');
 const BLOCKS_GENERATED = join(ROOT, 'src/data/blocks.generated.json');
-const TEXTURES_GENERATED = join(ROOT, 'tools/gt-source/textures.generated.json');
+const TEXTURES_GENERATED = join(ROOT, 'tools/game-dump/textures.generated.json');
 
 export const REPO = 'GTNewHorizons/GT5-Unofficial';
 export const ICONSETS = 'src/main/resources/assets/gregtech/textures/blocks/iconsets';

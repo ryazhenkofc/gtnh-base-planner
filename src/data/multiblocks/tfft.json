@@ -5,37 +5,23 @@
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/kekztech/common/tileentities/MTETankTFFT.java",
   "size": [5, 5, 5],
   "layers": [
-    ["ccccc", "gGGGg", "gGGGg", "gGGGg", "ccccc"],
-    ["cCCCc", "GfffG", "GfffG", "GfffG", "cCCCc"],
-    ["cC~Cc", "GfffG", "GfffG", "GfffG", "cCCCc"],
-    ["cCCCc", "GfffG", "GfffG", "GfffG", "cCCCc"],
-    ["ccccc", "gGGGg", "gGGGg", "gGGGg", "ccccc"]
+    ["AAAAA", "BCCCB", "BCCCB", "BCCCB", "AAAAA"],
+    ["ADDDA", "CEEEC", "CEEEC", "CEEEC", "ADDDA"],
+    ["AD~DA", "CEEEC", "CEEEC", "CEEEC", "ADDDA"],
+    ["ADDDA", "CEEEC", "CEEEC", "CEEEC", "ADDDA"],
+    ["AAAAA", "BCCCB", "BCCCB", "BCCCB", "AAAAA"]
   ],
   "legend": {
-    "c": {
-      "blockId": "ext.tFFTFIELD",
-      "hatches": ["energy", "maintenance"]
-    },
-    "C": {
-      "blockId": "ext.tFFTFIELD",
+    "A": { "blockId": "kekztech:kekztech_tfftstoragefield_block@0", "hatches": ["energy", "maintenance"] },
+    "B": { "blockId": "bartworks:BW_TieredGlass@0" },
+    "C": { "blockId": "bartworks:BW_TieredGlass@0", "hatches": ["fluidIn", "fluidOut"] },
+    "D": {
+      "blockId": "kekztech:kekztech_tfftstoragefield_block@0",
       "hatches": ["fluidIn", "fluidOut", "energy", "maintenance"]
     },
-    "g": {
-      "blockId": "gt.glass.reinforced"
-    },
-    "G": {
-      "blockId": "gt.glass.reinforced",
-      "hatches": ["fluidIn", "fluidOut"]
-    },
-    "f": {
-      "blockId": "gt5u.tieredCasing"
-    }
+    "E": { "blockId": "kekztech:kekztech_tfftstoragefield_block@1" }
   },
-  "controller": {
-    "pos": [2, 2, 0],
-    "facing": "north",
-    "blockId": "gt5u.controller.tfft"
-  },
+  "controller": { "pos": [2, 2, 0], "facing": "north", "blockId": "gregtech:gt.blockmachines@13104" },
   "hatchBlocks": {
     "fluidIn": "gt.hatch.inputHatch",
     "fluidOut": "gt.hatch.outputHatch",
@@ -43,16 +29,8 @@
     "maintenance": "gt.hatch.maintenance"
   },
   "shareableHatches": ["fluidIn", "fluidOut"],
-  "requiredHatches": {
-    "energy": {
-      "min": 1
-    },
-    "maintenance": {
-      "min": 1,
-      "max": 1
-    }
-  },
+  "requiredHatches": { "energy": { "min": 1 }, "maintenance": { "min": 1, "max": 1 } },
   "defaultHatches": ["fluidIn", "fluidOut", "energy", "maintenance"],
   "wallshare": true,
-  "notes": "Generated from MTETankTFFT (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+  "notes": "Built by the game itself: MTETankTFFT (GT5-Unofficial 5.09.54.133) placed every block with the hologram's construct() (tools/game-dump). Hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows); check the tooltip in game."
 }

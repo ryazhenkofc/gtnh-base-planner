@@ -32,7 +32,9 @@ for (const f of readdirSync(dir).sort()) {
   ];
   for (const t of found.flatMap((s) => s.split(','))) {
     const k = t.trim().toLowerCase();
-    if (!k) continue;
+    // The Bose-Einstein Condensate machines name the hatches they act as ("Input Bus", "Storage Bus"): not
+    // recipe types.
+    if (!k || /\b(?:bus|hatch)$/.test(k)) continue;
     if (!byType.has(k)) byType.set(k, new Set());
     byType.get(k).add(def.id);
   }

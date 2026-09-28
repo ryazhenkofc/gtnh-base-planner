@@ -8,216 +8,204 @@
     [
       "                           ",
       "          AAAAAAA          ",
-      "          CCCCCCC          ",
+      "          BBBBBBB          ",
       "          AAAAAAA          ",
       "                           "
     ],
     [
       "          AAAAAAA          ",
-      "        AACCCCCCCAA        ",
-      "        CCBBBBBBBCC        ",
-      "        AACCCCCCCAA        ",
+      "        AABBBBBBBAA        ",
+      "        BBCCCCCCCBB        ",
+      "        AABBBBBBBAA        ",
       "          AAAAAAA          "
     ],
     [
       "        AA       AA        ",
-      "      AACCEAAAAAECCAA      ",
-      "      CCBBAAABAAABBCC      ",
-      "      AACCEAAAAAECCAA      ",
+      "      AABBDAAAAADBBAA      ",
+      "      BBCCAAACAAACCBB      ",
+      "      AABBDAAAAADBBAA      ",
       "        AA       AA        "
     ],
     [
       "      AA           AA      ",
-      "     ACCEE   A   EECCA     ",
-      "     CBBEE FAFAF EEBBC     ",
-      "     ACCEE   A   EECCA     ",
+      "     ABBDD   A   DDBBA     ",
+      "     BCCDD EAEAE DDCCB     ",
+      "     ABBDD   A   DDBBA     ",
       "      AA           AA      "
     ],
     [
       "     A               A     ",
-      "    AFEE     A     EEFA    ",
-      "    CBEE   FAFAF   EEBC    ",
-      "    AFEE     A     EEFA    ",
+      "    AEDD     A     DDEA    ",
+      "    BCDD   EAEAE   DDCB    ",
+      "    AEDD     A     DDEA    ",
       "     A               A     "
     ],
     [
       "    A                 A    ",
-      "   AFE               EFA   ",
-      "   CBE     F A F     EBC   ",
-      "   AFE               EFA   ",
+      "   AED               DEA   ",
+      "   BCD     E A E     DCB   ",
+      "   AED               DEA   ",
       "    A                 A    "
     ],
     [
       "   A                   A   ",
-      "  ACE                 ECA  ",
-      "  CBE        A        EBC  ",
-      "  ACE                 ECA  ",
+      "  ABD                 DBA  ",
+      "  BCD        A        DCB  ",
+      "  ABD                 DBA  ",
       "   A                   A   "
     ],
     [
       "   A                   A   ",
-      "  ACE                 ECA  ",
-      "  CBE        A        EBC  ",
-      "  ACE                 ECA  ",
+      "  ABD                 DBA  ",
+      "  BCD        A        DCB  ",
+      "  ABD                 DBA  ",
       "   A                   A   "
     ],
     [
       "  A                     A  ",
-      " ACE                   ECA ",
-      " CBE         A         EBC ",
-      " ACE                   ECA ",
+      " ABD                   DBA ",
+      " BCD         A         DCB ",
+      " ABD                   DBA ",
       "  A                     A  "
     ],
     [
       "  A                     A  ",
-      " ACE         A         ECA ",
-      " CBE        AFA        EBC ",
-      " ACE         A         ECA ",
+      " ABD         A         DBA ",
+      " BCD        AEA        DCB ",
+      " ABD         A         DBA ",
       "  A                     A  "
     ],
     [
       " A           A           A ",
-      "ACE         A A         ECA",
-      "CBA        AF FA        ABC",
-      "ACE         A A         ECA",
+      "ABD         A-A         DBA",
+      "BCA        AE-EA        ACB",
+      "ABD         A-A         DBA",
       " A           A           A "
     ],
     [
       " A          AAA          A ",
-      "ACA        A   A        ACA",
-      "CBAFFF    AF   FA    FFFABC",
-      "ACA        A   A        ACA",
+      "ABA        A---A        ABA",
+      "BCAEEE    AE---EA    EEEACB",
+      "ABA        A---A        ABA",
       " A          AAA          A "
     ],
     [
       " A         AAAAA         A ",
-      "ACA       A     A       ACA",
-      "CBAAA    AF     FA    AAABC",
-      "ACA       A     A       ACA",
+      "ABA       A-----A       ABA",
+      "BCAAA    AE-----EA    AAACB",
+      "ABA       A-----A       ABA",
       " A         AAAAA         A "
     ],
     [
       " A        AAA~AAA        A ",
-      "ACAAA    A       A    AAACA",
-      "CBBFFAAAAF       FAAAAFFBBC",
-      "ACAAA    A       A    AAACA",
+      "ABAAA    A-------A    AAABA",
+      "BCCEEAAAAE-------EAAAAEECCB",
+      "ABAAA    A-------A    AAABA",
       " A        AAAAAAA        A "
     ],
     [
       " A         AAAAA         A ",
-      "ACA       A     A       ACA",
-      "CBAAA    AF     FA    AAABC",
-      "ACA       A     A       ACA",
+      "ABA       A-----A       ABA",
+      "BCAAA    AE-----EA    AAACB",
+      "ABA       A-----A       ABA",
       " A         AAAAA         A "
     ],
     [
       " A          AAA          A ",
-      "ACA        A   A        ACA",
-      "CBAFFF    AF   FA    FFFABC",
-      "ACA        A   A        ACA",
+      "ABA        A---A        ABA",
+      "BCAEEE    AE---EA    EEEACB",
+      "ABA        A---A        ABA",
       " A          AAA          A "
     ],
     [
       " A           A           A ",
-      "ACE         A A         ECA",
-      "CBA        AF FA        ABC",
-      "ACE         A A         ECA",
+      "ABD         A-A         DBA",
+      "BCA        AE-EA        ACB",
+      "ABD         A-A         DBA",
       " A           A           A "
     ],
     [
       "  A                     A  ",
-      " ACE         A         ECA ",
-      " CBE        AFA        EBC ",
-      " ACE         A         ECA ",
+      " ABD         A         DBA ",
+      " BCD        AEA        DCB ",
+      " ABD         A         DBA ",
       "  A                     A  "
     ],
     [
       "  A                     A  ",
-      " ACE                   ECA ",
-      " CBE         A         EBC ",
-      " ACE                   ECA ",
+      " ABD                   DBA ",
+      " BCD         A         DCB ",
+      " ABD                   DBA ",
       "  A                     A  "
     ],
     [
       "   A                   A   ",
-      "  ACE                 ECA  ",
-      "  CBE        A        EBC  ",
-      "  ACE                 ECA  ",
+      "  ABD                 DBA  ",
+      "  BCD        A        DCB  ",
+      "  ABD                 DBA  ",
       "   A                   A   "
     ],
     [
       "   A                   A   ",
-      "  ACE                 ECA  ",
-      "  CBE        A        EBC  ",
-      "  ACE                 ECA  ",
+      "  ABD                 DBA  ",
+      "  BCD        A        DCB  ",
+      "  ABD                 DBA  ",
       "   A                   A   "
     ],
     [
       "    A                 A    ",
-      "   AFE               EFA   ",
-      "   CBE     F A F     EBC   ",
-      "   AFE               EFA   ",
+      "   AED               DEA   ",
+      "   BCD     E A E     DCB   ",
+      "   AED               DEA   ",
       "    A                 A    "
     ],
     [
       "     A               A     ",
-      "    AFEE     A     EEFA    ",
-      "    CBEE   FAFAF   EEBC    ",
-      "    AFEE     A     EEFA    ",
+      "    AEDD     A     DDEA    ",
+      "    BCDD   EAEAE   DDCB    ",
+      "    AEDD     A     DDEA    ",
       "     A               A     "
     ],
     [
       "      AA           AA      ",
-      "     ACCEE   A   EECCA     ",
-      "     CBBEE FAFAF EEBBC     ",
-      "     ACCEE   A   EECCA     ",
+      "     ABBDD   A   DDBBA     ",
+      "     BCCDD EAEAE DDCCB     ",
+      "     ABBDD   A   DDBBA     ",
       "      AA           AA      "
     ],
     [
       "        AA       AA        ",
-      "      AACCEAAAAAECCAA      ",
-      "      CCBBAAABAAABBCC      ",
-      "      AACCEAAAAAECCAA      ",
+      "      AABBDAAAAADBBAA      ",
+      "      BBCCAAACAAACCBB      ",
+      "      AABBDAAAAADBBAA      ",
       "        AA       AA        "
     ],
     [
       "          AAAAAAA          ",
-      "        AACCCCCCCAA        ",
-      "        CCBBBBBBBCC        ",
-      "        AACCCCCCCAA        ",
+      "        AABBBBBBBAA        ",
+      "        BBCCCCCCCBB        ",
+      "        AABBBBBBBAA        ",
       "          AAAAAAA          "
     ],
     [
       "                           ",
       "          AAAAAAA          ",
-      "          CCCCCCC          ",
+      "          BBBBBBB          ",
       "          AAAAAAA          ",
       "                           "
     ]
   ],
   "legend": {
     "A": {
-      "blockId": "gt5u.fRFCasings.0",
+      "blockId": "GoodGenerator:FRF_Casings@0",
       "hatches": ["itemIn", "fluidIn", "fluidOut", "energy", "dynamo", "maintenance"]
     },
-    "C": {
-      "blockId": "gt5u.fieldRestrictingGlass.0"
-    },
-    "E": {
-      "blockId": "gt5u.gtBlockcasings8.5"
-    },
-    "F": {
-      "blockId": "gt5u.radiationProtectionSteelFrame.0"
-    },
-    "B": {
-      "blockId": "gt.coil.cupronickel"
-    }
+    "B": { "blockId": "GoodGenerator:fieldRestrictingGlass@0" },
+    "C": { "blockId": "GoodGenerator:FRF_Coil_1@0" },
+    "D": { "blockId": "gregtech:gt.blockcasings8@5" },
+    "E": { "blockId": "GoodGenerator:radiationProtectionSteelFrame@0" }
   },
-  "controller": {
-    "pos": [13, 13, 0],
-    "facing": "north",
-    "blockId": "gt5u.controller.naquadahFuelRefinery"
-  },
+  "controller": { "pos": [13, 13, 0], "facing": "north", "blockId": "gregtech:gt.blockmachines@15536" },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",
     "fluidIn": "gt.hatch.inputHatch",
@@ -227,16 +215,8 @@
     "maintenance": "gt.hatch.maintenance"
   },
   "shareableHatches": ["itemIn", "fluidIn", "fluidOut"],
-  "requiredHatches": {
-    "dynamo": {
-      "min": 1
-    },
-    "maintenance": {
-      "min": 1,
-      "max": 1
-    }
-  },
+  "requiredHatches": { "dynamo": { "min": 1 }, "maintenance": { "min": 1, "max": 1 } },
   "defaultHatches": ["itemIn", "energy", "dynamo", "maintenance"],
   "wallshare": true,
-  "notes": "Generated from MTENaquadahFuelRefinery (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+  "notes": "Machine-specific hatches (LaserSource) are shown as their cells only. Built by the game itself: MTENaquadahFuelRefinery (GT5-Unofficial 5.09.54.133) placed every block with the hologram's construct() (tools/game-dump). Hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows); check the tooltip in game."
 }

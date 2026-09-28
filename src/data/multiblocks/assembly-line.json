@@ -5,9 +5,9 @@
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTEAssemblyLine.java",
   "size": [5, 4, 3],
   "layers": [
-    ["bbbbB", "iiiii", "bbbbB"],
+    ["Bbbbb", "iiiii", "Bbbbb"],
     ["ggggg", "mmmmm", "ggggg"],
-    ["~dddd", "lllll", "Gdddd"],
+    ["dddd~", "lllll", "ddddG"],
     ["     ", "eeeee", "     "]
   ],
   "legend": {
@@ -30,7 +30,7 @@
       "blockId": "gt.casing.solidSteel",
       "hatches": ["energy"],
       "disallowFaces": {
-        "energy": ["east", "west", "down"]
+        "energy": ["west", "east", "down"]
       }
     },
     "b": {
@@ -46,7 +46,7 @@
     }
   },
   "controller": {
-    "pos": [0, 2, 0],
+    "pos": [4, 2, 0],
     "facing": "north",
     "blockId": "gt.controller"
   },
@@ -73,8 +73,8 @@
   "wallshare": true,
   "resize": {
     "axis": "x",
-    "from": 3,
-    "to": 4,
+    "from": 1,
+    "to": 2,
     "min": 5,
     "max": 16,
     "default": 16,

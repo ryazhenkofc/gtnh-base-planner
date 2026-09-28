@@ -7,6 +7,8 @@ export interface RgbaImage {
 export interface TileOptions {
   path?: string;
   tint?: readonly [number, number, number] | number[];
+  /** Composited tiles (tools/game-dump): the jar paths of the sprites they are made from. */
+  from?: string[];
 }
 
 export interface Faces {

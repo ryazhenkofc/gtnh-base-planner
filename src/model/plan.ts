@@ -20,7 +20,7 @@ export interface ResolvedLayout {
 }
 
 /** How many alternative layouts to try before settling for the one with the fewest unplaced hatches. */
-export const MAX_LAYOUT_TRIES = 24;
+export const MAX_LAYOUT_TRIES = 96;
 
 /**
  * Pick the most compact layout on which every enabled hatch can be placed.

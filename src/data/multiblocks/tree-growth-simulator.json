@@ -5,40 +5,26 @@
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTETreeFarm.java",
   "size": [7, 7, 7],
   "layers": [
-    ["CCC~CCC", "CCCCCCC", "CCCCCCC", "CCCCCCC", "CCCCCCC", "CCCCCCC", "CCCCCCC"],
-    ["CABBBAC", "ADDDDDA", "BDDDDDB", "BDDDDDB", "BDDDDDB", "ADDDDDA", "CABBBAC"],
-    ["CABBBAC", "A     A", "B     B", "B  G  B", "B     B", "A     A", "CABBBAC"],
-    ["CABBBAC", "A     A", "B     B", "B  G  B", "B     B", "A     A", "CABBBAC"],
-    [" ABBBA ", "A     A", "B  F  B", "B FGF B", "B  F  B", "A     A", " ABBBA "],
-    ["  AAA  ", " A   A ", "A     A", "A  F  A", "A     A", " A   A ", "  AAA  "],
-    ["       ", "  AAA  ", " ABBBA ", " ABBBA ", " ABBBA ", "  AAA  ", "       "]
+    ["AAA~AAA", "AAAAAAA", "AAAAAAA", "AAAAAAA", "AAAAAAA", "AAAAAAA", "AAAAAAA"],
+    ["ABCCCBA", "BDDDDDB", "CDDDDDC", "CDDDDDC", "CDDDDDC", "BDDDDDB", "ABCCCBA"],
+    ["ABCCCBA", "B-----B", "C-----C", "C--E--C", "C-----C", "B-----B", "ABCCCBA"],
+    ["ABCCCBA", "B-----B", "C-----C", "C--E--C", "C-----C", "B-----B", "ABCCCBA"],
+    [" BCCCB ", "B-----B", "C--F--C", "C-FEF-C", "C--F--C", "B-----B", " BCCCB "],
+    ["  BBB  ", " B---B ", "B-----B", "B--F--B", "B-----B", " B---B ", "  BBB  "],
+    ["       ", "  BBB  ", " BCCCB ", " BCCCB ", " BCCCB ", "  BBB  ", "       "]
   ],
   "legend": {
     "A": {
-      "blockId": "gt.frame.steel"
-    },
-    "B": {
-      "blockId": "gt.glass.reinforced"
-    },
-    "C": {
-      "blockId": "gt5u.blockCasings2Misc.15",
+      "blockId": "miscutils:gtplusplus.blockcasings.2@15",
       "hatches": ["itemIn", "itemOut", "energy", "maintenance", "muffler"]
     },
-    "D": {
-      "blockId": "ext.dirt"
-    },
-    "F": {
-      "blockId": "ext.leaves"
-    },
-    "G": {
-      "blockId": "ext.log"
-    }
+    "B": { "blockId": "gregtech:gt.blockframes@305" },
+    "C": { "blockId": "bartworks:BW_TieredGlass@0" },
+    "D": { "blockId": "minecraft:dirt@0" },
+    "E": { "blockId": "minecraft:log@0" },
+    "F": { "blockId": "minecraft:leaves@0" }
   },
-  "controller": {
-    "pos": [3, 0, 0],
-    "facing": "north",
-    "blockId": "gt5u.controller.treeGrowthSimulator"
-  },
+  "controller": { "pos": [3, 0, 0], "facing": "north", "blockId": "gregtech:gt.blockmachines@15541" },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",
     "itemOut": "gt.hatch.outputBus",
@@ -48,19 +34,11 @@
   },
   "shareableHatches": ["itemIn", "itemOut"],
   "requiredHatches": {
-    "energy": {
-      "min": 1
-    },
-    "maintenance": {
-      "min": 1,
-      "max": 1
-    },
-    "muffler": {
-      "min": 1,
-      "max": 1
-    }
+    "energy": { "min": 1 },
+    "maintenance": { "min": 1, "max": 1 },
+    "muffler": { "min": 1, "max": 1 }
   },
   "defaultHatches": ["itemIn", "itemOut", "energy", "maintenance", "muffler"],
   "wallshare": true,
-  "notes": "Generated from MTETreeFarm (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+  "notes": "Built by the game itself: MTETreeFarm (GT5-Unofficial 5.09.54.133) placed every block with the hologram's construct() (tools/game-dump). Hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows); check the tooltip in game."
 }

@@ -7,140 +7,120 @@
   "layers": [
     [
       "       ",
-      "  FEF  ",
-      "  EEE  ",
-      "  FEF  ",
-      "  EEE  ",
-      "  FEF  ",
-      "  EEE  ",
-      "  FEF  ",
-      "  EEE  ",
-      "  FEF  ",
-      "  EEE  ",
-      "  FEF  ",
+      "  ABA  ",
+      "  BBB  ",
+      "  ABA  ",
+      "  BBB  ",
+      "  ABA  ",
+      "  BBB  ",
+      "  ABA  ",
+      "  BBB  ",
+      "  ABA  ",
+      "  BBB  ",
+      "  ABA  ",
       "       "
     ],
     [
-      "  BBB  ",
-      " FBBBF ",
-      "  CBC  ",
-      " FBBBF ",
-      "  CBC  ",
-      " FBBBF ",
-      "  CBC  ",
-      " FBBBF ",
-      "  CBC  ",
-      " FBBBF ",
-      "  CBC  ",
-      " FBBBF ",
-      "  BBB  "
+      "  CCC  ",
+      " ACCCA ",
+      "  DCD  ",
+      " ACCCA ",
+      "  DCD  ",
+      " ACCCA ",
+      "  DCD  ",
+      " ACCCA ",
+      "  DCD  ",
+      " ACCCA ",
+      "  DCD  ",
+      " ACCCA ",
+      "  CCC  "
     ],
     [
-      "  B~B  ",
-      " EB BE ",
-      "  B B  ",
-      " EB BE ",
-      "  B B  ",
-      " EB BE ",
-      "  B B  ",
-      " EB BE ",
-      "  B B  ",
-      " EB BE ",
-      "  B B  ",
-      " EB BE ",
-      "  BGB  "
+      "  C~C  ",
+      " BC-CB ",
+      "  C-C  ",
+      " BC-CB ",
+      "  C-C  ",
+      " BC-CB ",
+      "  C-C  ",
+      " BC-CB ",
+      "  C-C  ",
+      " BC-CB ",
+      "  C-C  ",
+      " BC-CB ",
+      "  CEC  "
     ],
     [
-      "  BBB  ",
-      " FBBBF ",
-      "  BBB  ",
-      " FBBBF ",
-      "  BBB  ",
-      " FBBBF ",
-      "  BBB  ",
-      " FBBBF ",
-      "  BBB  ",
-      " FBBBF ",
-      "  BBB  ",
-      " FBBBF ",
-      "  BBB  "
-    ],
-    [
-      "       ",
-      "FAFEFAF",
-      " D   D ",
-      "FAFEFAF",
-      " D   D ",
-      "FAFEFAF",
-      " D   D ",
-      "FAFEFAF",
-      " D   D ",
-      "FAFEFAF",
-      " D   D ",
-      "FAFEFAF",
-      "       "
+      "  CCC  ",
+      " ACCCA ",
+      "  CCC  ",
+      " ACCCA ",
+      "  CCC  ",
+      " ACCCA ",
+      "  CCC  ",
+      " ACCCA ",
+      "  CCC  ",
+      " ACCCA ",
+      "  CCC  ",
+      " ACCCA ",
+      "  CCC  "
     ],
     [
       "       ",
-      "FB   BF",
-      " D   D ",
-      "FB   BF",
-      " D   D ",
-      "FB   BF",
-      " D   D ",
-      "FB   BF",
-      " D   D ",
-      "FB   BF",
-      " D   D ",
-      "FB   BF",
+      "AFABAFA",
+      " G   G ",
+      "AFABAFA",
+      " G   G ",
+      "AFABAFA",
+      " G   G ",
+      "AFABAFA",
+      " G   G ",
+      "AFABAFA",
+      " G   G ",
+      "AFABAFA",
       "       "
     ],
     [
       "       ",
-      "B     B",
+      "AC   CA",
+      " G   G ",
+      "AC   CA",
+      " G   G ",
+      "AC   CA",
+      " G   G ",
+      "AC   CA",
+      " G   G ",
+      "AC   CA",
+      " G   G ",
+      "AC   CA",
+      "       "
+    ],
+    [
       "       ",
-      "B     B",
+      "C     C",
       "       ",
-      "B     B",
+      "C     C",
       "       ",
-      "B     B",
+      "C     C",
       "       ",
-      "B     B",
+      "C     C",
       "       ",
-      "B     B",
+      "C     C",
+      "       ",
+      "C     C",
       "       "
     ]
   ],
   "legend": {
-    "B": {
-      "blockId": "gt.casing.stableTitanium",
-      "hatches": ["fluidIn", "maintenance", "muffler"]
-    },
-    "F": {
-      "blockId": "gt.frame.ptfe"
-    },
-    "A": {
-      "blockId": "gt.casing.titaniumPipe"
-    },
-    "E": {
-      "blockId": "gt.casing.chemicallyInert"
-    },
-    "D": {
-      "blockId": "gt.casing.engineIntake"
-    },
-    "C": {
-      "blockId": "gt.casing.titaniumFirebox"
-    },
-    "G": {
-      "blockId": "gt.hatch.dynamo",
-      "hatches": ["dynamo"]
-    }
+    "A": { "blockId": "gregtech:gt.blockframes@473" },
+    "B": { "blockId": "gregtech:gt.blockcasings8@0" },
+    "C": { "blockId": "gregtech:gt.blockcasings4@2", "hatches": ["fluidIn", "maintenance", "muffler"] },
+    "D": { "blockId": "gregtech:gt.blockcasings4@3" },
+    "E": { "blockId": "gt.hatch.dynamo", "hatches": ["dynamo"] },
+    "F": { "blockId": "gregtech:gt.blockcasings2@14" },
+    "G": { "blockId": "gregtech:gt.blockcasings4@13" }
   },
-  "controller": {
-    "pos": [3, 2, 0],
-    "facing": "north",
-    "blockId": "gt5u.controller.universalChemicalFuelEngine"
-  },
+  "controller": { "pos": [3, 2, 0], "facing": "north", "blockId": "gregtech:gt.blockmachines@15535" },
   "hatchBlocks": {
     "fluidIn": "gt.hatch.inputHatch",
     "dynamo": "gt.hatch.dynamo",
@@ -149,19 +129,11 @@
   },
   "shareableHatches": ["fluidIn"],
   "requiredHatches": {
-    "dynamo": {
-      "min": 1
-    },
-    "maintenance": {
-      "min": 1,
-      "max": 1
-    },
-    "muffler": {
-      "min": 1,
-      "max": 1
-    }
+    "dynamo": { "min": 1 },
+    "maintenance": { "min": 1, "max": 1 },
+    "muffler": { "min": 1, "max": 1 }
   },
   "defaultHatches": ["fluidIn", "dynamo", "maintenance", "muffler"],
   "wallshare": true,
-  "notes": "Generated from MTEUniversalChemicalFuelEngine (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+  "notes": "Machine-specific hatches (LaserSource) are shown as their cells only. Built by the game itself: MTEUniversalChemicalFuelEngine (GT5-Unofficial 5.09.54.133) placed every block with the hologram's construct() (tools/game-dump). Hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows); check the tooltip in game."
 }

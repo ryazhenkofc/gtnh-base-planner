@@ -5,21 +5,18 @@
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gtPlusPlus/xmod/gregtech/common/tileentities/machines/multi/production/MTEAutoCrafter.java",
   "size": [3, 3, 3],
   "layers": [
-    ["CCC", "CCC", "CCC"],
-    ["C~C", "C-C", "CCC"],
-    ["CCC", "CCC", "CCC"]
+    ["AAA", "AAA", "AAA"],
+    ["A~A", "ABA", "AAA"],
+    ["AAA", "AAA", "AAA"]
   ],
   "legend": {
-    "C": {
-      "blockId": "gt5u.blockCasings2Misc.12",
+    "A": {
+      "blockId": "miscutils:gtplusplus.blockcasings.2@12",
       "hatches": ["itemIn", "itemOut", "fluidIn", "energy", "maintenance", "muffler"]
-    }
+    },
+    "B": { "blockId": "gt.hatch.special" }
   },
-  "controller": {
-    "pos": [1, 1, 0],
-    "facing": "north",
-    "blockId": "gt5u.controller.largeScaleAutoAssemblerV101"
-  },
+  "controller": { "pos": [1, 1, 0], "facing": "north", "blockId": "gregtech:gt.blockmachines@876" },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",
     "itemOut": "gt.hatch.outputBus",
@@ -30,19 +27,11 @@
   },
   "shareableHatches": ["itemIn", "itemOut", "fluidIn"],
   "requiredHatches": {
-    "energy": {
-      "min": 1
-    },
-    "maintenance": {
-      "min": 1,
-      "max": 1
-    },
-    "muffler": {
-      "min": 1,
-      "max": 1
-    }
+    "energy": { "min": 1 },
+    "maintenance": { "min": 1, "max": 1 },
+    "muffler": { "min": 1, "max": 1 }
   },
   "defaultHatches": ["itemIn", "itemOut", "energy", "maintenance", "muffler"],
   "wallshare": true,
-  "notes": "Generated from MTEAutoCrafter (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+  "notes": "Built by the game itself: MTEAutoCrafter (GT5-Unofficial 5.09.54.133) placed every block with the hologram's construct() (tools/game-dump). Hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows); check the tooltip in game."
 }

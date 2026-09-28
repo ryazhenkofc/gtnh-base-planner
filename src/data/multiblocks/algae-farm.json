@@ -5,33 +5,25 @@
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTEAlgaePond.java",
   "size": [3, 6, 10],
   "layers": [
-    ["B B", "   ", "   ", "   ", "   ", "   ", "   ", "   ", "   ", "B B"],
-    ["BBB", " A ", " A ", " A ", " A ", " A ", " A ", " A ", " A ", "BBB"],
-    ["B~B", "A-A", "A-A", "A-A", "A-A", "A-A", "A-A", "A-A", "A-A", "BCB"],
-    ["BCB", "A-A", "ADA", "ADA", "ADA", "ADA", "ADA", "ADA", "A-A", "BCB"],
-    ["BCB", "A-A", "A-A", "A-A", "A-A", "A-A", "A-A", "A-A", "A-A", "BCB"],
-    ["BBB", " A ", " A ", " A ", " A ", " A ", " A ", " A ", " A ", "BBB"]
+    ["A A", "   ", "   ", "   ", "   ", "   ", "   ", "   ", "   ", "A A"],
+    ["AAA", " B ", " B ", " B ", " B ", " B ", " B ", " B ", " B ", "AAA"],
+    ["A~A", "BCB", "BCB", "BCB", "BCB", "BCB", "BCB", "BCB", "BCB", "ADA"],
+    ["ADA", "BEB", "BFB", "BFB", "BFB", "BFB", "BFB", "BFB", "BCB", "ADA"],
+    ["ADA", "BCB", "BEB", "BEB", "BEB", "BEB", "BEB", "BEB", "BCB", "ADA"],
+    ["AAA", " B ", " B ", " B ", " B ", " B ", " B ", " B ", " B ", "AAA"]
   ],
   "legend": {
-    "B": {
-      "blockId": "gt5u.gtBlockcasings12.15",
+    "A": {
+      "blockId": "gregtech:gt.blockcasings12@15",
       "hatches": ["itemIn", "itemOut", "fluidIn", "energy", "maintenance"]
     },
-    "C": {
-      "blockId": "gt5u.gtBlockcasings3.11"
-    },
-    "A": {
-      "blockId": "gt.glass.reinforced"
-    },
-    "D": {
-      "blockId": "gt.frame.stainless"
-    }
+    "B": { "blockId": "bartworks:BW_TieredGlass@0" },
+    "C": { "blockId": "minecraft:water@0" },
+    "D": { "blockId": "gregtech:gt.blockcasings3@11" },
+    "E": { "blockId": "minecraft:flowing_water@0" },
+    "F": { "blockId": "gregtech:gt.blockframes@306" }
   },
-  "controller": {
-    "pos": [1, 2, 0],
-    "facing": "north",
-    "blockId": "gt5u.controller.algaeFarm"
-  },
+  "controller": { "pos": [1, 2, 0], "facing": "north", "blockId": "gregtech:gt.blockmachines@15545" },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",
     "itemOut": "gt.hatch.outputBus",
@@ -40,16 +32,8 @@
     "maintenance": "gt.hatch.maintenance"
   },
   "shareableHatches": ["itemIn", "itemOut", "fluidIn"],
-  "requiredHatches": {
-    "energy": {
-      "min": 1
-    },
-    "maintenance": {
-      "min": 1,
-      "max": 1
-    }
-  },
+  "requiredHatches": { "energy": { "min": 1 }, "maintenance": { "min": 1, "max": 1 } },
   "defaultHatches": ["itemIn", "itemOut", "energy", "maintenance"],
   "wallshare": true,
-  "notes": "Generated from MTEAlgaePond (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+  "notes": "Built by the game itself: MTEAlgaePond (GT5-Unofficial 5.09.54.133) placed every block with the hologram's construct() (tools/game-dump). Hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows); check the tooltip in game."
 }

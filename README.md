@@ -9,15 +9,26 @@ It is a layout tool, not a recipe or production-chain calculator. Structures fol
 
 ## Features
 
-- **Catalog of 205 multiblocks** with a picker. 38 are transcribed and checked by hand: steam machines (Steam Separator, Grinder, Squasher, Presser, Hearth, Blender, Purifier, Fuser), Coke Oven, EBF, Vacuum Freezer, Distillation Tower, Pyrolyse Oven, Large Boilers, Large Turbines, combustion engines, Assembly Line, Large Fluid Extractor, Industrial Autoclave, Industrial Centrifuge and more. The other 167 (GT++ industrial machines, fusion reactors, drilling rigs, TecTech, Bartworks, Good Generator, the purification plant units, ...) are converted from the GT5-Unofficial sources by [`tools/gt-source`](tools/gt-source/README.md) and tagged "From source" in the picker. Almost every GT multiblock can share walls in game (structure checks do not claim casings).
+- **Catalog of 244 multiblocks** with a picker: every multiblock of GT5-Unofficial 5.09.54.133 but the Mega
+  Industrial Apiary and the Cleanroom. 34 are transcribed and checked by hand: steam machines (Steam Separator,
+  Grinder, Squasher, Presser, Hearth, Blender, Purifier, Fuser), Coke Oven, EBF, Vacuum Freezer, Distillation
+  Tower, Pyrolyse Oven, Large Turbines, combustion engines, Assembly Line, Large Fluid Extractor, Industrial
+  Autoclave, Industrial Centrifuge and more. The other 210 (Large Boilers, GT++ industrial machines, fusion
+  reactors, drilling rigs, TecTech, Bartworks, Good Generator, the Water Purification Plant and its units, the
+  Nanochip Assembly Complex and its modules, Forge of the Gods, the Space Elevator modules, Large Hadron Collider,
+  Antimatter Forge, ...) are built by the game itself and dumped block by block by
+  [`tools/game-dump`](tools/game-dump/README.md); they are tagged "From game" in the picker, because their hatch
+  counts are estimated. Almost every GT multiblock can share walls in game (structure checks do not claim
+  casings).
 - **Adjustable sizes** for multiblocks GT builds in variable size: Distillation Tower height (3 to 12) and Assembly Line length (5 to 16).
 - **Auto-packing** of N units with optional limits counted in multiblocks (at most N along X, N layers, N along Z); controllers always face outward, and rows that cannot share a back wall get a one-block walkway. Example: 15 Pyrolyse Ovens with X 5, Layers 1, Z 3 give three rows of five.
 - **Shared walls**: blocks that coincide in the same cell are counted once; incompatible overlaps are highlighted.
 - **Hatches**: enable hatch kinds per plan; shareable hatches serve several controllers from one block. A hatch faces open space rather than a gap between units, and never the ground: the build stands on its lowest layer. Hatches of different kinds are spread apart, and none faces a cell its pipe could not leave.
 - **Pipe routing** per hatch kind (items, fluids, steam), with length estimates. The kinds are negotiated rather than laid one after another (a cell two networks want gets dearer each round until one gives way), so no network walls in another kind's hatch. With pipes or cables on, a layout whose walkways cannot hold a line per kind is spaced out step by step (walkways and gaps of one or two blocks, same rows and layers) until every hatch is connected; a warning remains only for hatches that still cannot be reached (e.g. in a manual layout). Bends are priced in, so pipes run in straight trunks with fewer bends than plain shortest paths. A pipe may reach a hatch from any open side (the hatch is turned to face it, as with a wrench in game), and pipes never go underground.
 - **Cable routing**: the Cables toggle connects energy hatches (and dynamo hatches of generators) with thinner cables, like pipes.
-- **Textured view**: real GregTech textures (flat colours when they cannot load), with the build's width and
-  depth measured beside it.
+- **Textured view**: real GregTech textures, layered and tinted the way the game draws them (glass is
+  see-through, a hatch shows the casing it replaces with its own overlay), flat colours when they cannot load,
+  with the build's width and depth measured beside it.
 - **Stats line**: units, unique blocks, shared walls, hatches and how many blocks sharing saves.
 - **Save and share**: autosave in the browser, JSON download/upload, and share links.
 - **Templates** (the TEMPLATE view): several groups of multiblocks on a bounded ground area (30 × 30 by default, up to 256 × 256), joined by
@@ -99,11 +110,11 @@ the Distillation Tower keeps one output hatch per layer. Never change `default`:
 2. Register any new block ids in [`src/data/blocks.ts`](src/data/blocks.ts) with a flat colour, and map them to textures in [`src/render/textures.json`](src/render/textures.json).
 3. Run `npm run check && npm test`, then check the new entry in `npm run dev`.
 
-Structures can be transcribed by hand from the GT5-Unofficial source or generated with the extractor: see [`tools/extractor/README.md`](tools/extractor/README.md). Entries marked `"generated": true` are written by [`tools/gt-source`](tools/gt-source/README.md); do not edit them by hand. To take one over, remove `generated` and edit it: the generator never overwrites a class that a hand-made entry covers.
+Structures can be transcribed by hand from the GT5-Unofficial source. Entries marked `"generated": true` are built from a dump of the running game by [`tools/game-dump`](tools/game-dump/README.md); do not edit them by hand. To take one over, remove `generated` and edit it: the build never overwrites a class that a hand-made entry covers. StructureLib shapes read from the sources must be mirrored in X: the first axis of a shape runs to the right of a controller seen from its front, which is west for a controller facing north.
 
 ## Textures and attribution
 
-DETAILED view uses block textures from [GT5-Unofficial](https://github.com/GTNewHorizons/GT5-Unofficial), licensed under LGPL-3.0. The generated atlas is `public/textures/atlas.png`; its source files (build inputs, not deployed) are in `tools/texture-sources/`. Sources and licence details are in [`ATTRIBUTION.md`](ATTRIBUTION.md). SIMPLE view uses flat colours only.
+DETAILED view uses block textures from [GT5-Unofficial](https://github.com/GTNewHorizons/GT5-Unofficial), licensed under LGPL-3.0. The generated atlas is `public/textures/atlas.png`; its source files (build inputs, not deployed) are in `tools/texture-sources/` (`DUMP_*.png` are GT sprites layered and tinted the way the game draws a block face, see [`tools/game-dump`](tools/game-dump/README.md)). Vanilla Minecraft blocks keep flat colours: their textures are not LGPL. Sources and licence details are in [`ATTRIBUTION.md`](ATTRIBUTION.md). SIMPLE view uses flat colours only.
 
 ## Privacy
 
@@ -151,7 +162,7 @@ src/
   i18n/        UI strings
 public/        static files copied as-is (favicon, generated texture atlas)
 e2e/           Playwright tests
-tools/         offline tooling (structure extractor, GT source converter, texture sources)
+tools/         offline tooling (game dump import, GT source reader, texture sources)
 ```
 
 ## Deployment
@@ -189,4 +200,4 @@ The planner is released under the [MIT License](LICENSE), © 2026 ryazhenkofc.
 Bundled third-party files keep their own licences:
 
 - GT5-Unofficial block textures (the sources in `tools/texture-sources/` and the generated `public/textures/atlas.png`) are under LGPL-3.0; see [`ATTRIBUTION.md`](ATTRIBUTION.md).
-- The two structure fixtures in `tools/extractor/fixtures/` come from gtnh-process-line-solver under Apache-2.0; see their [`NOTICE`](tools/extractor/fixtures/NOTICE).
+- `tools/game-dump/extractor.patch` changes the Apache-2.0 [gtnh-process-line-solver](https://github.com/MrBruh/gtnh-process-line-solver) extractor; it is not bundled.

@@ -6,132 +6,105 @@
   "size": [13, 8, 9],
   "layers": [
     [
-      "DBBBBB~BBBBBD",
-      "DBBBBBBBBBBBD",
-      "DBBBBBBBBBBBD",
-      "DBBBBBBBBBBBD",
-      "DBBBBBBBBBBBD",
-      "DBBBBBBBBBBBD",
-      "DBBBBBBBBBBBD",
-      "DBBBBBBBBBBBD",
-      "DBBBBBBBBBBBD"
+      "ABBBBB~BBBBBA",
+      "ABBBBBBBBBBBA",
+      "ABBBBBBBBBBBA",
+      "ABBBBBBBBBBBA",
+      "ABBBBBBBBBBBA",
+      "ABBBBBBBBBBBA",
+      "ABBBBBBBBBBBA",
+      "ABBBBBBBBBBBA",
+      "ABBBBBBBBBBBA"
     ],
     [
-      " D         D ",
-      "DBAAAAAAAAABD",
       " A         A ",
-      " AE E E E EA ",
-      " FE E E E EF ",
-      " AE E E E EA ",
+      "ABCCCCCCCCCBA",
+      " C---------C ",
+      " CD-D-D-D-DC ",
+      " ED-D-D-D-DE ",
+      " CD-D-D-D-DC ",
+      " C---------C ",
+      "ABCCCCCCCCCBA",
+      " A         A "
+    ],
+    [
       " A         A ",
-      "DBAAAAAAAAABD",
-      " D         D "
+      "ABCCCCCCCCCBA",
+      " CD-D-D-D-DC ",
+      " F---------G ",
+      " FD-------DG ",
+      " F---------G ",
+      " CD-D-D-D-DC ",
+      "ABCCCCCCCCCBA",
+      " A         A "
     ],
     [
-      " D         D ",
-      "DBAAAAAAAAABD",
-      " AE E E E EA ",
-      " L         R ",
-      " LE       ER ",
-      " L         R ",
-      " AE E E E EA ",
-      "DBAAAAAAAAABD",
-      " D         D "
-    ],
-    [
-      " D         D ",
-      "DBAAAAAAAAABD",
-      " FE E E E EF ",
-      " LE E E E ER ",
-      " LCCCCCCCCCR ",
-      " LE E E E ER ",
-      " FE E E E EF ",
-      "DBAAAAAAAAABD",
-      " D         D "
-    ],
-    [
-      " D         D ",
-      "DBAAAAAAAAABD",
-      " AE E E E EA ",
-      " L         R ",
-      " LE E E E ER ",
-      " L         R ",
-      " AE E E E EA ",
-      "DBAAAAAAAAABD",
-      " D         D "
-    ],
-    [
-      " D         D ",
-      "DBAAAAAAAAABD",
       " A         A ",
-      " AE E E E EA ",
-      " FE E E E EF ",
-      " AE E E E EA ",
+      "ABCCCCCCCCCBA",
+      " ED-D-D-D-DE ",
+      " FD-D-D-D-DG ",
+      " FHHHHHHHHHG ",
+      " FD-D-D-D-DG ",
+      " ED-D-D-D-DE ",
+      "ABCCCCCCCCCBA",
+      " A         A "
+    ],
+    [
       " A         A ",
-      "DBAAAAAAAAABD",
-      " D         D "
+      "ABCCCCCCCCCBA",
+      " CD-D-D-D-DC ",
+      " F---------G ",
+      " FD-D-D-D-DG ",
+      " F---------G ",
+      " CD-D-D-D-DC ",
+      "ABCCCCCCCCCBA",
+      " A         A "
     ],
     [
-      " D         D ",
-      "DBAAAAAAAAABD",
-      " BAAAAAAAAAB ",
-      " BAAAMMMAAAB ",
-      " BFFFMMMFFFB ",
-      " BAAAMMMAAAB ",
-      " BAAAAAAAAAB ",
-      "DBAAAAAAAAABD",
-      " D         D "
+      " A         A ",
+      "ABCCCCCCCCCBA",
+      " C---------C ",
+      " CD-D-D-D-DC ",
+      " ED-D-D-D-DE ",
+      " CD-D-D-D-DC ",
+      " C---------C ",
+      "ABCCCCCCCCCBA",
+      " A         A "
     ],
     [
-      " D         D ",
-      " D         D ",
-      " D         D ",
-      " D         D ",
-      " D         D ",
-      " D         D ",
-      " D         D ",
-      " D         D ",
-      " D         D "
+      " A         A ",
+      "ABCCCCCCCCCBA",
+      " BCCCCCCCCCB ",
+      " BCCCGGGCCCB ",
+      " BEEEGGGEEEB ",
+      " BCCCGGGCCCB ",
+      " BCCCCCCCCCB ",
+      "ABCCCCCCCCCBA",
+      " A         A "
+    ],
+    [
+      " A         A ",
+      " A         A ",
+      " A         A ",
+      " A         A ",
+      " A         A ",
+      " A         A ",
+      " A         A ",
+      " A         A ",
+      " A         A "
     ]
   ],
   "legend": {
-    "D": {
-      "blockId": "gt.casing.cleanStainless"
-    },
-    "B": {
-      "blockId": "gt5u.gtBlockcasings14.5",
-      "hatches": ["itemIn", "energy", "maintenance"]
-    },
-    "A": {
-      "blockId": "gt.glass.reinforced"
-    },
-    "M": {
-      "blockId": "gt5u.gtBlockcasings14.5",
-      "hatches": ["fluidIn"]
-    },
-    "F": {
-      "blockId": "gt.sheetmetal.naquadah"
-    },
-    "E": {
-      "blockId": "gt.coil.cupronickel"
-    },
-    "L": {
-      "blockId": "gt5u.gtBlockcasings14.5",
-      "hatches": ["fluidIn"]
-    },
-    "R": {
-      "blockId": "gt5u.gtBlockcasings14.5",
-      "hatches": ["fluidOut"]
-    },
-    "C": {
-      "blockId": "gt.casing.steelPipe"
-    }
+    "A": { "blockId": "gregtech:gt.blockcasings4@1" },
+    "B": { "blockId": "gregtech:gt.blockcasings14@5", "hatches": ["itemIn", "energy", "maintenance"] },
+    "C": { "blockId": "bartworks:BW_TieredGlass@0" },
+    "D": { "blockId": "gregtech:gt.blockcasings5@0" },
+    "E": { "blockId": "gregtech:gt.sheetmetal@324" },
+    "F": { "blockId": "gregtech:gt.blockcasings14@5", "hatches": ["fluidOut"] },
+    "G": { "blockId": "gregtech:gt.blockcasings14@5", "hatches": ["fluidIn"] },
+    "H": { "blockId": "gregtech:gt.blockcasings2@13" }
   },
-  "controller": {
-    "pos": [6, 0, 0],
-    "facing": "north",
-    "blockId": "gt5u.controller.megaOilCracker"
-  },
+  "controller": { "pos": [6, 0, 0], "facing": "north", "blockId": "gregtech:gt.blockmachines@15569" },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",
     "fluidIn": "gt.hatch.inputHatch",
@@ -140,16 +113,8 @@
     "maintenance": "gt.hatch.maintenance"
   },
   "shareableHatches": ["itemIn", "fluidIn", "fluidOut"],
-  "requiredHatches": {
-    "energy": {
-      "min": 1
-    },
-    "maintenance": {
-      "min": 1,
-      "max": 1
-    }
-  },
+  "requiredHatches": { "energy": { "min": 1 }, "maintenance": { "min": 1, "max": 1 } },
   "defaultHatches": ["itemIn", "energy", "maintenance"],
   "wallshare": true,
-  "notes": "Generated from MTEMegaOilCracker (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+  "notes": "Built by the game itself: MTEMegaOilCracker (GT5-Unofficial 5.09.54.133) placed every block with the hologram's construct() (tools/game-dump). Hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows); check the tooltip in game."
 }

@@ -6,34 +6,26 @@
   "size": [7, 11, 7],
   "layers": [
     ["  A~A  ", " AAAAA ", "AAAAAAA", "AAAAAAA", "AAAAAAA", " AAAAA ", "  AAA  "],
-    ["   A   ", "  ACA  ", " ACACA ", "ACA ACA", " ACACA ", "  ACA  ", "   A   "],
-    ["   C   ", "       ", "   A   ", "C A A C", "   A   ", "       ", "   C   "],
-    ["   C   ", "   A   ", "  BBB  ", "CABBBAC", "  BBB  ", "   A   ", "   C   "],
-    ["   A   ", "  BBB  ", " BBBBB ", "ABBBBBA", " BBBBB ", "  BBB  ", "   A   "],
-    ["  AAA  ", " ABBBA ", "ABBBBBA", "ABBBBBA", "ABBBBBA", " ABBBA ", "  AAA  "],
-    ["   A   ", "  BBB  ", " BBBBB ", "ABBBBBA", " BBBBB ", "  BBB  ", "   A   "],
-    ["   C   ", "   A   ", "  BBB  ", "CABBBAC", "  BBB  ", "   A   ", "   C   "],
-    ["   C   ", "       ", "   A   ", "C A A C", "   A   ", "       ", "   C   "],
-    ["   A   ", "  ACA  ", " ACACA ", "ACAAACA", " ACACA ", "  ACA  ", "   A   "],
+    ["   A   ", "  ABA  ", " ABABA ", "ABA-ABA", " ABABA ", "  ABA  ", "   A   "],
+    ["   B   ", "       ", "   A   ", "B A-A B", "   A   ", "       ", "   B   "],
+    ["   B   ", "   A   ", "  CCC  ", "BACCCAB", "  CCC  ", "   A   ", "   B   "],
+    ["   A   ", "  CCC  ", " CCCCC ", "ACCCCCA", " CCCCC ", "  CCC  ", "   A   "],
+    ["  AAA  ", " ACCCA ", "ACCCCCA", "ACCCCCA", "ACCCCCA", " ACCCA ", "  AAA  "],
+    ["   A   ", "  CCC  ", " CCCCC ", "ACCCCCA", " CCCCC ", "  CCC  ", "   A   "],
+    ["   B   ", "   A   ", "  CCC  ", "BACCCAB", "  CCC  ", "   A   ", "   B   "],
+    ["   B   ", "       ", "   A   ", "B A-A B", "   A   ", "       ", "   B   "],
+    ["   A   ", "  ABA  ", " ABABA ", "ABAAABA", " ABABA ", "  ABA  ", "   A   "],
     ["  AAA  ", " AAAAA ", "AAAAAAA", "AAAAAAA", "AAAAAAA", " AAAAA ", "  AAA  "]
   ],
   "legend": {
     "A": {
-      "blockId": "gt5u.gtBlockcasings13.15",
+      "blockId": "gregtech:gt.blockcasings13@15",
       "hatches": ["fluidIn", "fluidOut", "energy", "dynamo", "maintenance"]
     },
-    "C": {
-      "blockId": "gt5u.radiationProtectionSteelFrame.0"
-    },
-    "B": {
-      "blockId": "gt5u.mARCasing.0"
-    }
+    "B": { "blockId": "GoodGenerator:radiationProtectionSteelFrame@0" },
+    "C": { "blockId": "GoodGenerator:MAR_Casing@0" }
   },
-  "controller": {
-    "pos": [3, 0, 0],
-    "facing": "north",
-    "blockId": "gt5u.controller.largeNaquadahReactor"
-  },
+  "controller": { "pos": [3, 0, 0], "facing": "north", "blockId": "gregtech:gt.blockmachines@15537" },
   "hatchBlocks": {
     "fluidIn": "gt.hatch.inputHatch",
     "fluidOut": "gt.hatch.outputHatch",
@@ -42,16 +34,8 @@
     "maintenance": "gt.hatch.maintenance"
   },
   "shareableHatches": ["fluidIn", "fluidOut"],
-  "requiredHatches": {
-    "dynamo": {
-      "min": 1
-    },
-    "maintenance": {
-      "min": 1,
-      "max": 1
-    }
-  },
+  "requiredHatches": { "dynamo": { "min": 1 }, "maintenance": { "min": 1, "max": 1 } },
   "defaultHatches": ["fluidIn", "fluidOut", "energy", "dynamo", "maintenance"],
   "wallshare": true,
-  "notes": "Generated from MTELargeNaquadahReactor (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+  "notes": "Machine-specific hatches (LaserSource) are shown as their cells only. Built by the game itself: MTELargeNaquadahReactor (GT5-Unofficial 5.09.54.133) placed every block with the hologram's construct() (tools/game-dump). Hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows); check the tooltip in game."
 }

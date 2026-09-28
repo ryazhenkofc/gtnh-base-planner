@@ -5,30 +5,24 @@
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gtPlusPlus/xmod/gregtech/common/tileentities/machines/multi/processing/MTESpargeTower.java",
   "size": [3, 8, 3],
   "layers": [
-    ["b~b", "bbb", "bbb"],
-    ["lll", "l-l", "lll"],
-    ["lll", "l-l", "lll"],
-    ["lll", "l-l", "lll"],
-    ["lll", "l-l", "lll"],
-    ["lll", "l-l", "lll"],
-    ["lll", "l-l", "lll"],
-    ["lll", "lll", "lll"]
+    ["A~A", "AAA", "AAA"],
+    ["BBB", "BCB", "BBB"],
+    ["BBB", "BCB", "BBB"],
+    ["BBB", "BCB", "BBB"],
+    ["BBB", "BCB", "BBB"],
+    ["BBB", "BCB", "BBB"],
+    ["BBB", "BCB", "BBB"],
+    ["BBB", "BBB", "BBB"]
   ],
   "legend": {
-    "l": {
-      "blockId": "gt5u.gtplusplusBlockcasings5.4",
-      "hatches": ["fluidOut", "energy", "maintenance"]
-    },
-    "b": {
-      "blockId": "gt5u.gtplusplusBlockcasings5.4",
+    "A": {
+      "blockId": "miscutils:gtplusplus.blockcasings.5@4",
       "hatches": ["itemIn", "fluidIn", "energy", "maintenance"]
-    }
+    },
+    "B": { "blockId": "miscutils:gtplusplus.blockcasings.5@4", "hatches": ["fluidOut"] },
+    "C": { "blockId": "gt.hatch.special" }
   },
-  "controller": {
-    "pos": [1, 0, 0],
-    "facing": "north",
-    "blockId": "gt5u.controller.spargeTowerController"
-  },
+  "controller": { "pos": [1, 0, 0], "facing": "north", "blockId": "gregtech:gt.blockmachines@31035" },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",
     "fluidIn": "gt.hatch.inputHatch",
@@ -37,16 +31,8 @@
     "maintenance": "gt.hatch.maintenance"
   },
   "shareableHatches": ["itemIn", "fluidIn", "fluidOut"],
-  "requiredHatches": {
-    "energy": {
-      "min": 1
-    },
-    "maintenance": {
-      "min": 1,
-      "max": 1
-    }
-  },
+  "requiredHatches": { "energy": { "min": 1 }, "maintenance": { "min": 1, "max": 1 } },
   "defaultHatches": ["itemIn", "energy", "maintenance"],
   "wallshare": true,
-  "notes": "Generated from MTESpargeTower (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+  "notes": "Built by the game itself: MTESpargeTower (GT5-Unofficial 5.09.54.133) placed every block with the hologram's construct() (tools/game-dump). Hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows); check the tooltip in game."
 }

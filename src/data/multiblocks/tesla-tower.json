@@ -5,50 +5,36 @@
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/tectech/thing/metaTileEntity/multi/MTETeslaTower.java",
   "size": [7, 17, 7],
   "layers": [
-    [" EE~EE ", "EAAAAAE", "EADDDAE", "EADADAE", "EADDDAE", "EAAAAAE", " EEEEE "],
-    ["       ", "  DDD  ", " D   D ", " D C D ", " D   D ", "  DDD  ", "       "],
-    ["       ", "       ", "       ", "   C   ", "       ", "       ", "       "],
-    ["       ", "       ", "       ", "   C   ", "       ", "       ", "       "],
-    ["       ", "  BBB  ", " B F B ", " BFCFB ", " B F B ", "  BBB  ", "       "],
-    ["       ", "       ", "       ", "   C   ", "       ", "       ", "       "],
-    ["       ", "  BBB  ", " B F B ", " BFCFB ", " B F B ", "  BBB  ", "       "],
-    ["       ", "       ", "       ", "   C   ", "       ", "       ", "       "],
-    ["       ", "  BBB  ", " B F B ", " BFCFB ", " B F B ", "  BBB  ", "       "],
-    ["       ", "       ", "       ", "   C   ", "       ", "       ", "       "],
-    ["       ", "  BBB  ", " B F B ", " BFCFB ", " B F B ", "  BBB  ", "       "],
-    ["       ", "       ", "       ", "   C   ", "       ", "       ", "       "],
-    ["       ", "       ", "  BBB  ", "  BCB  ", "  BBB  ", "       ", "       "],
-    ["       ", "  BBB  ", " BBBBB ", " BBBBB ", " BBBBB ", "  BBB  ", "       "],
-    ["       ", "  BBB  ", " BBBBB ", " BBBBB ", " BBBBB ", "  BBB  ", "       "],
-    ["       ", "  BBB  ", " BBBBB ", " BBBBB ", " BBBBB ", "  BBB  ", "       "],
-    ["       ", "       ", "  BBB  ", "  BBB  ", "  BBB  ", "       ", "       "]
+    [" AA~AA ", "ABBBBBA", "ABCCCBA", "ABCBCBA", "ABCCCBA", "ABBBBBA", " AAAAA "],
+    ["       ", "  CCC  ", " C   C ", " C D C ", " C   C ", "  CCC  ", "       "],
+    ["       ", "       ", "       ", "   D   ", "       ", "       ", "       "],
+    ["       ", "       ", "       ", "   D   ", "       ", "       ", "       "],
+    ["       ", "  EEE  ", " E F E ", " EFDFE ", " E F E ", "  EEE  ", "       "],
+    ["       ", "       ", "       ", "   D   ", "       ", "       ", "       "],
+    ["       ", "  EEE  ", " E F E ", " EFDFE ", " E F E ", "  EEE  ", "       "],
+    ["       ", "       ", "       ", "   D   ", "       ", "       ", "       "],
+    ["       ", "  EEE  ", " E F E ", " EFDFE ", " E F E ", "  EEE  ", "       "],
+    ["       ", "       ", "       ", "   D   ", "       ", "       ", "       "],
+    ["       ", "  EEE  ", " E F E ", " EFDFE ", " E F E ", "  EEE  ", "       "],
+    ["       ", "       ", "       ", "   D   ", "       ", "       ", "       "],
+    ["       ", "       ", "  EEE  ", "  EDE  ", "  EEE  ", "       ", "       "],
+    ["       ", "  EEE  ", " EEEEE ", " EEEEE ", " EEEEE ", "  EEE  ", "       "],
+    ["       ", "  EEE  ", " EEEEE ", " EEEEE ", " EEEEE ", "  EEE  ", "       "],
+    ["       ", "  EEE  ", " EEEEE ", " EEEEE ", " EEEEE ", "  EEE  ", "       "],
+    ["       ", "       ", "  EEE  ", "  EEE  ", "  EEE  ", "       ", "       "]
   ],
   "legend": {
-    "B": {
-      "blockId": "gt5u.gtBlockcasingsBA0.7"
-    },
-    "C": {
-      "blockId": "gt5u.gtBlockcasingsBA0.8"
-    },
-    "F": {
-      "blockId": "gt.frame.titanium"
-    },
-    "D": {
-      "blockId": "gt5u.gtBlockcasingsBA0.0"
-    },
-    "E": {
-      "blockId": "gt5u.gtBlockcasingsBA0.6",
+    "A": {
+      "blockId": "tectech:gt.blockcasingsBA0@6",
       "hatches": ["fluidIn", "fluidOut", "energy", "dynamo", "maintenance"]
     },
-    "A": {
-      "blockId": "gt5u.gtBlockcasingsBA0.6"
-    }
+    "B": { "blockId": "tectech:gt.blockcasingsBA0@6" },
+    "C": { "blockId": "tectech:gt.blockcasingsBA0@0" },
+    "D": { "blockId": "tectech:gt.blockcasingsBA0@8" },
+    "E": { "blockId": "tectech:gt.blockcasingsBA0@7" },
+    "F": { "blockId": "gregtech:gt.blockframes@28" }
   },
-  "controller": {
-    "pos": [3, 0, 0],
-    "facing": "north",
-    "blockId": "gt5u.controller.teslaTower"
-  },
+  "controller": { "pos": [3, 0, 0], "facing": "north", "blockId": "gregtech:gt.blockmachines@15314" },
   "hatchBlocks": {
     "fluidIn": "gt.hatch.inputHatch",
     "fluidOut": "gt.hatch.outputHatch",
@@ -57,16 +43,8 @@
     "maintenance": "gt.hatch.maintenance"
   },
   "shareableHatches": ["fluidIn", "fluidOut"],
-  "requiredHatches": {
-    "dynamo": {
-      "min": 1
-    },
-    "maintenance": {
-      "min": 1,
-      "max": 1
-    }
-  },
+  "requiredHatches": { "dynamo": { "min": 1 }, "maintenance": { "min": 1, "max": 1 } },
   "defaultHatches": ["fluidIn", "fluidOut", "energy", "dynamo", "maintenance"],
   "wallshare": true,
-  "notes": "Generated from MTETeslaTower (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+  "notes": "Machine-specific hatches (LaserSource) are shown as their cells only. Built by the game itself: MTETeslaTower (GT5-Unofficial 5.09.54.133) placed every block with the hologram's construct() (tools/game-dump). Hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows); check the tooltip in game."
 }

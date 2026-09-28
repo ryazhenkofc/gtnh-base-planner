@@ -6,7 +6,7 @@
   "size": [9, 3, 9],
   "layers": [
     [
-      "   E~E   ",
+      "   A~A   ",
       "    B    ",
       "    B    ",
       "    B    ",
@@ -14,57 +14,42 @@
       "   BBB   ",
       "   BBB   ",
       "  BBBBB  ",
-      "EEEEEEEEE"
+      "AAAAAAAAA"
     ],
     [
-      "   ECE   ",
-      "   B B   ",
-      "   A A   ",
-      "   A A   ",
-      "   B B   ",
-      "  B   B  ",
-      " BB   BB ",
-      "BB     BB",
-      "EDBDBDBDE"
+      "   ACA   ",
+      "   B-B   ",
+      "   D-D   ",
+      "   D-D   ",
+      "   B-B   ",
+      "  B---B  ",
+      " BB---BB ",
+      "BB-----BB",
+      "ACBCBCBCA"
     ],
     [
-      "   EEE   ",
+      "   AAA   ",
       "    B    ",
       "    B    ",
       "    B    ",
       "    B    ",
-      "   BAB   ",
-      "   BAB   ",
-      "  BAAAB  ",
-      "EEEEEEEEE"
+      "   BDB   ",
+      "   BDB   ",
+      "  BDDDB  ",
+      "AAAAAAAAA"
     ]
   ],
   "legend": {
-    "E": {
-      "blockId": "gt.casing.grate"
-    },
-    "C": {
-      "blockId": "gt5u.specialHatch"
-    },
-    "B": {
-      "blockId": "gt5u.sHIELDEDACCELERATORCASING.0"
-    },
-    "A": {
-      "blockId": "gt.glass.reinforced"
-    },
-    "D": {
-      "blockId": "gt5u.specialHatch"
-    }
+    "A": { "blockId": "gregtech:gt.blockcasings3@10" },
+    "B": { "blockId": "gtnhlanth:casing.shielded_accelerator@0" },
+    "C": { "blockId": "gt.hatch.special" },
+    "D": { "blockId": "bartworks:BW_TieredGlass@0" }
   },
-  "controller": {
-    "pos": [4, 0, 0],
-    "facing": "north",
-    "blockId": "gt5u.controller.beamSplitter"
-  },
+  "controller": { "pos": [4, 0, 0], "facing": "north", "blockId": "gregtech:gt.blockmachines@3017" },
   "hatchBlocks": {},
   "shareableHatches": [],
   "requiredHatches": {},
   "defaultHatches": [],
   "wallshare": true,
-  "notes": "Generated from MTEBeamSplitter (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+  "notes": "Built by the game itself: MTEBeamSplitter (GT5-Unofficial 5.09.54.133) placed every block with the hologram's construct() (tools/game-dump). Hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows); check the tooltip in game."
 }

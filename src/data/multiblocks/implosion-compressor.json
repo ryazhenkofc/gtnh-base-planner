@@ -14,7 +14,11 @@
       "hatches": ["itemIn", "itemOut", "maintenance", "energy", "muffler"]
     }
   },
-  "controller": { "pos": [1, 1, 0], "facing": "north", "blockId": "gt.controller" },
+  "controller": {
+    "pos": [1, 1, 0],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",
     "itemOut": "gt.hatch.outputBus",
@@ -24,11 +28,21 @@
   },
   "shareableHatches": ["itemIn", "itemOut"],
   "requiredHatches": {
-    "itemIn": { "min": 1 },
-    "itemOut": { "min": 1 },
-    "energy": { "min": 1 },
-    "maintenance": { "min": 1 },
-    "muffler": { "min": 1 }
+    "itemIn": {
+      "min": 1
+    },
+    "itemOut": {
+      "min": 1
+    },
+    "energy": {
+      "min": 1
+    },
+    "maintenance": {
+      "min": 1
+    },
+    "muffler": {
+      "min": 1
+    }
   },
   "defaultHatches": ["itemIn", "itemOut", "energy", "maintenance", "muffler"],
   "wallshare": true,

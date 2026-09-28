@@ -12,7 +12,7 @@
       "             ",
       "             ",
       "             ",
-      "      D      ",
+      "      A      ",
       "             ",
       "             ",
       "             ",
@@ -27,7 +27,7 @@
       "             ",
       "             ",
       "             ",
-      "      D      ",
+      "      A      ",
       "             ",
       "             ",
       "             ",
@@ -42,7 +42,7 @@
       "             ",
       "             ",
       "             ",
-      "      D      ",
+      "      A      ",
       "             ",
       "             ",
       "             ",
@@ -57,7 +57,7 @@
       "             ",
       "             ",
       "      B      ",
-      "     BDB     ",
+      "     BAB     ",
       "      B      ",
       "             ",
       "             ",
@@ -72,7 +72,7 @@
       "             ",
       "             ",
       "      B      ",
-      "     BDB     ",
+      "     BAB     ",
       "      B      ",
       "             ",
       "             ",
@@ -87,7 +87,7 @@
       "             ",
       "             ",
       "      B      ",
-      "     BDB     ",
+      "     BAB     ",
       "      B      ",
       "             ",
       "             ",
@@ -171,49 +171,49 @@
       "      C      "
     ],
     [
-      "     CAC     ",
+      "     CDC     ",
       "             ",
       "             ",
       "             ",
       "    B   B    ",
       "C    BCB    C",
-      "A    CCC    A",
+      "D    CCC    D",
       "C    BCB    C",
       "    B   B    ",
       "             ",
       "             ",
       "             ",
-      "     CAC     "
+      "     CDC     "
     ],
     [
-      "     CAC     ",
+      "     CDC     ",
       "             ",
       "             ",
       "             ",
       "    B   B    ",
       "C    BCB    C",
-      "A    CCC    A",
+      "D    CCC    D",
       "C    BCB    C",
       "    B   B    ",
       "             ",
       "             ",
       "             ",
-      "     CAC     "
+      "     CDC     "
     ],
     [
-      "   CCCACCC   ",
+      "   CCCDCCC   ",
       "  C   B   C  ",
       " C    B    C ",
       "C     B     C",
       "C   B B B   C",
       "C    CCC    C",
-      "ABBBBC CBBBBA",
+      "DBBBBC-CBBBBD",
       "C    CCC    C",
       "C   B B B   C",
       "C     B     C",
       " C    B    C ",
       "  C   B   C  ",
-      "   CCCACCC   "
+      "   CCCDCCC   "
     ],
     [
       "      C      ",
@@ -222,7 +222,7 @@
       "             ",
       "    B   B    ",
       "     CCC     ",
-      "C    C C    C",
+      "C    C-C    C",
       "     CCC     ",
       "    B   B    ",
       "             ",
@@ -237,7 +237,7 @@
       "             ",
       "    B   B    ",
       "     C~C     ",
-      "C    C C    C",
+      "C    C-C    C",
       "     CCC     ",
       "    B   B    ",
       "             ",
@@ -252,7 +252,7 @@
       "             ",
       "    B   B    ",
       "     CCC     ",
-      "     C C     ",
+      "     C-C     ",
       "     CCC     ",
       "    B   B    ",
       "             ",
@@ -267,7 +267,7 @@
       "             ",
       "             ",
       "     CCC     ",
-      "     C C     ",
+      "     C-C     ",
       "     CCC     ",
       "             ",
       "             ",
@@ -282,7 +282,7 @@
       "             ",
       "             ",
       "     CCC     ",
-      "     C C     ",
+      "     C-C     ",
       "     CCC     ",
       "             ",
       "             ",
@@ -297,7 +297,7 @@
       "             ",
       "             ",
       "     CCC     ",
-      "     C C     ",
+      "     C-C     ",
       "     CCC     ",
       "             ",
       "             ",
@@ -352,25 +352,15 @@
     ]
   ],
   "legend": {
+    "A": { "blockId": "bartworks:bw.werkstoffblockscasingadvanced.01@88" },
+    "B": { "blockId": "gregtech:gt.blockframes@316" },
     "C": {
-      "blockId": "gt5u.sBlockCasingsSiphon.0",
+      "blockId": "gtnhintergalactic:gassiphoncasing@0",
       "hatches": ["itemIn", "fluidOut", "energy", "maintenance"]
     },
-    "A": {
-      "blockId": "gt.coil.cupronickel"
-    },
-    "B": {
-      "blockId": "gt.frame.tungstensteel"
-    },
-    "D": {
-      "blockId": "gt5u.bWBlockCasingsAdvanced.88"
-    }
+    "D": { "blockId": "gregtech:gt.blockcasings5@0" }
   },
-  "controller": {
-    "pos": [6, 15, 5],
-    "facing": "north",
-    "blockId": "gt5u.controller.planetaryGasSiphon"
-  },
+  "controller": { "pos": [6, 15, 5], "facing": "north", "blockId": "gregtech:gt.blockmachines@15559" },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",
     "fluidOut": "gt.hatch.outputHatch",
@@ -378,16 +368,8 @@
     "maintenance": "gt.hatch.maintenance"
   },
   "shareableHatches": ["itemIn", "fluidOut"],
-  "requiredHatches": {
-    "energy": {
-      "min": 1
-    },
-    "maintenance": {
-      "min": 1,
-      "max": 1
-    }
-  },
+  "requiredHatches": { "energy": { "min": 1 }, "maintenance": { "min": 1, "max": 1 } },
   "defaultHatches": ["itemIn", "energy", "maintenance"],
   "wallshare": true,
-  "notes": "Generated from MTEPlanetaryGasSiphon (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+  "notes": "Built by the game itself: MTEPlanetaryGasSiphon (GT5-Unofficial 5.09.54.133) placed every block with the hologram's construct() (tools/game-dump). Hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows); check the tooltip in game."
 }

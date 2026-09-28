@@ -212,9 +212,18 @@ export function createDetailedProvider(options: DetailedProviderOptions = {}): M
     if (px) {
       const tex = makeTexture(px, manifest.atlas.tile);
       textures.set(key, tex);
+      // Frames and grates are cut out (alpha 0 or 255); glass is see-through (mostly partial alpha), as the game
+      // draws it in its translucent pass.
       let cutout = false;
-      for (let i = 3; i < px.length; i += 4) if (px[i] < 255) cutout = true;
-      material = new THREE.MeshLambertMaterial({ map: tex, alphaTest: cutout ? 0.5 : 0 });
+      let partial = 0;
+      for (let i = 3; i < px.length; i += 4) {
+        if (px[i] < 255) cutout = true;
+        if (px[i] > 0 && px[i] < 255) partial++;
+      }
+      material =
+        partial * 4 > px.length / 4
+          ? new THREE.MeshLambertMaterial({ map: tex, transparent: true, depthWrite: false, alphaTest: 0.02 })
+          : new THREE.MeshLambertMaterial({ map: tex, alphaTest: cutout ? 0.5 : 0 });
     } else {
       const color = spec.type === 'flat' ? spec.color : '#999999';
       material = new THREE.MeshLambertMaterial({ color });
@@ -224,9 +233,14 @@ export function createDetailedProvider(options: DetailedProviderOptions = {}): M
   }
 
   function faceSpec(visual: BlockVisual, dir: Dir, colors: Record<HatchKind, string>): FaceSpec {
-    const faces = manifest.blocks[visual.blockId];
     const hatchColor = visual.hatchKind ? colors[visual.hatchKind] : undefined;
     const isHatch = visual.kind === 'hatch' && visual.hatchKind !== undefined && hatchColor !== undefined;
+    // A hatch looks like the casing it replaces, with its overlay on the front (as in game).
+    const casing = isHatch && visual.baseBlockId ? manifest.blocks[visual.baseBlockId] : undefined;
+    const faces =
+      casing && !casing.flat && casing.side
+        ? { ...casing, front: undefined }
+        : manifest.blocks[visual.blockId];
     if (!atlas || !faces || faces.flat || !faces.side) {
       // Flat fallback: hatches take their kind colour (as in SIMPLE view).
       return { type: 'flat', color: isHatch ? hatchColor! : blockInfo(visual.blockId).color };

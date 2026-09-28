@@ -15,10 +15,18 @@
       "blockId": "gt.casing.reinforcedWooden",
       "hatches": ["itemIn", "itemOut", "fluidIn", "fluidOut", "maintenance", "energy"]
     },
-    "G": { "blockId": "gt.glass.reinforced" },
-    "F": { "blockId": "gt.frame.steel" }
+    "G": {
+      "blockId": "gt.glass.reinforced"
+    },
+    "F": {
+      "blockId": "gt.frame.steel"
+    }
   },
-  "controller": { "pos": [1, 2, 0], "facing": "north", "blockId": "gt.controller" },
+  "controller": {
+    "pos": [1, 2, 0],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",
     "itemOut": "gt.hatch.outputBus",
@@ -29,11 +37,21 @@
   },
   "shareableHatches": ["itemIn", "itemOut", "fluidIn", "fluidOut"],
   "requiredHatches": {
-    "itemIn": { "min": 1 },
-    "fluidIn": { "min": 1 },
-    "fluidOut": { "min": 1 },
-    "energy": { "min": 1 },
-    "maintenance": { "min": 1 }
+    "itemIn": {
+      "min": 1
+    },
+    "fluidIn": {
+      "min": 1
+    },
+    "fluidOut": {
+      "min": 1
+    },
+    "energy": {
+      "min": 1
+    },
+    "maintenance": {
+      "min": 1
+    }
   },
   "defaultHatches": ["itemIn", "fluidIn", "fluidOut", "energy", "maintenance"],
   "wallshare": true,

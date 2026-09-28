@@ -136,41 +136,73 @@ casing blocks (`BlockCasings1/2/3/4/8/10/11/12.java`, `BlockCasingsNH.java`), `M
 `GregtechMetaCasingBlocks2.java`, the Eglin Steel material (`MaterialsAlloy.java`) and the Steel material definition
 (`MaterialsInit.java`).
 
-<!-- tools/gt-source: generated textures -->
+<!-- tools/game-dump: generated textures -->
 
 ### Files used by the generated catalog entries
 
-Blocks of the generated catalog entries (see [`tools/gt-source/`](tools/gt-source/)), copied from the
-`5.09.54.133` tag; frame boxes are the material icon multiplied by the material colour:
+The face tiles of the generated catalog entries (`tools/texture-sources/DUMP_*.png`, see
+[`tools/game-dump/`](tools/game-dump/)) are these block sprites of the GT5-Unofficial `5.09.54.133` jar (the
+resources under `src/main/resources/` in the repository), tinted and layered the way the game draws them:
 
+- `src/main/resources/assets/goodgenerator/textures/blocks/supercriticalFluidTurbineCasing.png`
+- `src/main/resources/assets/bartworks/textures/blocks/BoronSilicateGlassBlock.png`
+- `src/main/resources/assets/bartworks/textures/blocks/InfinityReinforcedBoronSilicateGlassBlock.png`
+- `src/main/resources/assets/bartworks/textures/blocks/IridiumReinforcedBoronSilicateGlassBlock.png`
+- `src/main/resources/assets/bartworks/textures/blocks/NeutroniumReinforcedBoronSilicateGlassBlock.png`
+- `src/main/resources/assets/bartworks/textures/blocks/NickelFerriteBlocks.png`
+- `src/main/resources/assets/bartworks/textures/blocks/OsmiumReinforcedBoronSilicateGlassBlock.png`
+- `src/main/resources/assets/bartworks/textures/blocks/RhodiumPlatedPalladiumReinforcedBoronSilicateGlassBlock.png`
+- `src/main/resources/assets/bartworks/textures/blocks/TitaniumReinforcedBoronSilicateGlassBlock.png`
+- `src/main/resources/assets/bartworks/textures/blocks/TranscendentallyReinforcedBoronSilicateGlassBlock.png`
+- `src/main/resources/assets/bartworks/textures/blocks/TransformerCoil.png`
 - `src/main/resources/assets/ggfab/textures/blocks/iconsets/OVERLAY_FRONT_ADV_ASSLINE.png`
+- `src/main/resources/assets/goodgenerator/textures/blocks/FRF_Coils/1.png`
 - `src/main/resources/assets/goodgenerator/textures/blocks/MAR_Casing.png`
-- `src/main/resources/assets/goodgenerator/textures/blocks/MagicCasing.png`
-- `src/main/resources/assets/goodgenerator/textures/blocks/essentiaCell/1.png`
-- `src/main/resources/assets/goodgenerator/textures/blocks/essentiaFilterCasing.png`
+- `src/main/resources/assets/goodgenerator/textures/blocks/antimatterAnnihilationMatrix.png`
+- `src/main/resources/assets/goodgenerator/textures/blocks/antimatterContainmentCasing.png`
+- `src/main/resources/assets/goodgenerator/textures/blocks/compAsslineCasing/0.png`
 - `src/main/resources/assets/goodgenerator/textures/blocks/fieldRestrictingGlass.png`
+- `src/main/resources/assets/goodgenerator/textures/blocks/fuison/1.png`
 - `src/main/resources/assets/goodgenerator/textures/blocks/fuison/2.png`
 - `src/main/resources/assets/goodgenerator/textures/blocks/fuison/3.png`
 - `src/main/resources/assets/goodgenerator/textures/blocks/fuison/4.png`
 - `src/main/resources/assets/goodgenerator/textures/blocks/fuison/5.png`
+- `src/main/resources/assets/goodgenerator/textures/blocks/gravityStabilizationCasing.png`
+- `src/main/resources/assets/goodgenerator/textures/blocks/magneticFluxCasing.png`
 - `src/main/resources/assets/goodgenerator/textures/blocks/preciseUnitCasing/0.png`
 - `src/main/resources/assets/goodgenerator/textures/blocks/pressureResistantWalls.png`
+- `src/main/resources/assets/goodgenerator/textures/blocks/protomatterActivationCoil.png`
 - `src/main/resources/assets/goodgenerator/textures/blocks/radiationProtectionSteelFrame.png`
 - `src/main/resources/assets/goodgenerator/textures/blocks/speedingPipe_SIDE.png`
-- `src/main/resources/assets/gregtech/textures/blocks/icons/LargeEssentiaSmeltery_Off.png`
+- `src/main/resources/assets/goodgenerator/textures/blocks/yottaFluidTankCasing_SIDE.png`
+- `src/main/resources/assets/goodgenerator/textures/blocks/yottaFluidTankCell/1.png`
 - `src/main/resources/assets/gregtech/textures/blocks/icons/NeutronActivator_Off.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/ALGAE_CASING.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/AQUATIC_CASING.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/AQUATIC_CASING_TOP.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/BEC_CASING.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/BEC_CONDUIT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/BEC_CONFLICTCASING.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/BEC_CONTROLLER_BACKGROUND.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/BEC_GLASS.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/BEC_MANIPULATOR.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/BEC_PEACECASING.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/BEC_PRIMARYCOIL.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/BEC_SECONDARYCOIL.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/BLOCK_COPPER.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/BLOCK_IRON_FENCE.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/BLOCK_NAQUADAHALLOY.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/BLOCK_NAQUADAHPREIN.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/BLOCK_NEUTRONIUM.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/BLOCK_PLASCRETE.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/BLOCK_QUARK_CONTAINMENT_CASING.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/BLOCK_QUARK_PIPE.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/BLOCK_QUARK_RELEASE_CHAMBER.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/BLOCK_TSREIN.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/BLOCK_ZINC.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/CASING_REDOX_EV.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/CASING_REDOX_UV.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/COLLIDER_CASING.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/COMPRESSOR_CASING.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/COMPRESSOR_PIPE_CASING.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/COMPRESSOR_PIPE_CASING_TOP.png`
@@ -179,7 +211,9 @@ Blocks of the generated catalog entries (see [`tools/gt-source/`](tools/gt-sourc
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/COOLANT_DUCT_CASING.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/CUTTING_FACTORY_FRAME.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/CYCLOTRON_COIL.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/DECAY_WAREHOUSE_BACKGROUND.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/DRONE_CENTRE_INACTIVE.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/ELEMENTAL_CONFINEMENT_SHELL.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/EM_BHG.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/EM_CASING.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/EM_COIL.png`
@@ -198,28 +232,69 @@ Blocks of the generated catalog entries (see [`tools/gt-source/`](tools/gt-sourc
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/EM_PC_VENT_NONSIDE.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/EM_POWER.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/EM_POWER_INFINITE.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/EXOFOUNDRY_CASING.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/EXOFOUNDRY_CENTRAL_CASING.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/EXOFOUNDRY_CENTRAL_CASING_TOP.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/EXOFOUNDRY_GLASS.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/EXOFOUNDRY_INFINITE_CHASSIS.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/EXOFOUNDRY_INFINITE_CHASSIS_TOP.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/EXOFOUNDRY_SECONDARY_CASING.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/EXTREME_DENSITY_CASING.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/FORGE_CASING.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/FORMING_CORE.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/ForceFieldGlass.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/ForceFieldGlassTop.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/GLASS_PH_RESISTANT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/GLASS_QUARK_CONTAINMENT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/GLASS_TINTED_INDUSTRIAL_WHITE.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/GODFORGE_CONTROLLER.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/GODFORGE_ENERGY.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/GODFORGE_INNER.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/GODFORGE_SUPPORT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/GODFORGE_TRIM.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/GRAVITON_CASING_2.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/GRAVITON_TOP_BOTTOM.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/HAWKING_GLASS.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/HEATING_DUCT_CASING.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/INCONEL_REINFORCED_CASING.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/INDUSTRIAL_SIEVE_CASING.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/INDUSTRIAL_STRENGTH_CONCRETE.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/INTEGRAL_FRAMEWORK_EV.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/LARGE_SIEVE_GRATE.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/LASER_PLATE.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_BRONZEPLATEDBRICKS.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_ADVANCEDRADIATIONPROOF.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_ASSEMBLER.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_AUTOCLAVE.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_BERYLLIUM_INTEGRATED_REACTOR.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_CABLE.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_CHEMICALLY_INERT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_CLEAN_STAINLESSSTEEL.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_EMS.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_ENGINE_INTAKE.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_EXTREME_CORROSION_RESISTANT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_EXTREME_ENGINE_INTAKE.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_FIREBOX_BRONZE.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_FIREBOX_BRONZE_TOP.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_FIREBOX_STEEL.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_FIREBOX_STEEL_TOP.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_FIREBOX_TITANIUM.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_FIREBOX_TITANIUM_TOP.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_FIREBOX_TUNGSTENSTEEL.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_FIREBOX_TUNGSTENSTEEL_TOP.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_FLOCCULATION.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_FRIDGE_BOTTOM.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_FRIDGE_SIDE.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_FROST_PROOF.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_FUSION.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_FUSION_2.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_FUSION_COIL.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_FUSION_GLASS.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_GEARBOX_STEEL.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_GEARBOX_TITANIUM.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_GEARBOX_TUNGSTENSTEEL.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_GRAPHITE_MODERATOR.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_GRATE.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_HEARTH_BOTTOM.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_HEARTH_SIDE.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_HIGH_PRESSURE_RESISTANT.png`
@@ -228,8 +303,8 @@ Blocks of the generated catalog entries (see [`tools/gt-source/`](tools/gt-sourc
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_IRIDIUM.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_ITEM_PIPE_BLACK_PLUTONIUM.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_ITEM_PIPE_BRASS.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_ITEM_PIPE_TIN.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_LASER.png`
-- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_MAGICAL.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_MINING_BLACKPLUTONIUM.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_MINING_NEUTRONIUM.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_MINING_OSMIRIDIUM.png`
@@ -239,6 +314,12 @@ Blocks of the generated catalog entries (see [`tools/gt-source/`](tools/gt-sourc
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_OZONE.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_PCB_TIER_1.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_PCB_TIER_2.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_PIPE_BRONZE.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_PIPE_POLYBENZIMIDAZOLE.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_PIPE_POLYTETRAFLUOROETHYLENE.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_PIPE_STEEL.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_PIPE_TITANIUM.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_PIPE_TUNGSTENSTEEL.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_PLASMA_HEATER.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_PROCESSOR.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_PUMP.png`
@@ -246,20 +327,36 @@ Blocks of the generated catalog entries (see [`tools/gt-source/`](tools/gt-sourc
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_RADIANT_NAQUADAH_ALLOY.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_RADIATIONPROOF.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_REFINED_GRAPHITE.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_ROBUST_TUNGSTENSTEEL.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_SOLID_STEEL.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_STABLE_TITANIUM.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_STRENGTHENED_INANIMATE.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_TANK_10.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_THAUMIUM.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_TURBINE_STAINLESSSTEEL.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_TURBINE_STEEL.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_TURBINE_TITANIUM.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_TURBINE_TUNGSTENSTEEL.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_VENT.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_VENT_T2.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_COIL_AWAKENEDDRACONIUM_BACKGROUND.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_COIL_CUPRONICKEL_BACKGROUND.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_COIL_HYPOGEN_BACKGROUND.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_COIL_NAQUADAH_BACKGROUND.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_COIL_SUPERCONDUCTOR.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_DIM_BRIDGE.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_DIM_INJECTOR.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_DIM_TRANS_CASING.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_HEATPROOFCASING.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_HV_BOTTOM.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_HV_SIDE.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_HV_TOP.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_IV_SIDE.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_LV_SIDE.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_LuV_SIDE.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_MV_SIDE.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_UEV_BOTTOM.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_ULV_SIDE.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MASS_SOLIDIFIER_CASING.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MASS_SOLIDIFIER_RADIATOR_CASING.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MATTER_FABRICATOR_CASING.png`
@@ -271,6 +368,9 @@ Blocks of the generated catalog entries (see [`tools/gt-source/`](tools/gt-sourc
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MV_TOP_CYCLOTRON_SOLENOID.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/Manipulator_Top.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/Modulator_3.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/NANOCHIP_COMPUTATIONAL_MATRIX_CASING.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/NANOCHIP_FIREWALL_PROJECTION_CASING.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/NANOCHIP_FIREWALL_PROJECTION_CASING_TOP.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/NANOCHIP_GLASS.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/NANOCHIP_MESH_INTERFACE_CASING.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/NANOCHIP_REINFORCEMENT_CASING.png`
@@ -279,9 +379,11 @@ Blocks of the generated catalog entries (see [`tools/gt-source/`](tools/gt-sourc
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/NAQUADRIA_REINFORCED_WATER_PLANT_CASING.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/NEUTRONIUM_ACTIVE_CASING.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/NEUTRONIUM_CASING.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/NEUTRONIUM_COATED_UV_RESISTANT_GLASS.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/NEUTRONIUM_STABLE_CASING.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/NeutronPulseManipulator.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/NeutronShieldingCore.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/OMNI_PURPOSE_INFINITY_FUSED_GLASS.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_DTPF_OFF.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_ASSEMBLY_LINE.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_ASSEMBLY_MATRIX.png`
@@ -289,19 +391,27 @@ Blocks of the generated catalog entries (see [`tools/gt-source/`](tools/gt-sourc
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_BEAM_MIRROR.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_BEAM_SPLITTER.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_BEAM_STABILIZER.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_BIOLOGICAL_COORDINATION.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_BOARD_PROCESSOR.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_COMPONENT_ASSEMBLY_LINE.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_CUTTING_CHAMBER.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_DIESEL_ENGINE.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_DISASSEMBLER.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_DISTILLATION_TOWER.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_DYSONSPHERE.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_ELECTRIC_BLAST_FURNACE.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_EMS.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_ENCASEMENT_WRAPPER.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_ENGRAVER.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_ETCHING_ARRAY.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_EXOFOUNDRY.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_FRIDGE.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_HEARTH.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_HEAT_EXCHANGER.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_IMPLOSION_COMPRESSOR.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_LARGE_BOILER.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_LARGE_CHEMICAL_REACTOR.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_LHC_ACCELERATOR.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_LNE.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_MASS_SOLIDIFIER.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_MEGA_CHEMICAL_REACTOR.png`
@@ -311,18 +421,21 @@ Blocks of the generated catalog entries (see [`tools/gt-source/`](tools/gt-sourc
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_MULTI_COMPRESSOR.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_MULTI_LATEX.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_MULTI_LATHE.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_MULTI_SMELTER.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_NANOCHIP_ASSEMBLY_COMPLEX.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_NUCLEAR_REACTOR.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_OIL_CRACKER.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_OIL_DRILL.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_OPTICAL_ORGANIZER.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_ORE_DRILL.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_ORE_FACTORY.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_PLANETARYSIPHON.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_PURIFICATION_PLANT.png`
-- `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_RESEARCH_COMPLETER.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_SMD_PROCESSOR.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_SOLAR_FACTORY_INACTIVE.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_SPLITTER.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_SUPERCONDUCTOR_SPLITTER.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_VACUUM_FREEZER.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_WATER_PUMP.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_WATER_T8.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_WIRE_TRACER.png`
@@ -335,18 +448,28 @@ Blocks of the generated catalog entries (see [`tools/gt-source/`](tools/gt-sourc
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_QCHEST.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_TELEPORTER.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/PARTICLE_CONTAINMENT_CASING.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/PHONON_CONDUIT.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/PRIMITIVE_WOODEN_CASING_SIDE.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/PRIMITIVE_WOODEN_CASING_TOP.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/RADIATION_ABSORBENT_CASING.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/REINFORCED_GLASS.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/ResonanceChamber_III.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/SCREEN_OFF.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/SPARGE_TOWER_EXTERIOR_CASING.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/SPINMATRON_CASING.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/SPINMATRON_GRATE.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/STABILITY_CASING_0.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/STURDY_PRINTER_CASING.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/SUB_STATION_EXTERNAL_CASING.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/TFFT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/TM_TESLA_BASE_SIDES.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/TM_TESLA_BASE_TOP_BOTTOM.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/TM_TESLA_TOROID.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/TM_TESLA_TOWER.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/TM_TESLA_WINDING_PRIMARY_SIDES_0.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/TM_TESLA_WINDING_PRIMARY_TOP_BOTTOM_0.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/TM_TESLA_WINDING_SECONDARY_SIDES.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/TM_TESLA_WINDING_SECONDARY_TOP_BOTTOM.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/UEV_SIDE_CYCLOTRON_SOLENOID.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/UEV_TOP_CYCLOTRON_SOLENOID.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/UHV_SIDE_CYCLOTRON_SOLENOID.png`
@@ -355,53 +478,66 @@ Blocks of the generated catalog entries (see [`tools/gt-source/`](tools/gt-sourc
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/VACUUM_CASING_SIDE.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/VACUUM_CASING_TOP.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/WATER_PLANT_CONCRETE_CASING.png`
-- `src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/frameGt.png` (_tinted_ 0, 209, 11)
-- `src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/frameGt.png` (_tinted_ 100, 100, 100)
-- `src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/frameGt.png` (_tinted_ 100, 100, 255)
-- `src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/frameGt.png` (_tinted_ 102, 0, 51)
-- `src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/frameGt.png` (_tinted_ 110, 110, 110)
-- `src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/frameGt.png` (_tinted_ 118, 220, 138)
-- `src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/frameGt.png` (_tinted_ 120, 120, 180)
-- `src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/frameGt.png` (_tinted_ 138, 138, 138)
-- `src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/frameGt.png` (_tinted_ 139, 136, 120)
-- `src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/frameGt.png` (_tinted_ 140, 100, 100)
-- `src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/frameGt.png` (_tinted_ 149, 224, 17)
-- `src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/frameGt.png` (_tinted_ 18, 100, 255)
-- `src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/frameGt.png` (_tinted_ 201, 151, 129)
-- `src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/frameGt.png` (_tinted_ 211, 255, 255)
-- `src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/frameGt.png` (_tinted_ 215, 230, 230)
-- `src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/frameGt.png` (_tinted_ 240, 240, 120)
-- `src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/frameGt.png` (_tinted_ 240, 240, 245)
-- `src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/frameGt.png` (_tinted_ 244, 78, 0)
-- `src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/frameGt.png` (_tinted_ 250, 250, 250)
-- `src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/frameGt.png` (_tinted_ 255, 255, 30)
-- `src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/frameGt.png` (_tinted_ 30, 177, 255)
-- `src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/frameGt.png` (_tinted_ 30, 30, 30)
-- `src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/frameGt.png` (_tinted_ 40, 40, 40)
-- `src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/frameGt.png` (_tinted_ 50, 50, 50)
-- `src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/frameGt.png` (_tinted_ 51, 0, 102)
-- `src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/frameGt.png` (_tinted_ 52, 103, 186)
-- `src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/frameGt.png` (_tinted_ 53, 93, 106)
-- `src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/frameGt.png` (_tinted_ 68, 75, 66)
+- `src/main/resources/assets/gregtech/textures/blocks/materialicons/DULL/sheetmetal.png`
+- `src/main/resources/assets/gregtech/textures/blocks/materialicons/METALLIC/sheetmetal.png`
+- `src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/blockCasing.png`
+- `src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/blockCasingAdvanced.png`
+- `src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/frameGt.png`
+- `src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/sheetmetal.png`
+- `src/main/resources/assets/gregtech/textures/blocks/materialicons/SHINY/sheetmetal.png`
+- `src/main/resources/assets/gtnhintergalactic/textures/blocks/dysonSwarm/ControlCasing.png`
+- `src/main/resources/assets/gtnhintergalactic/textures/blocks/dysonSwarm/ControlCasing_Side.png`
+- `src/main/resources/assets/gtnhintergalactic/textures/blocks/dysonSwarm/ControlPrimary.png`
+- `src/main/resources/assets/gtnhintergalactic/textures/blocks/dysonSwarm/ControlPrimary_Side.png`
+- `src/main/resources/assets/gtnhintergalactic/textures/blocks/dysonSwarm/ControlSecondary.png`
+- `src/main/resources/assets/gtnhintergalactic/textures/blocks/dysonSwarm/ControlSecondary_Side.png`
+- `src/main/resources/assets/gtnhintergalactic/textures/blocks/dysonSwarm/ControlToroid.png`
+- `src/main/resources/assets/gtnhintergalactic/textures/blocks/dysonSwarm/ControlToroid_Side.png`
+- `src/main/resources/assets/gtnhintergalactic/textures/blocks/dysonSwarm/DeploymentUnitCasing.png`
+- `src/main/resources/assets/gtnhintergalactic/textures/blocks/dysonSwarm/DeploymentUnitCasing_Side.png`
+- `src/main/resources/assets/gtnhintergalactic/textures/blocks/dysonSwarm/DeploymentUnitCore.png`
+- `src/main/resources/assets/gtnhintergalactic/textures/blocks/dysonSwarm/DeploymentUnitCore_Side.png`
+- `src/main/resources/assets/gtnhintergalactic/textures/blocks/dysonSwarm/DeploymentUnitMagnet.png`
+- `src/main/resources/assets/gtnhintergalactic/textures/blocks/dysonSwarm/DeploymentUnitMagnet_Side.png`
+- `src/main/resources/assets/gtnhintergalactic/textures/blocks/dysonSwarm/Floor.png`
+- `src/main/resources/assets/gtnhintergalactic/textures/blocks/dysonSwarm/Floor_Side.png`
+- `src/main/resources/assets/gtnhintergalactic/textures/blocks/dysonSwarm/ReceiverCasing.png`
+- `src/main/resources/assets/gtnhintergalactic/textures/blocks/dysonSwarm/ReceiverCasing_Side.png`
+- `src/main/resources/assets/gtnhintergalactic/textures/blocks/dysonSwarm/ReceiverDish.png`
+- `src/main/resources/assets/gtnhintergalactic/textures/blocks/dysonSwarm/ReceiverDish_Side.png`
+- `src/main/resources/assets/gtnhintergalactic/textures/blocks/gasSiphon/SiphonCasing.png`
 - `src/main/resources/assets/gtnhintergalactic/textures/blocks/spaceElevator/BaseCasing.png`
-- `src/main/resources/assets/gtnhintergalactic/textures/blocks/spaceElevator/CablePart.png`
-- `src/main/resources/assets/gtnhintergalactic/textures/blocks/spaceElevator/InternalStructure.png`
+- `src/main/resources/assets/gtnhlanth/textures/blocks/casing.antenna_t1.png`
 - `src/main/resources/assets/gtnhlanth/textures/blocks/casing.coolant_delivery.png`
 - `src/main/resources/assets/gtnhlanth/textures/blocks/casing.electrode.png`
 - `src/main/resources/assets/gtnhlanth/textures/blocks/casing.focus_holder.png`
 - `src/main/resources/assets/gtnhlanth/textures/blocks/casing.focus_manipulator.png`
 - `src/main/resources/assets/gtnhlanth/textures/blocks/casing.niobium_cavity.png`
 - `src/main/resources/assets/gtnhlanth/textures/blocks/casing.shielded_accelerator.png`
+- `src/main/resources/assets/gtnhlanth/textures/blocks/casing.shielded_accelerator_glass.png`
 - `src/main/resources/assets/gtnhlanth/textures/blocks/casing.target_holder.png`
 - `src/main/resources/assets/gtnhlanth/textures/blocks/casing.target_receptacle.png`
+- `src/main/resources/assets/kekztech/textures/blocks/GDCCeramicElectrolyteUnit.png`
+- `src/main/resources/assets/kekztech/textures/blocks/LSCBase_side.png`
+- `src/main/resources/assets/kekztech/textures/blocks/LSCBase_top.png`
+- `src/main/resources/assets/kekztech/textures/blocks/LapotronicEnergyUnit6_side.png`
+- `src/main/resources/assets/kekztech/textures/blocks/LapotronicEnergyUnit6_top.png`
+- `src/main/resources/assets/kekztech/textures/blocks/TFFTCasing.png`
+- `src/main/resources/assets/kekztech/textures/blocks/TFFTStorageFieldBlock1.png`
+- `src/main/resources/assets/kekztech/textures/blocks/YSZCeramicElectrolyteUnit.png`
+- `src/main/resources/assets/kubatech/textures/blocks/casing/defc_0.png`
+- `src/main/resources/assets/kubatech/textures/blocks/casing/defc_1.png`
 - `src/main/resources/assets/miscutils/textures/blocks/TileEntities/CASING_AMAZON.png`
 - `src/main/resources/assets/miscutils/textures/blocks/TileEntities/MACHINE_CASING_ADVANCED_CRYOGENIC.png`
 - `src/main/resources/assets/miscutils/textures/blocks/TileEntities/MACHINE_CASING_ADVANCED_VOLCANUS.png`
+- `src/main/resources/assets/miscutils/textures/blocks/TileEntities/MACHINE_CASING_CENTRIFUGE.png`
 - `src/main/resources/assets/miscutils/textures/blocks/TileEntities/MACHINE_CASING_FIREBOX_STABALLOY.png`
 - `src/main/resources/assets/miscutils/textures/blocks/TileEntities/MACHINE_CASING_FLOTATION.png`
 - `src/main/resources/assets/miscutils/textures/blocks/TileEntities/MACHINE_CASING_FLUID_INCOLOY_DS.png`
 - `src/main/resources/assets/miscutils/textures/blocks/TileEntities/MACHINE_CASING_GEARBOX_T1.png`
 - `src/main/resources/assets/miscutils/textures/blocks/TileEntities/MACHINE_CASING_GRINDING_FACTORY.png`
+- `src/main/resources/assets/miscutils/textures/blocks/TileEntities/MACHINE_CASING_PIPE_T1.png`
+- `src/main/resources/assets/miscutils/textures/blocks/TileEntities/MACHINE_CASING_ROCKETDYNE.png`
 - `src/main/resources/assets/miscutils/textures/blocks/TileEntities/MACHINE_CASING_STABLE_GRISIUM.png`
 - `src/main/resources/assets/miscutils/textures/blocks/TileEntities/MACHINE_CASING_STABLE_GRISIUM_TOP.png`
 - `src/main/resources/assets/miscutils/textures/blocks/TileEntities/MACHINE_CASING_STABLE_HASTELLOY_N.png`
@@ -426,6 +562,7 @@ Blocks of the generated catalog entries (see [`tools/gt-source/`](tools/gt-sourc
 - `src/main/resources/assets/miscutils/textures/blocks/iconsets/MACHINE_CASING_FUSION_COIL_II.png`
 - `src/main/resources/assets/miscutils/textures/blocks/iconsets/MACHINE_CASING_FUSION_COIL_III.png`
 - `src/main/resources/assets/miscutils/textures/blocks/iconsets/OVERLAY_FRONT_ADVANCED_MULTIBLOCK_ANIMATED.png`
+- `src/main/resources/assets/miscutils/textures/blocks/iconsets/SC_TURBINE.png`
 - `src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/advancedEBF.png`
 - `src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/advancedHeatExchanger.png`
 - `src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/advancedImplosion.png`
@@ -452,10 +589,28 @@ Blocks of the generated catalog entries (see [`tools/gt-source/`](tools/gt-sourc
 - `src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/industrialVacuumFreezer.png`
 - `src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/industrialWashPlant.png`
 - `src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/industrialWiremill.png`
+- `src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/largeRocketEngine.png`
 - `src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/megaAlloyBlastSmelter.png`
 - `src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/quantumForceTransformer.png`
+- `src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/solarTower.png`
 - `src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/spargeTower.png`
 - `src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/thermalBoiler.png`
 - `src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/treeFarm.png`
+- `src/main/resources/assets/tectech/textures/blocks/blockSpatiallyTranscendentGravitationalLens.png`
 
-<!-- /tools/gt-source -->
+The entries still converted from the sources use these files, copied from the same tag; frame boxes are the
+material icon multiplied by the material colour:
+
+- `src/main/resources/assets/goodgenerator/textures/blocks/MagicCasing.png`
+- `src/main/resources/assets/goodgenerator/textures/blocks/essentiaCell/1.png`
+- `src/main/resources/assets/goodgenerator/textures/blocks/essentiaFilterCasing.png`
+- `src/main/resources/assets/gregtech/textures/blocks/icons/LargeEssentiaSmeltery_Off.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/EM_CONTROLLER.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_MAGICAL.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_RESEARCH_COMPLETER.png`
+- `src/main/resources/assets/gregtech/textures/blocks/materialicons/NONE/frameGt.png`
+- `src/main/resources/assets/gtnhintergalactic/textures/blocks/spaceElevator/BaseCasing.png`
+- `src/main/resources/assets/gtnhintergalactic/textures/blocks/spaceElevator/CablePart.png`
+- `src/main/resources/assets/gtnhintergalactic/textures/blocks/spaceElevator/InternalStructure.png`
+
+<!-- /tools/game-dump -->

@@ -5,10 +5,12 @@ import { catalog } from './catalog';
 import generatedShapes from './gt-shapes.generated.json';
 
 /**
- * Every catalog structure, cell by cell, against the StructureLib shape in GT5-Unofficial 5.09.54.133 (the
- * version in GT:NH 2.9.0-beta-3). Shapes and elements are copied from the Java sources linked in each JSON
+ * Every hand-made catalog structure, cell by cell, against the StructureLib shape in GT5-Unofficial 5.09.54.133
+ * (the version in GT:NH 2.9.0-beta-3). Entries built from the game dump (tools/game-dump) are the game's own
+ * placement and are not listed here. Shapes and elements are copied from the Java sources linked in each JSON
  * `source`: which block each character is and which hatches (`buildHatchAdder(...).atLeast(...)`) may replace it.
- * Entries written by tools/gt-source/generate.mjs bring their GT shape along in gt-shapes.generated.json.
+ * The few entries still converted from the sources (tools/gt-source) bring their GT shape along in
+ * gt-shapes.generated.json.
  */
 
 type Cat =
@@ -363,66 +365,6 @@ const GT: Record<string, { transposed: boolean; shape: Shape; el: Record<string,
       G: casing('glass'),
     },
   },
-  'large-bronze-boiler': {
-    transposed: true,
-    shape: [
-      ['ccc', 'ccc', 'ccc'],
-      ['ccc', 'cPc', 'ccc'],
-      ['ccc', 'cPc', 'ccc'],
-      ['ccc', 'cPc', 'ccc'],
-      ['f~f', 'fff', 'fff'],
-    ],
-    el: {
-      c: casing('gt.casing.bronzePlated', OH),
-      f: casing('gt.casing.bronzeFirebox', MA, IH, IB, MU),
-      P: casing('gt.casing.bronzePipe'),
-    },
-  },
-  'large-steel-boiler': {
-    transposed: true,
-    shape: [
-      ['ccc', 'ccc', 'ccc'],
-      ['ccc', 'cPc', 'ccc'],
-      ['ccc', 'cPc', 'ccc'],
-      ['ccc', 'cPc', 'ccc'],
-      ['f~f', 'fff', 'fff'],
-    ],
-    el: {
-      c: casing('gt.casing.solidSteel', OH),
-      f: casing('gt.casing.steelFirebox', MA, IH, IB, MU),
-      P: casing('gt.casing.steelPipe'),
-    },
-  },
-  'large-titanium-boiler': {
-    transposed: true,
-    shape: [
-      ['ccc', 'ccc', 'ccc'],
-      ['ccc', 'cPc', 'ccc'],
-      ['ccc', 'cPc', 'ccc'],
-      ['ccc', 'cPc', 'ccc'],
-      ['f~f', 'fff', 'fff'],
-    ],
-    el: {
-      c: casing('gt.casing.stableTitanium', OH),
-      f: casing('gt.casing.titaniumFirebox', MA, IH, IB, MU),
-      P: casing('gt.casing.titaniumPipe'),
-    },
-  },
-  'large-tungstensteel-boiler': {
-    transposed: true,
-    shape: [
-      ['ccc', 'ccc', 'ccc'],
-      ['ccc', 'cPc', 'ccc'],
-      ['ccc', 'cPc', 'ccc'],
-      ['ccc', 'cPc', 'ccc'],
-      ['f~f', 'fff', 'fff'],
-    ],
-    el: {
-      c: casing('gt.casing.robustTungstensteel', OH),
-      f: casing('gt.casing.tungstensteelFirebox', MA, IH, IB, MU),
-      P: casing('gt.casing.tungstensteelPipe'),
-    },
-  },
   'large-steam-turbine': {
     transposed: false,
     shape: [
@@ -658,7 +600,10 @@ function gtCells(transposed: boolean, shape: string[][]): Map<string, string> {
   const out = new Map<string, string>();
   shape.forEach((outer, i) =>
     outer.forEach((row, j) =>
-      [...row].forEach((ch, x) => {
+      [...row].forEach((ch, a) => {
+        // StructureLib's first axis runs to the right of a controller seen from the front: west (-x) for one
+        // facing north. The catalog's x runs east, so the shape is mirrored.
+        const x = row.length - 1 - a;
         // transposed: i = layer from the top, j = z; else i = z, j = row from the top.
         const [y, z] = transposed ? [shape.length - 1 - i, j] : [outer.length - 1 - j, i];
         out.set(`${x},${y},${z}`, ch);
@@ -708,11 +653,13 @@ function sameCell(gt: Cat, ours: Cat): boolean {
 Object.assign(GT, generatedShapes as unknown as typeof GT);
 
 describe('catalog structures match GT5-Unofficial', () => {
-  it('has a GT shape for every multiblock', () => {
-    expect(catalog.map((d) => d.id).sort()).toEqual(Object.keys(GT).sort());
+  const checked = catalog.filter((d) => !d.generated || d.id in generatedShapes);
+
+  it('has a GT shape for every hand-made multiblock', () => {
+    expect(checked.map((d) => d.id).sort()).toEqual(Object.keys(GT).sort());
   });
 
-  for (const raw of catalog) {
+  for (const raw of checked) {
     const r = raw.resize;
     const sizes = r ? [...new Set([r.min, r.default, r.max])] : [undefined];
     for (const size of sizes)

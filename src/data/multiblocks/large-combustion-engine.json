@@ -5,9 +5,9 @@
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTELargeCombustionEngine.java",
   "size": [8, 3, 4],
   "layers": [
-    ["        ", "EDEDDDDE", "DDDDDDDD", "EDEDDDDE"],
-    ["   ---- ", "E~ECCCCE", "DBBAAAAG", "EBEFFFFE"],
-    ["   ---- ", "EBECCCCE", "EBEFFFFE", "EBEBBBBE"]
+    ["        ", "EDDDDEDE", "DDDDDDDD", "EDDDDEDE"],
+    [" ----   ", "ECCCCE~E", "GAAAABBD", "EFFFFEBE"],
+    [" ----   ", "ECCCCEBE", "EFFFFEBE", "EBBBBEBE"]
   ],
   "legend": {
     "A": {
@@ -36,7 +36,7 @@
     }
   },
   "controller": {
-    "pos": [1, 1, 1],
+    "pos": [6, 1, 1],
     "facing": "north",
     "blockId": "gt.controller"
   },

@@ -140,6 +140,25 @@ describe('createDetailedProvider', () => {
     expect([...img.data.subarray(0, 3)]).toEqual([0x80, 0xc0, 0x40]);
   });
 
+  it('draws a hatch as the casing it replaces, with its overlay on the front', async () => {
+    const p = createDetailedProvider({ loadAtlas });
+    await p.load();
+    const south = BOX_FACE_ORDER.indexOf('south');
+    const hatch = (baseBlockId?: string) =>
+      p.materials(
+        { blockId: 'gt.hatch.inputBus', kind: 'hatch', facing: 'south', hatchKind: 'itemIn', baseBlockId },
+        colors,
+      );
+    const casing = p.materials({ blockId: 'gt.casing.heatProof', kind: 'casing' }, colors);
+    const onCasing = hatch('gt.casing.heatProof');
+    const onHull = hatch();
+    // Sides are the casing itself; the front differs from both the casing and a hatch on its own hull.
+    expect(onCasing[0]).toBe(casing[0]);
+    expect(onHull[0]).not.toBe(casing[0]);
+    expect(onCasing[south]).not.toBe(casing[south]);
+    expect(onCasing[south]).not.toBe(onHull[south]);
+  });
+
   it('falls back to flat colours for unknown or untextured blocks', async () => {
     const p = createDetailedProvider({
       loadAtlas,
@@ -176,6 +195,10 @@ describe('createDetailedProvider', () => {
     expect(loader).toHaveBeenCalledTimes(1);
     const mats = p.materials({ blockId: 'gt.glass.reinforced', kind: 'casing' }, colors);
     expect(mats[0].alphaTest).toBe(0.5);
+    // Borosilicate glass is mostly half transparent: blended, not cut out.
+    const boro = p.materials({ blockId: 'bartworks:BW_TieredGlass@0', kind: 'casing' }, colors);
+    expect(boro[0].transparent).toBe(true);
+    expect(boro[0].depthWrite).toBe(false);
     const disposed = vi.fn();
     mats[0].addEventListener('dispose', disposed);
     const tex = mapOf(mats[0])!;

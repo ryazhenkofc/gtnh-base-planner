@@ -5,31 +5,23 @@
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTEOilDrill1.java",
   "size": [3, 7, 3],
   "layers": [
-    ["b~b", "bbb", "bbb"],
-    [" f ", "fcf", " f "],
-    [" f ", "fcf", " f "],
-    [" f ", "fcf", " f "],
-    ["   ", " f ", "   "],
-    ["   ", " f ", "   "],
-    ["   ", " f ", "   "]
+    ["A~A", "AAA", "AAA"],
+    [" B ", "BCB", " B "],
+    [" B ", "BCB", " B "],
+    [" B ", "BCB", " B "],
+    ["   ", " B ", "   "],
+    ["   ", " B ", "   "],
+    ["   ", " B ", "   "]
   ],
   "legend": {
-    "f": {
-      "blockId": "gt.frame.steel"
-    },
-    "c": {
-      "blockId": "gt.casing.solidSteel"
-    },
-    "b": {
-      "blockId": "gt.casing.solidSteel",
+    "A": {
+      "blockId": "gregtech:gt.blockcasings2@0",
       "hatches": ["itemIn", "fluidOut", "energy", "maintenance"]
-    }
+    },
+    "B": { "blockId": "gregtech:gt.blockframes@305" },
+    "C": { "blockId": "gregtech:gt.blockcasings2@0" }
   },
-  "controller": {
-    "pos": [1, 0, 0],
-    "facing": "north",
-    "blockId": "gt5u.controller.fluidDrillingRig"
-  },
+  "controller": { "pos": [1, 0, 0], "facing": "north", "blockId": "gregtech:gt.blockmachines@1157" },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",
     "fluidOut": "gt.hatch.outputHatch",
@@ -37,16 +29,8 @@
     "maintenance": "gt.hatch.maintenance"
   },
   "shareableHatches": ["itemIn", "fluidOut"],
-  "requiredHatches": {
-    "energy": {
-      "min": 1
-    },
-    "maintenance": {
-      "min": 1,
-      "max": 1
-    }
-  },
+  "requiredHatches": { "energy": { "min": 1 }, "maintenance": { "min": 1, "max": 1 } },
   "defaultHatches": ["itemIn", "energy", "maintenance"],
   "wallshare": true,
-  "notes": "Generated from MTEOilDrill1 (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+  "notes": "Built by the game itself: MTEOilDrill1 (GT5-Unofficial 5.09.54.133) placed every block with the hologram's construct() (tools/game-dump). Hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows); check the tooltip in game."
 }

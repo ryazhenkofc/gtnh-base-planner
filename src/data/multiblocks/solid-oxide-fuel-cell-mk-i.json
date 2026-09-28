@@ -1,35 +1,21 @@
 {
   "id": "solid-oxide-fuel-cell-mk-i",
-  "name": "Solid-Oxide Fuel Cell Mk I",
+  "name": "Solid-Oxide Fuel Cell Mk-I",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/kekztech/common/tileentities/MTESOFuelCellMK1.java",
   "size": [3, 3, 5],
   "layers": [
-    ["ccc", "ccc", "ccc", "ccc", "ccc"],
-    ["c~c", "geg", "geg", "geg", "cdc"],
-    ["ccc", "ccc", "ccc", "ccc", "ccc"]
+    ["AAA", "AAA", "AAA", "AAA", "AAA"],
+    ["A~A", "BCB", "BCB", "BCB", "ADA"],
+    ["AAA", "AAA", "AAA", "AAA", "AAA"]
   ],
   "legend": {
-    "c": {
-      "blockId": "gt.casing.cleanStainless",
-      "hatches": ["fluidIn", "fluidOut", "maintenance"]
-    },
-    "g": {
-      "blockId": "gt.glass.reinforced"
-    },
-    "e": {
-      "blockId": "ext.yszUnit"
-    },
-    "d": {
-      "blockId": "gt.hatch.dynamo",
-      "hatches": ["dynamo"]
-    }
+    "A": { "blockId": "gregtech:gt.blockcasings4@1", "hatches": ["fluidIn", "fluidOut", "maintenance"] },
+    "B": { "blockId": "gregtech:gt.blockglass1@10" },
+    "C": { "blockId": "kekztech:kekztech_yszceramicelectrolyteunit_block@0" },
+    "D": { "blockId": "gt.hatch.dynamo", "hatches": ["dynamo"] }
   },
-  "controller": {
-    "pos": [1, 1, 0],
-    "facing": "north",
-    "blockId": "gt5u.controller.solidOxideFuelCellMkI"
-  },
+  "controller": { "pos": [1, 1, 0], "facing": "north", "blockId": "gregtech:gt.blockmachines@13101" },
   "hatchBlocks": {
     "fluidIn": "gt.hatch.inputHatch",
     "fluidOut": "gt.hatch.outputHatch",
@@ -37,16 +23,8 @@
     "maintenance": "gt.hatch.maintenance"
   },
   "shareableHatches": ["fluidIn", "fluidOut"],
-  "requiredHatches": {
-    "dynamo": {
-      "min": 1
-    },
-    "maintenance": {
-      "min": 1,
-      "max": 1
-    }
-  },
+  "requiredHatches": { "dynamo": { "min": 1 }, "maintenance": { "min": 1, "max": 1 } },
   "defaultHatches": ["fluidIn", "fluidOut", "dynamo", "maintenance"],
   "wallshare": true,
-  "notes": "Generated from MTESOFuelCellMK1 (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+  "notes": "Machine-specific hatches (LaserSource) are shown as their cells only. Built by the game itself: MTESOFuelCellMK1 (GT5-Unofficial 5.09.54.133) placed every block with the hologram's construct() (tools/game-dump). Hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows); check the tooltip in game."
 }

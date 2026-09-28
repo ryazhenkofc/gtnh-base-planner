@@ -5,41 +5,35 @@
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/purification/MTEPurificationUnitFlocculation.java",
   "size": [9, 5, 8],
   "layers": [
-    [" BBBBBBB ", " BCCCCCB ", " BCAAACB ", " BCAAACB ", " BCAAACB ", " BCCCCCB ", "DBBBBBBBD", "DD     DD"],
-    [" BBB~BBB ", " B-----B ", " G-----G ", " G-----G ", " G-----G ", " BE---EB ", "DBBBBBBBD", "DD     DD"],
-    [" BBBBBBB ", " B     B ", " B     B ", " B     B ", " B     B ", " BE   EB ", "DBBBBBBBD", "DD     DD"],
-    ["         ", "         ", "         ", "         ", "         ", " EE   EE ", "DEE   EED", "DD     DD"],
+    [" AAAAAAA ", " ABBBBBA ", " ABCCCBA ", " ABCCCBA ", " ABCCCBA ", " ABBBBBA ", "DAAAAAAAD", "DD     DD"],
+    [" AAA~AAA ", " AEEEEEA ", " FEEEEEF ", " FEEEEEF ", " FGEEEGF ", " AHGEEHA ", "DAAAAAAAD", "DD     DD"],
+    [" AAAAAAA ", " A     A ", " A     A ", " A     A ", " A     A ", " AH   HA ", "DAAAAAAAD", "DD     DD"],
+    ["         ", "         ", "         ", "         ", "         ", " HH   HH ", "DHH   HHD", "DD     DD"],
     ["         ", "         ", "         ", "         ", "         ", "         ", "D       D", "DD     DD"]
   ],
   "legend": {
-    "B": {
-      "blockId": "gt5u.specialHatch"
-    },
-    "C": {
-      "blockId": "gt5u.gtBlockcasings9.5"
-    },
-    "G": {
-      "blockId": "gt.glass.reinforced"
-    },
     "A": {
-      "blockId": "gt5u.gtBlockcasings3.11"
+      "blockId": "gregtech:gt.blockcasings9@6",
+      "hatches": ["itemIn", "itemOut", "fluidIn", "fluidOut"]
     },
-    "E": {
-      "blockId": "gt.frame.adamantium"
-    },
-    "D": {
-      "blockId": "gt5u.gtBlockcasings9.4"
-    }
+    "B": { "blockId": "gregtech:gt.blockcasings9@5" },
+    "C": { "blockId": "gregtech:gt.blockcasings3@11" },
+    "D": { "blockId": "gregtech:gt.blockcasings9@4" },
+    "E": { "blockId": "minecraft:water@0" },
+    "F": { "blockId": "gregtech:gt.blocktintedglass@0" },
+    "G": { "blockId": "minecraft:flowing_water@0" },
+    "H": { "blockId": "gregtech:gt.blockframes@319" }
   },
-  "controller": {
-    "pos": [4, 1, 0],
-    "facing": "north",
-    "blockId": "gt5u.controller.flocculationPurificationUnit"
+  "controller": { "pos": [4, 1, 0], "facing": "north", "blockId": "gregtech:gt.blockmachines@9405" },
+  "hatchBlocks": {
+    "itemIn": "gt.hatch.inputBus",
+    "itemOut": "gt.hatch.outputBus",
+    "fluidIn": "gt.hatch.inputHatch",
+    "fluidOut": "gt.hatch.outputHatch"
   },
-  "hatchBlocks": {},
-  "shareableHatches": [],
+  "shareableHatches": ["itemIn", "itemOut", "fluidIn", "fluidOut"],
   "requiredHatches": {},
-  "defaultHatches": [],
+  "defaultHatches": ["itemIn", "itemOut"],
   "wallshare": true,
-  "notes": "Generated from MTEPurificationUnitFlocculation (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+  "notes": "Built by the game itself: MTEPurificationUnitFlocculation (GT5-Unofficial 5.09.54.133) placed every block with the hologram's construct() (tools/game-dump). Hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows); check the tooltip in game."
 }

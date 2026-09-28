@@ -5,25 +5,19 @@
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTECryogenicFreezer.java",
   "size": [5, 4, 7],
   "layers": [
-    [" BBB ", "ABBBA", " BBB ", "ABBBA", " BBB ", "ABBBA", " BBB "],
-    [" B~B ", "AB BA", " B B ", "AB BA", " B B ", "AB BA", " BBB "],
-    [" BBB ", "ABBBA", " BBB ", "ABBBA", " BBB ", "ABBBA", " BBB "],
-    ["     ", " ABA ", "  B  ", " ABA ", "  B  ", " ABA ", "     "]
+    [" AAA ", "BAAAB", " AAA ", "BAAAB", " AAA ", "BAAAB", " AAA "],
+    [" A~A ", "BA-AB", " A-A ", "BA-AB", " A-A ", "BA-AB", " AAA "],
+    [" AAA ", "BAAAB", " AAA ", "BAAAB", " AAA ", "BAAAB", " AAA "],
+    ["     ", " BAB ", "  A  ", " BAB ", "  A  ", " BAB ", "     "]
   ],
   "legend": {
-    "B": {
-      "blockId": "gt5u.blockCasings3Misc.10",
+    "A": {
+      "blockId": "miscutils:gtplusplus.blockcasings.3@10",
       "hatches": ["itemIn", "itemOut", "fluidIn", "fluidOut", "energy", "maintenance", "muffler"]
     },
-    "A": {
-      "blockId": "gt.frame.leagrisium"
-    }
+    "B": { "blockId": "miscutils:blockFrameGtGrisium@0" }
   },
-  "controller": {
-    "pos": [2, 1, 0],
-    "facing": "north",
-    "blockId": "gt5u.controller.cryogenicFreezer"
-  },
+  "controller": { "pos": [2, 1, 0], "facing": "north", "blockId": "gregtech:gt.blockmachines@15565" },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",
     "itemOut": "gt.hatch.outputBus",
@@ -35,19 +29,11 @@
   },
   "shareableHatches": ["itemIn", "itemOut", "fluidIn", "fluidOut"],
   "requiredHatches": {
-    "energy": {
-      "min": 1
-    },
-    "maintenance": {
-      "min": 1,
-      "max": 1
-    },
-    "muffler": {
-      "min": 1,
-      "max": 1
-    }
+    "energy": { "min": 1 },
+    "maintenance": { "min": 1, "max": 1 },
+    "muffler": { "min": 1, "max": 1 }
   },
   "defaultHatches": ["itemIn", "itemOut", "energy", "maintenance", "muffler"],
   "wallshare": true,
-  "notes": "Generated from MTECryogenicFreezer (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+  "notes": "Built by the game itself: MTECryogenicFreezer (GT5-Unofficial 5.09.54.133) placed every block with the hologram's construct() (tools/game-dump). Hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows); check the tooltip in game."
 }

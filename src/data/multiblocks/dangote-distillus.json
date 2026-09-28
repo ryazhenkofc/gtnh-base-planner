@@ -5,29 +5,20 @@
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gtPlusPlus/xmod/gregtech/common/tileentities/machines/multi/processing/advanced/MTEAdvDistillationTower.java",
   "size": [3, 3, 3],
   "layers": [
-    ["b~b", "bbb", "bbb"],
-    ["lll", "l-l", "lll"],
-    ["ttt", "ttt", "ttt"]
+    ["A~A", "AAA", "AAA"],
+    ["BBB", "BCB", "BBB"],
+    ["DDD", "BDD", "DDD"]
   ],
   "legend": {
-    "t": {
-      "blockId": "gt.casing.cleanStainless",
-      "hatches": ["fluidOut", "muffler"]
-    },
-    "l": {
-      "blockId": "gt.casing.cleanStainless",
-      "hatches": ["fluidOut", "energy", "maintenance", "muffler"]
-    },
-    "b": {
-      "blockId": "gt.casing.cleanStainless",
+    "A": {
+      "blockId": "gregtech:gt.blockcasings4@1",
       "hatches": ["itemIn", "itemOut", "fluidIn", "energy", "maintenance"]
-    }
+    },
+    "B": { "blockId": "gregtech:gt.blockcasings4@1", "hatches": ["fluidOut", "energy", "maintenance"] },
+    "C": { "blockId": "gt.hatch.special" },
+    "D": { "blockId": "gregtech:gt.blockcasings4@1", "hatches": ["fluidOut", "muffler"] }
   },
-  "controller": {
-    "pos": [1, 0, 0],
-    "facing": "north",
-    "blockId": "gt5u.controller.dangoteDistillus"
-  },
+  "controller": { "pos": [1, 0, 0], "facing": "north", "blockId": "gregtech:gt.blockmachines@31021" },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",
     "itemOut": "gt.hatch.outputBus",
@@ -39,19 +30,11 @@
   },
   "shareableHatches": ["itemIn", "itemOut", "fluidIn", "fluidOut"],
   "requiredHatches": {
-    "energy": {
-      "min": 1
-    },
-    "maintenance": {
-      "min": 1,
-      "max": 1
-    },
-    "muffler": {
-      "min": 1,
-      "max": 1
-    }
+    "energy": { "min": 1 },
+    "maintenance": { "min": 1, "max": 1 },
+    "muffler": { "min": 1, "max": 1 }
   },
   "defaultHatches": ["itemIn", "itemOut", "energy", "maintenance", "muffler"],
   "wallshare": true,
-  "notes": "Generated from MTEAdvDistillationTower (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+  "notes": "Built by the game itself: MTEAdvDistillationTower (GT5-Unofficial 5.09.54.133) placed every block with the hologram's construct() (tools/game-dump). Hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows); check the tooltip in game."
 }

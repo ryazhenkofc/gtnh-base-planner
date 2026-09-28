@@ -8,7 +8,7 @@ import type { Dir, Rotation, Vec3 } from './core/types';
 import type { HatchKind, MultiblockDef, Unit } from './multiblock/types';
 import type { HatchResult } from './plan/types';
 
-/** Hand-made entries; generated ones (tools/gt-source) have lighter checks in generated.test.ts. */
+/** Hand-made entries; generated ones (tools/game-dump) have lighter checks in generated.test.ts. */
 const handMade = catalog.filter((d) => !d.generated);
 
 const coke = getMultiblock('coke-oven')!;

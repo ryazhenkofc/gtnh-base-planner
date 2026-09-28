@@ -6,40 +6,40 @@
   "size": [11, 5, 11],
   "layers": [
     [
-      "   CCCCC   ",
-      "  CCCCCCC  ",
-      " CCCCCCCCC ",
-      "CCCCCCCCCCC",
-      "CCCCCCCCCCC",
-      "CCCCCCCCCCC",
-      "CCCCCCCCCCC",
-      "CCCCCCCCCCC",
-      " CCCCCCCCC ",
-      "  CCCCCCC  ",
-      "   CCCCC   "
+      "   AAAAA   ",
+      "  AAAAAAA  ",
+      " AAAAAAAAA ",
+      "AAAAAAAAAAA",
+      "AAAAAAAAAAA",
+      "AAAAAAAAAAA",
+      "AAAAAAAAAAA",
+      "AAAAAAAAAAA",
+      " AAAAAAAAA ",
+      "  AAAAAAA  ",
+      "   AAAAA   "
     ],
     [
-      "    D~D    ",
-      "  DD---DD  ",
-      " D-------D ",
-      " D-------D ",
-      "D----D----D",
-      "D---DED---D",
-      "D----D----D",
-      " D-------D ",
-      " D-------D ",
-      "  DD---DD  ",
-      "    DDD    "
+      "    B~B    ",
+      "  BBCCCBB  ",
+      " BCCCCCCCB ",
+      " BCCCCCCCB ",
+      "BCCCCBCCCCB",
+      "BCCCBDBCCCB",
+      "BCCCCBCCCCB",
+      " BCCCCCCCB ",
+      " BCCCCCCCB ",
+      "  BBCCCBB  ",
+      "    BBB    "
     ],
     [
       "           ",
       "           ",
       "           ",
-      "       B   ",
-      "A         A",
-      "     E     ",
-      "A         A",
-      "   B       ",
+      "   E       ",
+      "F         F",
+      "     D     ",
+      "F         F",
+      "       E   ",
       "           ",
       "           ",
       "           "
@@ -47,13 +47,13 @@
     [
       "           ",
       "           ",
-      "       BB  ",
-      "      BBB  ",
-      " AE  BBBEA ",
-      " E  BEB  E ",
-      " AEBBB  EA ",
-      "  BBB      ",
-      "  BB       ",
+      "  EE       ",
+      "  EEE      ",
+      " FDEEE  DF ",
+      " D  EDE  D ",
+      " FD  EEEDF ",
+      "      EEE  ",
+      "       EE  ",
       "           ",
       "           "
     ],
@@ -62,9 +62,9 @@
       "           ",
       "           ",
       "           ",
-      "   EEEEE   ",
-      " EEEEEEEEE ",
-      "   EEEEE   ",
+      "   DDDDD   ",
+      " DDDDDDDDD ",
+      "   DDDDD   ",
       "           ",
       "           ",
       "           ",
@@ -72,28 +72,17 @@
     ]
   ],
   "legend": {
-    "D": {
-      "blockId": "gt5u.blockSpecialMultiCasings.9"
-    },
-    "C": {
-      "blockId": "gt5u.blockCasings3Misc.1",
+    "A": {
+      "blockId": "miscutils:gtplusplus.blockcasings.3@1",
       "hatches": ["itemIn", "fluidIn", "fluidOut", "energy", "maintenance"]
     },
-    "B": {
-      "blockId": "gt.frame.staballoy"
-    },
-    "E": {
-      "blockId": "gt5u.blockCasings3Misc.1"
-    },
-    "A": {
-      "blockId": "gt.frame.inconel690"
-    }
+    "B": { "blockId": "miscutils:gtplusplus.blockspecialcasings.1@9" },
+    "C": { "blockId": "minecraft:water@0" },
+    "D": { "blockId": "miscutils:gtplusplus.blockcasings.3@1" },
+    "E": { "blockId": "miscutils:blockFrameGtStaballoy@0" },
+    "F": { "blockId": "miscutils:blockFrameGtInconel690@0" }
   },
-  "controller": {
-    "pos": [5, 1, 0],
-    "facing": "north",
-    "blockId": "gt5u.controller.flotationCellRegulator"
-  },
+  "controller": { "pos": [5, 1, 0], "facing": "north", "blockId": "gregtech:gt.blockmachines@15560" },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",
     "fluidIn": "gt.hatch.inputHatch",
@@ -102,16 +91,8 @@
     "maintenance": "gt.hatch.maintenance"
   },
   "shareableHatches": ["itemIn", "fluidIn", "fluidOut"],
-  "requiredHatches": {
-    "energy": {
-      "min": 1
-    },
-    "maintenance": {
-      "min": 1,
-      "max": 1
-    }
-  },
+  "requiredHatches": { "energy": { "min": 1 }, "maintenance": { "min": 1, "max": 1 } },
   "defaultHatches": ["itemIn", "energy", "maintenance"],
   "wallshare": true,
-  "notes": "Generated from MTEFrothFlotationCell (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+  "notes": "Built by the game itself: MTEFrothFlotationCell (GT5-Unofficial 5.09.54.133) placed every block with the hologram's construct() (tools/game-dump). Hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows); check the tooltip in game."
 }

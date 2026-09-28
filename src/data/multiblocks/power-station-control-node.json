@@ -5,49 +5,27 @@
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gtPlusPlus/xmod/gregtech/common/tileentities/machines/multi/storage/MTEPowerSubStation.java",
   "size": [5, 4, 5],
   "layers": [
-    ["BB~BB", "BBBBB", "BBBBB", "BBBBB", "BBBBB"],
-    ["CCCCC", "CHHHC", "CHHHC", "CHHHC", "CCCCC"],
-    ["CCCCC", "CHHHC", "CHHHC", "CHHHC", "CCCCC"],
-    ["TTTTT", "TTTTT", "TTTTT", "TTTTT", "TTTTT"]
+    ["AA~AA", "AAAAA", "AAAAA", "AAAAA", "AAAAA"],
+    ["AAAAA", "ABBBA", "ABBBA", "ABBBA", "AAAAA"],
+    ["AAAAA", "ABBBA", "ABBBA", "ABBBA", "AAAAA"],
+    ["AAAAA", "AAAAA", "AAAAA", "AAAAA", "AAAAA"]
   ],
   "legend": {
-    "T": {
-      "blockId": "gt5u.blockCasings2Misc.8",
+    "A": {
+      "blockId": "miscutils:gtplusplus.blockcasings.2@8",
       "hatches": ["energy", "dynamo", "maintenance"]
     },
-    "C": {
-      "blockId": "gt5u.blockCasings2Misc.8",
-      "hatches": ["energy", "dynamo", "maintenance"]
-    },
-    "B": {
-      "blockId": "gt5u.blockCasings2Misc.8",
-      "hatches": ["energy", "dynamo", "maintenance"]
-    },
-    "H": {
-      "blockId": "gt5u.blockCasings2Misc.7"
-    }
+    "B": { "blockId": "miscutils:gtplusplus.blockcasings.2@7" }
   },
-  "controller": {
-    "pos": [2, 0, 0],
-    "facing": "north",
-    "blockId": "gt5u.controller.powerStationControlNode"
-  },
+  "controller": { "pos": [2, 0, 0], "facing": "north", "blockId": "gregtech:gt.blockmachines@812" },
   "hatchBlocks": {
     "energy": "gt.hatch.energy",
     "dynamo": "gt.hatch.dynamo",
     "maintenance": "gt.hatch.maintenance"
   },
   "shareableHatches": [],
-  "requiredHatches": {
-    "dynamo": {
-      "min": 1
-    },
-    "maintenance": {
-      "min": 1,
-      "max": 1
-    }
-  },
+  "requiredHatches": { "dynamo": { "min": 1 }, "maintenance": { "min": 1, "max": 1 } },
   "defaultHatches": ["energy", "dynamo", "maintenance"],
   "wallshare": true,
-  "notes": "Generated from MTEPowerSubStation (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+  "notes": "Machine-specific hatches (LaserSource) are shown as their cells only. Built by the game itself: MTEPowerSubStation (GT5-Unofficial 5.09.54.133) placed every block with the hologram's construct() (tools/game-dump). Hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows); check the tooltip in game."
 }

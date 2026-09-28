@@ -5,40 +5,27 @@
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTEThermalBoiler.java",
   "size": [5, 5, 5],
   "layers": [
-    ["AA AA", "DAAAE", "CCFBB", "DAAAE", "AA AA"],
-    ["D   E", "DFFFE", "DFFFE", "DFFFE", "D   E"],
-    ["C   B", "DF~FE", "DF FE", "DFFFE", "C   B"],
-    ["D   E", "DFFFE", "DFFFE", "DFFFE", "D   E"],
-    ["     ", "D A E", "CCFBB", "D A E", "     "]
+    ["AA AA", "BAAAC", "DDEFF", "BAAAC", "AA AA"],
+    ["B   C", "BEEEC", "BEEEC", "BEEEC", "B   C"],
+    ["D   F", "BE~EC", "BE-EC", "BEEEC", "D   F"],
+    ["B   C", "BEEEC", "BEEEC", "BEEEC", "B   C"],
+    ["     ", "B A C", "DDEFF", "B A C", "     "]
   ],
   "legend": {
-    "D": {
-      "blockId": "gt.casing.robustTungstensteel",
-      "hatches": ["itemIn", "itemOut", "fluidIn", "fluidOut"]
-    },
-    "E": {
-      "blockId": "gt5u.blockCasings2Misc.0",
+    "A": { "blockId": "miscutils:blockFrameGtMaragingSteel350@0" },
+    "B": {
+      "blockId": "miscutils:gtplusplus.blockcasings.2@0",
       "hatches": ["itemIn", "itemOut", "fluidIn", "fluidOut"]
     },
     "C": {
-      "blockId": "gt.casing.tungstensteelPipe"
+      "blockId": "gregtech:gt.blockcasings4@0",
+      "hatches": ["itemIn", "itemOut", "fluidIn", "fluidOut"]
     },
-    "B": {
-      "blockId": "gt.casing.bronzePipe"
-    },
-    "A": {
-      "blockId": "gt.frame.maraging350"
-    },
-    "F": {
-      "blockId": "gt5u.blockCasings2Misc.11",
-      "hatches": ["maintenance"]
-    }
+    "D": { "blockId": "gregtech:gt.blockcasings2@12" },
+    "E": { "blockId": "miscutils:gtplusplus.blockcasings.2@11", "hatches": ["maintenance"] },
+    "F": { "blockId": "gregtech:gt.blockcasings2@15" }
   },
-  "controller": {
-    "pos": [2, 2, 1],
-    "facing": "north",
-    "blockId": "gt5u.controller.thermalBoiler"
-  },
+  "controller": { "pos": [2, 2, 1], "facing": "north", "blockId": "gregtech:gt.blockmachines@15557" },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",
     "itemOut": "gt.hatch.outputBus",
@@ -47,13 +34,8 @@
     "maintenance": "gt.hatch.maintenance"
   },
   "shareableHatches": ["itemIn", "itemOut", "fluidIn", "fluidOut"],
-  "requiredHatches": {
-    "maintenance": {
-      "min": 1,
-      "max": 1
-    }
-  },
+  "requiredHatches": { "maintenance": { "min": 1, "max": 1 } },
   "defaultHatches": ["itemIn", "itemOut", "maintenance"],
   "wallshare": true,
-  "notes": "Generated from MTEThermalBoiler (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+  "notes": "Built by the game itself: MTEThermalBoiler (GT5-Unofficial 5.09.54.133) placed every block with the hologram's construct() (tools/game-dump). Hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows); check the tooltip in game."
 }

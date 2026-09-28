@@ -6,82 +6,82 @@
   "size": [15, 10, 7],
   "layers": [
     [
-      "      B~B      ",
-      "     BBBBB     ",
-      " B  BBBBBBB  B ",
-      "BBB BBBBBBB BBB",
-      " B  BBBBBBB  B ",
-      "     BBBBB     ",
-      "      BBB      "
-    ],
-    [
-      "      HHH      ",
-      "     B   B     ",
-      " A  BF   FB  A ",
-      "A A BF   FB A A",
-      " A  BF   FB  A ",
-      "     B   B     ",
-      "      HHH      "
-    ],
-    [
-      "      HAH      ",
-      "     B   B     ",
-      " A  GF   FG  A ",
-      "A A GF   FG A A",
-      " A  GF   FG  A ",
-      "     B   B     ",
-      "      HAH      "
-    ],
-    [
-      "      HAH      ",
-      "     B   B     ",
-      " B  GF   FG  B ",
-      "BBB GF   FG BBB",
-      " B  GF   FG  B ",
-      "     B   B     ",
-      "      HAH      "
-    ],
-    [
-      "      HAH      ",
-      "     B   B     ",
-      "    GF   FG    ",
-      " C  GF   FG  D ",
-      "    GF   FG    ",
-      "     B   B     ",
-      "      HAH      "
-    ],
-    [
-      "      HHH      ",
-      "     B   B     ",
-      "    BF   FB    ",
-      " C  BF   FB  D ",
-      "    BF   FB    ",
-      "     B   B     ",
-      "      HHH      "
+      "      A~A      ",
+      "     AAAAA     ",
+      " A  AAAAAAA  A ",
+      "AAA AAAAAAA AAA",
+      " A  AAAAAAA  A ",
+      "     AAAAA     ",
+      "      AAA      "
     ],
     [
       "      BBB      ",
-      "     BBBBB     ",
-      "    BBBBBBB    ",
-      " C  BBBBBBB  D ",
-      "    BBBBBBB    ",
-      "     BBBBB     ",
+      "     A---A     ",
+      " C  AD---DA  C ",
+      "C-C AD---DA C-C",
+      " C  AD---DA  C ",
+      "     A---A     ",
       "      BBB      "
     ],
     [
+      "      BCB      ",
+      "     A---A     ",
+      " C  ED---DE  C ",
+      "C-C ED---DE C-C",
+      " C  ED---DE  C ",
+      "     A---A     ",
+      "      BCB      "
+    ],
+    [
+      "      BCB      ",
+      "     A---A     ",
+      " A  ED---DE  A ",
+      "AAA ED---DE AAA",
+      " A  ED---DE  A ",
+      "     A---A     ",
+      "      BCB      "
+    ],
+    [
+      "      BCB      ",
+      "     A---A     ",
+      "    ED---DE    ",
+      " F  ED---DE  G ",
+      "    ED---DE    ",
+      "     A---A     ",
+      "      BCB      "
+    ],
+    [
+      "      BBB      ",
+      "     A---A     ",
+      "    AD---DA    ",
+      " F  AD---DA  G ",
+      "    AD---DA    ",
+      "     A---A     ",
+      "      BBB      "
+    ],
+    [
+      "      AAA      ",
+      "     AAAAA     ",
+      "    AAAAAAA    ",
+      " F  AAAAAAA  G ",
+      "    AAAAAAA    ",
+      "     AAAAA     ",
+      "      AAA      "
+    ],
+    [
       "               ",
-      "      HHH      ",
-      "     HHHHH     ",
-      " C   HHHHH   D ",
-      "     HHHHH     ",
-      "      HHH      ",
+      "      BBB      ",
+      "     BBBBB     ",
+      " F   BBBBB   G ",
+      "     BBBBB     ",
+      "      BBB      ",
       "               "
     ],
     [
       "               ",
       "               ",
       "               ",
-      " C    C D    D ",
+      " F    F G    G ",
       "               ",
       "               ",
       "               "
@@ -90,42 +90,22 @@
       "               ",
       "               ",
       "               ",
-      " CCCCCC DDDDDD ",
+      " FFFFFF GGGGGG ",
       "               ",
       "               ",
       "               "
     ]
   ],
   "legend": {
-    "C": {
-      "blockId": "gt5u.gtBlockcasings10.9"
-    },
-    "D": {
-      "blockId": "gt5u.gtBlockcasings10.10"
-    },
-    "H": {
-      "blockId": "gt5u.gtBlockcasings10.5"
-    },
-    "B": {
-      "blockId": "gt5u.gtBlockcasings10.4",
-      "hatches": ["energy", "maintenance"]
-    },
-    "F": {
-      "blockId": "gt.coil.cupronickel"
-    },
-    "A": {
-      "blockId": "gt.glass.reinforced"
-    },
-    "G": {
-      "blockId": "gt5u.gtBlockcasings10.5",
-      "hatches": ["itemIn", "itemOut", "fluidIn"]
-    }
+    "A": { "blockId": "gregtech:gt.blockcasings10@4", "hatches": ["energy", "maintenance"] },
+    "B": { "blockId": "gregtech:gt.blockcasings10@5" },
+    "C": { "blockId": "bartworks:BW_TieredGlass@0" },
+    "D": { "blockId": "gregtech:gt.blockcasings5@0" },
+    "E": { "blockId": "gregtech:gt.blockcasings10@5", "hatches": ["itemIn", "itemOut", "fluidIn"] },
+    "F": { "blockId": "gregtech:gt.blockcasings10@10" },
+    "G": { "blockId": "gregtech:gt.blockcasings10@9" }
   },
-  "controller": {
-    "pos": [7, 0, 0],
-    "facing": "north",
-    "blockId": "gt5u.controller.hotIsostaticPressurizationUnit"
-  },
+  "controller": { "pos": [7, 0, 0], "facing": "north", "blockId": "gregtech:gt.blockmachines@3006" },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",
     "itemOut": "gt.hatch.outputBus",
@@ -134,16 +114,8 @@
     "maintenance": "gt.hatch.maintenance"
   },
   "shareableHatches": ["itemIn", "itemOut", "fluidIn"],
-  "requiredHatches": {
-    "energy": {
-      "min": 1
-    },
-    "maintenance": {
-      "min": 1,
-      "max": 1
-    }
-  },
+  "requiredHatches": { "energy": { "min": 1 }, "maintenance": { "min": 1, "max": 1 } },
   "defaultHatches": ["itemIn", "itemOut", "energy", "maintenance"],
   "wallshare": true,
-  "notes": "Generated from MTEHIPCompressor (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+  "notes": "Built by the game itself: MTEHIPCompressor (GT5-Unofficial 5.09.54.133) placed every block with the hologram's construct() (tools/game-dump). Hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows); check the tooltip in game."
 }

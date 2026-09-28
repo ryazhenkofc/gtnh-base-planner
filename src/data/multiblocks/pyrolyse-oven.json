@@ -16,14 +16,31 @@
       "blockId": "gt.casing.pyrolyseOven",
       "hatches": ["itemOut", "fluidOut", "energy", "maintenance"]
     },
-    "D": { "blockId": "gt.casing.pyrolyseOven" },
-    "F": { "blockId": "gt.casing.pyrolyseOven", "hatches": ["itemIn", "fluidIn", "muffler"] },
-    "B": { "blockId": "gt.casing.steelFirebox" },
-    "K": { "blockId": "gt.coil.cupronickel" },
-    "A": { "blockId": "gt.casing.steelPipe" },
-    "E": { "blockId": "gt.frame.steel" }
+    "D": {
+      "blockId": "gt.casing.pyrolyseOven"
+    },
+    "F": {
+      "blockId": "gt.casing.pyrolyseOven",
+      "hatches": ["itemIn", "fluidIn", "muffler"]
+    },
+    "B": {
+      "blockId": "gt.casing.steelFirebox"
+    },
+    "K": {
+      "blockId": "gt.coil.cupronickel"
+    },
+    "A": {
+      "blockId": "gt.casing.steelPipe"
+    },
+    "E": {
+      "blockId": "gt.frame.steel"
+    }
   },
-  "controller": { "pos": [3, 1, 0], "facing": "north", "blockId": "gt.controller" },
+  "controller": {
+    "pos": [3, 1, 0],
+    "facing": "north",
+    "blockId": "gt.controller"
+  },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",
     "itemOut": "gt.hatch.outputBus",
@@ -35,9 +52,15 @@
   },
   "shareableHatches": ["itemIn", "itemOut", "fluidIn", "fluidOut"],
   "requiredHatches": {
-    "energy": { "min": 1 },
-    "maintenance": { "min": 1 },
-    "muffler": { "min": 1 }
+    "energy": {
+      "min": 1
+    },
+    "maintenance": {
+      "min": 1
+    },
+    "muffler": {
+      "min": 1
+    }
   },
   "defaultHatches": ["itemIn", "itemOut", "fluidOut", "energy", "maintenance", "muffler"],
   "wallshare": true,

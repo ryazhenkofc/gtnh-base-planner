@@ -4,6 +4,10 @@
 // site worker 87 KB, CSS 4 KB gzipped; atlas 90 KB; dist 2.5 MB), so ordinary changes pass and real growth
 // (a new dependency, an unsplit data file, an atlas that doubled) is a conscious decision: raise the budget
 // here in the same change, with the reason.
+//
+// Raised with the catalog built from the game dump (244 multiblocks, 39 of them new, several huge: Forge of the
+// Gods, Large Hadron Collider, Nanochip Assembly Complex; 619 atlas tiles): site worker 111 KB, atlas 141 KB,
+// dist 3.9 MB.
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { gzipSync } from 'node:zlib';
@@ -14,10 +18,10 @@ const dist = process.argv[2] ?? 'dist';
 /** [what, file matcher, measure, budget in bytes] */
 const budgets = [
   ['main script (gzip)', /^assets\/main-.*\.js$/, 'gzip', 380 * KB],
-  ['site worker (gzip)', /^assets\/siteWorker-.*\.js$/, 'gzip', 105 * KB],
+  ['site worker (gzip)', /^assets\/siteWorker-.*\.js$/, 'gzip', 130 * KB],
   ['styles (gzip)', /^assets\/.*\.css$/, 'gzip', 6 * KB],
-  ['texture atlas', /^textures\/atlas\.png$/, 'raw', 110 * KB],
-  ['whole site', /./, 'raw', 3 * 1024 * KB],
+  ['texture atlas', /^textures\/atlas\.png$/, 'raw', 170 * KB],
+  ['whole site', /./, 'raw', 4.75 * 1024 * KB],
 ];
 
 function files(dir, prefix = '') {

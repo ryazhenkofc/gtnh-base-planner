@@ -25,10 +25,10 @@ export const t = {
   search: 'Search',
   noMatches: 'Nothing matches.',
   wallshareTag: 'Wall-share',
-  /** Picker tag of catalog entries converted from the GT sources by tools/gt-source. */
-  generatedTag: 'From source',
+  /** Picker tag of catalog entries generated from the game (tools/game-dump) rather than checked by hand. */
+  generatedTag: 'From game',
   generatedHint:
-    'Converted from the GregTech sources and not checked by hand: check the structure in game before building.',
+    'Built by the game itself (the hologram projector of GregTech 5.09.54.133) and not checked by hand: hatch counts are estimated, check the tooltip in game.',
 
   // Settings drawer
   limits: 'Limits',

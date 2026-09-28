@@ -1,936 +1,1252 @@
 [
+  {
+    "id": "appliedenergistics2:tile.BlockQuartzLamp@0",
+    "name": "appliedenergistics2:tile.BlockQuartzLamp@0",
+    "color": "#f4f6fb"
+  },
+  {
+    "id": "bartworks:BW_Machinery_Casings@0",
+    "name": "bartworks:BW_Machinery_Casings@0",
+    "color": "#363636"
+  },
+  {
+    "id": "bartworks:BW_Machinery_Casings@1",
+    "name": "bartworks:BW_Machinery_Casings@1",
+    "color": "#542f1d"
+  },
+  { "id": "bartworks:BW_TieredGlass@0", "name": "bartworks:BW_TieredGlass@0", "color": "#e8f4e8" },
+  { "id": "bartworks:BW_TieredGlass@1", "name": "bartworks:BW_TieredGlass@1", "color": "#dbcfe3" },
+  { "id": "bartworks:BW_TieredGlass@3", "name": "bartworks:BW_TieredGlass@3", "color": "#e8eade" },
+  { "id": "bartworks:BW_TieredGlass@4", "name": "bartworks:BW_TieredGlass@4", "color": "#ebf2ef" },
+  { "id": "bartworks:BW_TieredGlass@5", "name": "bartworks:BW_TieredGlass@5", "color": "#a2aae8" },
+  { "id": "bartworks:BW_TieredGlass@6", "name": "bartworks:BW_TieredGlass@6", "color": "#f0f8ef" },
+  { "id": "bartworks:BW_TieredGlass@7", "name": "bartworks:BW_TieredGlass@7", "color": "#cfd2cb" },
+  { "id": "bartworks:BW_TieredGlass@8", "name": "bartworks:BW_TieredGlass@8", "color": "#a3a9a1" },
+  {
+    "id": "bartworks:bw.werkstoffblockscasing.01@31850",
+    "name": "bartworks:bw.werkstoffblockscasing.01@31850",
+    "color": "#898989"
+  },
+  {
+    "id": "bartworks:bw.werkstoffblockscasing.01@32083",
+    "name": "bartworks:bw.werkstoffblockscasing.01@32083",
+    "color": "#898989"
+  },
+  {
+    "id": "bartworks:bw.werkstoffblockscasing.01@32090",
+    "name": "bartworks:bw.werkstoffblockscasing.01@32090",
+    "color": "#898989"
+  },
+  {
+    "id": "bartworks:bw.werkstoffblockscasing.01@32091",
+    "name": "bartworks:bw.werkstoffblockscasing.01@32091",
+    "color": "#898989"
+  },
+  {
+    "id": "bartworks:bw.werkstoffblockscasingadvanced.01@31850",
+    "name": "bartworks:bw.werkstoffblockscasingadvanced.01@31850",
+    "color": "#575757"
+  },
+  {
+    "id": "bartworks:bw.werkstoffblockscasingadvanced.01@32083",
+    "name": "bartworks:bw.werkstoffblockscasingadvanced.01@32083",
+    "color": "#575757"
+  },
+  {
+    "id": "bartworks:bw.werkstoffblockscasingadvanced.01@32091",
+    "name": "bartworks:bw.werkstoffblockscasingadvanced.01@32091",
+    "color": "#575757"
+  },
+  {
+    "id": "bartworks:bw.werkstoffblockscasingadvanced.01@32100",
+    "name": "bartworks:bw.werkstoffblockscasingadvanced.01@32100",
+    "color": "#575757"
+  },
+  {
+    "id": "bartworks:bw.werkstoffblockscasingadvanced.01@88",
+    "name": "bartworks:bw.werkstoffblockscasingadvanced.01@88",
+    "color": "#575757"
+  },
+  { "id": "bartworks:coloredFluidBlock@0", "name": "bartworks:coloredFluidBlock@0", "color": "#163256" },
   { "id": "ext.blockCosmeticOpaque", "name": "Block Cosmetic Opaque", "color": "#8a7f73" },
-  { "id": "ext.dirt", "name": "Dirt", "color": "#8a7f73" },
   {
     "id": "ext.extraUtilitiesSpikeBaseDiamond",
     "name": "ExtraUtilities:spike_base_diamond",
     "color": "#9a9a9a"
   },
-  { "id": "ext.gdcUnit", "name": "Gdc Unit", "color": "#8a7f73" },
-  { "id": "ext.hempcrete", "name": "Hempcrete", "color": "#8a7f73" },
-  { "id": "ext.leaves", "name": "Leaves", "color": "#8a7f73" },
-  { "id": "ext.log", "name": "Log", "color": "#8a7f73" },
-  { "id": "ext.lSCPART", "name": "LSC_PART", "color": "#8a7f73" },
-  { "id": "ext.neonite", "name": "Neonite", "color": "#8a7f73" },
-  { "id": "ext.sFrame", "name": "S Frame", "color": "#8a7f73" },
-  { "id": "ext.tFFTFIELD", "name": "TFFT_FIELD", "color": "#8a7f73" },
   { "id": "ext.thaumicbasesAdvAlchFurnace", "name": "thaumicbases:advAlchFurnace", "color": "#9a9a9a" },
-  { "id": "ext.yszUnit", "name": "Ysz Unit", "color": "#8a7f73" },
-  { "id": "gt.frame.adamantium", "name": "Adamantium Frame Box", "color": "#545353" },
-  { "id": "gt.frame.aquaticSteel", "name": "Aquatic Steel Frame Box", "color": "#49486d" },
-  { "id": "gt.frame.bedrockium", "name": "Bedrockium Frame Box", "color": "#545353" },
-  { "id": "gt.frame.callistoIce", "name": "Callisto Ice Frame Box", "color": "#126b9a" },
-  { "id": "gt.frame.damascusSteel", "name": "Damascus Steel Frame Box", "color": "#434342" },
-  { "id": "gt.frame.draconiumAwakened", "name": "Draconium Awakened Frame Box", "color": "#942f00" },
-  { "id": "gt.frame.duranium", "name": "Duranium Frame Box", "color": "#545353" },
-  { "id": "gt.frame.enrichedHolmium", "name": "Enriched Holmium Frame Box", "color": "#0b3c9a" },
-  { "id": "gt.frame.gold", "name": "Gold Frame Box", "color": "#9a9a12" },
-  { "id": "gt.frame.hsss", "name": "Hsss Frame Box", "color": "#3e001f" },
-  { "id": "gt.frame.inconel690", "name": "Inconel 690 Frame Box", "color": "#488553" },
-  { "id": "gt.frame.infinity", "name": "Infinity Frame Box", "color": "#545353" },
-  { "id": "gt.frame.infinityCatalyst", "name": "Infinity Catalyst Frame Box", "color": "#545353" },
-  { "id": "gt.frame.iridium", "name": "Iridium Frame Box", "color": "#929194" },
-  { "id": "gt.frame.kevlar", "name": "Kevlar Frame Box", "color": "#929148" },
-  { "id": "gt.frame.leagrisium", "name": "Leagrisium Frame Box", "color": "#203840" },
-  { "id": "gt.frame.maraging350", "name": "Maraging350 Frame Box", "color": "#545353" },
-  { "id": "gt.frame.naquadah", "name": "Naquadah Frame Box", "color": "#1e1e1e" },
-  { "id": "gt.frame.naquadahAlloy", "name": "Naquadah Alloy Frame Box", "color": "#181818" },
-  { "id": "gt.frame.naquadria", "name": "Naquadria Frame Box", "color": "#121212" },
-  { "id": "gt.frame.neodymiumMagnetic", "name": "Neodymium Magnetic Frame Box", "color": "#3d3c3c" },
-  { "id": "gt.frame.neutronium", "name": "Neutronium Frame Box", "color": "#979797" },
-  { "id": "gt.frame.octiron", "name": "Octiron Frame Box", "color": "#545353" },
-  { "id": "gt.frame.osmiridium", "name": "Osmiridium Frame Box", "color": "#3d3c9a" },
-  { "id": "gt.frame.pikyonium", "name": "Pikyonium Frame Box", "color": "#203e70" },
-  { "id": "gt.frame.polyvinylChloride", "name": "Polyvinyl Chloride Frame Box", "color": "#828b8b" },
-  { "id": "gt.frame.potin", "name": "Potin Frame Box", "color": "#7a5b4e" },
-  { "id": "gt.frame.prismaticNaquadah", "name": "Prismatic Naquadah Frame Box", "color": "#545353" },
-  { "id": "gt.frame.quantium", "name": "Quantium Frame Box", "color": "#007e07" },
-  { "id": "gt.frame.radoxPolymer", "name": "Radox Polymer Frame Box", "color": "#545353" },
-  { "id": "gt.frame.redSteel", "name": "Red Steel Frame Box", "color": "#553c3c" },
-  { "id": "gt.frame.staballoy", "name": "Staballoy Frame Box", "color": "#292d28" },
-  { "id": "gt.frame.stellarAlloy", "name": "Stellar Alloy Frame Box", "color": "#809a9a" },
-  { "id": "gt.frame.superconductorUhvbase", "name": "Superconductor Uhvbase Frame Box", "color": "#545353" },
-  { "id": "gt.frame.superconductorZpmbase", "name": "Superconductor Zpmbase Frame Box", "color": "#545353" },
-  { "id": "gt.frame.tantalumCarbide", "name": "Tantalum Carbide Frame Box", "color": "#545248" },
-  { "id": "gt.frame.tungsten", "name": "Tungsten Frame Box", "color": "#1e1e1e" },
-  { "id": "gt.frame.tungstenCarbide", "name": "Tungsten Carbide Frame Box", "color": "#1f003e" },
-  { "id": "gt.frame.vibrantAlloy", "name": "Vibrant Alloy Frame Box", "color": "#5a880a" },
-  { "id": "gt.sheetmetal.blackSteel", "name": "Black Steel Sheetmetal", "color": "#646464" },
-  { "id": "gt.sheetmetal.gold", "name": "Gold Sheetmetal", "color": "#ffff1e" },
-  { "id": "gt.sheetmetal.infinity", "name": "Infinity Sheetmetal", "color": "#9a9a9a" },
-  { "id": "gt.sheetmetal.iridium", "name": "Iridium Sheetmetal", "color": "#f0f0f5" },
-  { "id": "gt.sheetmetal.ledox", "name": "Ledox Sheetmetal", "color": "#0074ff" },
-  { "id": "gt.sheetmetal.naquadah", "name": "Naquadah Sheetmetal", "color": "#323232" },
-  { "id": "gt.sheetmetal.naquadahAlloy", "name": "Naquadah Alloy Sheetmetal", "color": "#282828" },
-  { "id": "gt.sheetmetal.stainlessSteel", "name": "Stainless Steel Sheetmetal", "color": "#c8c8dc" },
-  { "id": "gt.sheetmetal.tungsten", "name": "Tungsten Sheetmetal", "color": "#323232" },
-  { "id": "gt5u.aNTENNACASINGT1.0", "name": "ANTENNA_CASING_T1 0", "color": "#8f8f8f" },
-  { "id": "gt5u.bioFluidBlock.0", "name": "bioFluidBlock 0", "color": "#8f8f8f" },
-  { "id": "gt5u.blockCasings2Misc.0", "name": "blockCasings2Misc 0", "color": "#6c1817" },
-  { "id": "gt5u.blockCasings2Misc.1", "name": "blockCasings2Misc 1", "color": "#9997a6" },
-  { "id": "gt5u.blockCasings2Misc.10", "name": "blockCasings2Misc 10", "color": "#48387b" },
-  { "id": "gt5u.blockCasings2Misc.11", "name": "blockCasings2Misc 11", "color": "#637386" },
-  { "id": "gt5u.blockCasings2Misc.12", "name": "blockCasings2Misc 12", "color": "#bfcdce" },
-  { "id": "gt5u.blockCasings2Misc.13", "name": "blockCasings2Misc 13", "color": "#937ac7" },
-  { "id": "gt5u.blockCasings2Misc.15", "name": "blockCasings2Misc 15", "color": "#ae6f41" },
-  { "id": "gt5u.blockCasings2Misc.2", "name": "blockCasings2Misc 2", "color": "#b2aac0" },
-  { "id": "gt5u.blockCasings2Misc.3", "name": "blockCasings2Misc 3", "color": "#27322b" },
-  { "id": "gt5u.blockCasings2Misc.4", "name": "blockCasings2Misc 4", "color": "#28505c" },
-  { "id": "gt5u.blockCasings2Misc.5", "name": "blockCasings2Misc 5", "color": "#2a2827" },
-  { "id": "gt5u.blockCasings2Misc.7", "name": "blockCasings2Misc 7", "color": "#4b494b" },
-  { "id": "gt5u.blockCasings2Misc.8", "name": "blockCasings2Misc 8", "color": "#2d1a1a" },
-  { "id": "gt5u.blockCasings2Misc.9", "name": "blockCasings2Misc 9", "color": "#2d4672" },
-  { "id": "gt5u.blockCasings3Misc.0", "name": "blockCasings3Misc 0", "color": "#1d4556" },
-  { "id": "gt5u.blockCasings3Misc.1", "name": "blockCasings3Misc 1", "color": "#575737" },
-  { "id": "gt5u.blockCasings3Misc.10", "name": "blockCasings3Misc 10", "color": "#526278" },
-  { "id": "gt5u.blockCasings3Misc.11", "name": "blockCasings3Misc 11", "color": "#a87b37" },
-  { "id": "gt5u.blockCasings3Misc.12", "name": "blockCasings3Misc 12", "color": "#b6c4aa" },
-  { "id": "gt5u.blockCasings3Misc.13", "name": "blockCasings3Misc 13", "color": "#2a382d" },
-  { "id": "gt5u.blockCasings3Misc.15", "name": "blockCasings3Misc 15", "color": "#1875ce" },
-  { "id": "gt5u.blockCasings3Misc.2", "name": "blockCasings3Misc 2", "color": "#757673" },
-  { "id": "gt5u.blockCasings3Misc.9", "name": "blockCasings3Misc 9", "color": "#42392a" },
-  { "id": "gt5u.blockCasings6Misc.0", "name": "blockCasings6Misc 0", "color": "#d2c4dc" },
-  { "id": "gt5u.blockCasings6Misc.1", "name": "blockCasings6Misc 1", "color": "#8f5684" },
-  { "id": "gt5u.blockCasingsTieredGTPP.4", "name": "blockCasingsTieredGTPP 4", "color": "#9e9e9e" },
-  { "id": "gt5u.blockSpecialMultiCasings.0", "name": "blockSpecialMultiCasings 0", "color": "#4b494b" },
-  { "id": "gt5u.blockSpecialMultiCasings.11", "name": "blockSpecialMultiCasings 11", "color": "#2d2d2d" },
-  { "id": "gt5u.blockSpecialMultiCasings.12", "name": "blockSpecialMultiCasings 12", "color": "#8aac8b" },
-  { "id": "gt5u.blockSpecialMultiCasings.13", "name": "blockSpecialMultiCasings 13", "color": "#b0499d" },
-  { "id": "gt5u.blockSpecialMultiCasings.14", "name": "blockSpecialMultiCasings 14", "color": "#8b1b52" },
-  { "id": "gt5u.blockSpecialMultiCasings.15", "name": "blockSpecialMultiCasings 15", "color": "#8f8f8f" },
-  { "id": "gt5u.blockSpecialMultiCasings.8", "name": "blockSpecialMultiCasings 8", "color": "#bfcdce" },
-  { "id": "gt5u.blockSpecialMultiCasings.9", "name": "blockSpecialMultiCasings 9", "color": "#7b7c4f" },
-  { "id": "gt5u.blockSpecialMultiCasings2.2", "name": "blockSpecialMultiCasings2 2", "color": "#545a9a" },
-  { "id": "gt5u.blockSpecialMultiCasings2.6", "name": "blockSpecialMultiCasings2 6", "color": "#424c8a" },
-  { "id": "gt5u.bWBlockCasings.31850", "name": "BWBlockCasings 31850", "color": "#8f8f8f" },
-  { "id": "gt5u.bWBlockCasings.32090", "name": "BWBlockCasings 32090", "color": "#8f8f8f" },
-  { "id": "gt5u.bWBlockCasingsAdvanced.31850", "name": "BWBlockCasingsAdvanced 31850", "color": "#8f8f8f" },
-  { "id": "gt5u.bWBlockCasingsAdvanced.32100", "name": "BWBlockCasingsAdvanced 32100", "color": "#8f8f8f" },
-  { "id": "gt5u.bWBlockCasingsAdvanced.88", "name": "BWBlockCasingsAdvanced 88", "color": "#8f8f8f" },
-  { "id": "gt5u.compactFusionCoil.0", "name": "compactFusionCoil 0", "color": "#969592" },
-  { "id": "gt5u.compactFusionCoil.1", "name": "compactFusionCoil 1", "color": "#d6c9d4" },
-  { "id": "gt5u.compactFusionCoil.2", "name": "compactFusionCoil 2", "color": "#9b84cb" },
-  { "id": "gt5u.compactFusionCoil.3", "name": "compactFusionCoil 3", "color": "#3c583c" },
-  { "id": "gt5u.compactFusionCoil.4", "name": "compactFusionCoil 4", "color": "#393a61" },
-  { "id": "gt5u.componentAssemblylineCasing.0", "name": "componentAssemblylineCasing 0", "color": "#6e5941" },
   {
-    "id": "gt5u.controller.absoluteBaryonicPerfectionPurificationUnit",
-    "name": "Absolute Baryonic Perfection Purification Unit Controller",
-    "color": "#004c88"
-  },
-  { "id": "gt5u.controller.activeTransformer", "name": "Active Transformer Controller", "color": "#6ba2c9" },
-  {
-    "id": "gt5u.controller.advancedAssemblyLine",
-    "name": "Advanced Assembly Line Controller",
-    "color": "#8f959c"
+    "id": "GoodGenerator:antimatterAnnihilationMatrix@0",
+    "name": "GoodGenerator:antimatterAnnihilationMatrix@0",
+    "color": "#535c59"
   },
   {
-    "id": "gt5u.controller.advancedConcreteBackfiller",
-    "name": "Advanced Concrete Backfiller Controller",
-    "color": "#9d93b0"
-  },
-  { "id": "gt5u.controller.algaeFarm", "name": "Algae Farm Controller", "color": "#cab9b8" },
-  { "id": "gt5u.controller.alloyBlastSmelter", "name": "Alloy Blast Smelter Controller", "color": "#8e8174" },
-  {
-    "id": "gt5u.controller.amazonWarehousingDepot",
-    "name": "Amazon Warehousing Depot Controller",
-    "color": "#42392a"
-  },
-  { "id": "gt5u.controller.beamCrafter", "name": "Beam Crafter Controller", "color": "#727271" },
-  { "id": "gt5u.controller.beamMirror", "name": "Beam Mirror Controller", "color": "#727271" },
-  { "id": "gt5u.controller.beamSplitter", "name": "Beam Splitter Controller", "color": "#727271" },
-  { "id": "gt5u.controller.beamStabilizer", "name": "Beam Stabilizer Controller", "color": "#727271" },
-  { "id": "gt5u.controller.bioChamber", "name": "Bio Chamber Controller", "color": "#c9ced4" },
-  { "id": "gt5u.controller.bioVat", "name": "Bio Vat Controller", "color": "#c9ced4" },
-  { "id": "gt5u.controller.boldarnator", "name": "Boldarnator Controller", "color": "#6c1817" },
-  {
-    "id": "gt5u.controller.circuitAssemblyLine",
-    "name": "Circuit Assembly Line Controller",
-    "color": "#6e7479"
+    "id": "GoodGenerator:antimatterContainmentCasing@0",
+    "name": "GoodGenerator:antimatterContainmentCasing@0",
+    "color": "#8e9195"
   },
   {
-    "id": "gt5u.controller.clarifierPurificationUnit",
-    "name": "Clarifier Purification Unit Controller",
-    "color": "#a9aba9"
+    "id": "GoodGenerator:compactFusionCoil@0",
+    "name": "GoodGenerator:compactFusionCoil@0",
+    "color": "#a8a8a8"
   },
   {
-    "id": "gt5u.controller.cometCompactCyclotron",
-    "name": "COMET - Compact Cyclotron Controller",
-    "color": "#48387b"
+    "id": "GoodGenerator:compactFusionCoil@1",
+    "name": "GoodGenerator:compactFusionCoil@1",
+    "color": "#d6c9d4"
   },
   {
-    "id": "gt5u.controller.compactFusionComputerMkIi",
-    "name": "Compact Fusion Computer MK-II Controller",
-    "color": "#8b9faf"
+    "id": "GoodGenerator:compactFusionCoil@2",
+    "name": "GoodGenerator:compactFusionCoil@2",
+    "color": "#9b84cb"
   },
   {
-    "id": "gt5u.controller.compactFusionComputerMkIii",
-    "name": "Compact Fusion Computer MK-III Controller",
-    "color": "#d8cde0"
+    "id": "GoodGenerator:compactFusionCoil@3",
+    "name": "GoodGenerator:compactFusionCoil@3",
+    "color": "#3c583c"
   },
   {
-    "id": "gt5u.controller.compactFusionComputerMkIPrototype",
-    "name": "Compact Fusion Computer MK-I Prototype Controller",
-    "color": "#ececec"
+    "id": "GoodGenerator:compactFusionCoil@4",
+    "name": "GoodGenerator:compactFusionCoil@4",
+    "color": "#393a61"
   },
   {
-    "id": "gt5u.controller.compactFusionComputerMkIvPrototype",
-    "name": "Compact Fusion Computer MK-IV Prototype Controller",
-    "color": "#b6c4aa"
+    "id": "GoodGenerator:componentAssemblylineCasing@0",
+    "name": "GoodGenerator:componentAssemblylineCasing@0",
+    "color": "#adadad"
   },
   {
-    "id": "gt5u.controller.compactFusionComputerMkV",
-    "name": "Compact Fusion Computer MK-V Controller",
-    "color": "#d2c4dc"
+    "id": "GoodGenerator:fieldRestrictingGlass@0",
+    "name": "GoodGenerator:fieldRestrictingGlass@0",
+    "color": "#0a1c02"
+  },
+  { "id": "GoodGenerator:FRF_Casings@0", "name": "GoodGenerator:FRF_Casings@0", "color": "#262626" },
+  { "id": "GoodGenerator:FRF_Coil_1@0", "name": "GoodGenerator:FRF_Coil_1@0", "color": "#25756d" },
+  {
+    "id": "GoodGenerator:gravityStabilizationCasing@0",
+    "name": "GoodGenerator:gravityStabilizationCasing@0",
+    "color": "#edf1f9"
   },
   {
-    "id": "gt5u.controller.componentAssemblyLine",
-    "name": "Component Assembly Line Controller",
-    "color": "#c9c9c9"
+    "id": "GoodGenerator:impreciseUnitCasing@0",
+    "name": "GoodGenerator:impreciseUnitCasing@0",
+    "color": "#6e5941"
   },
   {
-    "id": "gt5u.controller.concreteBackfiller",
-    "name": "Concrete Backfiller Controller",
-    "color": "#8f959c"
+    "id": "GoodGenerator:magneticFluxCasing@0",
+    "name": "GoodGenerator:magneticFluxCasing@0",
+    "color": "#1f1f1f"
   },
-  { "id": "gt5u.controller.coolantTower", "name": "Coolant Tower Controller", "color": "#988867" },
-  { "id": "gt5u.controller.coolingTower", "name": "Cooling Tower Controller", "color": "#303030" },
-  { "id": "gt5u.controller.cryogenicFreezer", "name": "Cryogenic Freezer Controller", "color": "#526278" },
-  { "id": "gt5u.controller.dangoteDistillus", "name": "Dangote Distillus Controller", "color": "#c9ced4" },
-  { "id": "gt5u.controller.dataBank", "name": "Data Bank Controller", "color": "#6ba2c9" },
+  { "id": "GoodGenerator:MAR_Casing@0", "name": "GoodGenerator:MAR_Casing@0", "color": "#242759" },
   {
-    "id": "gt5u.controller.deepEarthHeatingPump",
-    "name": "Deep Earth Heating Pump Controller",
-    "color": "#b8a58c"
+    "id": "GoodGenerator:pressureResistantWalls@0",
+    "name": "GoodGenerator:pressureResistantWalls@0",
+    "color": "#21202f"
   },
-  { "id": "gt5u.controller.density2", "name": "Density^2 Controller", "color": "#4b5058" },
-  { "id": "gt5u.controller.digester", "name": "Digester Controller", "color": "#4b5058" },
   {
-    "id": "gt5u.controller.dimensionallyTranscendentPlasmaForge",
-    "name": "Dimensionally Transcendent Plasma Forge Controller",
-    "color": "#6ba2c9"
+    "id": "GoodGenerator:protomatterActivationCoil@0",
+    "name": "GoodGenerator:protomatterActivationCoil@0",
+    "color": "#3a505f"
   },
-  { "id": "gt5u.controller.dissolutionTank", "name": "Dissolution Tank Controller", "color": "#c9ced4" },
   {
-    "id": "gt5u.controller.draconicEvolutionFusionCrafter",
-    "name": "Draconic Evolution Fusion Crafter Controller",
+    "id": "GoodGenerator:radiationProtectionSteelFrame@0",
+    "name": "GoodGenerator:radiationProtectionSteelFrame@0",
+    "color": "#272625"
+  },
+  { "id": "GoodGenerator:speedingPipe@0", "name": "GoodGenerator:speedingPipe@0", "color": "#3d79af" },
+  {
+    "id": "GoodGenerator:supercriticalFluidTurbineCasing@0",
+    "name": "GoodGenerator:supercriticalFluidTurbineCasing@0",
+    "color": "#333333"
+  },
+  {
+    "id": "GoodGenerator:yottaFluidTankCasing@0",
+    "name": "GoodGenerator:yottaFluidTankCasing@0",
+    "color": "#4e4e4e"
+  },
+  {
+    "id": "GoodGenerator:yottaFluidTankCells@0",
+    "name": "GoodGenerator:yottaFluidTankCells@0",
+    "color": "#5e5d5d"
+  },
+  {
+    "id": "gregtech:gt.blockcasings.bec@0",
+    "name": "Coherence-Preserving Plasma Conduit",
+    "color": "#4c2a2a"
+  },
+  {
+    "id": "gregtech:gt.blockcasings.bec@1",
+    "name": "Electromagnetically-Isolated Casing",
+    "color": "#4b4b4b"
+  },
+  {
+    "id": "gregtech:gt.blockcasings.bec@2",
+    "name": "Fine-Structure Constant Manipulator",
+    "color": "#383838"
+  },
+  { "id": "gregtech:gt.blockcasings.bec@3", "name": "Conflict Inducement Casing", "color": "#5f5f5f" },
+  { "id": "gregtech:gt.blockcasings.bec@4", "name": "Peace Enforcement Casing", "color": "#7f7f7f" },
+  { "id": "gregtech:gt.blockcasings.bec@5", "name": "Condensate Transformative Coil", "color": "#5d2c2c" },
+  { "id": "gregtech:gt.blockcasings.bec@6", "name": "Condensate Guidance Coil", "color": "#5c5c5c" },
+  {
+    "id": "gregtech:gt.blockcasings.cyclotron_coils@0",
+    "name": "MV Solenoid Superconductor Coil",
     "color": "#8f8f8f"
   },
-  { "id": "gt5u.controller.droneCentre", "name": "Drone Centre Controller", "color": "#8f959c" },
-  { "id": "gt5u.controller.dysonSwarm", "name": "Dyson Swarm Controller", "color": "#8f8f8f" },
   {
-    "id": "gt5u.controller.electricAirFilterT1",
-    "name": "Electric Air Filter T1 Controller",
-    "color": "#8d949b"
+    "id": "gregtech:gt.blockcasings.cyclotron_coils@7",
+    "name": "UHV Solenoid Superconductor Coil",
+    "color": "#2a85c1"
   },
   {
-    "id": "gt5u.controller.electricAirFilterT2",
-    "name": "Electric Air Filter T2 Controller",
-    "color": "#9d93b0"
+    "id": "gregtech:gt.blockcasings.cyclotron_coils@8",
+    "name": "UEV Solenoid Superconductor Coil",
+    "color": "#bd1717"
+  },
+  { "id": "gregtech:gt.blockcasings@0", "name": "ULV Machine Casing", "color": "#6e6e6e" },
+  { "id": "gregtech:gt.blockcasings@1", "name": "LV Machine Casing", "color": "#9d9d9d" },
+  { "id": "gregtech:gt.blockcasings@10", "name": "Bronze Plated Bricks", "color": "#c04810" },
+  { "id": "gregtech:gt.blockcasings@11", "name": "Heat Proof Machine Casing", "color": "#64866f" },
+  { "id": "gregtech:gt.blockcasings@12", "name": "Dimensionally Transcendent Casing", "color": "#00345c" },
+  { "id": "gregtech:gt.blockcasings@13", "name": "Dimensional Injection Casing", "color": "#6ba2c9" },
+  { "id": "gregtech:gt.blockcasings@14", "name": "Dimensional Bridge", "color": "#003aa5" },
+  { "id": "gregtech:gt.blockcasings@15", "name": "Superconducting Coil Block", "color": "#b9b9b9" },
+  { "id": "gregtech:gt.blockcasings@2", "name": "MV Machine Casing", "color": "#a0a0a0" },
+  { "id": "gregtech:gt.blockcasings@5", "name": "IV Machine Casing", "color": "#ebebeb" },
+  { "id": "gregtech:gt.blockcasings@6", "name": "LuV Machine Casing", "color": "#ececec" },
+  { "id": "gregtech:gt.blockcasings10@0", "name": "MagTech Casing", "color": "#3c1c47" },
+  { "id": "gregtech:gt.blockcasings10@1", "name": "Laser Containment Casing", "color": "#4950a6" },
+  { "id": "gregtech:gt.blockcasings10@10", "name": "Heating Duct", "color": "#e7682b" },
+  {
+    "id": "gregtech:gt.blockcasings10@11",
+    "name": "Extreme Density Space-Bending Casing",
+    "color": "#151312"
   },
   {
-    "id": "gt5u.controller.electricAirFilterT3",
-    "name": "Electric Air Filter T3 Controller",
-    "color": "#4b5058"
+    "id": "gregtech:gt.blockcasings10@12",
+    "name": "Background Radiation Absorbent Casing",
+    "color": "#9f9da6"
+  },
+  { "id": "gregtech:gt.blockcasings10@13", "name": "Solidifier Casing", "color": "#6c6140" },
+  { "id": "gregtech:gt.blockcasings10@14", "name": "Solidifier Radiator", "color": "#4c3f2c" },
+  { "id": "gregtech:gt.blockcasings10@2", "name": "Quark Exclusion Casing", "color": "#004c88" },
+  { "id": "gregtech:gt.blockcasings10@3", "name": "Pressure Containment Casing", "color": "#acacba" },
+  { "id": "gregtech:gt.blockcasings10@4", "name": "Electric Compressor Casing", "color": "#7c716a" },
+  { "id": "gregtech:gt.blockcasings10@5", "name": "Compression Pipe Casing", "color": "#90857b" },
+  { "id": "gregtech:gt.blockcasings10@6", "name": "Neutronium Casing", "color": "#bbc8ee" },
+  { "id": "gregtech:gt.blockcasings10@7", "name": "Active Neutronium Casing", "color": "#b1c2e4" },
+  { "id": "gregtech:gt.blockcasings10@8", "name": "Neutronium Stabilization Casing", "color": "#12171c" },
+  { "id": "gregtech:gt.blockcasings10@9", "name": "Coolant Duct", "color": "#274f8e" },
+  { "id": "gregtech:gt.blockcasings11@0", "name": "Tin Item Pipe Casing", "color": "#666666" },
+  { "id": "gregtech:gt.blockcasings11@1", "name": "Brass Item Pipe Casing", "color": "#765300" },
+  { "id": "gregtech:gt.blockcasings11@7", "name": "Black Plutonium Item Pipe Casing", "color": "#171717" },
+  { "id": "gregtech:gt.blockcasings12@1", "name": "Nanochip Mesh Interface Casing", "color": "#ede9ee" },
+  {
+    "id": "gregtech:gt.blockcasings12@10",
+    "name": "Alchemically Resistant Thaumium Casing",
+    "color": "#562a93"
+  },
+  { "id": "gregtech:gt.blockcasings12@13", "name": "Mixer Casing", "color": "#6363a4" },
+  { "id": "gregtech:gt.blockcasings12@14", "name": "Forming Core", "color": "#9b9c9e" },
+  { "id": "gregtech:gt.blockcasings12@15", "name": "Algae Casing", "color": "#cab9b8" },
+  { "id": "gregtech:gt.blockcasings12@2", "name": "Nanochip Reinforcement Casing", "color": "#171718" },
+  {
+    "id": "gregtech:gt.blockcasings12@3",
+    "name": "Nanochip Computational Matrix Casing",
+    "color": "#f9eae9"
+  },
+  { "id": "gregtech:gt.blockcasings12@4", "name": "Nanochip Firewall Projection Casing", "color": "#29373d" },
+  {
+    "id": "gregtech:gt.blockcasings12@5",
+    "name": "Strengthened Inanimate Machine Casing",
+    "color": "#3c182c"
+  },
+  { "id": "gregtech:gt.blockcasings12@9", "name": "Vibration-Safe Casing", "color": "#2a4c1c" },
+  { "id": "gregtech:gt.blockcasings13@0", "name": "Cable Casing", "color": "#1b1d22" },
+  { "id": "gregtech:gt.blockcasings13@1", "name": "Graphite Moderator Casing", "color": "#2a2a2a" },
+  { "id": "gregtech:gt.blockcasings13@10", "name": "Collider Casing", "color": "#242c3a" },
+  { "id": "gregtech:gt.blockcasings13@15", "name": "Naquadah Reactor Casing", "color": "#080713" },
+  { "id": "gregtech:gt.blockcasings13@2", "name": "Insulated Fluid Pipe Casing", "color": "#9999aa" },
+  { "id": "gregtech:gt.blockcasings13@3", "name": "Beryllium Integrated Reactor Casing", "color": "#3f3f65" },
+  { "id": "gregtech:gt.blockcasings13@4", "name": "Refined Graphite Block", "color": "#252425" },
+  { "id": "gregtech:gt.blockcasings14@3", "name": "Hearth Casing", "color": "#366436" },
+  { "id": "gregtech:gt.blockcasings14@4", "name": "Fridge Casing", "color": "#5b849a" },
+  {
+    "id": "gregtech:gt.blockcasings14@5",
+    "name": "Naquadah Reinforced Distillation Casing",
+    "color": "#67727b"
+  },
+  { "id": "gregtech:gt.blockcasings2@0", "name": "Solid Steel Machine Casing", "color": "#878787" },
+  { "id": "gregtech:gt.blockcasings2@1", "name": "Frost Proof Machine Casing", "color": "#609fd5" },
+  { "id": "gregtech:gt.blockcasings2@10", "name": "Pump Machine Casing", "color": "#898994" },
+  { "id": "gregtech:gt.blockcasings2@11", "name": "Motor Machine Casing", "color": "#7c7d8b" },
+  { "id": "gregtech:gt.blockcasings2@12", "name": "Bronze Pipe Casing", "color": "#ae4512" },
+  { "id": "gregtech:gt.blockcasings2@13", "name": "Steel Pipe Casing", "color": "#767676" },
+  { "id": "gregtech:gt.blockcasings2@14", "name": "Titanium Pipe Casing", "color": "#925984" },
+  { "id": "gregtech:gt.blockcasings2@15", "name": "Tungstensteel Pipe Casing", "color": "#29497e" },
+  { "id": "gregtech:gt.blockcasings2@3", "name": "Steel Gear Box Casing", "color": "#767676" },
+  { "id": "gregtech:gt.blockcasings2@4", "name": "Titanium Gear Box Casing", "color": "#865384" },
+  { "id": "gregtech:gt.blockcasings2@5", "name": "Assembly Line Casing", "color": "#676b74" },
+  { "id": "gregtech:gt.blockcasings2@6", "name": "Processor Machine Casing", "color": "#a7a9ab" },
+  { "id": "gregtech:gt.blockcasings2@9", "name": "Assembler Machine Casing", "color": "#878787" },
+  { "id": "gregtech:gt.blockcasings3@10", "name": "Grate Machine Casing", "color": "#4b4b4b" },
+  { "id": "gregtech:gt.blockcasings3@11", "name": "Filter Machine Casing", "color": "#8a8989" },
+  { "id": "gregtech:gt.blockcasings3@12", "name": "Radiation Proof Machine Casing", "color": "#48387b" },
+  { "id": "gregtech:gt.blockcasings3@13", "name": "Bronze Firebox Casing", "color": "#66321b" },
+  { "id": "gregtech:gt.blockcasings3@14", "name": "Steel Firebox Casing", "color": "#4d4d4d" },
+  { "id": "gregtech:gt.blockcasings3@15", "name": "Tungstensteel Firebox Casing", "color": "#2a3951" },
+  { "id": "gregtech:gt.blockcasings4@0", "name": "Robust Tungstensteel Machine Casing", "color": "#325691" },
+  { "id": "gregtech:gt.blockcasings4@1", "name": "Clean Stainless Steel Machine Casing", "color": "#91a6b9" },
+  { "id": "gregtech:gt.blockcasings4@11", "name": "Titanium Turbine Casing", "color": "#a36998" },
+  { "id": "gregtech:gt.blockcasings4@13", "name": "Engine Intake Casing", "color": "#4d2b46" },
+  { "id": "gregtech:gt.blockcasings4@14", "name": "Mining Osmiridium Casing", "color": "#154697" },
+  { "id": "gregtech:gt.blockcasings4@2", "name": "Stable Titanium Machine Casing", "color": "#a56a99" },
+  { "id": "gregtech:gt.blockcasings4@3", "name": "Titanium Firebox Casing", "color": "#594155" },
+  { "id": "gregtech:gt.blockcasings4@6", "name": "Fusion Machine Casing", "color": "#8b9faf" },
+  { "id": "gregtech:gt.blockcasings4@7", "name": "Fusion Coil Block", "color": "#d6c9d4" },
+  { "id": "gregtech:gt.blockcasings4@8", "name": "Fusion Machine Casing Mk-II", "color": "#d8cde0" },
+  { "id": "gregtech:gt.blockcasings5@0", "name": "Cupronickel Coil Block", "color": "#8c5f4a" },
+  { "id": "gregtech:gt.blockcasings5@12", "name": "Hypogen Coil Block", "color": "#b4663d" },
+  { "id": "gregtech:gt.blockcasings5@5", "name": "Naquadah Coil Block", "color": "#393939" },
+  { "id": "gregtech:gt.blockcasings5@8", "name": "Awakened Draconium Coil Block", "color": "#da7623" },
+  { "id": "gregtech:gt.blockcasings6@10", "name": "Hermetic Casing X", "color": "#b0c5d8" },
+  { "id": "gregtech:gt.blockcasings8@0", "name": "Chemically Inert Machine Casing", "color": "#4a4a4a" },
+  { "id": "gregtech:gt.blockcasings8@1", "name": "PTFE Pipe Casing", "color": "#494949" },
+  { "id": "gregtech:gt.blockcasings8@10", "name": "Radiant Naquadah Alloy Casing", "color": "#303030" },
+  {
+    "id": "gregtech:gt.blockcasings8@11",
+    "name": "Basic Photolithographic Framework Casing",
+    "color": "#6c9d9d"
   },
   {
-    "id": "gt5u.controller.electricImplosionCompressor",
-    "name": "Electric Implosion Compressor Controller",
-    "color": "#282828"
+    "id": "gregtech:gt.blockcasings8@12",
+    "name": "Reinforced Photolithographic Framework Casing",
+    "color": "#58627f"
+  },
+  { "id": "gregtech:gt.blockcasings8@2", "name": "Mining Neutronium Casing", "color": "#a5a5a7" },
+  { "id": "gregtech:gt.blockcasings8@3", "name": "Mining Black Plutonium Casing", "color": "#262626" },
+  { "id": "gregtech:gt.blockcasings8@4", "name": "Extreme Engine Intake Casing", "color": "#101f3f" },
+  {
+    "id": "gregtech:gt.blockcasings8@5",
+    "name": "Europium Reinforced Radiation Proof Machine Casing",
+    "color": "#c1aac3"
   },
   {
-    "id": "gt5u.controller.elementalDuplicator",
-    "name": "Elemental Duplicator Controller",
-    "color": "#292925"
+    "id": "gregtech:gt.blockcasings8@7",
+    "name": "Advanced Iridium Plated Machine Casing",
+    "color": "#c9c9c9"
   },
-  { "id": "gt5u.controller.endothermicFridge", "name": "Endothermic Fridge Controller", "color": "#5b849a" },
-  { "id": "gt5u.controller.energyInfuser", "name": "Energy Infuser Controller", "color": "#6ba2c9" },
-  { "id": "gt5u.controller.exothermicHearth", "name": "Exothermic Hearth Controller", "color": "#366436" },
+  { "id": "gregtech:gt.blockcasings9@0", "name": "PBI Pipe Casing", "color": "#303030" },
+  { "id": "gregtech:gt.blockcasings9@1", "name": "Advanced Filter Casing", "color": "#8e8e8e" },
+  { "id": "gregtech:gt.blockcasings9@10", "name": "Inert Filtration Casing", "color": "#a97aa2" },
+  {
+    "id": "gregtech:gt.blockcasings9@11",
+    "name": "Heat-Resistant Trinium Plated Casing",
+    "color": "#f5f5f5"
+  },
+  {
+    "id": "gregtech:gt.blockcasings9@12",
+    "name": "Naquadria-Reinforced Water Plant Casing",
+    "color": "#242424"
+  },
+  {
+    "id": "gregtech:gt.blockcasings9@13",
+    "name": "High Energy Ultraviolet Emitter Casing",
+    "color": "#6a357b"
+  },
+  { "id": "gregtech:gt.blockcasings9@14", "name": "Particle Beam Guidance Pipe Casing", "color": "#00bddd" },
+  {
+    "id": "gregtech:gt.blockcasings9@15",
+    "name": "Femtometer-Calibrated Particle Beam Casing",
+    "color": "#84aec8"
+  },
+  { "id": "gregtech:gt.blockcasings9@2", "name": "Primitive Wooden Casing", "color": "#7a5a3d" },
+  {
+    "id": "gregtech:gt.blockcasings9@3",
+    "name": "Superplasticizer-Treated High Strength Concrete",
+    "color": "#61615c"
+  },
+  { "id": "gregtech:gt.blockcasings9@4", "name": "Sterile Water Plant Casing", "color": "#589fd2" },
+  {
+    "id": "gregtech:gt.blockcasings9@5",
+    "name": "Reinforced Sterile Water Plant Casing",
+    "color": "#a9aba9"
+  },
+  { "id": "gregtech:gt.blockcasings9@6", "name": "Slick Sterile Flocculation Casing", "color": "#b8b8c8" },
+  {
+    "id": "gregtech:gt.blockcasings9@7",
+    "name": "Stabilized Naquadah Water Plant Casing",
+    "color": "#414141"
+  },
+  {
+    "id": "gregtech:gt.blockcasings9@8",
+    "name": "Inert Neutralization Water Plant Casing",
+    "color": "#795975"
+  },
+  { "id": "gregtech:gt.blockcasings9@9", "name": "Reactive Gas Containment Casing", "color": "#9e9eb8" },
+  { "id": "gregtech:gt.blockcasingsNH@0", "name": "Air Filter Turbine Casing", "color": "#8c8c8c" },
+  { "id": "gregtech:gt.blockcasingsNH@1", "name": "Air Filter Vent Casing", "color": "#767676" },
+  { "id": "gregtech:gt.blockcasingsNH@10", "name": "UEV Machine Casing", "color": "#d1d1d1" },
+  { "id": "gregtech:gt.blockcasingsNH@3", "name": "Advanced Air Filter Turbine Casing", "color": "#a56a99" },
+  { "id": "gregtech:gt.blockcasingsNH@4", "name": "Advanced Air Filter Vent Casing", "color": "#925984" },
+  { "id": "gregtech:gt.blockcasingsNH@5", "name": "Super Air Filter Turbine Casing", "color": "#325691" },
+  { "id": "gregtech:gt.blockcasingsNH@6", "name": "Super Air Filter Vent Casing", "color": "#29497e" },
+  { "id": "gregtech:gt.blockconcretes@8", "name": "Light Concrete", "color": "#988867" },
+  { "id": "gregtech:gt.blockfencemetal@0", "name": "gregtech:gt.blockfencemetal@0", "color": "#dbdbdb" },
+  { "id": "gregtech:gt.blockframes@129", "name": "Neutronium Frame Box", "color": "#979797" },
+  { "id": "gregtech:gt.blockframes@132", "name": "Netherite Frame Box", "color": "#9a9a9a" },
+  { "id": "gregtech:gt.blockframes@163", "name": "Prismatic Naquadah Frame Box", "color": "#212121" },
+  { "id": "gregtech:gt.blockframes@28", "name": "Titanium Frame Box", "color": "#856191" },
+  { "id": "gregtech:gt.blockframes@300", "name": "Bronze Frame Box", "color": "#9a4d00" },
+  { "id": "gregtech:gt.blockframes@305", "name": "Steel Frame Box", "color": "#4e4d4d" },
+  { "id": "gregtech:gt.blockframes@306", "name": "Stainless Steel Frame Box", "color": "#797985" },
+  { "id": "gregtech:gt.blockframes@316", "name": "Tungstensteel Frame Box", "color": "#3d3c61" },
+  { "id": "gregtech:gt.blockframes@317", "name": "Osmiridium Frame Box", "color": "#3d3c9a" },
+  { "id": "gregtech:gt.blockframes@319", "name": "Adamantium Frame Box", "color": "#9a9a9a" },
+  { "id": "gregtech:gt.blockframes@32", "name": "Iron Frame Box", "color": "#797979" },
+  { "id": "gregtech:gt.blockframes@324", "name": "Naquadah Frame Box", "color": "#1e1e1e" },
+  { "id": "gregtech:gt.blockframes@325", "name": "Naquadah Alloy Frame Box", "color": "#181818" },
+  { "id": "gregtech:gt.blockframes@327", "name": "Naquadria Frame Box", "color": "#121212" },
+  { "id": "gregtech:gt.blockframes@328", "name": "Duranium Frame Box", "color": "#9a9a9a" },
+  { "id": "gregtech:gt.blockframes@329", "name": "Tritanium Frame Box", "color": "#3a0000" },
+  { "id": "gregtech:gt.blockframes@335", "name": "Damascus Steel Frame Box", "color": "#434342" },
+  { "id": "gregtech:gt.blockframes@348", "name": "Red Steel Frame Box", "color": "#553c3c" },
+  { "id": "gregtech:gt.blockframes@356", "name": "Magnetic Neodymium Frame Box", "color": "#3d3c3c" },
+  { "id": "gregtech:gt.blockframes@367", "name": "Vibrant Alloy Frame Box", "color": "#5a880a" },
+  { "id": "gregtech:gt.blockframes@370", "name": "Tungstencarbide Frame Box", "color": "#1f003e" },
+  { "id": "gregtech:gt.blockframes@374", "name": "HSS-S Frame Box", "color": "#3e001f" },
+  { "id": "gregtech:gt.blockframes@389", "name": "Callisto Ice Frame Box", "color": "#126b9a" },
+  { "id": "gregtech:gt.blockframes@391", "name": "Quantium Frame Box", "color": "#007e07" },
+  { "id": "gregtech:gt.blockframes@394", "name": "Infinity Catalyst Frame Box", "color": "#9a9a9a" },
+  { "id": "gregtech:gt.blockframes@395", "name": "Bedrockium Frame Box", "color": "#9a9a9a" },
+  { "id": "gregtech:gt.blockframes@397", "name": "Infinity Frame Box", "color": "#9a9a9a" },
+  { "id": "gregtech:gt.blockframes@405", "name": "Stellar Alloy Frame Box", "color": "#809a9a" },
+  {
+    "id": "gregtech:gt.blockframes@473",
+    "name": "Polytetrafluoroethylene (PTFE) Frame Box",
+    "color": "#3d3c3c"
+  },
+  { "id": "gregtech:gt.blockframes@582", "name": "Enriched Holmium Frame Box", "color": "#0b3c9a" },
+  { "id": "gregtech:gt.blockframes@649", "name": "Polyvinyl Chloride (PVC) Frame Box", "color": "#828b8b" },
+  { "id": "gregtech:gt.blockframes@765", "name": "Kevlar Frame Box", "color": "#929148" },
+  { "id": "gregtech:gt.blockframes@81", "name": "Tungsten Frame Box", "color": "#1e1e1e" },
+  { "id": "gregtech:gt.blockframes@84", "name": "Iridium Frame Box", "color": "#929194" },
+  { "id": "gregtech:gt.blockframes@86", "name": "Gold Frame Box", "color": "#9a9a12" },
+  { "id": "gregtech:gt.blockframes@976", "name": "Awakened Draconium Frame Box", "color": "#942f00" },
+  { "id": "gregtech:gt.blockframes@979", "name": "Radox Polymer Frame Box", "color": "#51004d" },
+  { "id": "gregtech:gt.blockframes@985", "name": "Superconductor Base UHV Frame Box", "color": "#174e72" },
+  { "id": "gregtech:gt.blockframes@992", "name": "Superconductor Base ZPM Frame Box", "color": "#060606" },
+  { "id": "gregtech:gt.blockglass1@0", "name": "Chemical Grade Glass", "color": "#9ca6a8" },
+  {
+    "id": "gregtech:gt.blockglass1@1",
+    "name": "Electron-Permeable Neutronium Coated Glass",
+    "color": "#ffd248"
+  },
+  { "id": "gregtech:gt.blockglass1@10", "name": "Reinforced Glass", "color": "#54574f" },
+  { "id": "gregtech:gt.blockglass1@2", "name": "Omni-Purpose Infinity Fused Glass", "color": "#d3c5c6" },
+  { "id": "gregtech:gt.blockglass1@3", "name": "Non-Photonic Matter Exclusion Glass", "color": "#2e77cd" },
+  { "id": "gregtech:gt.blockglass1@4", "name": "Hawking Radiation Realignment Focus", "color": "#8200b3" },
+  { "id": "gregtech:gt.blockglass1@6", "name": "Chamber Grate", "color": "#515357" },
+  { "id": "gregtech:gt.blockglass1@7", "name": "Exo-Foundry Containment Glass", "color": "#52411c" },
+  { "id": "gregtech:gt.blockglass1@8", "name": "Nanochip Complex Glass", "color": "#464243" },
+  { "id": "gregtech:gt.blockglass1@9", "name": "Electromagnetic Waveguide", "color": "#e6e6e6" },
+  {
+    "id": "gregtech:gt.blockmachines@1004",
+    "name": "Dimensionally Transcendent Plasma Forge",
+    "color": "#6ba2c9"
+  },
+  { "id": "gregtech:gt.blockmachines@1006", "name": "Transcendent Plasma Mixer", "color": "#6ba2c9" },
+  { "id": "gregtech:gt.blockmachines@1033", "name": "Spinmatron-2737", "color": "#2a4c1c" },
+  { "id": "gregtech:gt.blockmachines@10500", "name": "Digester", "color": "#325691" },
+  { "id": "gregtech:gt.blockmachines@10501", "name": "Dissolution Tank", "color": "#91a6b9" },
+  { "id": "gregtech:gt.blockmachines@10505", "name": "Linear Accelerator", "color": "#727271" },
+  { "id": "gregtech:gt.blockmachines@10506", "name": "Source Chamber", "color": "#727271" },
+  { "id": "gregtech:gt.blockmachines@10507", "name": "Synchrotron", "color": "#727271" },
+  { "id": "gregtech:gt.blockmachines@10508", "name": "Target Chamber", "color": "#4b4b4b" },
+  { "id": "gregtech:gt.blockmachines@1157", "name": "Fluid Drilling Rig", "color": "#878787" },
+  { "id": "gregtech:gt.blockmachines@1158", "name": "Ore Drilling Plant", "color": "#878787" },
+  { "id": "gregtech:gt.blockmachines@1177", "name": "Ore Drilling Plant II", "color": "#a56a99" },
+  { "id": "gregtech:gt.blockmachines@1178", "name": "Ore Drilling Plant III", "color": "#325691" },
+  { "id": "gregtech:gt.blockmachines@1179", "name": "Ore Drilling Plant IV", "color": "#154697" },
+  { "id": "gregtech:gt.blockmachines@1193", "name": "Fusion Control Computer Mk-I", "color": "#ececec" },
+  { "id": "gregtech:gt.blockmachines@1194", "name": "Fusion Control Computer Mk-II", "color": "#8b9faf" },
+  { "id": "gregtech:gt.blockmachines@1195", "name": "Fusion Control Computer Mk-III", "color": "#d8cde0" },
+  { "id": "gregtech:gt.blockmachines@12020", "name": "Electric Air Filter T1", "color": "#8c8c8c" },
+  { "id": "gregtech:gt.blockmachines@12021", "name": "Electric Air Filter T2", "color": "#a56a99" },
+  { "id": "gregtech:gt.blockmachines@12022", "name": "Electric Air Filter T3", "color": "#325691" },
+  { "id": "gregtech:gt.blockmachines@12697", "name": "Manual Transformer", "color": "#a0a0a0" },
+  { "id": "gregtech:gt.blockmachines@12698", "name": "Windmill", "color": "#9d804f" },
+  { "id": "gregtech:gt.blockmachines@12712", "name": "Bacterial Vat", "color": "#91a6b9" },
+  { "id": "gregtech:gt.blockmachines@12729", "name": "Deep Earth Heating Pump", "color": "#64866f" },
+  { "id": "gregtech:gt.blockmachines@12733", "name": "Thorium High Temperature Reactor", "color": "#48387b" },
+  { "id": "gregtech:gt.blockmachines@12735", "name": "Circuit Assembly Line", "color": "#878787" },
+  { "id": "gregtech:gt.blockmachines@12739", "name": "Void Miner III", "color": "#a5a5a7" },
+  { "id": "gregtech:gt.blockmachines@12740", "name": "Void Miner II", "color": "#262626" },
+  { "id": "gregtech:gt.blockmachines@12741", "name": "Void Miner I", "color": "#154697" },
+  {
+    "id": "gregtech:gt.blockmachines@12791",
+    "name": "High Temperature Gas-cooled Reactor",
+    "color": "#3f3f65"
+  },
+  { "id": "gregtech:gt.blockmachines@12792", "name": "Extreme Industrial Greenhouse", "color": "#ae6f41" },
+  { "id": "gregtech:gt.blockmachines@13101", "name": "Solid-Oxide Fuel Cell Mk-I", "color": "#91a6b9" },
+  { "id": "gregtech:gt.blockmachines@13102", "name": "Solid-Oxide Fuel Cell Mk-II", "color": "#325691" },
+  { "id": "gregtech:gt.blockmachines@13104", "name": "TFFT", "color": "#333f33" },
+  { "id": "gregtech:gt.blockmachines@13106", "name": "Lapotronic Supercapacitor", "color": "#74797e" },
+  { "id": "gregtech:gt.blockmachines@13115", "name": "Miniature Wormhole Generator", "color": "#6ba2c9" },
+  { "id": "gregtech:gt.blockmachines@13532", "name": "Advanced Assembly Line", "color": "#878787" },
+  { "id": "gregtech:gt.blockmachines@14001", "name": "Dyson Swarm Ground Unit", "color": "#105b53" },
+  { "id": "gregtech:gt.blockmachines@14004", "name": "Space Assembler Module Mk-I", "color": "#00679b" },
+  { "id": "gregtech:gt.blockmachines@14005", "name": "Space Assembler Module Mk-II", "color": "#00679b" },
+  { "id": "gregtech:gt.blockmachines@14006", "name": "Space Assembler Module Mk-III", "color": "#00679b" },
+  { "id": "gregtech:gt.blockmachines@14007", "name": "Space Mining Module Mk-I", "color": "#00679b" },
+  { "id": "gregtech:gt.blockmachines@14008", "name": "Space Mining Module Mk-II", "color": "#00679b" },
+  { "id": "gregtech:gt.blockmachines@14009", "name": "Space Mining Module Mk-III", "color": "#00679b" },
+  { "id": "gregtech:gt.blockmachines@14010", "name": "Space Pumping Module Mk-I", "color": "#00679b" },
+  { "id": "gregtech:gt.blockmachines@14011", "name": "Space Pumping Module Mk-II", "color": "#00679b" },
+  { "id": "gregtech:gt.blockmachines@14012", "name": "Space Project Manager", "color": "#00679b" },
+  { "id": "gregtech:gt.blockmachines@14013", "name": "Space Research Module", "color": "#00679b" },
+  { "id": "gregtech:gt.blockmachines@14014", "name": "Space Pumping Module Mk-III", "color": "#00679b" },
+  { "id": "gregtech:gt.blockmachines@14050", "name": "Exo-Foundry", "color": "#161515" },
+  { "id": "gregtech:gt.blockmachines@141", "name": "Fluid Drilling Rig II", "color": "#91a6b9" },
+  { "id": "gregtech:gt.blockmachines@14101", "name": "Large Molecular Assembler", "color": "#325691" },
+  { "id": "gregtech:gt.blockmachines@142", "name": "Fluid Drilling Rig III", "color": "#a56a99" },
+  { "id": "gregtech:gt.blockmachines@143", "name": "Concrete Backfiller", "color": "#878787" },
+  { "id": "gregtech:gt.blockmachines@144", "name": "Advanced Concrete Backfiller", "color": "#a56a99" },
+  { "id": "gregtech:gt.blockmachines@149", "name": "Fluid Drilling Rig IV", "color": "#325691" },
+  { "id": "gregtech:gt.blockmachines@15300", "name": "Active Transformer", "color": "#6ba2c9" },
+  { "id": "gregtech:gt.blockmachines@15310", "name": "Weighted Network Switch With QoS", "color": "#dae7f1" },
+  { "id": "gregtech:gt.blockmachines@15311", "name": "Quantum Computer", "color": "#dae7f1" },
+  { "id": "gregtech:gt.blockmachines@15312", "name": "Microwave Grinder", "color": "#91a6b9" },
+  { "id": "gregtech:gt.blockmachines@15313", "name": "Data Bank", "color": "#6ba2c9" },
+  { "id": "gregtech:gt.blockmachines@15314", "name": "Tesla Tower", "color": "#868686" },
+  { "id": "gregtech:gt.blockmachines@15315", "name": "Static Network Switch With QoS", "color": "#dae7f1" },
+  { "id": "gregtech:gt.blockmachines@15331", "name": "Research Station", "color": "#dae7f1" },
+  { "id": "gregtech:gt.blockmachines@15350", "name": "Energy Infuser", "color": "#6ba2c9" },
+  { "id": "gregtech:gt.blockmachines@15410", "name": "Eye of Harmony", "color": "#6ba2c9" },
+  { "id": "gregtech:gt.blockmachines@15411", "name": "Forge of the Gods", "color": "#3c033c" },
+  { "id": "gregtech:gt.blockmachines@15412", "name": "Helioflare Power Forge", "color": "#342f34" },
+  { "id": "gregtech:gt.blockmachines@15413", "name": "Helioflux Melting Core", "color": "#342f34" },
+  { "id": "gregtech:gt.blockmachines@15414", "name": "Heliothermal Plasma Fabricator", "color": "#342f34" },
+  { "id": "gregtech:gt.blockmachines@15415", "name": "Heliofusion Exoticizer", "color": "#342f34" },
+  { "id": "gregtech:gt.blockmachines@15511", "name": "Industrial Wire Factory", "color": "#2f2f2f" },
+  { "id": "gregtech:gt.blockmachines@15513", "name": "Amazon Warehousing Depot", "color": "#42392a" },
+  { "id": "gregtech:gt.blockmachines@15514", "name": "Industrial Electrolyzer", "color": "#745a4f" },
+  { "id": "gregtech:gt.blockmachines@15515", "name": "Mega Chemical Reactor", "color": "#4a4a4a" },
+  { "id": "gregtech:gt.blockmachines@15516", "name": "Mega Distillation Tower", "color": "#67727b" },
+  { "id": "gregtech:gt.blockmachines@15517", "name": "Exothermic Hearth", "color": "#366436" },
+  { "id": "gregtech:gt.blockmachines@15518", "name": "Endothermic Fridge", "color": "#5b849a" },
+  { "id": "gregtech:gt.blockmachines@15519", "name": "XL Turbo Steam Turbine", "color": "#8c8c8c" },
+  { "id": "gregtech:gt.blockmachines@15520", "name": "XL Turbo HP Steam Turbine", "color": "#a36998" },
+  { "id": "gregtech:gt.blockmachines@15521", "name": "XL Turbo SC Steam Turbine", "color": "#333333" },
+  { "id": "gregtech:gt.blockmachines@15522", "name": "XL Turbo Gas Turbine", "color": "#92a7b9" },
+  { "id": "gregtech:gt.blockmachines@15523", "name": "XL Turbo Plasma Turbine", "color": "#325691" },
+  { "id": "gregtech:gt.blockmachines@15529", "name": "Large Bronze Boiler", "color": "#c04810" },
+  { "id": "gregtech:gt.blockmachines@15530", "name": "Large Steel Boiler", "color": "#878787" },
+  { "id": "gregtech:gt.blockmachines@15531", "name": "Large Titanium Boiler", "color": "#a56a99" },
+  { "id": "gregtech:gt.blockmachines@15532", "name": "Large Tungstensteel Boiler", "color": "#325691" },
+  { "id": "gregtech:gt.blockmachines@15535", "name": "Universal Chemical Fuel Engine", "color": "#a56a99" },
+  { "id": "gregtech:gt.blockmachines@15536", "name": "Naquadah Fuel Refinery", "color": "#262626" },
+  { "id": "gregtech:gt.blockmachines@15537", "name": "Large Naquadah Reactor", "color": "#080713" },
+  { "id": "gregtech:gt.blockmachines@15538", "name": "Large Thermal Refinery", "color": "#6c1817" },
+  { "id": "gregtech:gt.blockmachines@15539", "name": "Industrial Maceration Stack", "color": "#a56a99" },
+  { "id": "gregtech:gt.blockmachines@15540", "name": "Industrial Cutting Factory", "color": "#937ac7" },
+  { "id": "gregtech:gt.blockmachines@15541", "name": "Tree Growth Simulator", "color": "#ae6f41" },
+  { "id": "gregtech:gt.blockmachines@15542", "name": "Large Sifter", "color": "#2a2827" },
+  { "id": "gregtech:gt.blockmachines@15543", "name": "Industrial Coke Oven", "color": "#637386" },
+  { "id": "gregtech:gt.blockmachines@15544", "name": "Zhuhai Fishing Port", "color": "#1d4556" },
+  { "id": "gregtech:gt.blockmachines@15545", "name": "Algae Farm", "color": "#cab9b8" },
+  { "id": "gregtech:gt.blockmachines@15547", "name": "Density^2", "color": "#325691" },
+  { "id": "gregtech:gt.blockmachines@15548", "name": "Industrial Arc Furnace", "color": "#878787" },
+  { "id": "gregtech:gt.blockmachines@15549", "name": "Industrial Extrusion Machine", "color": "#acacba" },
+  { "id": "gregtech:gt.blockmachines@15550", "name": "Ore Washing Plant", "color": "#28505c" },
+  { "id": "gregtech:gt.blockmachines@15551", "name": "Industrial Chemical Bath", "color": "#28505c" },
+  { "id": "gregtech:gt.blockmachines@15552", "name": "Industrial Forming Press", "color": "#a56a99" },
+  { "id": "gregtech:gt.blockmachines@15553", "name": "Industrial Bending Machine", "color": "#a56a99" },
+  { "id": "gregtech:gt.blockmachines@15554", "name": "Industrial 3D Copying Machine", "color": "#827e74" },
+  { "id": "gregtech:gt.blockmachines@15555", "name": "Industrial Sledgehammer", "color": "#3b3a3b" },
+  { "id": "gregtech:gt.blockmachines@15556", "name": "Boldarnator", "color": "#6c1817" },
+  { "id": "gregtech:gt.blockmachines@15557", "name": "Thermal Boiler", "color": "#637386" },
+  { "id": "gregtech:gt.blockmachines@15558", "name": "Molecular Transformer", "color": "#2d2d2d" },
+  { "id": "gregtech:gt.blockmachines@15559", "name": "Planetary Gas Siphon", "color": "#241429" },
+  { "id": "gregtech:gt.blockmachines@15560", "name": "Flotation Cell Regulator", "color": "#575737" },
+  { "id": "gregtech:gt.blockmachines@15563", "name": "Electric Implosion Compressor", "color": "#282828" },
+  { "id": "gregtech:gt.blockmachines@15564", "name": "Integrated Ore Factory", "color": "#91a6b9" },
+  { "id": "gregtech:gt.blockmachines@15565", "name": "Cryogenic Freezer", "color": "#526278" },
+  { "id": "gregtech:gt.blockmachines@15566", "name": "Industrial Mixing Machine", "color": "#6363a4" },
+  { "id": "gregtech:gt.blockmachines@15567", "name": "Infinite Fluid Drilling Rig", "color": "#a5a5a7" },
+  { "id": "gregtech:gt.blockmachines@15569", "name": "Mega Oil Cracker", "color": "#67727b" },
+  { "id": "gregtech:gt.blockmachines@15750", "name": "Entropic Processor", "color": "#562a93" },
+  { "id": "gregtech:gt.blockmachines@15751", "name": "Decay Warehouse", "color": "#48387b" },
+  { "id": "gregtech:gt.blockmachines@15752", "name": "L.A.T.E.X.", "color": "#4a4a4a" },
+  {
+    "id": "gregtech:gt.blockmachines@15754",
+    "name": "Bose-Einstein Condensate Entanglement Apparatus",
+    "color": "#4b4b4b"
+  },
+  {
+    "id": "gregtech:gt.blockmachines@15756",
+    "name": "Bose-Einstein Condensate Observation Array",
+    "color": "#4b4b4b"
+  },
+  {
+    "id": "gregtech:gt.blockmachines@15757",
+    "name": "Bose-Einstein Condensate Teleportation Node",
+    "color": "#4b4b4b"
+  },
+  {
+    "id": "gregtech:gt.blockmachines@15760",
+    "name": "Bose-Einstein Condensate Maxwell Gate",
+    "color": "#4b4b4b"
+  },
+  { "id": "gregtech:gt.blockmachines@3004", "name": "Hyper-Intensity Laser Engraver", "color": "#4950a6" },
+  { "id": "gregtech:gt.blockmachines@3005", "name": "Large Electric Compressor", "color": "#7c716a" },
+  { "id": "gregtech:gt.blockmachines@3006", "name": "Hot Isostatic Pressurization Unit", "color": "#7c716a" },
+  { "id": "gregtech:gt.blockmachines@3007", "name": "Neutronium Compressor", "color": "#bbc8ee" },
+  {
+    "id": "gregtech:gt.blockmachines@3008",
+    "name": "Pseudostable Black Hole Containment Field",
+    "color": "#9f9da6"
+  },
+  { "id": "gregtech:gt.blockmachines@3013", "name": "Large Hadron Collider", "color": "#242c3a" },
+  { "id": "gregtech:gt.blockmachines@3015", "name": "Beam Crafter", "color": "#727271" },
+  { "id": "gregtech:gt.blockmachines@3016", "name": "Beam Mirror", "color": "#727271" },
+  { "id": "gregtech:gt.blockmachines@3017", "name": "Beam Splitter", "color": "#727271" },
+  { "id": "gregtech:gt.blockmachines@3018", "name": "Beam Stabilizer", "color": "#727271" },
+  { "id": "gregtech:gt.blockmachines@31021", "name": "Dangote Distillus", "color": "#91a6b9" },
+  { "id": "gregtech:gt.blockmachines@31023", "name": "Zyngen", "color": "#575737" },
+  { "id": "gregtech:gt.blockmachines@31027", "name": "IsaMill Grinding Machine", "color": "#568945" },
+  { "id": "gregtech:gt.blockmachines@31035", "name": "Sparge Tower Controller", "color": "#3c3c3c" },
+  { "id": "gregtech:gt.blockmachines@31050", "name": "Elemental Duplicator", "color": "#560908" },
+  { "id": "gregtech:gt.blockmachines@31077", "name": "Thermic Heating Device", "color": "#757673" },
+  { "id": "gregtech:gt.blockmachines@31079", "name": "Whakawhiti Wera XL", "color": "#8b1b52" },
+  { "id": "gregtech:gt.blockmachines@31085", "name": "Water Pump", "color": "#7a5a3d" },
+  { "id": "gregtech:gt.blockmachines@31088", "name": "Large Neutralization Engine", "color": "#3c182c" },
+  { "id": "gregtech:gt.blockmachines@31150", "name": "Mega Alloy Blast Smelter", "color": "#8e8174" },
+  { "id": "gregtech:gt.blockmachines@31151", "name": "Quantum Force Transformer", "color": "#bfcdce" },
+  { "id": "gregtech:gt.blockmachines@32013", "name": "Neutron Activator", "color": "#91a6b9" },
+  { "id": "gregtech:gt.blockmachines@32014", "name": "YOTTank", "color": "#4e4e4e" },
+  { "id": "gregtech:gt.blockmachines@32017", "name": "Extreme Heat Exchanger", "color": "#325691" },
+  { "id": "gregtech:gt.blockmachines@32018", "name": "Precise Auto-Assembler MT-3662", "color": "#6e5941" },
+  { "id": "gregtech:gt.blockmachines@32019", "name": "Compact Fusion Computer Mk-I", "color": "#e8eade" },
+  { "id": "gregtech:gt.blockmachines@32020", "name": "Compact Fusion Computer Mk-II", "color": "#ebf2ef" },
+  { "id": "gregtech:gt.blockmachines@32021", "name": "Compact Fusion Computer Mk-III", "color": "#a2aae8" },
+  { "id": "gregtech:gt.blockmachines@32022", "name": "Compact Fusion Computer Mk-IV", "color": "#f0f8ef" },
+  { "id": "gregtech:gt.blockmachines@32023", "name": "Compact Fusion Computer Mk-V", "color": "#cfd2cb" },
+  { "id": "gregtech:gt.blockmachines@32025", "name": "Coolant Tower", "color": "#988867" },
+  { "id": "gregtech:gt.blockmachines@32026", "name": "Component Assembly Line", "color": "#c9c9c9" },
+  {
+    "id": "gregtech:gt.blockmachines@32027",
+    "name": "Semi-Stable Antimatter Stabilization Sequencer",
+    "color": "#edf1f9"
+  },
+  {
+    "id": "gregtech:gt.blockmachines@32028",
+    "name": "Shielded Lagrangian Annihilation Matrix",
+    "color": "#edf1f9"
+  },
+  { "id": "gregtech:gt.blockmachines@356", "name": "PCB Factory", "color": "#6c9d9d" },
+  { "id": "gregtech:gt.blockmachines@357", "name": "Nano Forge", "color": "#303030" },
+  { "id": "gregtech:gt.blockmachines@358", "name": "Magnetic Flux Exhibitor", "color": "#3c1c47" },
+  { "id": "gregtech:gt.blockmachines@366", "name": "Fluid Shaper", "color": "#6c6140" },
+  { "id": "gregtech:gt.blockmachines@367", "name": "Solar Factory", "color": "#91a6b9" },
+  { "id": "gregtech:gt.blockmachines@368", "name": "Mass Solidifier", "color": "#6c6140" },
+  { "id": "gregtech:gt.blockmachines@5001", "name": "Draconic Evolution Fusion Crafter", "color": "#282828" },
+  { "id": "gregtech:gt.blockmachines@686", "name": "Industrial Precision Lathe", "color": "#878787" },
+  { "id": "gregtech:gt.blockmachines@730", "name": "Bio Chamber", "color": "#e8f4e8" },
+  { "id": "gregtech:gt.blockmachines@731", "name": "Cooling Tower", "color": "#58627f" },
+  { "id": "gregtech:gt.blockmachines@749", "name": "Nuclear Salt Processing Plant", "color": "#bfcdce" },
+  { "id": "gregtech:gt.blockmachines@751", "name": "Liquid Fluoride Thorium Reactor", "color": "#3a1c4a" },
+  { "id": "gregtech:gt.blockmachines@799", "name": "Matter Fabrication CPU", "color": "#292925" },
+  { "id": "gregtech:gt.blockmachines@810", "name": "Alloy Blast Smelter", "color": "#8e8174" },
+  { "id": "gregtech:gt.blockmachines@812", "name": "Power Station Control Node", "color": "#2d1a1a" },
+  { "id": "gregtech:gt.blockmachines@828", "name": "COMET - Compact Cyclotron", "color": "#48387b" },
+  { "id": "gregtech:gt.blockmachines@835", "name": "Reactor Fuel Processing Plant", "color": "#b2aac0" },
+  { "id": "gregtech:gt.blockmachines@863", "name": "Solar Tower", "color": "#2f2f2f" },
+  { "id": "gregtech:gt.blockmachines@876", "name": "Large Scale Auto-Assembler v1.01", "color": "#bfcdce" },
+  { "id": "gregtech:gt.blockmachines@9400", "name": "Drone Centre", "color": "#878787" },
+  { "id": "gregtech:gt.blockmachines@9402", "name": "Water Purification Plant", "color": "#589fd2" },
+  { "id": "gregtech:gt.blockmachines@9403", "name": "Clarifier Purification Unit", "color": "#a9aba9" },
+  { "id": "gregtech:gt.blockmachines@9404", "name": "Ozonation Purification Unit", "color": "#a97aa2" },
+  { "id": "gregtech:gt.blockmachines@9405", "name": "Flocculation Purification Unit", "color": "#b8b8c8" },
+  {
+    "id": "gregtech:gt.blockmachines@9406",
+    "name": "pH Neutralization Purification Unit",
+    "color": "#414141"
+  },
+  {
+    "id": "gregtech:gt.blockmachines@9408",
+    "name": "Extreme Temperature Fluctuation Purification Unit",
+    "color": "#f5f5f5"
+  },
+  {
+    "id": "gregtech:gt.blockmachines@9409",
+    "name": "High Energy Laser Purification Unit",
+    "color": "#242424"
+  },
+  {
+    "id": "gregtech:gt.blockmachines@9412",
+    "name": "Residual Decontaminant Degasser Purification Unit",
+    "color": "#f5f5f5"
+  },
+  {
+    "id": "gregtech:gt.blockmachines@9414",
+    "name": "Absolute Baryonic Perfection Purification Unit",
+    "color": "#004c88"
+  },
+  { "id": "gregtech:gt.blockmachines@9500", "name": "Nanochip Assembly Complex", "color": "#ede9ee" },
+  { "id": "gregtech:gt.blockmachines@9504", "name": "Nanochip Assembly Matrix", "color": "#ede9ee" },
+  { "id": "gregtech:gt.blockmachines@9505", "name": "Part Preparation Apparatus", "color": "#ede9ee" },
+  { "id": "gregtech:gt.blockmachines@9506", "name": "Full-Board Immersion Device", "color": "#ede9ee" },
+  { "id": "gregtech:gt.blockmachines@9507", "name": "Ultra-high Energy Etching Array", "color": "#ede9ee" },
+  { "id": "gregtech:gt.blockmachines@9508", "name": "Nanoprecision Cutting Chamber", "color": "#ede9ee" },
+  { "id": "gregtech:gt.blockmachines@9509", "name": "Nanoprecision Wire Tracer", "color": "#ede9ee" },
+  { "id": "gregtech:gt.blockmachines@9510", "name": "Nanopart Splitter", "color": "#ede9ee" },
+  { "id": "gregtech:gt.blockmachines@9511", "name": "Superconductive Strand Splitter", "color": "#ede9ee" },
+  { "id": "gregtech:gt.blockmachines@9512", "name": "Optically Optimized Organizer", "color": "#ede9ee" },
+  { "id": "gregtech:gt.blockmachines@9513", "name": "Nanometer Encasement Wrapper", "color": "#ede9ee" },
+  {
+    "id": "gregtech:gt.blockmachines@9514",
+    "name": "Accelerated Biological Coordinator",
+    "color": "#ede9ee"
+  },
+  { "id": "gregtech:gt.blockmachines@963", "name": "Volcanus", "color": "#a87b37" },
+  { "id": "gregtech:gt.blockmachines@965", "name": "FusionTech Mk-IV", "color": "#b6c4aa" },
+  { "id": "gregtech:gt.blockmachines@975", "name": "FusionTech Mk-V", "color": "#d2c4dc" },
+  { "id": "gregtech:gt.blockmachines@995", "name": "Utupu-Tanuri", "color": "#53110a" },
+  { "id": "gregtech:gt.blockmachines@996", "name": "Rocketdyne F-1A Engine", "color": "#437179" },
+  { "id": "gregtech:gt.blockmachines@998", "name": "ExxonMobil Chemical Plant", "color": "#c04810" },
+  { "id": "gregtech:gt.blockmetal2@7", "name": "gregtech:gt.blockmetal2@7", "color": "#c05218" },
+  { "id": "gregtech:gt.blockmetal4@13", "name": "gregtech:gt.blockmetal4@13", "color": "#313131" },
+  { "id": "gregtech:gt.blockmetal5@2", "name": "gregtech:gt.blockmetal5@2", "color": "#e0e0e0" },
+  { "id": "gregtech:gt.blockmetal8@6", "name": "gregtech:gt.blockmetal8@6", "color": "#dad3d3" },
+  { "id": "gregtech:gt.blockreinforced@10", "name": "gregtech:gt.blockreinforced@10", "color": "#282828" },
+  { "id": "gregtech:gt.blockreinforced@2", "name": "gregtech:gt.blockreinforced@2", "color": "#dfdfdf" },
+  { "id": "gregtech:gt.blockreinforced@3", "name": "gregtech:gt.blockreinforced@3", "color": "#1a2d4f" },
+  { "id": "gregtech:gt.blocktintedglass@0", "name": "Tinted Industrial Glass (White)", "color": "#f8ffff" },
+  { "id": "gregtech:gt.foundrycasings@0", "name": "Primary Exo-Foundry Casing", "color": "#161515" },
+  { "id": "gregtech:gt.foundrycasings@1", "name": "Infinite Magnetic Chassis", "color": "#2e2e2b" },
+  { "id": "gregtech:gt.foundrycasings@11", "name": "Inner Exo-Foundry Siphon Casing", "color": "#423113" },
+  {
+    "id": "gregtech:gt.foundrycasings@12",
+    "name": "Central Exo-Foundry Regulation Casing",
+    "color": "#6e4f15"
+  },
+  { "id": "gregtech:gt.laserplate@0", "name": "gregtech:gt.laserplate@0", "color": "#5e5e5e" },
+  { "id": "gregtech:gt.sheetmetal@305", "name": "Steel Sheetmetal", "color": "#585858" },
+  { "id": "gregtech:gt.sheetmetal@306", "name": "Stainless Steel Sheetmetal", "color": "#8f8f9e" },
+  { "id": "gregtech:gt.sheetmetal@324", "name": "Naquadah Sheetmetal", "color": "#222222" },
+  { "id": "gregtech:gt.sheetmetal@325", "name": "Naquadah Alloy Sheetmetal", "color": "#1b1b1b" },
+  { "id": "gregtech:gt.sheetmetal@334", "name": "Black Steel Sheetmetal", "color": "#454545" },
+  { "id": "gregtech:gt.sheetmetal@390", "name": "Ledox Sheetmetal", "color": "#0053b7" },
+  { "id": "gregtech:gt.sheetmetal@397", "name": "Infinity Sheetmetal", "color": "#ababab" },
+  { "id": "gregtech:gt.sheetmetal@81", "name": "Tungsten Sheetmetal", "color": "#222222" },
+  { "id": "gregtech:gt.sheetmetal@84", "name": "Iridium Sheetmetal", "color": "#a1a1a4" },
+  { "id": "gregtech:gt.sheetmetal@86", "name": "Gold Sheetmetal", "color": "#b7b715" },
+  { "id": "gregtech:gt.sheetmetal@974", "name": "Superconductor Base UEV Sheetmetal", "color": "#7d0606" },
+  { "id": "gt.frame.neutronium", "name": "Neutronium Frame Box", "color": "#979797" },
+  { "id": "gt.hatch.special", "name": "Machine-specific Hatch", "color": "#6b7280" },
   {
     "id": "gt5u.controller.extremeEntityCrusher",
     "name": "Extreme Entity Crusher Controller",
     "color": "#8f959c"
   },
   {
-    "id": "gt5u.controller.extremeHeatExchanger",
-    "name": "Extreme Heat Exchanger Controller",
-    "color": "#4b5058"
-  },
-  {
-    "id": "gt5u.controller.extremeTemperatureFluctuationPurificationUnit",
-    "name": "Extreme Temperature Fluctuation Purification Unit Controller",
-    "color": "#f5f5f5"
-  },
-  {
-    "id": "gt5u.controller.exxonmobilChemicalPlant",
-    "name": "ExxonMobil Chemical Plant Controller",
-    "color": "#6e6e6e"
-  },
-  { "id": "gt5u.controller.eyeOfHarmony", "name": "Eye of Harmony Controller", "color": "#6ba2c9" },
-  {
-    "id": "gt5u.controller.flocculationPurificationUnit",
-    "name": "Flocculation Purification Unit Controller",
-    "color": "#589fd2"
-  },
-  {
-    "id": "gt5u.controller.flotationCellRegulator",
-    "name": "Flotation Cell Regulator Controller",
-    "color": "#575737"
-  },
-  { "id": "gt5u.controller.fluidDrillingRig", "name": "Fluid Drilling Rig Controller", "color": "#8f959c" },
-  {
-    "id": "gt5u.controller.fluidDrillingRigIi",
-    "name": "Fluid Drilling Rig II Controller",
-    "color": "#c9ced4"
-  },
-  {
-    "id": "gt5u.controller.fluidDrillingRigIii",
-    "name": "Fluid Drilling Rig III Controller",
-    "color": "#9d93b0"
-  },
-  {
-    "id": "gt5u.controller.fluidDrillingRigIv",
-    "name": "Fluid Drilling Rig IV Controller",
-    "color": "#4b5058"
-  },
-  { "id": "gt5u.controller.fluidShaper", "name": "Fluid Shaper Controller", "color": "#6c6140" },
-  {
-    "id": "gt5u.controller.fullBoardImmersionDevice",
-    "name": "Full-Board Immersion Device Controller",
-    "color": "#ede9ee"
-  },
-  {
-    "id": "gt5u.controller.fusionControlComputerMarkI",
-    "name": "Fusion Control Computer Mark I Controller",
-    "color": "#ececec"
-  },
-  {
-    "id": "gt5u.controller.fusionControlComputerMarkIi",
-    "name": "Fusion Control Computer Mark II Controller",
-    "color": "#8b9faf"
-  },
-  {
-    "id": "gt5u.controller.fusionControlComputerMarkIii",
-    "name": "Fusion Control Computer Mark III Controller",
-    "color": "#d8cde0"
-  },
-  { "id": "gt5u.controller.fusiontechMkIv", "name": "FusionTech MK IV Controller", "color": "#b6c4aa" },
-  { "id": "gt5u.controller.fusiontechMkV", "name": "FusionTech MK V Controller", "color": "#d2c4dc" },
-  {
-    "id": "gt5u.controller.highEnergyLaserPurificationUnit",
-    "name": "High Energy Laser Purification Unit Controller",
-    "color": "#242424"
-  },
-  {
-    "id": "gt5u.controller.highTemperatureGasCooledReactor",
-    "name": "High Temperature Gas-cooled Reactor Controller",
-    "color": "#3f3f65"
-  },
-  {
-    "id": "gt5u.controller.hotIsostaticPressurizationUnit",
-    "name": "Hot Isostatic Pressurization Unit Controller",
-    "color": "#7c716a"
-  },
-  {
-    "id": "gt5u.controller.hyperIntensityLaserEngraver",
-    "name": "Hyper-Intensity Laser Engraver Controller",
-    "color": "#4950a6"
-  },
-  {
-    "id": "gt5u.controller.industrial3dCopyingMachine",
-    "name": "Industrial 3D Copying Machine Controller",
-    "color": "#827e74"
-  },
-  {
-    "id": "gt5u.controller.industrialArcFurnace",
-    "name": "Industrial Arc Furnace Controller",
-    "color": "#8f959c"
-  },
-  {
-    "id": "gt5u.controller.industrialBendingMachine",
-    "name": "Industrial Bending Machine Controller",
-    "color": "#9d93b0"
-  },
-  {
-    "id": "gt5u.controller.industrialChemicalBath",
-    "name": "Industrial Chemical Bath Controller",
-    "color": "#28505c"
-  },
-  {
-    "id": "gt5u.controller.industrialCokeOven",
-    "name": "Industrial Coke Oven Controller",
-    "color": "#637386"
-  },
-  {
-    "id": "gt5u.controller.industrialCuttingFactory",
-    "name": "Industrial Cutting Factory Controller",
-    "color": "#937ac7"
-  },
-  {
-    "id": "gt5u.controller.industrialElectrolyzer",
-    "name": "Industrial Electrolyzer Controller",
-    "color": "#745a4f"
-  },
-  {
-    "id": "gt5u.controller.industrialExtrusionMachine",
-    "name": "Industrial Extrusion Machine Controller",
-    "color": "#7b8189"
-  },
-  {
-    "id": "gt5u.controller.industrialFormingPress",
-    "name": "Industrial Forming Press Controller",
-    "color": "#9d93b0"
-  },
-  {
-    "id": "gt5u.controller.industrialMacerationStack",
-    "name": "Industrial Maceration Stack Controller",
-    "color": "#9d93b0"
-  },
-  {
-    "id": "gt5u.controller.industrialMixingMachine",
-    "name": "Industrial Mixing Machine Controller",
-    "color": "#6363a4"
-  },
-  {
-    "id": "gt5u.controller.industrialPrecisionLathe",
-    "name": "Industrial Precision Lathe Controller",
-    "color": "#8f959c"
-  },
-  {
-    "id": "gt5u.controller.industrialSledgehammer",
-    "name": "Industrial Sledgehammer Controller",
-    "color": "#3b3a3b"
-  },
-  {
-    "id": "gt5u.controller.industrialWireFactory",
-    "name": "Industrial Wire Factory Controller",
-    "color": "#2f2f2f"
-  },
-  {
-    "id": "gt5u.controller.infiniteFluidDrillingRig",
-    "name": "Infinite Fluid Drilling Rig Controller",
-    "color": "#a5a5a7"
-  },
-  {
-    "id": "gt5u.controller.integratedOreFactory",
-    "name": "Integrated Ore Factory Controller",
-    "color": "#c9ced4"
-  },
-  {
-    "id": "gt5u.controller.isamillGrindingMachine",
-    "name": "IsaMill Grinding Machine Controller",
-    "color": "#498846"
-  },
-  {
-    "id": "gt5u.controller.lapotronicSupercapacitor",
-    "name": "Lapotronic Supercapacitor Controller",
-    "color": "#8a7f73"
-  },
-  {
-    "id": "gt5u.controller.largeElectricCompressor",
-    "name": "Large Electric Compressor Controller",
-    "color": "#7c716a"
-  },
-  {
     "id": "gt5u.controller.largeEssentiaSmeltery",
     "name": "Large Essentia Smeltery Controller",
     "color": "#a6a7a8"
   },
-  {
-    "id": "gt5u.controller.largeMolecularAssembler",
-    "name": "Large Molecular Assembler Controller",
-    "color": "#4b5058"
-  },
-  {
-    "id": "gt5u.controller.largeNaquadahReactor",
-    "name": "Large Naquadah Reactor Controller",
-    "color": "#080713"
-  },
-  {
-    "id": "gt5u.controller.largeNeutralizationEngine",
-    "name": "Large Neutralization Engine Controller",
-    "color": "#3c182c"
-  },
-  {
-    "id": "gt5u.controller.largeScaleAutoAssemblerV101",
-    "name": "Large Scale Auto-Assembler v1.01 Controller",
-    "color": "#bfcdce"
-  },
-  { "id": "gt5u.controller.largeSifter", "name": "Large Sifter Controller", "color": "#2a2827" },
-  {
-    "id": "gt5u.controller.largeThermalRefinery",
-    "name": "Large Thermal Refinery Controller",
-    "color": "#6c1817"
-  },
-  { "id": "gt5u.controller.lATEX", "name": "L.A.T.E.X. Controller", "color": "#e3e3dc" },
-  { "id": "gt5u.controller.linearAccelerator", "name": "Linear Accelerator Controller", "color": "#727271" },
-  {
-    "id": "gt5u.controller.magneticFluxExhibitor",
-    "name": "Magnetic Flux Exhibitor Controller",
-    "color": "#3c1c47"
-  },
-  { "id": "gt5u.controller.massSolidifier", "name": "Mass Solidifier Controller", "color": "#6c6140" },
-  {
-    "id": "gt5u.controller.matterFabricationCpu",
-    "name": "Matter Fabrication CPU Controller",
-    "color": "#292925"
-  },
-  {
-    "id": "gt5u.controller.megaAlloyBlastSmelter",
-    "name": "Mega Alloy Blast Smelter Controller",
-    "color": "#8e8174"
-  },
-  {
-    "id": "gt5u.controller.megaChemicalReactor",
-    "name": "Mega Chemical Reactor Controller",
-    "color": "#e3e3dc"
-  },
-  {
-    "id": "gt5u.controller.megaDistillationTower",
-    "name": "Mega Distillation Tower Controller",
-    "color": "#67727b"
-  },
-  { "id": "gt5u.controller.megaOilCracker", "name": "Mega Oil Cracker Controller", "color": "#67727b" },
-  { "id": "gt5u.controller.microwaveGrinder", "name": "Microwave Grinder Controller", "color": "#c9ced4" },
-  {
-    "id": "gt5u.controller.miniatureWormholeGenerator",
-    "name": "Miniature Wormhole Generator Controller",
-    "color": "#6ba2c9"
-  },
-  {
-    "id": "gt5u.controller.molecularTransformer",
-    "name": "Molecular Transformer Controller",
-    "color": "#2d2d2d"
-  },
-  {
-    "id": "gt5u.controller.nanochipAssemblyMatrix",
-    "name": "Nanochip Assembly Matrix Controller",
-    "color": "#ede9ee"
-  },
-  { "id": "gt5u.controller.nanoForge", "name": "Nano Forge Controller", "color": "#303030" },
-  {
-    "id": "gt5u.controller.nanometerEncasementWrapper",
-    "name": "Nanometer Encasement Wrapper Controller",
-    "color": "#ede9ee"
-  },
-  { "id": "gt5u.controller.nanopartSplitter", "name": "Nanopart Splitter Controller", "color": "#ede9ee" },
-  {
-    "id": "gt5u.controller.nanoprecisionCuttingChamber",
-    "name": "Nanoprecision Cutting Chamber Controller",
-    "color": "#ede9ee"
-  },
-  {
-    "id": "gt5u.controller.nanoprecisionWireTracer",
-    "name": "Nanoprecision Wire Tracer Controller",
-    "color": "#ede9ee"
-  },
-  {
-    "id": "gt5u.controller.naquadahFuelRefinery",
-    "name": "Naquadah Fuel Refinery Controller",
-    "color": "#262626"
-  },
-  { "id": "gt5u.controller.neutronActivator", "name": "Neutron Activator Controller", "color": "#c9ced4" },
-  {
-    "id": "gt5u.controller.neutroniumCompressor",
-    "name": "Neutronium Compressor Controller",
-    "color": "#bbc8ee"
-  },
-  {
-    "id": "gt5u.controller.nuclearSaltProcessingPlant",
-    "name": "Nuclear Salt Processing Plant Controller",
-    "color": "#bfcdce"
-  },
-  {
-    "id": "gt5u.controller.opticallyOptimizedOrganizer",
-    "name": "Optically Optimized Organizer Controller",
-    "color": "#ede9ee"
-  },
-  { "id": "gt5u.controller.oreDrillingPlant", "name": "Ore Drilling Plant Controller", "color": "#8f959c" },
-  {
-    "id": "gt5u.controller.oreDrillingPlantIi",
-    "name": "Ore Drilling Plant II Controller",
-    "color": "#9d93b0"
-  },
-  {
-    "id": "gt5u.controller.oreDrillingPlantIii",
-    "name": "Ore Drilling Plant III Controller",
-    "color": "#4b5058"
-  },
-  {
-    "id": "gt5u.controller.oreDrillingPlantIv",
-    "name": "Ore Drilling Plant IV Controller",
-    "color": "#154697"
-  },
-  { "id": "gt5u.controller.oreWashingPlant", "name": "Ore Washing Plant Controller", "color": "#28505c" },
-  {
-    "id": "gt5u.controller.ozonationPurificationUnit",
-    "name": "Ozonation Purification Unit Controller",
-    "color": "#a97aa2"
-  },
-  {
-    "id": "gt5u.controller.partPreparationApparatus",
-    "name": "Part Preparation Apparatus Controller",
-    "color": "#ede9ee"
-  },
-  { "id": "gt5u.controller.pcbFactory", "name": "PCB Factory Controller", "color": "#6c9d9d" },
-  {
-    "id": "gt5u.controller.phNeutralizationPurificationUnit",
-    "name": "pH Neutralization Purification Unit Controller",
-    "color": "#414141"
-  },
-  {
-    "id": "gt5u.controller.planetaryGasSiphon",
-    "name": "Planetary Gas Siphon Controller",
-    "color": "#8f8f8f"
-  },
-  {
-    "id": "gt5u.controller.powerStationControlNode",
-    "name": "Power Station Control Node Controller",
-    "color": "#2d1a1a"
-  },
-  {
-    "id": "gt5u.controller.preciseAutoAssemblerMt3662",
-    "name": "Precise Auto-Assembler MT-3662 Controller",
-    "color": "#6e5941"
-  },
-  {
-    "id": "gt5u.controller.pseudostableBlackHoleContainmentField",
-    "name": "Pseudostable Black Hole Containment Field Controller",
-    "color": "#9f9da6"
-  },
-  { "id": "gt5u.controller.quantumComputer", "name": "Quantum Computer Controller", "color": "#dae7f1" },
-  {
-    "id": "gt5u.controller.quantumForceTransformer",
-    "name": "Quantum Force Transformer Controller",
-    "color": "#bfcdce"
-  },
-  {
-    "id": "gt5u.controller.reactorFuelProcessingPlant",
-    "name": "Reactor Fuel Processing Plant Controller",
-    "color": "#b2aac0"
-  },
   { "id": "gt5u.controller.researchCompleter", "name": "Research Completer Controller", "color": "#917ca9" },
-  { "id": "gt5u.controller.researchStation", "name": "Research Station Controller", "color": "#dae7f1" },
-  {
-    "id": "gt5u.controller.residualDecontaminantDegasserPurificationUnit",
-    "name": "Residual Decontaminant Degasser Purification Unit Controller",
-    "color": "#f5f5f5"
-  },
-  { "id": "gt5u.controller.solarFactory", "name": "Solar Factory Controller", "color": "#c9ced4" },
-  {
-    "id": "gt5u.controller.solidOxideFuelCellMkI",
-    "name": "Solid-Oxide Fuel Cell Mk I Controller",
-    "color": "#c9ced4"
-  },
-  {
-    "id": "gt5u.controller.solidOxideFuelCellMkIi",
-    "name": "Solid-Oxide Fuel Cell Mk II Controller",
-    "color": "#4b5058"
-  },
-  { "id": "gt5u.controller.sourceChamber", "name": "Source Chamber Controller", "color": "#727271" },
   { "id": "gt5u.controller.spaceElevator", "name": "Space Elevator Controller", "color": "#00679b" },
-  {
-    "id": "gt5u.controller.spargeTowerController",
-    "name": "Sparge Tower Controller Controller",
-    "color": "#3c3c3c"
-  },
-  { "id": "gt5u.controller.spinmatron2737", "name": "Spinmatron-2737 Controller", "color": "#2a4c1c" },
-  {
-    "id": "gt5u.controller.superconductiveStrandSplitter",
-    "name": "Superconductive Strand Splitter Controller",
-    "color": "#ede9ee"
-  },
-  { "id": "gt5u.controller.synchrotron", "name": "Synchrotron Controller", "color": "#727271" },
-  { "id": "gt5u.controller.targetChamber", "name": "Target Chamber Controller", "color": "#6e7479" },
-  { "id": "gt5u.controller.teslaTower", "name": "Tesla Tower Controller", "color": "#8f8f8f" },
-  { "id": "gt5u.controller.tfft", "name": "TFFT Controller", "color": "#8a7f73" },
-  { "id": "gt5u.controller.thermalBoiler", "name": "Thermal Boiler Controller", "color": "#637386" },
-  {
-    "id": "gt5u.controller.thermicHeatingDevice",
-    "name": "Thermic Heating Device Controller",
-    "color": "#757673"
-  },
-  {
-    "id": "gt5u.controller.thoriumHighTemperatureReactor",
-    "name": "Thorium High Temperature Reactor Controller",
-    "color": "#48387b"
-  },
-  {
-    "id": "gt5u.controller.thoriumReactorLftr",
-    "name": "Thorium Reactor [LFTR] Controller",
-    "color": "#3a1c4a"
-  },
-  {
-    "id": "gt5u.controller.transcendentPlasmaMixer",
-    "name": "Transcendent Plasma Mixer Controller",
-    "color": "#6ba2c9"
-  },
-  {
-    "id": "gt5u.controller.treeGrowthSimulator",
-    "name": "Tree Growth Simulator Controller",
-    "color": "#ae6f41"
-  },
-  {
-    "id": "gt5u.controller.ultraHighEnergyEtchingArray",
-    "name": "Ultra-high Energy Etching Array Controller",
-    "color": "#ede9ee"
-  },
-  {
-    "id": "gt5u.controller.universalChemicalFuelEngine",
-    "name": "Universal Chemical Fuel Engine Controller",
-    "color": "#9d93b0"
-  },
-  { "id": "gt5u.controller.utupuTanuri", "name": "Utupu-Tanuri Controller", "color": "#53110a" },
-  { "id": "gt5u.controller.voidMiners", "name": "Void Miners Controller", "color": "#a5a5a7" },
-  { "id": "gt5u.controller.volcanus", "name": "Volcanus Controller", "color": "#a87b37" },
-  { "id": "gt5u.controller.waterPump", "name": "Water Pump Controller", "color": "#7a5a3d" },
-  { "id": "gt5u.controller.whakawhitiWeraXl", "name": "Whakawhiti Wera XL Controller", "color": "#8b1b52" },
-  {
-    "id": "gt5u.controller.xlTurboGasTurbine",
-    "name": "XL Turbo Gas Turbine Controller",
-    "color": "#c3c9cf"
-  },
-  {
-    "id": "gt5u.controller.xlTurboHpSteamTurbine",
-    "name": "XL Turbo HP Steam Turbine Controller",
-    "color": "#a197b4"
-  },
-  {
-    "id": "gt5u.controller.xlTurboPlasmaTurbine",
-    "name": "XL Turbo Plasma Turbine Controller",
-    "color": "#50565f"
-  },
-  {
-    "id": "gt5u.controller.xlTurboScSteamTurbine",
-    "name": "XL Turbo SC Steam Turbine Controller",
-    "color": "#8f8f8f"
-  },
-  {
-    "id": "gt5u.controller.xlTurboSteamTurbine",
-    "name": "XL Turbo Steam Turbine Controller",
-    "color": "#8d949b"
-  },
-  {
-    "id": "gt5u.controller.zhuhaiFishingPort",
-    "name": "Zhuhai - Fishing Port Controller",
-    "color": "#1d4556"
-  },
-  { "id": "gt5u.controller.zyngen", "name": "Zyngen Controller", "color": "#575737" },
-  { "id": "gt5u.cOOLANTDELIVERYCASING.0", "name": "COOLANT_DELIVERY_CASING 0", "color": "#5b777e" },
-  { "id": "gt5u.defcCasing.7", "name": "Naquadah Alloy Fusion Casing", "color": "#8f8f8f" },
-  { "id": "gt5u.defcCasing.8", "name": "Bloody Ichorium Fusion Casing", "color": "#8f8f8f" },
-  { "id": "gt5u.eLECTRODECASING.0", "name": "ELECTRODE_CASING 0", "color": "#adad5e" },
   { "id": "gt5u.essentiaCell.0", "name": "essentiaCell 0", "color": "#969592" },
   { "id": "gt5u.essentiaFilterCasing.0", "name": "essentiaFilterCasing 0", "color": "#e4ae97" },
-  { "id": "gt5u.fieldRestrictingGlass.0", "name": "fieldRestrictingGlass 0", "color": "#0a1c02" },
-  { "id": "gt5u.fOCUSHOLDER.0", "name": "FOCUS_HOLDER 0", "color": "#6f9ab7" },
-  { "id": "gt5u.fOCUSMANIPULATIONCASING.0", "name": "FOCUS_MANIPULATION_CASING 0", "color": "#8eb1c1" },
-  { "id": "gt5u.fRFCasings.0", "name": "FRF_Casings 0", "color": "#262626" },
-  { "id": "gt5u.gtBlockcasings.0", "name": "ULV Machine Casing", "color": "#6e6e6e" },
-  { "id": "gt5u.gtBlockcasings.12", "name": "Dimensionally Transcendent Casing", "color": "#00345c" },
-  { "id": "gt5u.gtBlockcasings.13", "name": "Dimensional Injection Casing", "color": "#6ba2c9" },
-  { "id": "gt5u.gtBlockcasings.14", "name": "Dimensional Bridge", "color": "#003aa5" },
-  { "id": "gt5u.gtBlockcasings.15", "name": "Superconducting Coil Block", "color": "#b9b9b9" },
-  { "id": "gt5u.gtBlockcasings.5", "name": "IV Machine Casing", "color": "#ebebeb" },
-  { "id": "gt5u.gtBlockcasings.6", "name": "LuV Machine Casing", "color": "#ececec" },
-  { "id": "gt5u.gtBlockcasings10.0", "name": "MagTech Casing", "color": "#3c1c47" },
-  { "id": "gt5u.gtBlockcasings10.1", "name": "Laser Containment Casing", "color": "#4950a6" },
-  { "id": "gt5u.gtBlockcasings10.10", "name": "Heating Duct", "color": "#e7682b" },
-  { "id": "gt5u.gtBlockcasings10.11", "name": "Extreme Density Space-Bending Casing", "color": "#151312" },
-  { "id": "gt5u.gtBlockcasings10.12", "name": "Background Radiation Absorbent Casing", "color": "#9f9da6" },
-  { "id": "gt5u.gtBlockcasings10.13", "name": "Solidifier Casing", "color": "#6c6140" },
-  { "id": "gt5u.gtBlockcasings10.14", "name": "Solidifier Radiator", "color": "#4c3f2c" },
-  { "id": "gt5u.gtBlockcasings10.2", "name": "Quark Exclusion Casing", "color": "#004c88" },
-  { "id": "gt5u.gtBlockcasings10.4", "name": "Electric Compressor Casing", "color": "#7c716a" },
-  { "id": "gt5u.gtBlockcasings10.5", "name": "Compression Pipe Casing", "color": "#90857b" },
-  { "id": "gt5u.gtBlockcasings10.6", "name": "Neutronium Casing", "color": "#bbc8ee" },
-  { "id": "gt5u.gtBlockcasings10.7", "name": "Active Neutronium Casing", "color": "#b1c2e4" },
-  { "id": "gt5u.gtBlockcasings10.8", "name": "Neutronium Stabilization Casing", "color": "#12171c" },
-  { "id": "gt5u.gtBlockcasings10.9", "name": "Coolant Duct", "color": "#274f8e" },
-  { "id": "gt5u.gtBlockcasings11.1", "name": "Brass Item Pipe Casing", "color": "#765300" },
-  { "id": "gt5u.gtBlockcasings11.7", "name": "Black Plutonium Item Pipe Casing", "color": "#171717" },
-  { "id": "gt5u.gtBlockcasings12.1", "name": "Nanochip Mesh Interface Casing", "color": "#ede9ee" },
-  { "id": "gt5u.gtBlockcasings12.13", "name": "Mixer Casing", "color": "#6363a4" },
-  { "id": "gt5u.gtBlockcasings12.14", "name": "Forming Core", "color": "#9b9c9e" },
-  { "id": "gt5u.gtBlockcasings12.15", "name": "Algae Casing", "color": "#cab9b8" },
-  { "id": "gt5u.gtBlockcasings12.2", "name": "Nanochip Reinforcement Casing", "color": "#171718" },
-  { "id": "gt5u.gtBlockcasings12.5", "name": "Strengthened Inanimate Machine Casing", "color": "#3c182c" },
-  { "id": "gt5u.gtBlockcasings12.9", "name": "Vibration-Safe Casing", "color": "#2a4c1c" },
-  { "id": "gt5u.gtBlockcasings13.0", "name": "Cable Casing", "color": "#1b1d22" },
-  { "id": "gt5u.gtBlockcasings13.1", "name": "Graphite Moderator Casing", "color": "#2a2a2a" },
-  { "id": "gt5u.gtBlockcasings13.15", "name": "Naquadah Reactor Casing", "color": "#080713" },
-  { "id": "gt5u.gtBlockcasings13.2", "name": "Insulated Fluid Pipe Casing", "color": "#9999aa" },
-  { "id": "gt5u.gtBlockcasings13.3", "name": "Beryllium Integrated Reactor Casing", "color": "#3f3f65" },
-  { "id": "gt5u.gtBlockcasings13.4", "name": "Refined Graphite Block", "color": "#252425" },
-  { "id": "gt5u.gtBlockcasings14.3", "name": "Hearth Casing", "color": "#366436" },
-  { "id": "gt5u.gtBlockcasings14.4", "name": "Fridge Casing", "color": "#5b849a" },
-  { "id": "gt5u.gtBlockcasings14.5", "name": "Naquadah Reinforced Distillation Casing", "color": "#67727b" },
-  { "id": "gt5u.gtBlockcasings2.10", "name": "Pump Machine Casing", "color": "#898994" },
-  { "id": "gt5u.gtBlockcasings2.11", "name": "Motor Machine Casing", "color": "#7c7d8b" },
-  { "id": "gt5u.gtBlockcasings2.6", "name": "Processor Machine Casing", "color": "#a7a9ab" },
-  { "id": "gt5u.gtBlockcasings3.11", "name": "Filter Machine Casing", "color": "#8a8989" },
-  { "id": "gt5u.gtBlockcasings3.12", "name": "Radiation Proof Machine Casing", "color": "#48387b" },
-  { "id": "gt5u.gtBlockcasings4.14", "name": "Mining Osmiridium Casing", "color": "#154697" },
-  { "id": "gt5u.gtBlockcasings4.6", "name": "Fusion Machine Casing", "color": "#8b9faf" },
-  { "id": "gt5u.gtBlockcasings4.7", "name": "Fusion Coil Block", "color": "#d6c9d4" },
-  { "id": "gt5u.gtBlockcasings4.8", "name": "Fusion Machine Casing Mk-II", "color": "#d8cde0" },
-  { "id": "gt5u.gtBlockcasings5.0", "name": "Cupronickel Coil Block", "color": "#8c5f4a" },
-  { "id": "gt5u.gtBlockcasings5.5", "name": "Naquadah Coil Block", "color": "#393939" },
-  { "id": "gt5u.gtBlockcasings5.8", "name": "Awakened Draconium Coil Block", "color": "#da7623" },
-  { "id": "gt5u.gtBlockcasings6.10", "name": "Hermetic Casing X", "color": "#b0c5d8" },
-  { "id": "gt5u.gtBlockcasings8.10", "name": "Radiant Naquadah Alloy Casing", "color": "#303030" },
-  { "id": "gt5u.gtBlockcasings8.11", "name": "Basic Photolithographic Framework Casing", "color": "#6c9d9d" },
-  {
-    "id": "gt5u.gtBlockcasings8.12",
-    "name": "Reinforced Photolithographic Framework Casing",
-    "color": "#58627f"
-  },
-  { "id": "gt5u.gtBlockcasings8.2", "name": "Mining Neutronium Casing", "color": "#a5a5a7" },
-  {
-    "id": "gt5u.gtBlockcasings8.5",
-    "name": "Europium Reinforced Radiation Proof Machine Casing",
-    "color": "#c1aac3"
-  },
-  { "id": "gt5u.gtBlockcasings8.7", "name": "Advanced Iridium Plated Machine Casing", "color": "#c9c9c9" },
   { "id": "gt5u.gtBlockcasings8.8", "name": "Magical Machine Casing", "color": "#917ca9" },
-  { "id": "gt5u.gtBlockcasings9.1", "name": "Advanced Filter Casing", "color": "#8e8e8e" },
-  { "id": "gt5u.gtBlockcasings9.10", "name": "Inert Filtration Casing", "color": "#a97aa2" },
-  { "id": "gt5u.gtBlockcasings9.11", "name": "Heat-Resistant Trinium Plated Casing", "color": "#f5f5f5" },
-  { "id": "gt5u.gtBlockcasings9.12", "name": "Naquadria-Reinforced Water Plant Casing", "color": "#242424" },
-  { "id": "gt5u.gtBlockcasings9.13", "name": "High Energy Ultraviolet Emitter Casing", "color": "#6a357b" },
-  { "id": "gt5u.gtBlockcasings9.14", "name": "Particle Beam Guidance Pipe Casing", "color": "#00bddd" },
-  {
-    "id": "gt5u.gtBlockcasings9.15",
-    "name": "Femtometer-Calibrated Particle Beam Casing",
-    "color": "#84aec8"
-  },
-  { "id": "gt5u.gtBlockcasings9.2", "name": "Primitive Wooden Casing", "color": "#7a5a3d" },
-  { "id": "gt5u.gtBlockcasings9.4", "name": "Sterile Water Plant Casing", "color": "#589fd2" },
-  { "id": "gt5u.gtBlockcasings9.5", "name": "Reinforced Sterile Water Plant Casing", "color": "#a9aba9" },
-  { "id": "gt5u.gtBlockcasings9.7", "name": "Stabilized Naquadah Water Plant Casing", "color": "#414141" },
-  { "id": "gt5u.gtBlockcasings9.8", "name": "Inert Neutralization Water Plant Casing", "color": "#795975" },
-  { "id": "gt5u.gtBlockcasings9.9", "name": "Reactive Gas Containment Casing", "color": "#9e9eb8" },
-  { "id": "gt5u.gtBlockcasingsBA0.0", "name": "Redstone Alloy Primary Tesla Windings", "color": "#8f8f8f" },
-  { "id": "gt5u.gtBlockcasingsBA0.10", "name": "Reinforced Temporal Structure Casing", "color": "#00315a" },
-  { "id": "gt5u.gtBlockcasingsBA0.11", "name": "Reinforced Spatial Structure Casing", "color": "#00345c" },
-  {
-    "id": "gt5u.gtBlockcasingsBA0.12",
-    "name": "Infinite Spacetime Energy Boundary Casing",
-    "color": "#6ba2c9"
-  },
-  { "id": "gt5u.gtBlockcasingsBA0.6", "name": "Tesla Base Casing", "color": "#8f8f8f" },
-  { "id": "gt5u.gtBlockcasingsBA0.7", "name": "Tesla Toroid Casing", "color": "#d1d1d1" },
-  { "id": "gt5u.gtBlockcasingsBA0.8", "name": "Tesla Secondary Windings", "color": "#8f8f8f" },
-  {
-    "id": "gt5u.gtBlockcasingsCyclotronCoils.0",
-    "name": "MV Solenoid Superconductor Coil",
-    "color": "#8f8f8f"
-  },
-  {
-    "id": "gt5u.gtBlockcasingsCyclotronCoils.7",
-    "name": "UHV Solenoid Superconductor Coil",
-    "color": "#2a85c1"
-  },
-  {
-    "id": "gt5u.gtBlockcasingsCyclotronCoils.8",
-    "name": "UEV Solenoid Superconductor Coil",
-    "color": "#bd1717"
-  },
-  { "id": "gt5u.gtBlockcasingsNH.10", "name": "UEV Machine Casing", "color": "#d1d1d1" },
   { "id": "gt5u.gtBlockcasingsSE.0", "name": "Space Elevator Base Casing", "color": "#00679b" },
   { "id": "gt5u.gtBlockcasingsSE.1", "name": "Space Elevator Support Structure", "color": "#4d4d4d" },
   { "id": "gt5u.gtBlockcasingsSE.2", "name": "Space Elevator Internal Structure", "color": "#8f8f8f" },
-  { "id": "gt5u.gtBlockcasingsTT.0", "name": "High Power Casing", "color": "#6ba2c9" },
-  { "id": "gt5u.gtBlockcasingsTT.1", "name": "Computer Casing", "color": "#dae7f1" },
-  { "id": "gt5u.gtBlockcasingsTT.2", "name": "Computer Heat Vent", "color": "#c4d6e6" },
-  { "id": "gt5u.gtBlockcasingsTT.3", "name": "Advanced Computer Casing", "color": "#c5dcef" },
-  { "id": "gt5u.gtBlockcasingsTT.4", "name": "Molecular Casing", "color": "#004073" },
-  { "id": "gt5u.gtBlockcasingsTT.7", "name": "Molecular Coil", "color": "#3a5e89" },
-  { "id": "gt5u.gtBlockconcretes.8", "name": "Light Concrete", "color": "#988867" },
-  { "id": "gt5u.gtBlockglass1.8", "name": "Nanochip Complex Glass", "color": "#464243" },
-  { "id": "gt5u.gtplusplusBlockcasings4.10", "name": "Vacuum Casing", "color": "#53110a" },
+  { "id": "gt5u.magicCasing.0", "name": "magicCasing 0", "color": "#a6a7a8" },
+  { "id": "gt5u.sBlockCasingsDyson.9", "name": "sBlockCasingsDyson 9", "color": "#8f8f8f" },
+  { "id": "gt5u.sSpaceElevatorCable.0", "name": "sSpaceElevatorCable 0", "color": "#050505" },
+  { "id": "gt5u.tieredCasing", "name": "Tiered Casing (any tier)", "color": "#8d8d99" },
   {
-    "id": "gt5u.gtplusplusBlockcasings4.4",
+    "id": "gtnhintergalactic:dysonswarmparts@0",
+    "name": "gtnhintergalactic:dysonswarmparts@0",
+    "color": "#105b53"
+  },
+  {
+    "id": "gtnhintergalactic:dysonswarmparts@1",
+    "name": "gtnhintergalactic:dysonswarmparts@1",
+    "color": "#c2c2c2"
+  },
+  {
+    "id": "gtnhintergalactic:dysonswarmparts@2",
+    "name": "gtnhintergalactic:dysonswarmparts@2",
+    "color": "#005f3f"
+  },
+  {
+    "id": "gtnhintergalactic:dysonswarmparts@3",
+    "name": "gtnhintergalactic:dysonswarmparts@3",
+    "color": "#009b67"
+  },
+  {
+    "id": "gtnhintergalactic:dysonswarmparts@4",
+    "name": "gtnhintergalactic:dysonswarmparts@4",
+    "color": "#887f79"
+  },
+  {
+    "id": "gtnhintergalactic:dysonswarmparts@5",
+    "name": "gtnhintergalactic:dysonswarmparts@5",
+    "color": "#00679b"
+  },
+  {
+    "id": "gtnhintergalactic:dysonswarmparts@6",
+    "name": "gtnhintergalactic:dysonswarmparts@6",
+    "color": "#10543d"
+  },
+  {
+    "id": "gtnhintergalactic:dysonswarmparts@7",
+    "name": "gtnhintergalactic:dysonswarmparts@7",
+    "color": "#089797"
+  },
+  {
+    "id": "gtnhintergalactic:dysonswarmparts@8",
+    "name": "gtnhintergalactic:dysonswarmparts@8",
+    "color": "#d1d1d1"
+  },
+  {
+    "id": "gtnhintergalactic:dysonswarmparts@9",
+    "name": "gtnhintergalactic:dysonswarmparts@9",
+    "color": "#5f5f5f"
+  },
+  {
+    "id": "gtnhintergalactic:gassiphoncasing@0",
+    "name": "gtnhintergalactic:gassiphoncasing@0",
+    "color": "#241429"
+  },
+  { "id": "gtnhintergalactic:gt.blockcasingsSE@0", "name": "Space Elevator Base Casing", "color": "#00679b" },
+  { "id": "gtnhlanth:casing.antenna_t1@0", "name": "gtnhlanth:casing.antenna_t1@0", "color": "#829198" },
+  {
+    "id": "gtnhlanth:casing.coolant_delivery@0",
+    "name": "gtnhlanth:casing.coolant_delivery@0",
+    "color": "#5b777e"
+  },
+  { "id": "gtnhlanth:casing.electrode@0", "name": "gtnhlanth:casing.electrode@0", "color": "#adad5e" },
+  { "id": "gtnhlanth:casing.focus_holder@0", "name": "gtnhlanth:casing.focus_holder@0", "color": "#6f9ab7" },
+  {
+    "id": "gtnhlanth:casing.focus_manipulator@0",
+    "name": "gtnhlanth:casing.focus_manipulator@0",
+    "color": "#8eb1c1"
+  },
+  {
+    "id": "gtnhlanth:casing.niobium_cavity@0",
+    "name": "gtnhlanth:casing.niobium_cavity@0",
+    "color": "#937f90"
+  },
+  {
+    "id": "gtnhlanth:casing.shielded_accelerator@0",
+    "name": "gtnhlanth:casing.shielded_accelerator@0",
+    "color": "#727271"
+  },
+  {
+    "id": "gtnhlanth:casing.target_holder@0",
+    "name": "gtnhlanth:casing.target_holder@0",
+    "color": "#a97e62"
+  },
+  {
+    "id": "gtnhlanth:casing.target_receptacle@0",
+    "name": "gtnhlanth:casing.target_receptacle@0",
+    "color": "#8eb1c1"
+  },
+  {
+    "id": "gtnhlanth:tile.casing.shielded_accelerator_glass@0",
+    "name": "gtnhlanth:tile.casing.shielded_accelerator_glass@0",
+    "color": "#9fc4cd"
+  },
+  {
+    "id": "kekztech:kekztech_gdcceramicelectrolyteunit_block@0",
+    "name": "kekztech:kekztech_gdcceramicelectrolyteunit_block@0",
+    "color": "#797151"
+  },
+  {
+    "id": "kekztech:kekztech_lapotronicenergyunit_block@0",
+    "name": "kekztech:kekztech_lapotronicenergyunit_block@0",
+    "color": "#74797e"
+  },
+  {
+    "id": "kekztech:kekztech_lapotronicenergyunit_block@6",
+    "name": "kekztech:kekztech_lapotronicenergyunit_block@6",
+    "color": "#5a6988"
+  },
+  {
+    "id": "kekztech:kekztech_tfftstoragefield_block@0",
+    "name": "kekztech:kekztech_tfftstoragefield_block@0",
+    "color": "#333f33"
+  },
+  {
+    "id": "kekztech:kekztech_tfftstoragefield_block@1",
+    "name": "kekztech:kekztech_tfftstoragefield_block@1",
+    "color": "#363c39"
+  },
+  {
+    "id": "kekztech:kekztech_yszceramicelectrolyteunit_block@0",
+    "name": "kekztech:kekztech_yszceramicelectrolyteunit_block@0",
+    "color": "#9c8080"
+  },
+  { "id": "kubatech:defc.casing@7", "name": "kubatech:defc.casing@7", "color": "#282828" },
+  { "id": "kubatech:defc.casing@8", "name": "kubatech:defc.casing@8", "color": "#5c2a07" },
+  { "id": "minecraft:brick_block@0", "name": "minecraft:brick_block@0", "color": "#936457" },
+  { "id": "minecraft:dirt@0", "name": "minecraft:dirt@0", "color": "#866043" },
+  { "id": "minecraft:farmland@0", "name": "minecraft:farmland@0", "color": "#866043" },
+  { "id": "minecraft:flowing_water@0", "name": "minecraft:flowing_water@0", "color": "#0c23da" },
+  { "id": "minecraft:hardened_clay@0", "name": "minecraft:hardened_clay@0", "color": "#975d43" },
+  { "id": "minecraft:lava@1", "name": "minecraft:lava@1", "color": "#d9691a" },
+  { "id": "minecraft:leaves@0", "name": "minecraft:leaves@0", "color": "#26600d" },
+  { "id": "minecraft:log@0", "name": "minecraft:log@0", "color": "#665132" },
+  { "id": "minecraft:planks@0", "name": "minecraft:planks@0", "color": "#9d804f" },
+  { "id": "minecraft:redstone_lamp@0", "name": "minecraft:redstone_lamp@0", "color": "#462b1b" },
+  { "id": "minecraft:water@0", "name": "minecraft:water@0", "color": "#0c1fda" },
+  { "id": "miscutils:blockFrameGtGrisium@0", "name": "Grisium Frame Box", "color": "#797979" },
+  { "id": "miscutils:blockFrameGtInconel690@0", "name": "Inconel 690 Frame Box", "color": "#488553" },
+  {
+    "id": "miscutils:blockFrameGtMaragingSteel350@0",
+    "name": "Maraging Steel 350 Frame Box",
+    "color": "#797979"
+  },
+  { "id": "miscutils:blockFrameGtOctiron@0", "name": "Octiron Frame Box", "color": "#797979" },
+  { "id": "miscutils:blockFrameGtPikyonium64B@0", "name": "Pikyonium 64B Frame Box", "color": "#797979" },
+  { "id": "miscutils:blockFrameGtPotin@0", "name": "Potin Frame Box", "color": "#7a5b4e" },
+  { "id": "miscutils:blockFrameGtStaballoy@0", "name": "Staballoy Frame Box", "color": "#292d28" },
+  { "id": "miscutils:blockFrameGtTalonite@0", "name": "Talonite Frame Box", "color": "#797979" },
+  {
+    "id": "miscutils:blockFrameGtTantalumCarbide@0",
+    "name": "Tantalum Carbide Frame Box",
+    "color": "#545248"
+  },
+  {
+    "id": "miscutils:blockFrameGtWatertightSteel@0",
+    "name": "Watertight Steel Frame Box",
+    "color": "#797979"
+  },
+  {
+    "id": "miscutils:gtplusplus.blockcasings.2@0",
+    "name": "miscutils:gtplusplus.blockcasings.2@0",
+    "color": "#6c1817"
+  },
+  {
+    "id": "miscutils:gtplusplus.blockcasings.2@1",
+    "name": "miscutils:gtplusplus.blockcasings.2@1",
+    "color": "#9997a6"
+  },
+  {
+    "id": "miscutils:gtplusplus.blockcasings.2@10",
+    "name": "miscutils:gtplusplus.blockcasings.2@10",
+    "color": "#48387b"
+  },
+  {
+    "id": "miscutils:gtplusplus.blockcasings.2@11",
+    "name": "miscutils:gtplusplus.blockcasings.2@11",
+    "color": "#637386"
+  },
+  {
+    "id": "miscutils:gtplusplus.blockcasings.2@12",
+    "name": "miscutils:gtplusplus.blockcasings.2@12",
+    "color": "#bfcdce"
+  },
+  {
+    "id": "miscutils:gtplusplus.blockcasings.2@13",
+    "name": "miscutils:gtplusplus.blockcasings.2@13",
+    "color": "#937ac7"
+  },
+  {
+    "id": "miscutils:gtplusplus.blockcasings.2@15",
+    "name": "miscutils:gtplusplus.blockcasings.2@15",
+    "color": "#ae6f41"
+  },
+  {
+    "id": "miscutils:gtplusplus.blockcasings.2@2",
+    "name": "miscutils:gtplusplus.blockcasings.2@2",
+    "color": "#b2aac0"
+  },
+  {
+    "id": "miscutils:gtplusplus.blockcasings.2@3",
+    "name": "miscutils:gtplusplus.blockcasings.2@3",
+    "color": "#27322b"
+  },
+  {
+    "id": "miscutils:gtplusplus.blockcasings.2@4",
+    "name": "miscutils:gtplusplus.blockcasings.2@4",
+    "color": "#28505c"
+  },
+  {
+    "id": "miscutils:gtplusplus.blockcasings.2@5",
+    "name": "miscutils:gtplusplus.blockcasings.2@5",
+    "color": "#2a2827"
+  },
+  {
+    "id": "miscutils:gtplusplus.blockcasings.2@6",
+    "name": "miscutils:gtplusplus.blockcasings.2@6",
+    "color": "#6a5252"
+  },
+  {
+    "id": "miscutils:gtplusplus.blockcasings.2@7",
+    "name": "miscutils:gtplusplus.blockcasings.2@7",
+    "color": "#4b494b"
+  },
+  {
+    "id": "miscutils:gtplusplus.blockcasings.2@8",
+    "name": "miscutils:gtplusplus.blockcasings.2@8",
+    "color": "#2d1a1a"
+  },
+  {
+    "id": "miscutils:gtplusplus.blockcasings.2@9",
+    "name": "miscutils:gtplusplus.blockcasings.2@9",
+    "color": "#2d4672"
+  },
+  {
+    "id": "miscutils:gtplusplus.blockcasings.3@0",
+    "name": "miscutils:gtplusplus.blockcasings.3@0",
+    "color": "#1d4556"
+  },
+  {
+    "id": "miscutils:gtplusplus.blockcasings.3@1",
+    "name": "miscutils:gtplusplus.blockcasings.3@1",
+    "color": "#575737"
+  },
+  {
+    "id": "miscutils:gtplusplus.blockcasings.3@10",
+    "name": "miscutils:gtplusplus.blockcasings.3@10",
+    "color": "#526278"
+  },
+  {
+    "id": "miscutils:gtplusplus.blockcasings.3@11",
+    "name": "miscutils:gtplusplus.blockcasings.3@11",
+    "color": "#a87b37"
+  },
+  {
+    "id": "miscutils:gtplusplus.blockcasings.3@12",
+    "name": "miscutils:gtplusplus.blockcasings.3@12",
+    "color": "#b6c4aa"
+  },
+  {
+    "id": "miscutils:gtplusplus.blockcasings.3@13",
+    "name": "miscutils:gtplusplus.blockcasings.3@13",
+    "color": "#2a382d"
+  },
+  {
+    "id": "miscutils:gtplusplus.blockcasings.3@15",
+    "name": "miscutils:gtplusplus.blockcasings.3@15",
+    "color": "#1875ce"
+  },
+  {
+    "id": "miscutils:gtplusplus.blockcasings.3@2",
+    "name": "miscutils:gtplusplus.blockcasings.3@2",
+    "color": "#757673"
+  },
+  {
+    "id": "miscutils:gtplusplus.blockcasings.3@9",
+    "name": "miscutils:gtplusplus.blockcasings.3@9",
+    "color": "#42392a"
+  },
+  { "id": "miscutils:gtplusplus.blockcasings.4@10", "name": "Vacuum Casing", "color": "#53110a" },
+  { "id": "miscutils:gtplusplus.blockcasings.4@11", "name": "Turbodyne Casing", "color": "#437179" },
+  {
+    "id": "miscutils:gtplusplus.blockcasings.4@4",
     "name": "Quantum Force Transformer Coil Casings",
     "color": "#56b9d4"
   },
-  { "id": "gt5u.gtplusplusBlockcasings5.1", "name": "IsaMill Piping", "color": "#498846" },
-  { "id": "gt5u.gtplusplusBlockcasings5.11", "name": "Neutron Shielding Core", "color": "#a2acad" },
-  { "id": "gt5u.gtplusplusBlockcasings5.15", "name": "Force Field Glass", "color": "#616365" },
-  { "id": "gt5u.gtplusplusBlockcasings5.2", "name": "IsaMill Gearbox", "color": "#6a9464" },
-  { "id": "gt5u.gtplusplusBlockcasings5.4", "name": "Sparge Tower Exterior Casing", "color": "#3c3c3c" },
-  { "id": "gt5u.gtplusplusBlockcasings5.5", "name": "Sturdy Printer Casing", "color": "#827e74" },
-  { "id": "gt5u.gtplusplusBlockcasings5.6", "name": "Forge Casing", "color": "#3b3a3b" },
-  { "id": "gt5u.gtplusplusBlockcasings5.7", "name": "Neutron Pulse Manipulator", "color": "#b8c5c6" },
+  { "id": "miscutils:gtplusplus.blockcasings.5@0", "name": "IsaMill Exterior Casing", "color": "#568945" },
+  { "id": "miscutils:gtplusplus.blockcasings.5@1", "name": "IsaMill Piping", "color": "#498846" },
+  { "id": "miscutils:gtplusplus.blockcasings.5@11", "name": "Neutron Shielding Core", "color": "#a2acad" },
+  { "id": "miscutils:gtplusplus.blockcasings.5@15", "name": "Force Field Glass", "color": "#616365" },
+  { "id": "miscutils:gtplusplus.blockcasings.5@2", "name": "IsaMill Gearbox", "color": "#6a9464" },
   {
-    "id": "gt5u.gtSpacetimeCompressionFieldGenerator.0",
-    "name": "gt.spacetime_compression_field_generator 0",
-    "color": "#363c57"
+    "id": "miscutils:gtplusplus.blockcasings.5@3",
+    "name": "Elemental Confinement Shell",
+    "color": "#560908"
   },
   {
-    "id": "gt5u.gtStabilisationFieldGenerator.0",
-    "name": "gt.stabilisation_field_generator 0",
-    "color": "#4d6292"
+    "id": "miscutils:gtplusplus.blockcasings.5@4",
+    "name": "Sparge Tower Exterior Casing",
+    "color": "#3c3c3c"
+  },
+  { "id": "miscutils:gtplusplus.blockcasings.5@5", "name": "Sturdy Printer Casing", "color": "#827e74" },
+  { "id": "miscutils:gtplusplus.blockcasings.5@6", "name": "Forge Casing", "color": "#3b3a3b" },
+  { "id": "miscutils:gtplusplus.blockcasings.5@7", "name": "Neutron Pulse Manipulator", "color": "#b8c5c6" },
+  {
+    "id": "miscutils:gtplusplus.blockcasings.6@0",
+    "name": "miscutils:gtplusplus.blockcasings.6@0",
+    "color": "#d2c4dc"
   },
   {
-    "id": "gt5u.gtTimeAccelerationFieldGenerator.0",
-    "name": "gt.time_acceleration_field_generator 0",
-    "color": "#3b4167"
+    "id": "miscutils:gtplusplus.blockcasings.6@1",
+    "name": "miscutils:gtplusplus.blockcasings.6@1",
+    "color": "#8f5684"
   },
-  { "id": "gt5u.impreciseUnitCasing.0", "name": "impreciseUnitCasing 0", "color": "#6e5941" },
-  { "id": "gt5u.magicCasing.0", "name": "magicCasing 0", "color": "#a6a7a8" },
-  { "id": "gt5u.mARCasing.0", "name": "MAR_Casing 0", "color": "#242759" },
-  { "id": "gt5u.miscutilsBlockcasings.1", "name": "Structural Coke Oven Casing", "color": "#637386" },
-  { "id": "gt5u.miscutilsBlockcasings.12", "name": "Hastelloy-N Reactor Casing", "color": "#3a1c4a" },
-  { "id": "gt5u.miscutilsBlockcasings.13", "name": "Reactor Shield Casing", "color": "#7c6f87" },
   {
-    "id": "gt5u.miscutilsBlockcasings.14",
+    "id": "miscutils:gtplusplus.blockspecialcasings.1@0",
+    "name": "miscutils:gtplusplus.blockspecialcasings.1@0",
+    "color": "#4b494b"
+  },
+  {
+    "id": "miscutils:gtplusplus.blockspecialcasings.1@1",
+    "name": "miscutils:gtplusplus.blockspecialcasings.1@1",
+    "color": "#8c8c8c"
+  },
+  {
+    "id": "miscutils:gtplusplus.blockspecialcasings.1@11",
+    "name": "miscutils:gtplusplus.blockspecialcasings.1@11",
+    "color": "#2d2d2d"
+  },
+  {
+    "id": "miscutils:gtplusplus.blockspecialcasings.1@12",
+    "name": "miscutils:gtplusplus.blockspecialcasings.1@12",
+    "color": "#8aac8b"
+  },
+  {
+    "id": "miscutils:gtplusplus.blockspecialcasings.1@13",
+    "name": "miscutils:gtplusplus.blockspecialcasings.1@13",
+    "color": "#b0499d"
+  },
+  {
+    "id": "miscutils:gtplusplus.blockspecialcasings.1@14",
+    "name": "miscutils:gtplusplus.blockspecialcasings.1@14",
+    "color": "#8b1b52"
+  },
+  {
+    "id": "miscutils:gtplusplus.blockspecialcasings.1@15",
+    "name": "miscutils:gtplusplus.blockspecialcasings.1@15",
+    "color": "#333333"
+  },
+  {
+    "id": "miscutils:gtplusplus.blockspecialcasings.1@2",
+    "name": "miscutils:gtplusplus.blockspecialcasings.1@2",
+    "color": "#a36998"
+  },
+  {
+    "id": "miscutils:gtplusplus.blockspecialcasings.1@3",
+    "name": "miscutils:gtplusplus.blockspecialcasings.1@3",
+    "color": "#92a7b9"
+  },
+  {
+    "id": "miscutils:gtplusplus.blockspecialcasings.1@4",
+    "name": "miscutils:gtplusplus.blockspecialcasings.1@4",
+    "color": "#325691"
+  },
+  {
+    "id": "miscutils:gtplusplus.blockspecialcasings.1@6",
+    "name": "miscutils:gtplusplus.blockspecialcasings.1@6",
+    "color": "#2f2f2f"
+  },
+  {
+    "id": "miscutils:gtplusplus.blockspecialcasings.1@7",
+    "name": "miscutils:gtplusplus.blockspecialcasings.1@7",
+    "color": "#3a1c4a"
+  },
+  {
+    "id": "miscutils:gtplusplus.blockspecialcasings.1@8",
+    "name": "miscutils:gtplusplus.blockspecialcasings.1@8",
+    "color": "#bfcdce"
+  },
+  {
+    "id": "miscutils:gtplusplus.blockspecialcasings.1@9",
+    "name": "miscutils:gtplusplus.blockspecialcasings.1@9",
+    "color": "#7b7c4f"
+  },
+  {
+    "id": "miscutils:gtplusplus.blockspecialcasings.2@0",
+    "name": "miscutils:gtplusplus.blockspecialcasings.2@0",
+    "color": "#c04810"
+  },
+  {
+    "id": "miscutils:gtplusplus.blockspecialcasings.3@2",
+    "name": "miscutils:gtplusplus.blockspecialcasings.3@2",
+    "color": "#545a9a"
+  },
+  {
+    "id": "miscutils:gtplusplus.blockspecialcasings.3@6",
+    "name": "miscutils:gtplusplus.blockspecialcasings.3@6",
+    "color": "#424c8a"
+  },
+  {
+    "id": "miscutils:gtplusplus.blocktieredcasings.1@4",
+    "name": "miscutils:gtplusplus.blocktieredcasings.1@4",
+    "color": "#9e9e9e"
+  },
+  { "id": "miscutils:miscutils.blockcasings@0", "name": "Centrifuge Casing", "color": "#7e5f29" },
+  { "id": "miscutils:miscutils.blockcasings@1", "name": "Structural Coke Oven Casing", "color": "#637386" },
+  { "id": "miscutils:miscutils.blockcasings@12", "name": "Hastelloy-N Reactor Casing", "color": "#3a1c4a" },
+  { "id": "miscutils:miscutils.blockcasings@13", "name": "Reactor Shield Casing", "color": "#7c6f87" },
+  {
+    "id": "miscutils:miscutils.blockcasings@14",
     "name": "Blast Smelter Heat Containment Coil",
     "color": "#282a27"
   },
-  { "id": "gt5u.miscutilsBlockcasings.15", "name": "Blast Smelter Casing Block", "color": "#8e8174" },
-  { "id": "gt5u.miscutilsBlockcasings.5", "name": "Electrolyzer Casing", "color": "#745a4f" },
-  { "id": "gt5u.miscutilsBlockcasings.6", "name": "Wire Factory Casing", "color": "#2f2f2f" },
-  { "id": "gt5u.miscutilsBlockcasings.8", "name": "Matter Generation Coil", "color": "#4f5092" },
-  { "id": "gt5u.miscutilsBlockcasings.9", "name": "Matter Fabricator Casing", "color": "#292925" },
-  { "id": "gt5u.nIOBIUMCAVITYCASING.0", "name": "NIOBIUM_CAVITY_CASING 0", "color": "#937f90" },
-  { "id": "gt5u.pressureResistantWalls.0", "name": "pressureResistantWalls 0", "color": "#21202f" },
+  { "id": "miscutils:miscutils.blockcasings@15", "name": "Blast Smelter Casing Block", "color": "#8e8174" },
   {
-    "id": "gt5u.radiationProtectionSteelFrame.0",
-    "name": "radiationProtectionSteelFrame 0",
-    "color": "#272625"
+    "id": "miscutils:miscutils.blockcasings@2",
+    "name": "Heat Resistant Coke Oven Casing",
+    "color": "#66321b"
   },
-  { "id": "gt5u.sBlockCasingsDyson.0", "name": "sBlockCasingsDyson 0", "color": "#8f8f8f" },
-  { "id": "gt5u.sBlockCasingsDyson.1", "name": "sBlockCasingsDyson 1", "color": "#8f8f8f" },
-  { "id": "gt5u.sBlockCasingsDyson.2", "name": "sBlockCasingsDyson 2", "color": "#8f8f8f" },
-  { "id": "gt5u.sBlockCasingsDyson.3", "name": "sBlockCasingsDyson 3", "color": "#8f8f8f" },
-  { "id": "gt5u.sBlockCasingsDyson.4", "name": "sBlockCasingsDyson 4", "color": "#8f8f8f" },
-  { "id": "gt5u.sBlockCasingsDyson.5", "name": "sBlockCasingsDyson 5", "color": "#8f8f8f" },
-  { "id": "gt5u.sBlockCasingsDyson.6", "name": "sBlockCasingsDyson 6", "color": "#8f8f8f" },
-  { "id": "gt5u.sBlockCasingsDyson.7", "name": "sBlockCasingsDyson 7", "color": "#8f8f8f" },
-  { "id": "gt5u.sBlockCasingsDyson.8", "name": "sBlockCasingsDyson 8", "color": "#8f8f8f" },
-  { "id": "gt5u.sBlockCasingsDyson.9", "name": "sBlockCasingsDyson 9", "color": "#8f8f8f" },
-  { "id": "gt5u.sBlockCasingsSiphon.0", "name": "sBlockCasingsSiphon 0", "color": "#8f8f8f" },
-  { "id": "gt5u.sBlockFenceMetal.0", "name": "sBlockFenceMetal 0", "color": "#dbdbdb" },
-  { "id": "gt5u.sBlockFrames.81", "name": "sBlockFrames 81", "color": "#8f8f8f" },
-  { "id": "gt5u.sBlockMetal2.7", "name": "sBlockMetal2 7", "color": "#8f8f8f" },
-  { "id": "gt5u.sBlockMetal4.13", "name": "sBlockMetal4 13", "color": "#8f8f8f" },
-  { "id": "gt5u.sBlockMetal5.2", "name": "sBlockMetal5 2", "color": "#8f8f8f" },
-  { "id": "gt5u.sBlockMetal8.6", "name": "sBlockMetal8 6", "color": "#8f8f8f" },
-  { "id": "gt5u.sBlockReinforced.10", "name": "sBlockReinforced 10", "color": "#282828" },
-  { "id": "gt5u.sBlockReinforced.2", "name": "sBlockReinforced 2", "color": "#dfdfdf" },
-  { "id": "gt5u.sBlockReinforced.3", "name": "sBlockReinforced 3", "color": "#1a2d4f" },
-  { "id": "gt5u.sHIELDEDACCELERATORCASING.0", "name": "SHIELDED_ACCELERATOR_CASING 0", "color": "#727271" },
-  { "id": "gt5u.sLaserRender.0", "name": "sLaserRender 0", "color": "#5e5e5e" },
-  { "id": "gt5u.specialHatch", "name": "Machine-specific Hatch", "color": "#959595" },
-  { "id": "gt5u.speedingPipe.0", "name": "speedingPipe 0", "color": "#3d79af" },
-  { "id": "gt5u.sSpaceElevatorCable.0", "name": "sSpaceElevatorCable 0", "color": "#050505" },
+  { "id": "miscutils:miscutils.blockcasings@3", "name": "Heat Proof Coke Oven Casing", "color": "#4d4d4d" },
+  { "id": "miscutils:miscutils.blockcasings@4", "name": "Metalworking Machine Casing", "color": "#a56a99" },
+  { "id": "miscutils:miscutils.blockcasings@5", "name": "Electrolyzer Casing", "color": "#745a4f" },
+  { "id": "miscutils:miscutils.blockcasings@6", "name": "Wire Factory Casing", "color": "#2f2f2f" },
+  { "id": "miscutils:miscutils.blockcasings@8", "name": "Matter Generation Coil", "color": "#4f5092" },
+  { "id": "miscutils:miscutils.blockcasings@9", "name": "Matter Fabricator Casing", "color": "#292925" },
+  { "id": "tectech:gt.blockcasingsBA0@0", "name": "tectech:gt.blockcasingsBA0@0", "color": "#633c3c" },
+  { "id": "tectech:gt.blockcasingsBA0@10", "name": "tectech:gt.blockcasingsBA0@10", "color": "#00315a" },
+  { "id": "tectech:gt.blockcasingsBA0@11", "name": "tectech:gt.blockcasingsBA0@11", "color": "#00345c" },
   {
-    "id": "gt5u.supercriticalFluidTurbineCasing.0",
-    "name": "supercriticalFluidTurbineCasing 0",
-    "color": "#8f8f8f"
+    "id": "tectech:gt.blockcasingsBA0@12",
+    "name": "Infinite Spacetime Energy Boundary Casing",
+    "color": "#6ba2c9"
   },
-  { "id": "gt5u.tARGETHOLDER.0", "name": "TARGET_HOLDER 0", "color": "#a97e62" },
-  { "id": "gt5u.tARGETRECEPTACLECASING.0", "name": "TARGET_RECEPTACLE_CASING 0", "color": "#8eb1c1" },
-  { "id": "gt5u.tieredCasing", "name": "Tiered Casing (any tier)", "color": "#8d8d99" }
+  { "id": "tectech:gt.blockcasingsBA0@6", "name": "tectech:gt.blockcasingsBA0@6", "color": "#868686" },
+  { "id": "tectech:gt.blockcasingsBA0@7", "name": "tectech:gt.blockcasingsBA0@7", "color": "#d1d1d1" },
+  { "id": "tectech:gt.blockcasingsBA0@8", "name": "tectech:gt.blockcasingsBA0@8", "color": "#c0c183" },
+  { "id": "tectech:gt.blockcasingsTT@0", "name": "High Power Casing", "color": "#6ba2c9" },
+  { "id": "tectech:gt.blockcasingsTT@1", "name": "Computer Casing", "color": "#dae7f1" },
+  { "id": "tectech:gt.blockcasingsTT@2", "name": "Computer Heat Vent", "color": "#c4d6e6" },
+  { "id": "tectech:gt.blockcasingsTT@3", "name": "Advanced Computer Casing", "color": "#c5dcef" },
+  { "id": "tectech:gt.blockcasingsTT@4", "name": "Molecular Casing", "color": "#004073" },
+  { "id": "tectech:gt.blockcasingsTT@7", "name": "Molecular Coil", "color": "#3a5e89" },
+  {
+    "id": "tectech:gt.godforgecasing@0",
+    "name": "Singularity Reinforced Stellar Shielding Casing",
+    "color": "#342f34"
+  },
+  { "id": "tectech:gt.godforgecasing@1", "name": "Celestial Matter Guidance Casing", "color": "#320932" },
+  {
+    "id": "tectech:gt.godforgecasing@2",
+    "name": "Boundless Gravitationally Severed Structure Casing",
+    "color": "#300730"
+  },
+  {
+    "id": "tectech:gt.godforgecasing@3",
+    "name": "Transcendentally Amplified Magnetic Confinement Casing",
+    "color": "#3c033c"
+  },
+  { "id": "tectech:gt.godforgecasing@4", "name": "Stellar Energy Siphon Casing", "color": "#622d36" },
+  { "id": "tectech:gt.godforgecasing@5", "name": "Remote Graviton Flow Modulator", "color": "#5f215f" },
+  { "id": "tectech:gt.godforgecasing@8", "name": "Harmonic Phonon Transmission Conduit", "color": "#893942" },
+  {
+    "id": "tectech:gt.spacetime_compression_field_generator@0",
+    "name": "tectech:gt.spacetime_compression_field_generator@0",
+    "color": "#363c57"
+  },
+  {
+    "id": "tectech:gt.stabilisation_field_generator@0",
+    "name": "tectech:gt.stabilisation_field_generator@0",
+    "color": "#4d6292"
+  },
+  {
+    "id": "tectech:gt.time_acceleration_field_generator@0",
+    "name": "tectech:gt.time_acceleration_field_generator@0",
+    "color": "#3b4167"
+  },
+  {
+    "id": "tectech:tile.spatiallyTranscendentGravitationalLens@0",
+    "name": "tectech:tile.spatiallyTranscendentGravitationalLens@0",
+    "color": "#621562"
+  }
 ]

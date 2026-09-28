@@ -5,58 +5,35 @@
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gtPlusPlus/xmod/gregtech/common/tileentities/machines/multi/production/MTERefinery.java",
   "size": [3, 8, 3],
   "layers": [
-    ["X~X", "XXX", "XXX"],
-    ["XXX", "XXX", "XXX"],
-    [" N ", "NIN", " N "],
-    [" Z ", "ZIZ", " Z "],
-    [" N ", "NIN", " N "],
-    [" N ", "NIN", " N "],
-    [" N ", "NIN", " N "],
-    ["   ", " N ", "   "]
+    ["A~A", "AAA", "AAA"],
+    ["AAA", "AAA", "AAA"],
+    [" B ", "BCB", " B "],
+    [" D ", "DCD", " D "],
+    [" B ", "BCB", " B "],
+    [" B ", "BCB", " B "],
+    [" B ", "BCB", " B "],
+    ["   ", " B ", "   "]
   ],
   "legend": {
-    "N": {
-      "blockId": "gt5u.blockCasings2Misc.1"
+    "A": {
+      "blockId": "miscutils:gtplusplus.blockcasings.2@2",
+      "hatches": ["itemOut", "fluidIn", "fluidOut", "energy", "maintenance"]
     },
-    "I": {
-      "blockId": "gt5u.blockCasings2Misc.3"
-    },
-    "Z": {
-      "blockId": "gt5u.miscutilsBlockcasings.13"
-    },
-    "X": {
-      "blockId": "gt5u.blockCasings2Misc.2",
-      "hatches": ["itemOut", "fluidIn", "fluidOut", "energy", "maintenance", "muffler"]
-    }
+    "B": { "blockId": "miscutils:gtplusplus.blockcasings.2@1" },
+    "C": { "blockId": "miscutils:gtplusplus.blockcasings.2@3" },
+    "D": { "blockId": "miscutils:miscutils.blockcasings@13" }
   },
-  "controller": {
-    "pos": [1, 0, 0],
-    "facing": "north",
-    "blockId": "gt5u.controller.reactorFuelProcessingPlant"
-  },
+  "controller": { "pos": [1, 0, 0], "facing": "north", "blockId": "gregtech:gt.blockmachines@835" },
   "hatchBlocks": {
     "itemOut": "gt.hatch.outputBus",
     "fluidIn": "gt.hatch.inputHatch",
     "fluidOut": "gt.hatch.outputHatch",
     "energy": "gt.hatch.energy",
-    "maintenance": "gt.hatch.maintenance",
-    "muffler": "gt.hatch.muffler"
+    "maintenance": "gt.hatch.maintenance"
   },
   "shareableHatches": ["itemOut", "fluidIn", "fluidOut"],
-  "requiredHatches": {
-    "energy": {
-      "min": 1
-    },
-    "maintenance": {
-      "min": 1,
-      "max": 1
-    },
-    "muffler": {
-      "min": 1,
-      "max": 1
-    }
-  },
-  "defaultHatches": ["itemOut", "energy", "maintenance", "muffler"],
+  "requiredHatches": { "energy": { "min": 1 }, "maintenance": { "min": 1, "max": 1 } },
+  "defaultHatches": ["itemOut", "energy", "maintenance"],
   "wallshare": true,
-  "notes": "Generated from MTERefinery (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+  "notes": "Built by the game itself: MTERefinery (GT5-Unofficial 5.09.54.133) placed every block with the hologram's construct() (tools/game-dump). Hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows); check the tooltip in game."
 }

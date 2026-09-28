@@ -3,7 +3,7 @@
  * `color` is the flat colour for SIMPLE view and the fallback for DETAILED.
  * Texture mapping for DETAILED view lives in `src/render/textures.json` (owned by the renderer).
  * Additive changes only: other work units rely on these ids.
- * Blocks used only by generated catalog entries live in `./blocks.generated.json` (tools/gt-source).
+ * Blocks used only by generated catalog entries live in `./blocks.generated.json` (tools/game-dump).
  */
 import generatedBlocks from './blocks.generated.json' with { type: 'json' };
 
@@ -100,7 +100,7 @@ const list: BlockInfo[] = [
   { id: 'site.port.power', name: 'Power Port', color: '#d8c04a' },
 ];
 
-/** Blocks of the generated catalog entries (tools/gt-source); hand-made entries above win. */
+/** Blocks of the generated catalog entries (tools/game-dump); hand-made entries above win. */
 const generated: BlockInfo[] = generatedBlocks;
 
 export const BLOCKS: Readonly<Record<string, BlockInfo>> = Object.fromEntries(

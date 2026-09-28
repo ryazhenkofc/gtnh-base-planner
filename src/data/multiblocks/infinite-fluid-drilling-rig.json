@@ -6,132 +6,132 @@
   "size": [9, 14, 9],
   "layers": [
     [
-      "  BB~BB  ",
-      " BBFFFBB ",
-      "BBBCCCBBB",
-      "BFCDDDCFB",
-      "BFCDDDCFB",
-      "BFCDDDCFB",
-      "BBBCCCBBB",
-      " BBFFFBB ",
-      "  BBBBB  "
+      "  AA~AA  ",
+      " AABBBAA ",
+      "AAACCCAAA",
+      "ABCDDDCBA",
+      "ABCDDDCBA",
+      "ABCDDDCBA",
+      "AAACCCAAA",
+      " AABBBAA ",
+      "  AAAAA  "
     ],
     [
       "         ",
-      " GB   BG ",
-      " BB   BB ",
+      " EA   AE ",
+      " AA   AA ",
+      "    F    ",
+      "   FGF   ",
+      "    F    ",
+      " AA   AA ",
+      " EA   AE ",
+      "         "
+    ],
+    [
+      "         ",
+      "  A   A  ",
+      " AA   AA ",
+      "    F    ",
+      "   FGF   ",
+      "    F    ",
+      " AA   AA ",
+      "  A   A  ",
+      "         "
+    ],
+    [
+      "         ",
+      "         ",
+      "  EA AE  ",
+      "  A F A  ",
+      "   FGF   ",
+      "  A F A  ",
+      "  EA AE  ",
+      "         ",
+      "         "
+    ],
+    [
+      "         ",
+      "         ",
+      "   A A   ",
+      "  A F A  ",
+      "   FGF   ",
+      "  A F A  ",
+      "   A A   ",
+      "         ",
+      "         "
+    ],
+    [
+      "         ",
+      "         ",
+      "   EAE   ",
+      "  EAFAE  ",
+      "  AFGFA  ",
+      "  EAFAE  ",
+      "   EAE   ",
+      "         ",
+      "         "
+    ],
+    [
+      "         ",
+      "         ",
+      "    E    ",
+      "   AAA   ",
+      "  EAGAE  ",
+      "   AAA   ",
+      "    E    ",
+      "         ",
+      "         "
+    ],
+    [
+      "         ",
+      "         ",
+      "    E    ",
+      "   AAA   ",
+      "  EAGAE  ",
+      "   AAA   ",
+      "    E    ",
+      "         ",
+      "         "
+    ],
+    [
+      "         ",
+      "         ",
+      "         ",
+      "   EAE   ",
+      "   AGA   ",
+      "   EAE   ",
+      "         ",
+      "         ",
+      "         "
+    ],
+    [
+      "         ",
+      "         ",
+      "         ",
+      "    E    ",
+      "   EAE   ",
+      "    E    ",
+      "         ",
+      "         ",
+      "         "
+    ],
+    [
+      "         ",
+      "         ",
+      "         ",
+      "    E    ",
+      "   EAE   ",
+      "    E    ",
+      "         ",
+      "         ",
+      "         "
+    ],
+    [
+      "         ",
+      "         ",
+      "         ",
+      "         ",
       "    A    ",
-      "   AHA   ",
-      "    A    ",
-      " BB   BB ",
-      " GB   BG ",
-      "         "
-    ],
-    [
-      "         ",
-      "  B   B  ",
-      " BB   BB ",
-      "    A    ",
-      "   AHA   ",
-      "    A    ",
-      " BB   BB ",
-      "  B   B  ",
-      "         "
-    ],
-    [
-      "         ",
-      "         ",
-      "  GB BG  ",
-      "  B A B  ",
-      "   AHA   ",
-      "  B A B  ",
-      "  GB BG  ",
-      "         ",
-      "         "
-    ],
-    [
-      "         ",
-      "         ",
-      "   B B   ",
-      "  B A B  ",
-      "   AHA   ",
-      "  B A B  ",
-      "   B B   ",
-      "         ",
-      "         "
-    ],
-    [
-      "         ",
-      "         ",
-      "   GBG   ",
-      "  GBABG  ",
-      "  BAHAB  ",
-      "  GBABG  ",
-      "   GBG   ",
-      "         ",
-      "         "
-    ],
-    [
-      "         ",
-      "         ",
-      "    G    ",
-      "   BBB   ",
-      "  GBHBG  ",
-      "   BBB   ",
-      "    G    ",
-      "         ",
-      "         "
-    ],
-    [
-      "         ",
-      "         ",
-      "    G    ",
-      "   BBB   ",
-      "  GBHBG  ",
-      "   BBB   ",
-      "    G    ",
-      "         ",
-      "         "
-    ],
-    [
-      "         ",
-      "         ",
-      "         ",
-      "   GBG   ",
-      "   BHB   ",
-      "   GBG   ",
-      "         ",
-      "         ",
-      "         "
-    ],
-    [
-      "         ",
-      "         ",
-      "         ",
-      "    G    ",
-      "   GBG   ",
-      "    G    ",
-      "         ",
-      "         ",
-      "         "
-    ],
-    [
-      "         ",
-      "         ",
-      "         ",
-      "    G    ",
-      "   GBG   ",
-      "    G    ",
-      "         ",
-      "         ",
-      "         "
-    ],
-    [
-      "         ",
-      "         ",
-      "         ",
-      "         ",
-      "    B    ",
       "         ",
       "         ",
       "         ",
@@ -142,7 +142,7 @@
       "         ",
       "         ",
       "         ",
-      "    G    ",
+      "    E    ",
       "         ",
       "         ",
       "         ",
@@ -153,7 +153,7 @@
       "         ",
       "         ",
       "         ",
-      "    G    ",
+      "    E    ",
       "         ",
       "         ",
       "         ",
@@ -161,34 +161,18 @@
     ]
   ],
   "legend": {
-    "B": {
-      "blockId": "gt5u.gtBlockcasings8.2",
+    "A": {
+      "blockId": "gregtech:gt.blockcasings8@2",
       "hatches": ["itemIn", "fluidOut", "energy", "maintenance"]
     },
-    "G": {
-      "blockId": "gt.frame.neutronium"
-    },
-    "F": {
-      "blockId": "gt5u.gtBlockcasingsTT.3"
-    },
-    "C": {
-      "blockId": "gt5u.gtBlockcasings8.7"
-    },
-    "A": {
-      "blockId": "gt.glass.reinforced"
-    },
-    "D": {
-      "blockId": "gt.casing.pbiPipe"
-    },
-    "H": {
-      "blockId": "gt.sheetmetal.infinity"
-    }
+    "B": { "blockId": "tectech:gt.blockcasingsTT@3" },
+    "C": { "blockId": "gregtech:gt.blockcasings8@7" },
+    "D": { "blockId": "gregtech:gt.blockcasings9@0" },
+    "E": { "blockId": "gregtech:gt.blockframes@129" },
+    "F": { "blockId": "bartworks:BW_TieredGlass@0" },
+    "G": { "blockId": "gregtech:gt.sheetmetal@397" }
   },
-  "controller": {
-    "pos": [4, 0, 0],
-    "facing": "north",
-    "blockId": "gt5u.controller.infiniteFluidDrillingRig"
-  },
+  "controller": { "pos": [4, 0, 0], "facing": "north", "blockId": "gregtech:gt.blockmachines@15567" },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",
     "fluidOut": "gt.hatch.outputHatch",
@@ -196,16 +180,8 @@
     "maintenance": "gt.hatch.maintenance"
   },
   "shareableHatches": ["itemIn", "fluidOut"],
-  "requiredHatches": {
-    "energy": {
-      "min": 1
-    },
-    "maintenance": {
-      "min": 1,
-      "max": 1
-    }
-  },
+  "requiredHatches": { "energy": { "min": 1 }, "maintenance": { "min": 1, "max": 1 } },
   "defaultHatches": ["itemIn", "energy", "maintenance"],
   "wallshare": true,
-  "notes": "Generated from MTEOilDrillInfinite (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+  "notes": "Built by the game itself: MTEOilDrillInfinite (GT5-Unofficial 5.09.54.133) placed every block with the hologram's construct() (tools/game-dump). Hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows); check the tooltip in game."
 }

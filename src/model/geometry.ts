@@ -3,7 +3,6 @@ import type { MultiblockDef, Unit, UnitCell } from './multiblock/types';
 
 /**
  * Shared geometry helpers. Implemented in the foundation; all model units must use these.
- * tools/extractor runs this file under plain Node (type stripping), so it imports types only.
  */
 
 /**

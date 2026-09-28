@@ -10,9 +10,16 @@
     ["CCC", "CCC", "CCC"]
   ],
   "legend": {
-    "C": { "blockId": "gt.cokeOvenBrick", "hatches": ["itemIn", "itemOut", "fluidOut"] }
+    "C": {
+      "blockId": "gt.cokeOvenBrick",
+      "hatches": ["itemIn", "itemOut", "fluidOut"]
+    }
   },
-  "controller": { "pos": [1, 1, 0], "facing": "north", "blockId": "gt.cokeOvenController" },
+  "controller": {
+    "pos": [1, 1, 0],
+    "facing": "north",
+    "blockId": "gt.cokeOvenController"
+  },
   "hatchBlocks": {
     "itemIn": "gt.cokeOvenHatch",
     "itemOut": "gt.cokeOvenHatch",

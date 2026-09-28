@@ -6,172 +6,160 @@
   "size": [11, 11, 11],
   "layers": [
     [
-      "  CEEEEEC  ",
-      " CE     EC ",
-      "CE       EC",
-      "E         E",
-      "E         E",
-      "E         E",
-      "E         E",
-      "E         E",
-      "CE       EC",
-      " CE     EC ",
-      "  CEEEEEC  "
+      "  ABBBBBA  ",
+      " AB     BA ",
+      "AB       BA",
+      "B         B",
+      "B         B",
+      "B         B",
+      "B         B",
+      "B         B",
+      "AB       BA",
+      " AB     BA ",
+      "  ABBBBBA  "
     ],
     [
-      " CE     EC ",
-      "C  BB~BB  C",
-      "E BBBBBBB E",
-      " BBBBBBBBB ",
-      " BBBBBBBBB ",
-      " BBBBBBBBB ",
-      " BBBBBBBBB ",
-      " BBBBBBBBB ",
-      "E BBBBBBB E",
-      "C  BBBBB  C",
-      " CE     EC "
+      " AB     BA ",
+      "A--CC~CC--A",
+      "B-CCCCCCC-B",
+      " CCCCCCCCC ",
+      " CCCCCCCCC ",
+      " CCCCCCCCC ",
+      " CCCCCCCCC ",
+      " CCCCCCCCC ",
+      "B-CCCCCCC-B",
+      "A--CCCCC--A",
+      " AB     BA "
     ],
     [
-      "CE       EC",
-      "E BBBBBBB E",
-      " B       B ",
-      " D       D ",
-      " B       B ",
-      " B       B ",
-      " D       D ",
-      " B       B ",
-      " B       B ",
-      "E BDDBBBB E",
-      "CE       EC"
+      "AB       BA",
+      "B-CCCCCCC-B",
+      " C-------C ",
+      " D-------D ",
+      " C-------C ",
+      " C-------C ",
+      " D-------D ",
+      " C-------C ",
+      " C-------C ",
+      "B-CCCCDDC-B",
+      "AB       BA"
     ],
     [
-      "E         E",
-      " BBAAAAABB ",
-      " B       B ",
-      " D       D ",
-      " D       D ",
-      " B       B ",
-      " D       D ",
-      " D       D ",
-      " D       D ",
-      " BBBBBDDDB ",
-      "E         E"
+      "B         B",
+      " CCEEEEECC ",
+      " C-------C ",
+      " D-------D ",
+      " D-------D ",
+      " C-------C ",
+      " D-------D ",
+      " D-------D ",
+      " D-------D ",
+      " CDDDCCCCC ",
+      "B         B"
     ],
     [
-      "E         E",
-      " BBAAAAABB ",
-      " B       B ",
-      " B       B ",
-      " D       D ",
-      " B       B ",
-      " B       B ",
-      " D       D ",
-      " B       B ",
-      " BBDBBDBBB ",
-      "E         E"
+      "B         B",
+      " CCEEEEECC ",
+      " C-------C ",
+      " C-------C ",
+      " D-------D ",
+      " C-------C ",
+      " C-------C ",
+      " D-------D ",
+      " C-------C ",
+      " CCCDCCDCC ",
+      "B         B"
     ],
     [
-      "E         E",
-      " BBAAAAABB ",
-      " D       D ",
-      " D       D ",
-      " D       D ",
-      " B       B ",
-      " B       B ",
-      " B       B ",
-      " B       B ",
-      " BBDBBBBDB ",
-      "E         E"
+      "B         B",
+      " CCEEEEECC ",
+      " D-------D ",
+      " D-------D ",
+      " D-------D ",
+      " C-------C ",
+      " C-------C ",
+      " C-------C ",
+      " C-------C ",
+      " CDCCCCDCC ",
+      "B         B"
     ],
     [
-      "E         E",
-      " BBAAAAABB ",
-      " B       B ",
-      " D       D ",
-      " B       B ",
-      " B       B ",
-      " D       D ",
-      " D       D ",
-      " D       D ",
-      " BDDBDDDDB ",
-      "E         E"
+      "B         B",
+      " CCEEEEECC ",
+      " C-------C ",
+      " D-------D ",
+      " C-------C ",
+      " C-------C ",
+      " D-------D ",
+      " D-------D ",
+      " D-------D ",
+      " CDDDDCDDC ",
+      "B         B"
     ],
     [
-      "E         E",
-      " BBAAAAABB ",
-      " B       B ",
-      " D       D ",
-      " B       B ",
-      " D       D ",
-      " D       D ",
-      " B       B ",
-      " B       B ",
-      " BBDBBBDBB ",
-      "E         E"
+      "B         B",
+      " CCEEEEECC ",
+      " C-------C ",
+      " D-------D ",
+      " C-------C ",
+      " D-------D ",
+      " D-------D ",
+      " C-------C ",
+      " C-------C ",
+      " CCDCCCDCC ",
+      "B         B"
     ],
     [
-      "CE       EC",
-      "E BBBBBBB E",
-      " B       B ",
-      " D       D ",
-      " B       B ",
-      " B       B ",
-      " D       D ",
-      " B       B ",
-      " B       B ",
-      "E BDDDBDB E",
-      "CE       EC"
+      "AB       BA",
+      "B-CCCCCCC-B",
+      " C-------C ",
+      " D-------D ",
+      " C-------C ",
+      " C-------C ",
+      " D-------D ",
+      " C-------C ",
+      " C-------C ",
+      "B-CDCDDDC-B",
+      "AB       BA"
     ],
     [
-      " CE     EC ",
-      "C  BBBBB  C",
-      "E BBBBBBB E",
-      " BBCCCCCBB ",
-      " BBCBBBCBB ",
-      " BBCCCCCBB ",
-      " BBCBBBCBB ",
-      " BBCCCCCBB ",
-      "E BBBBBBB E",
-      "C  BBBBB  C",
-      " CE     EC "
+      " AB     BA ",
+      "A--CCCCC--A",
+      "B-CCCCCCC-B",
+      " CCAAAAACC ",
+      " CCACCCACC ",
+      " CCAAAAACC ",
+      " CCACCCACC ",
+      " CCAAAAACC ",
+      "B-CCCCCCC-B",
+      "A--CCCCC--A",
+      " AB     BA "
     ],
     [
-      "  CEEEEEC  ",
-      " CE     EC ",
-      "CE       EC",
-      "E         E",
-      "E         E",
-      "E         E",
-      "E         E",
-      "E         E",
-      "CE       EC",
-      " CE     EC ",
-      "  CEEEEEC  "
+      "  ABBBBBA  ",
+      " AB     BA ",
+      "AB       BA",
+      "B         B",
+      "B         B",
+      "B         B",
+      "B         B",
+      "B         B",
+      "AB       BA",
+      " AB     BA ",
+      "  ABBBBBA  "
     ]
   ],
   "legend": {
+    "A": { "blockId": "gregtech:gt.blockcasings10@8" },
+    "B": { "blockId": "gregtech:gt.blockframes@325" },
     "C": {
-      "blockId": "gt5u.gtBlockcasings10.8"
-    },
-    "E": {
-      "blockId": "gt.frame.naquadahAlloy"
-    },
-    "B": {
-      "blockId": "gt5u.gtBlockcasings10.6",
+      "blockId": "gregtech:gt.blockcasings10@6",
       "hatches": ["itemIn", "itemOut", "fluidIn", "energy", "maintenance"]
     },
-    "D": {
-      "blockId": "gt5u.gtBlockcasings10.7"
-    },
-    "A": {
-      "blockId": "gt.glass.reinforced"
-    }
+    "D": { "blockId": "gregtech:gt.blockcasings10@7" },
+    "E": { "blockId": "bartworks:BW_TieredGlass@0" }
   },
-  "controller": {
-    "pos": [5, 1, 1],
-    "facing": "north",
-    "blockId": "gt5u.controller.neutroniumCompressor"
-  },
+  "controller": { "pos": [5, 1, 1], "facing": "north", "blockId": "gregtech:gt.blockmachines@3007" },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",
     "itemOut": "gt.hatch.outputBus",
@@ -180,16 +168,8 @@
     "maintenance": "gt.hatch.maintenance"
   },
   "shareableHatches": ["itemIn", "itemOut", "fluidIn"],
-  "requiredHatches": {
-    "energy": {
-      "min": 1
-    },
-    "maintenance": {
-      "min": 1,
-      "max": 1
-    }
-  },
+  "requiredHatches": { "energy": { "min": 1 }, "maintenance": { "min": 1, "max": 1 } },
   "defaultHatches": ["itemIn", "itemOut", "energy", "maintenance"],
   "wallshare": true,
-  "notes": "Generated from MTENeutroniumCompressor (GT5-Unofficial 5.09.54.133) by tools/gt-source: the structure is copied cell by cell; hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows), so check the tooltip in game."
+  "notes": "Built by the game itself: MTENeutroniumCompressor (GT5-Unofficial 5.09.54.133) placed every block with the hologram's construct() (tools/game-dump). Hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows); check the tooltip in game."
 }
