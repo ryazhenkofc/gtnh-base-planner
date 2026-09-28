@@ -1,11 +1,11 @@
-# GTNH Wall-Share Planner
+# GTNH Base Planner
 
 A 3D planner for [GregTech: New Horizons](https://github.com/GTNewHorizons/GT-New-Horizons-Modpack) multiblocks that share walls, hatches and pipes. Pick a multiblock, set how many you want, and the planner packs them so compatible casings overlap, places shared hatches and routes pipes between them.
 
 It is a layout tool, not a recipe or production-chain calculator. Structures follow GT:NH **2.9.0-beta-3**
 (GT5-Unofficial 5.09.54.133).
 
-**Live:** <https://gtnh-wallshare-planner.pages.dev/>
+**Live:** <https://gtnh-base-planner.pages.dev/>
 
 ## Features
 

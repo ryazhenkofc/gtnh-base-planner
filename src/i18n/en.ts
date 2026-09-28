@@ -4,10 +4,10 @@ import type { HatchKind } from '../model/types';
 
 /** All user-visible strings (UNIT 8 owns this file). Use `t.key` in components; never build HTML strings. */
 export const t = {
-  appName: 'GTNH Wall-Share Planner',
+  appName: 'GTNH Base Planner',
   tagline: 'Multiblocks sharing walls, hatches and pipes.',
   repo: 'Source on GitHub',
-  repoUrl: 'https://github.com/ryazhenkofc/gtnh-wallshare-planner',
+  repoUrl: 'https://github.com/ryazhenkofc/gtnh-base-planner',
 
   // Top bar
   countLabel: 'Number of multiblocks',
