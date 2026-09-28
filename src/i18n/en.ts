@@ -116,9 +116,11 @@ export const t = {
     width: 'Width (X)',
     depth: 'Depth (Z)',
     corridor: 'Corridor',
-    sizeHint: (min: number, max: number) => `Blocks, ${min} to ${max}. Corridor: free blocks between groups.`,
+    sizeHint: (min: number, max: number) =>
+      `Blocks, ${min} to ${max}. The template grows when a group is moved past an edge. Corridor: free blocks between groups.`,
     arrange: 'Arrange',
     arranged: 'Arranged along the flow.',
+    arrangedGrown: (w: number, d: number) => `Arranged along the flow; the template grew to ${w} × ${d}.`,
     building: 'Laying out and routing…',
     needs: (w: number, d: number) => `Does not fit: needs ${w} × ${d}.`,
     importOpen: 'Import from GTNH Planner',

@@ -93,16 +93,25 @@ test('imports a GTNH Planner chain into a routed site', async ({ page }) => {
   await panel.getByTestId('site-group').first().focus();
   await page.keyboard.press('ArrowRight');
   await expect(x).toHaveValue(String(before + 1));
-  await page.keyboard.press('Shift+ArrowLeft');
-  await expect(x).toHaveValue(String(before - 4));
+  await page.keyboard.press('Shift+ArrowRight');
+  await expect(x).toHaveValue(String(before + 6));
   // Both key moves were quick repeats of one move: one undo step takes them back, redo repeats them.
   await page.keyboard.press('Control+z');
   await expect(x).toHaveValue(String(before));
   await page.keyboard.press('Control+Shift+z');
-  await expect(x).toHaveValue(String(before - 4));
+  await expect(x).toHaveValue(String(before + 6));
   // The nudge pad moves the same way as the keys.
-  await panel.getByTestId('nudge-ArrowRight').click();
-  await expect(x).toHaveValue(String(before - 3));
+  await panel.getByTestId('nudge-ArrowLeft').click();
+  await expect(x).toHaveValue(String(before + 5));
+  // Past the west edge the template grows that way: the group stays inside, everything moves east.
+  const width = Number(await panel.getByTestId('site-width').inputValue());
+  for (let i = 0; i < 3; i++) await page.keyboard.press('Shift+ArrowLeft');
+  await expect(panel.getByTestId('site-width')).not.toHaveValue(String(width));
+  expect(Number(await x.inputValue())).toBeGreaterThanOrEqual(0);
+  // One undo step (these moves and the nudge just before them follow each other quickly).
+  await page.keyboard.press('Control+z');
+  await expect(panel.getByTestId('site-width')).toHaveValue(String(width));
+  await expect(x).toHaveValue(String(before + 6));
   await panel.getByTestId('site-group-rotate').click();
   await page.screenshot({ path: 'e2e/screenshots/site-panel.png' });
 

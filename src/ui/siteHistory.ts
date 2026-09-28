@@ -61,6 +61,7 @@ export const canRedo = {
 let current: SiteState | null = null;
 let applying = false;
 let pendingKey: string | null = null;
+let mergeNext = false;
 let stop: (() => void) | null = null;
 
 /** Start recording (after the stored template has loaded, so loading it is not a step). */
@@ -72,8 +73,12 @@ export function startSiteHistory(): () => void {
     const prev = current;
     current = next;
     const key = pendingKey;
+    const merge = mergeNext;
     pendingKey = null;
+    mergeNext = false;
     if (prev === null || prev === next || applying) return;
+    // A follow-up of the last step (the site growing to fit it) is undone together with it.
+    if (merge) return;
     history.update((h) => recorded(h, prev, key, Date.now()));
   });
   stop = () => {
@@ -81,6 +86,11 @@ export function startSiteHistory(): () => void {
     stop = null;
   };
   return stop;
+}
+
+/** The next change of the site is part of the last step (undo takes both back at once). */
+export function mergeIntoLast(): void {
+  mergeNext = true;
 }
 
 /** The next change of the site merges with the previous one if it has the same key and follows quickly. */

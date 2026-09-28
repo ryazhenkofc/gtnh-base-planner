@@ -41,7 +41,7 @@ import {
 
 export const SITE_VERSION = 1;
 export const SITE_MIN_SIZE = 8;
-export const SITE_MAX_SIZE = 128;
+export const SITE_MAX_SIZE = 256;
 export const DEFAULT_SITE_SIZE: [number, number] = [30, 30];
 export const MAX_CORRIDOR = 6;
 export const DEFAULT_CORRIDOR = 2;

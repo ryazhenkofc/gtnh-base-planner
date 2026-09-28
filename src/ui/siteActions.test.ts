@@ -6,6 +6,7 @@ import {
   withCorridor,
   withGroupAdded,
   withGroupDuplicated,
+  withGrownToFit,
   withGroupMoved,
   withGroupPatched,
   withGroupRemoved,
@@ -85,7 +86,7 @@ describe('site actions', () => {
     expect(s.groups[0].rotation).toBe(0);
     s = withGroupPatched(s, 'g1', { count: 5000, origin: [1e6, -1e6] });
     expect(s.groups[0].count).toBe(2000);
-    expect(s.groups[0].origin).toEqual([256, -128]);
+    expect(s.groups[0].origin).toEqual([512, -256]);
     s = withGroupPatched(s, 'g2', { multiblockId: 'distillation-tower' });
     s = withGroupPatched(s, 'g2', { size: 9 });
     expect(s.groups[1]).toMatchObject({ multiblockId: 'distillation-tower', size: 9 });
@@ -126,9 +127,36 @@ describe('site actions', () => {
     expect(s.groups[0].enabledHatches).toEqual(['maintenance']);
   });
 
+  it('grows the site to fit a group past an edge, never shrinking it', () => {
+    const s = two(); // 30 x 30
+    expect(withGrownToFit(s, [3, 3], [10, 10], 2)).toBe(s);
+    // Past the east edge: wider by what sticks out plus the margin.
+    const east = withGrownToFit(s, [26, 3], [33, 10], 2);
+    expect(east.size).toEqual([35, 30]);
+    expect(east.groups.map((g) => g.origin)).toEqual(s.groups.map((g) => g.origin));
+    // Past the north-west corner: the site grows that way and everything moves along.
+    const nw = withGrownToFit(s, [-4, -1], [3, 6], 2);
+    expect(nw.size).toEqual([36, 33]);
+    expect(nw.groups.map((g) => g.origin)).toEqual([
+      [9, 6],
+      [18, 6],
+    ]);
+    // At most SITE_MAX_SIZE.
+    expect(withGrownToFit(s, [250, 0], [300, 5], 2).size).toEqual([256, 30]);
+  });
+
+  it('keeps fixed ports on their edge when growing', () => {
+    let s = two();
+    s = withLinkAdded(s, { port: true }, { group: 'g1' }, { name: 'Iron Dust', kind: 'item' });
+    s = { ...s, ports: s.ports.map((p) => ({ ...p, pos: [0, 12] as [number, number] })) };
+    const g = withGrownToFit(s, [-3, -2], [2, 4], 1);
+    expect(g.ports[0].pos).toEqual([0, 15]);
+    expect(() => validateSiteState(g)).not.toThrow();
+  });
+
   it('clamps size and corridor, names and colours', () => {
     let s = withSiteSize(emptySite(), 2, 500);
-    expect(s.size).toEqual([8, 128]);
+    expect(s.size).toEqual([8, 256]);
     s = withCorridor(s, 99);
     expect(s.corridor).toBe(6);
     s = withName(s, '  Steel  ');

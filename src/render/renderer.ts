@@ -546,12 +546,23 @@ export function createRenderer(
     return out.length > 0 ? out : fitPoints([[0, 0, 0]]);
   }
 
+  /** Field of view and aspect of the part of the canvas an open drawer or sheet leaves free. */
+  function visibleView(): { fov: number; aspect: number } {
+    if (width === 0 || height === 0) return { fov: camera.fov, aspect: camera.aspect };
+    const w = Math.max(1, width - inset.right);
+    const h = Math.max(1, height - inset.bottom);
+    const half = THREE.MathUtils.degToRad(camera.fov) / 2;
+    const fov = THREE.MathUtils.radToDeg(2 * Math.atan(Math.tan(half) * (h / height)));
+    return { fov, aspect: w / h };
+  }
+
   /** Aim the camera at the whole scene. `keepAngles` keeps the user's rotation. */
   function fit(keepAngles: boolean): void {
     const r = Math.max(1, new THREE.Box3().setFromPoints(points).getSize(new THREE.Vector3()).length() / 2);
     const theta = keepAngles ? controls.theta : DEFAULT_THETA;
     const phi = keepAngles ? controls.phi : DEFAULT_PHI;
-    const { target, distance: dist } = fitView(points, theta, phi, camera.fov, camera.aspect);
+    const view = visibleView();
+    const { target, distance: dist } = fitView(points, theta, phi, view.fov, view.aspect);
     // Zoom range is 0.05x .. 8x the fitted distance (see OrbitControls.setHome).
     camera.near = Math.max(0.05, Math.min(r * 0.01, dist * 0.02));
     camera.far = dist * 10 + r * 4;
@@ -1147,14 +1158,8 @@ export function createRenderer(
         [min[0], min[1], min[2]],
         [max[0] - 1, max[1] - 1, max[2] - 1],
       ]);
-      const { target, distance } = fitView(
-        pts,
-        controls.theta,
-        controls.phi,
-        camera.fov,
-        camera.aspect,
-        0.35,
-      );
+      const view = visibleView();
+      const { target, distance } = fitView(pts, controls.theta, controls.phi, view.fov, view.aspect, 0.35);
       autoFit = false;
       controls.target.copy(target);
       controls.radius = distance;

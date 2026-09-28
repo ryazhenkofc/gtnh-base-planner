@@ -269,6 +269,45 @@ export function withSiteSize(s: SiteState, w: number, d: number): SiteState {
   return { ...s, size, ports };
 }
 
+/**
+ * The site grown (never shrunk) so the ground box `min`..`max` (x, z; max exclusive) fits with `margin`
+ * free blocks around it, up to SITE_MAX_SIZE. Past the west or north edge the site grows that way: every
+ * group moves east / south by the growth, and fixed ports stay on their edge.
+ */
+export function withGrownToFit(
+  s: SiteState,
+  min: [number, number],
+  max: [number, number],
+  margin: number,
+): SiteState {
+  const [w, d] = s.size;
+  // Only a box that actually leaves the site makes it grow.
+  if (min[0] >= 0 && min[1] >= 0 && max[0] <= w && max[1] <= d) return s;
+  const shift = [0, 1].map((i) => (min[i] < 0 ? Math.min(SITE_MAX_SIZE - s.size[i], margin - min[i]) : 0));
+  const size = [0, 1].map((i) =>
+    Math.min(
+      SITE_MAX_SIZE,
+      Math.max(SITE_MIN_SIZE, s.size[i] + shift[i], max[i] > s.size[i] ? max[i] + shift[i] + margin : 0),
+    ),
+  ) as [number, number];
+  if (shift[0] === 0 && shift[1] === 0 && size[0] === w && size[1] === d) return s;
+  const groups =
+    shift[0] || shift[1]
+      ? s.groups.map((g) => ({
+          ...g,
+          origin: [g.origin[0] + shift[0], g.origin[1] + shift[1]] as [number, number],
+        }))
+      : s.groups;
+  const ports = s.ports.map((p) => {
+    if (!p.pos) return p;
+    // Keep a fixed port on its edge: west / north stay at 0, east / south follow the new edge.
+    const along = (i: 0 | 1, v: number) =>
+      v === 0 ? 0 : v === s.size[i] - 1 ? size[i] - 1 : Math.min(size[i] - 1, v + shift[i]);
+    return { ...p, pos: [along(0, p.pos[0]), along(1, p.pos[1])] as [number, number] };
+  });
+  return { ...s, size, groups, ports };
+}
+
 export function withCorridor(s: SiteState, n: number): SiteState {
   const corridor = clampInt(n, 0, MAX_CORRIDOR);
   return corridor === s.corridor ? s : { ...s, corridor };

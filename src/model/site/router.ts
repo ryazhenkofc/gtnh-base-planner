@@ -67,10 +67,11 @@ export interface RouterInput {
 }
 
 /**
- * Above this many cells nothing is routed (every net reports unconnected). A 128 × 128 site with 24 layers
- * of room is about 400k cells; the search keeps 7 states per cell (~12 bytes each).
+ * Above this many cells nothing is routed (every net reports unconnected). The largest site, 256 × 256,
+ * with 18 layers of room is about 1.2M cells; the search keeps 7 states per cell (~12 bytes each), so
+ * about 100 MB at the limit.
  */
-export const MAX_ROUTER_CELLS = 600_000;
+export const MAX_ROUTER_CELLS = 1_200_000;
 
 const FREE = 0;
 const SOLID = 1;

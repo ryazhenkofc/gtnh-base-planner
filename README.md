@@ -20,7 +20,7 @@ It is a layout tool, not a recipe or production-chain calculator. Structures fol
   depth measured beside it.
 - **Stats line**: units, unique blocks, shared walls, hatches and how many blocks sharing saves.
 - **Save and share**: autosave in the browser, JSON download/upload, and share links.
-- **Templates** (the TEMPLATE view): several groups of multiblocks on a bounded ground area (30 × 30 by default), joined by
+- **Templates** (the TEMPLATE view): several groups of multiblocks on a bounded ground area (30 × 30 by default, up to 256 × 256), joined by
   links that each carry one item, fluid or EU. Every group gets one hatch per resource it takes or gives, pipes are
   routed between groups and to input/output ports on the template edges, and animated arrows show which way each
   pipe flows. Groups can be arranged automatically along the flow, moved and turned by hand. Large templates are
@@ -49,7 +49,9 @@ The planner checks layout rules for the transcribed structure only. It is not a 
    and drag it in the view, or move it with the arrow keys as seen on screen (Shift: 5 blocks) or the arrows in
    the panel; R turns it (Shift+R back), F frames it and Delete removes it. The panel edits the selected group:
    its label and machine, count, limits and extra hatches, and X and Z to place it exactly. Ctrl+Z undoes any
-   change to the template (Ctrl+Shift+Z or Ctrl+Y redoes it).
+   change to the template (Ctrl+Shift+Z or Ctrl+Y redoes it). Moving a group past an edge grows the template
+   that way (and ARRANGE grows it when the chain does not fit). While you move or turn groups the pipes wait,
+   shown faded, and are routed again a moment after you stop.
 4. Click a pipe or a legend entry to highlight one resource; the other nets fade. The bottom line shows the
    selected group or net, and PROBLEMS lists overlaps, groups outside the template, hatches that did not fit and
    pipes that could not be routed.

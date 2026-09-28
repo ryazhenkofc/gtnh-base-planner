@@ -21,7 +21,14 @@
   import NudgePad from './NudgePad.svelte';
   import NumberStepper from './NumberStepper.svelte';
   import { updateSite, withGroupPatched, type GroupPatch } from './siteActions';
-  import { duplicateSelected, frameSelected, removeSelected, rotateSelected } from './siteEditing';
+  import {
+    duplicateSelected,
+    frameSelected,
+    growAfterBuild,
+    removeSelected,
+    rotateSelected,
+    setSelectedOrigin,
+  } from './siteEditing';
   import ToggleRow from './ToggleRow.svelte';
 
   /** The editor of the selected template group: Machine, Packing and Placement. */
@@ -54,16 +61,15 @@
     replacing = false;
   });
 
+  /** Changes that can make the group bigger grow the site once the group is rebuilt. */
   function patch(p: GroupPatch) {
     const id = group.id;
+    growAfterBuild(id);
     updateSite((s) => withGroupPatched(s, id, p));
   }
   function commitOrigin(axis: 0 | 1, text: string) {
     const n = Number(text.trim());
-    if (text.trim() === '' || !Number.isFinite(n)) return;
-    const o: [number, number] = [...group.origin];
-    o[axis] = n;
-    patch({ origin: o });
+    if (text.trim() !== '' && Number.isFinite(n)) setSelectedOrigin(axis, n);
   }
   function commitLimit(axis: 'x' | 'y' | 'z', text: string) {
     const v = parseLimit(text);
