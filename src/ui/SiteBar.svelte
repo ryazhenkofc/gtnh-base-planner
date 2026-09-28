@@ -2,6 +2,7 @@
   import { t } from '../i18n/en';
   import { flowAnimation, site } from '../state/site';
   import ModeSwitch from './ModeSwitch.svelte';
+  import { arrange } from './siteCommands';
 
   interface Props {
     panelOpen: boolean;
@@ -17,7 +18,12 @@
     <span class="tier">{$site.size[0]} × {$site.size[1]}</span>
   </div>
 
-  <div class="group center">
+  <!-- Template-wide actions, in their own column so they never run into the mode switch. -->
+  <div class="group actions">
+    <button class="link" data-testid="site-arrange" disabled={!$site.groups.length} onclick={arrange}
+      >{t.site.arrange}</button
+    >
+    <span class="sep" aria-hidden="true">{t.separator}</span>
     <button class="link" data-testid="site-import" onclick={onimport}>{t.site.importOpen}</button>
   </div>
 
@@ -55,8 +61,9 @@
     height: var(--bar-h);
     padding: 0 var(--gutter);
     display: grid;
-    grid-template-columns: 1fr auto auto;
-    grid-template-areas: 'name modes settings';
+    grid-template-columns: auto 1fr auto auto;
+    grid-template-areas: 'name actions modes settings';
+    column-gap: 24px;
     align-items: center;
     z-index: 30;
     pointer-events: none;
@@ -83,11 +90,11 @@
   .tier {
     white-space: nowrap;
   }
-  .center {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+  .actions {
+    grid-area: actions;
+    justify-self: center;
+    min-width: 0;
+    white-space: nowrap;
   }
   .modes {
     grid-area: modes;
@@ -102,8 +109,9 @@
   .dot {
     margin: 0 10px;
   }
+  /* Too narrow for both: the actions stay in the Template panel instead. */
   @media (max-width: 900px) {
-    .center {
+    .actions {
       display: none;
     }
     .name {

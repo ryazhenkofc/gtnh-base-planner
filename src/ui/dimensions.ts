@@ -3,7 +3,7 @@ import type { SceneModel } from '../model/types';
 
 /**
  * The scene with its footprint from `min` to `max` (x, z, in blocks) measured on the ground plane `y`:
- * "X n" along X and "Z n" along Z, named like the axis gizmo and the limits. An empty footprint is left
+ * "WIDTH (X) n" along X and "DEPTH (Z) n" along Z, named like the size fields. An empty footprint is left
  * unmeasured.
  */
 export function withDimensions(
@@ -15,7 +15,10 @@ export function withDimensions(
   const w = max[0] - min[0];
   const d = max[1] - min[1];
   if (w <= 0 || d <= 0) return scene;
-  const labels: [string, string] = [t.dimension('X', w), t.dimension('Z', d)];
+  const labels: [string, string] = [
+    t.dimension(t.site.width.toUpperCase(), w),
+    t.dimension(t.site.depth.toUpperCase(), d),
+  ];
   return { ...scene, dimensions: { min, max, y, labels } };
 }
 
