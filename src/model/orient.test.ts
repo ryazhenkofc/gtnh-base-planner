@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import { getMultiblock } from '../data/catalog';
 import { controllerFacing, rotateDir, unitCells } from './geometry';
-import { packUnits } from './layout';
+import { packUnits } from './layout/packer';
 import { alongX } from './orient';
-import { placeHatches } from './ports';
-import type { MultiblockDef, Unit } from './types';
+import { placeHatches } from './hatches/placement';
+import type { MultiblockDef, Unit } from './multiblock/types';
 
 const NO_LIMITS = { x: null, y: null, z: null };
 

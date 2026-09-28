@@ -9,6 +9,7 @@
     "atlas": "node scripts/build-atlas.mjs",
     "build": "npm run atlas && vite build",
     "preview": "vite preview",
+    "size": "node scripts/check-size.mjs",
     "check": "svelte-check --tsconfig ./tsconfig.json --fail-on-warnings",
     "test": "vitest run",
     "test:unit": "vitest run",

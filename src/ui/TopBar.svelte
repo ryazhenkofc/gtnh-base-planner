@@ -1,6 +1,6 @@
 <script lang="ts">
   import { t } from '../i18n/en';
-  import type { MultiblockDef } from '../model/types';
+  import type { MultiblockDef } from '../model/multiblock/types';
   import { plan } from '../state/store';
   import { setCount } from './actions';
   import { COUNT_MAX, COUNT_MIN, parseCount } from './fields';
@@ -35,6 +35,9 @@
       {def?.name ?? $plan.multiblockId}
     </button>
     {#if def?.tier}<span class="tier">{def.tier}</span>{/if}
+    {#if def?.generated}<span class="unverified" title={t.generatedHint} data-testid="unverified"
+        >{t.generatedTag}</span
+      >{/if}
   </div>
 
   <div class="group count" role="group" aria-label={t.countLabel}>
@@ -113,6 +116,11 @@
   }
   .tier {
     white-space: nowrap;
+  }
+  .unverified {
+    white-space: nowrap;
+    color: var(--pick);
+    cursor: help;
   }
   /* Centred on the page, independent of the side groups' widths. */
   .count {

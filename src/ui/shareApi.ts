@@ -1,4 +1,4 @@
-import type { PlanState } from '../model/types';
+import type { PlanState } from '../model/plan/types';
 import * as codec from '../share/codec';
 import * as persist from '../share/persist';
 

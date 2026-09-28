@@ -1,4 +1,4 @@
-import type { Rotation } from '../types';
+import type { Rotation } from '../core/types';
 import type { SiteGroup, SiteState } from './types';
 
 /**

@@ -1,13 +1,16 @@
 import { describe, expect, it, vi } from 'vitest';
 import { getMultiblock } from '../data/catalog';
-import type { RouteNet, SceneModel, Unit, WallStats } from '../model/types';
+import type { Unit } from '../model/multiblock/types';
+import type { WallStats } from '../model/plan/types';
+import type { SceneModel } from '../model/render/types';
+import type { RouteNet } from '../model/routing/routeNet';
 import { defaultPlan } from '../state/store';
 import { catalog } from '../data/catalog';
 import { dominantBlockId, hatchKindsOf, iconFaces, matchesQuery, shade } from './catalogView';
 import { createPipeline, type PipelineDeps } from './pipeline';
 import { statsParts } from './statsText';
 
-vi.spyOn(console, 'warn').mockImplementation(() => {});
+const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
 
 const stats: WallStats = {
   totalBlocks: 40,
@@ -86,6 +89,36 @@ describe('pipeline', () => {
     expect(r2.pack?.reason).toBe('limits');
   });
 
+  it('recomputes each stage exactly when one of its inputs changes', () => {
+    const deps = fakeDeps();
+    const run = createPipeline(deps);
+    const p = defaultPlan();
+    const calls = () => [
+      deps.packUnits.mock.calls.length,
+      deps.placeHatches.mock.calls.length,
+      deps.routePipes.mock.calls.length,
+      deps.buildSceneModel.mock.calls.length,
+    ];
+    run(p, false);
+    let before = calls();
+    const step = (next: Parameters<typeof run>, changed: [boolean, boolean, boolean, boolean]) => {
+      run(...next);
+      const now = calls();
+      expect(now.map((n, i) => n > before[i])).toEqual(changed);
+      before = now;
+    };
+    // [pack, hatches, pipes, scene]
+    step([{ ...p, colors: { itemIn: '#000000' } }, false], [false, false, false, true]);
+    step([{ ...p, limits: { ...p.limits, x: 3 } }, false], [true, true, false, true]);
+    step([{ ...p, limits: { ...p.limits, x: 3 }, enabledHatches: [] }, false], [false, true, false, true]);
+    step([{ ...p, limits: { ...p.limits, x: 3 }, enabledHatches: [] }, true], [false, true, true, true]);
+    step([{ ...p, limits: { ...p.limits, x: 3 }, enabledHatches: [] }, false], [false, true, false, true]);
+    step(
+      [{ ...p, limits: { ...p.limits, x: 3 }, enabledHatches: [] }, false, false, true],
+      [false, true, false, true],
+    );
+  });
+
   it('loosens the layout when pipes cannot reach every hatch, and routes it once', () => {
     const deps = fakeDeps();
     const wide: Unit[] = [{ id: 0, origin: [0, 0, 0], rotation: 0 }];
@@ -139,6 +172,8 @@ describe('pipeline', () => {
     expect(r.scene).not.toBeNull();
     expect(r.pipes).toBeNull();
     expect(r.error).toBe('boom');
+    // The routed-layout fallback reports the error instead of hiding it.
+    expect(warn).toHaveBeenCalledWith('resolveRoutedLayout: boom');
   });
 
   it('reports an unknown multiblock', () => {

@@ -9,7 +9,8 @@ import {
   type SitePort,
   type SiteState,
 } from '../model/site/types';
-import type { HatchKind, PlanLimits, Rotation } from '../model/types';
+import type { Rotation } from '../model/core/types';
+import type { HatchKind, PlanLimits } from '../model/multiblock/types';
 import {
   MAX_PAYLOAD_BYTES,
   PlanFormatError,
@@ -36,7 +37,8 @@ import {
 /**
  * Site file format (localStorage, JSON files and `#s=` links). `validateSiteState` is the only way in:
  * strict, readable errors, returns a fresh normalised copy. Links carry the validated JSON deflated (the
- * site is small: no recipes, no icons), under the same 64 KB cap as plan links.
+ * site is small: no recipes; resources keep only a checked gtnhplanner.com icon path), under the same
+ * 64 KB cap as plan links.
  */
 
 export const SITE_VERSION = 1;
@@ -53,6 +55,8 @@ const MAX_NAME = 120;
 const MAX_KEY = 160;
 const MAX_SITE_ID = 32;
 const MAX_RATE = 1e12;
+/** Names with special meaning on plain objects; never resource keys. */
+const RESERVED_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
 
 function expectString(value: unknown, what: string, max: number): string {
   if (typeof value !== 'string' || value.length === 0 || value.length > max) {
@@ -237,8 +241,11 @@ export function validateSiteState(input: unknown): SiteState {
   const resources: Record<string, ResourceDef> = {};
   for (const k of keys.sort()) {
     expectString(k, 'Resource key', MAX_KEY);
+    if (RESERVED_KEYS.has(k)) throw new PlanFormatError(`Resource key "${k}" is not allowed.`);
     resources[k] = validateResource(field(resourcesObj, k), k);
   }
+  // Own keys only: an inherited name such as "toString" is not a resource.
+  const hasResource = (k: string) => Object.hasOwn(resources, k);
 
   const groups = expectArray(field(obj, 'groups'), 'Groups', MAX_GROUPS).map(validateGroup);
   const ports = expectArray(field(obj, 'ports'), 'Ports', MAX_PORTS).map(validatePort);
@@ -248,11 +255,11 @@ export function validateSiteState(input: unknown): SiteState {
   unique(links, 'Link');
   const portById = new Map(ports.map((p) => [p.id, p]));
   for (const p of ports) {
-    if (!resources[p.resource]) throw new PlanFormatError(`Port "${p.id}" uses an unknown resource.`);
+    if (!hasResource(p.resource)) throw new PlanFormatError(`Port "${p.id}" uses an unknown resource.`);
   }
   links.forEach((l, i) => {
     const what = `Link ${i + 1}`;
-    if (!resources[l.resource]) throw new PlanFormatError(`${what} uses an unknown resource.`);
+    if (!hasResource(l.resource)) throw new PlanFormatError(`${what} uses an unknown resource.`);
     for (const [end, dir] of [
       [l.from, 'in'],
       [l.to, 'out'],

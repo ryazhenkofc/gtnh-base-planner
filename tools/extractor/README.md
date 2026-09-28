@@ -10,7 +10,7 @@ It has two stages:
    `IConstructable` controller with the same `construct(...)` code the in-game hologram projector
    runs, scans the placed blocks, and writes one JSON file per controller.
 2. **Convert** (Node, this directory): `convert.mjs` turns those files into our `MultiblockDef`
-   JSON (`src/model/types.ts`) in a review directory. A human then promotes the good ones into
+   JSON (`src/model/multiblock/types.ts`) in a review directory. A human then promotes the good ones into
    `src/data/multiblocks/`.
 
 Nothing generated is committed here: the full dump needs the GTNH mod jars, which are not in this

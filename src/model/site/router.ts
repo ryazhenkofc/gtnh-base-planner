@@ -1,5 +1,5 @@
-import { DIRS, dirVec } from '../geometry';
-import type { Dir, Vec3 } from '../types';
+import { DIRS, dirBetween, dirVec } from '../geometry';
+import type { Dir, Vec3 } from '../core/types';
 
 /**
  * Net router for sites. Unlike `routing.ts` (one network per hatch kind inside one build), every net here
@@ -466,12 +466,6 @@ function score(states: NetState[]): [number, number] {
     len += st.cells.length;
   }
   return [conn, len];
-}
-
-function dirBetween(a: Vec3, b: Vec3): Dir {
-  if (b[0] !== a[0]) return b[0] > a[0] ? 'east' : 'west';
-  if (b[1] !== a[1]) return b[1] > a[1] ? 'up' : 'down';
-  return b[2] > a[2] ? 'south' : 'north';
 }
 
 /**

@@ -1,21 +1,11 @@
 import { isSingleBlock } from '../../data/generic';
 import { rotateDir, rotatedSize, step, unitCells } from '../geometry';
-import { layoutCandidates, packUnits } from '../layout';
+import { layoutCandidates, packUnits } from '../layout/packer';
 import { resolveLayout } from '../plan';
-import { placeHatches } from '../ports';
-import type {
-  Dir,
-  HatchKind,
-  HatchPlacement,
-  HatchResult,
-  MultiblockDef,
-  PackResult,
-  PlanLimits,
-  Rotation,
-  Unit,
-  Vec3,
-  WallStats,
-} from '../types';
+import { placeHatches } from '../hatches/placement';
+import type { Dir, Rotation, Vec3 } from '../core/types';
+import type { HatchKind, MultiblockDef, PlanLimits, Unit } from '../multiblock/types';
+import type { HatchPlacement, HatchResult, PackResult, WallStats } from '../plan/types';
 import { computeWallStats } from '../walls';
 
 /** Hatch kinds that carry a link's resource into or out of a group. */

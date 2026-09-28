@@ -1,6 +1,7 @@
 import { writable } from 'svelte/store';
 import { DEFAULT_MULTIBLOCK_ID, getMultiblock } from '../data/catalog';
-import type { PlanState, ViewMode } from '../model/types';
+import type { ViewMode } from '../model/core/types';
+import type { PlanState } from '../model/plan/types';
 
 export function defaultPlan(multiblockId = DEFAULT_MULTIBLOCK_ID): PlanState {
   const def = getMultiblock(multiblockId);

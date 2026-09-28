@@ -15,7 +15,7 @@ import {
   siteHashUrl,
 } from '../share/sitePersist';
 import { appMode, site } from '../state/site';
-import { notify, warnOnce } from './notices';
+import { LONG_LINK_CHARS, linkCopiedNotice, notify, warnOnce } from './notices';
 import { replaceSite } from './siteActions';
 
 /** A shared site from the URL waiting for the user's OPEN / KEEP MINE answer. */
@@ -114,7 +114,7 @@ export async function copySiteLink(): Promise<void> {
   try {
     if (!navigator.clipboard) throw new Error('clipboard unavailable');
     await navigator.clipboard.writeText(url);
-    notify(t.linkCopied);
+    notify(linkCopiedNotice(url), url.length > LONG_LINK_CHARS ? 8000 : undefined);
   } catch (err) {
     warnOnce('clipboard', err);
     siteShareFallback.set(url);

@@ -6,7 +6,8 @@ import {
   type ImportReport,
   type MachineChoice,
 } from '../import/gtnhplanner';
-import { createSiteBuilder, type SiteBuild, type SiteBuildOptions } from '../model/site/build';
+import { createSiteBuilder } from '../model/site/build';
+import type { SiteBuild, SiteBuildOptions } from '../model/site/buildTypes';
 import type { SiteState } from '../model/site/types';
 
 /**

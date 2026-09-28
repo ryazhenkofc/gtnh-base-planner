@@ -1,10 +1,10 @@
 <script lang="ts">
   import { PLACEHOLDER_ID, SINGLE_BLOCK_ID, getSiteDef } from '../data/generic';
   import { t } from '../i18n/en';
-  import type { PlacedGroup } from '../model/site/build';
+  import type { PlacedGroup } from '../model/site/buildTypes';
   import { IO_KINDS } from '../model/site/group';
   import type { SiteGroup } from '../model/site/types';
-  import type { HatchKind } from '../model/types';
+  import type { HatchKind } from '../model/multiblock/types';
   import { SITE_MAX_SIZE } from '../share/siteCodec';
   import { siteGroup } from '../state/site';
   import { hatchKindsOf } from './catalogView';
@@ -20,7 +20,7 @@
   } from './fields';
   import NudgePad from './NudgePad.svelte';
   import NumberStepper from './NumberStepper.svelte';
-  import { updateSite, withGroupPatched, type GroupPatch } from './siteActions';
+  import { groupLimitAxis, updateSite, withGroupPatched, type GroupPatch } from './siteActions';
   import {
     duplicateSelected,
     frameSelected,
@@ -71,9 +71,10 @@
     const n = Number(text.trim());
     if (text.trim() !== '' && Number.isFinite(n)) setSelectedOrigin(axis, n);
   }
+  /** `axis` is a site axis (the field's label); the group stores its limits unturned. */
   function commitLimit(axis: 'x' | 'y' | 'z', text: string) {
     const v = parseLimit(text);
-    if (v !== undefined) patch({ limits: { ...group.limits, [axis]: v } });
+    if (v !== undefined) patch({ limits: { ...group.limits, [groupLimitAxis(axis, group.rotation)]: v } });
   }
   function toggleHatch(kind: HatchKind) {
     const on = group.enabledHatches.includes(kind);
@@ -100,6 +101,10 @@
       undefined
         ? ` · ${t.site.needed(group.source.machineCount)}`
         : ''}
+    </p>{/if}
+
+  {#if def?.generated}<p class="hint unverified" data-testid="unverified">
+      {t.generatedTag}: {t.generatedHint}
     </p>{/if}
 
   <div class="sub">
@@ -176,7 +181,7 @@
       {#each [['x', t.site.maxX], ['y', t.limitY], ['z', t.site.maxZ]] as const as [axis, label] (axis)}
         <label class="col"
           ><span>{label}</span><NumberStepper
-            value={formatLimit(group.limits[axis])}
+            value={formatLimit(group.limits[groupLimitAxis(axis, group.rotation)])}
             {label}
             min={LIMIT_MIN}
             max={LIMIT_MAX}
@@ -255,6 +260,9 @@
 </div>
 
 <style>
+  .unverified {
+    color: var(--pick);
+  }
   .inspector {
     padding: 4px 0 20px;
     border-bottom: 1px solid var(--line);

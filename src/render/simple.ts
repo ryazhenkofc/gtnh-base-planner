@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { blockInfo } from '../data/blocks';
-import type { HatchKind } from '../model/types';
+import type { HatchKind } from '../model/multiblock/types';
 import { BOX_FACE_ORDER, type BlockVisual, type MaterialProvider } from './materials';
 
 const TEX = 16;

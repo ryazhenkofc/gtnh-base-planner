@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { catalog, getMultiblock } from '../data/catalog';
-import { layoutCandidates, loosenings, packUnits } from './layout';
+import { layoutCandidates, packUnits } from './layout/packer';
+import { loosenings } from './layout/variants';
 import {
   hatchMoves,
   improveHatches,
@@ -13,9 +14,12 @@ import {
   type LayoutDeps,
   type RoutedLayoutDeps,
 } from './plan';
-import { placeHatches } from './ports';
-import { ROUTED_KINDS, routePipes } from './routing';
-import type { HatchResult, PlanLimits, RouteNet, Unit } from './types';
+import { placeHatches } from './hatches/placement';
+import { ROUTED_KINDS } from './routing/kinds';
+import { routePipes } from './routing/router';
+import type { PlanLimits, Unit } from './multiblock/types';
+import type { HatchResult } from './plan/types';
+import type { RouteNet } from './routing/routeNet';
 
 /** Hand-made entries; generated ones (tools/gt-source) have lighter checks in generated.test.ts. */
 const handMade = catalog.filter((d) => !d.generated);

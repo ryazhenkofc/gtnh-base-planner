@@ -3,7 +3,7 @@ import { getMultiblock } from '../data/catalog';
 import { validateMultiblockDef } from '../data/validate';
 import { localCells } from './geometry';
 import { effectiveSize, resizeSteps, sizedDef } from './resize';
-import type { MultiblockDef } from './types';
+import type { MultiblockDef } from './multiblock/types';
 
 const dt = getMultiblock('distillation-tower')!;
 

@@ -1,10 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import { getMultiblock } from '../data/catalog';
 import { key, rotateDir, step, unitCells } from './geometry';
-import { layoutCandidates, packUnits } from './layout';
-import { placeHatches } from './ports';
+import { layoutCandidates, packUnits } from './layout/packer';
+import { placeHatches } from './hatches/placement';
 import { catalog } from '../data/catalog';
-import type { Dir, HatchKind, HatchResult, MultiblockDef, Rotation, Unit, Vec3 } from './types';
+import type { Dir, Rotation, Vec3 } from './core/types';
+import type { HatchKind, MultiblockDef, Unit } from './multiblock/types';
+import type { HatchResult } from './plan/types';
 
 /** Hand-made entries; generated ones (tools/gt-source) have lighter checks in generated.test.ts. */
 const handMade = catalog.filter((d) => !d.generated);
@@ -235,6 +237,11 @@ describe('placeHatches', () => {
     };
     const r = placeHatches(bad, [unit(0, [0, 0, 0])], ['itemIn']);
     expect(r).toEqual({ hatches: [], unplaced: [{ unitId: 0, kind: 'itemIn' }] });
+  });
+
+  it('lets errors other than a malformed definition through', () => {
+    const broken = { ...coke, id: 'broken', legend: null } as unknown as MultiblockDef;
+    expect(() => placeHatches(broken, [unit(0, [0, 0, 0])], ['itemIn'])).toThrow(TypeError);
   });
 
   it('is pure and independent of input order', () => {

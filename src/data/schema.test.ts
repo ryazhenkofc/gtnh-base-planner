@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import type { MultiblockDef } from '../model/types';
+import type { MultiblockDef } from '../model/multiblock/types';
 import { localCells } from '../model/geometry';
 import { resizeSteps, sizedDef } from '../model/resize';
 import { catalog, getMultiblock } from './catalog';

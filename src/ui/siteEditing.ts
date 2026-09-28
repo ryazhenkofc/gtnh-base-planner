@@ -2,7 +2,7 @@ import { get, writable } from 'svelte/store';
 import { getSiteDef } from '../data/generic';
 import { t } from '../i18n/en';
 import type { SiteState } from '../model/site/types';
-import type { Vec3 } from '../model/types';
+import type { Vec3 } from '../model/core/types';
 import { site, siteGroup } from '../state/site';
 import { type ArrowKey, screenStep } from './keys';
 import { notify } from './notices';

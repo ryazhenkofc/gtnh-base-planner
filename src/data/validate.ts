@@ -1,4 +1,5 @@
-import type { Dir, HatchKind, HorizontalDir, MultiblockDef } from '../model/types';
+import type { Dir, HorizontalDir } from '../model/core/types';
+import type { HatchKind, MultiblockDef } from '../model/multiblock/types';
 import { BLOCKS } from './blocks';
 
 export const HATCH_KINDS: readonly HatchKind[] = [

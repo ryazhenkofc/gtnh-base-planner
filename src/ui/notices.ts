@@ -1,4 +1,5 @@
 import { writable } from 'svelte/store';
+import { t } from '../i18n/en';
 
 /** Short, quiet messages shown above the stats line. */
 export interface Notice {
@@ -45,6 +46,14 @@ export function clearSlot(slot: string): void {
 const warned = new Set<string>();
 
 /** `console.warn` once per distinct message (stubbed modules would otherwise spam the console). */
+/** Past this many characters a share link may be cut by chat apps, mail clients or QR codes. */
+export const LONG_LINK_CHARS = 2000;
+
+/** The notice after a share link was copied: a hint to send the file instead when the link is long. */
+export function linkCopiedNotice(url: string): string {
+  return url.length > LONG_LINK_CHARS ? t.linkCopiedLong : t.linkCopied;
+}
+
 export function warnOnce(context: string, err: unknown): void {
   const msg = `${context}: ${err instanceof Error ? err.message : String(err)}`;
   if (warned.has(msg)) return;

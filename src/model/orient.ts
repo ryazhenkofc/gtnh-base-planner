@@ -1,5 +1,8 @@
 import { rotateDir, rotatedSize, unitBounds, unitCells } from './geometry';
-import type { HatchResult, MultiblockDef, Rotation, RouteNet, Unit, Vec3 } from './types';
+import type { Rotation, Vec3 } from './core/types';
+import type { MultiblockDef, Unit } from './multiblock/types';
+import type { HatchResult } from './plan/types';
+import type { RouteNet } from './routing/routeNet';
 
 /** A resolved layout: units, their hatches and (when routed with the layout) its networks. */
 export interface PlacedLayout {

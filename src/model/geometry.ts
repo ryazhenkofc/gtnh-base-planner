@@ -1,6 +1,22 @@
-import type { Dir, HorizontalDir, MultiblockDef, Rotation, Unit, UnitCell, Vec3 } from './types';
+import type { Dir, HorizontalDir, Rotation, Vec3 } from './core/types';
+import type { MultiblockDef, Unit, UnitCell } from './multiblock/types';
 
-/** Shared geometry helpers. Implemented in the foundation; all model units must use these. */
+/**
+ * Shared geometry helpers. Implemented in the foundation; all model units must use these.
+ * tools/extractor runs this file under plain Node (type stripping), so it imports types only.
+ */
+
+/**
+ * A multiblock definition that cannot be read (e.g. a structure character missing from its legend). The
+ * one failure the model expects and turns into a result ("nothing placed"); any other error is a bug and
+ * is left to surface.
+ */
+export class DefinitionError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'DefinitionError';
+  }
+}
 
 export const DIRS: readonly Dir[] = ['north', 'south', 'east', 'west', 'up', 'down'];
 
@@ -44,6 +60,13 @@ export function add(a: Vec3, b: Vec3): Vec3 {
 export function step(p: Vec3, d: Dir, n = 1): Vec3 {
   const v = VEC[d];
   return [p[0] + v[0] * n, p[1] + v[1] * n, p[2] + v[2] * n];
+}
+
+/** Direction of the step from a cell to a neighbouring one. */
+export function dirBetween(from: Vec3, to: Vec3): Dir {
+  if (to[0] !== from[0]) return to[0] > from[0] ? 'east' : 'west';
+  if (to[1] !== from[1]) return to[1] > from[1] ? 'up' : 'down';
+  return to[2] > from[2] ? 'south' : 'north';
 }
 
 /** Stable string key for a cell, e.g. "1,0,-2". */
@@ -129,7 +152,7 @@ export function localCells(def: MultiblockDef): LocalCell[] {
         else if (char === '-') out.push({ local, char, role: 'air' });
         else {
           const entry = def.legend[char];
-          if (!entry) throw new Error(`${def.id}: unknown legend char "${char}" at ${key(local)}`);
+          if (!entry) throw new DefinitionError(`${def.id}: unknown legend char "${char}" at ${key(local)}`);
           out.push({ local, char, role: 'casing', blockId: entry.blockId, hatches: entry.hatches });
         }
       }

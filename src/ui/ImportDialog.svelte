@@ -177,6 +177,9 @@
 
     {#if project}
       <h2>{project.name}</h2>
+      {#if project.newerSchema}<p class="hint" data-testid="import-newer">
+          {t.importer.newerSchema(project.schemaVersion ?? 0)}
+        </p>{/if}
       {#if project.skipped}<p class="hint">{t.importer.skippedEntries(project.skipped)}</p>{/if}
       <table class="rows" data-testid="import-rows">
         <thead>

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { SiteState } from '../model/site/types';
+import { deflateRaw, PlanFormatError, toBase64Url } from './binary';
 import {
   decodeSite,
   emptySite,
@@ -77,6 +78,23 @@ describe('validateSiteState', () => {
     expect(() => validateSiteState({ ...sample(), size: [4, 30] })).toThrow(/Site size/);
   });
 
+  it('rejects object-prototype names as resource keys and references', () => {
+    const dust = { kind: 'item', name: 'Dust', color: '#aabbcc' };
+    for (const key of ['__proto__', 'constructor', 'prototype']) {
+      // JSON.parse makes "__proto__" an own key, as a decoded link or file would.
+      const bad = { ...sample(), resources: JSON.parse(`{${JSON.stringify(key)}: ${JSON.stringify(dust)}}`) };
+      expect(() => validateSiteState(bad), key).toThrow(/not allowed/);
+    }
+    for (const name of ['constructor', 'toString', 'hasOwnProperty']) {
+      const port = sample();
+      port.ports[0].resource = name;
+      expect(() => validateSiteState(port), name).toThrow(/unknown resource/);
+      const link = sample();
+      link.links[1].resource = name;
+      expect(() => validateSiteState(link), name).toThrow(/unknown resource/);
+    }
+  });
+
   it('accepts only gtnhplanner.com /datasets/ icon paths', () => {
     const ok = sample();
     ok.resources['item:dust'].icon =
@@ -102,6 +120,51 @@ describe('validateSiteState', () => {
     expect(code.length).toBeLessThan(1200);
     expect(await decodeSite(code)).toEqual(s);
     expect(sitesEqual(s, sample())).toBe(true);
+  });
+});
+
+describe('malformed site links and files', () => {
+  const link = async (data: unknown) =>
+    toBase64Url(await deflateRaw(new TextEncoder().encode(JSON.stringify(data)), { fallback: true }));
+
+  it('rejects damaged, oversized and bomb-like links', async () => {
+    await expect(decodeSite('')).rejects.toThrow(PlanFormatError);
+    await expect(decodeSite('abc$def')).rejects.toThrow(PlanFormatError);
+    await expect(decodeSite('A'.repeat(64 * 1024 + 4))).rejects.toThrow(PlanFormatError);
+    const bomb = toBase64Url(await deflateRaw(new Uint8Array(4 * 1024 * 1024).fill(32), { fallback: true }));
+    await expect(decodeSite(bomb, { fallback: true })).rejects.toThrow(/too large/);
+    await expect(decodeSite(await link('not a site'))).rejects.toThrow(PlanFormatError);
+    expect(() => siteFromJson('x'.repeat(1024 * 1024 + 1))).toThrow(/too large/);
+  });
+
+  it('rejects bad fields with a readable error', () => {
+    const cases: [string, (s: SiteState) => void][] = [
+      ['rotation', (s) => ((s.groups[0] as { rotation: number }).rotation = 4)],
+      ['unknown multiblock', (s) => (s.groups[0].multiblockId = 'nope')],
+      ['script id', (s) => (s.groups[0].multiblockId = '<script>')],
+      ['hatch kind', (s) => ((s.groups[0].enabledHatches as string[]) = ['laser'])],
+      ['colour', (s) => (s.resources['item:dust'].color = 'red')],
+      ['origin', (s) => (s.groups[0].origin = [1.5, 0])],
+      ['far origin', (s) => (s.groups[0].origin = [1e9, 0])],
+      ['port position', (s) => (s.ports[0].pos = [-1, 0])],
+      ['count', (s) => (s.groups[0].count = 0)],
+      ['control characters', (s) => (s.groups[0].label = 'a\u0000b')],
+    ];
+    for (const [what, spoil] of cases) {
+      const bad = sample();
+      spoil(bad);
+      expect(() => validateSiteState(bad), what).toThrow(PlanFormatError);
+    }
+  });
+
+  it('leaves its input and the object prototype alone', async () => {
+    const input = sample();
+    const before = JSON.stringify(input);
+    validateSiteState(input);
+    expect(JSON.stringify(input)).toBe(before);
+    const evil = await link({ ...sample(), resources: JSON.parse('{"__proto__": {"polluted": true}}') });
+    await expect(decodeSite(evil)).rejects.toThrow(PlanFormatError);
+    expect(({} as { polluted?: boolean }).polluted).toBeUndefined();
   });
 });
 

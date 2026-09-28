@@ -1,6 +1,7 @@
 import { getMultiblock } from '../data/catalog';
 import { effectiveSize } from '../model/resize';
-import type { HatchKind, PlanLimits, PlanState } from '../model/types';
+import type { HatchKind, PlanLimits } from '../model/multiblock/types';
+import type { PlanState } from '../model/plan/types';
 import { defaultPlan, plan, selectedUnits } from '../state/store';
 import { clampCount } from './fields';
 

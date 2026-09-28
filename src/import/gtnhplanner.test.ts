@@ -5,6 +5,7 @@ import { createSiteBuilder } from '../model/site/build';
 import { validateSiteState } from '../share/siteCodec';
 import fixture from './__fixtures__/gtnhplanner-titanium.json';
 import {
+  IMPORT_LIMITS,
   ImportError,
   buildSiteFromGtnh,
   fallbackColor,
@@ -37,6 +38,30 @@ describe('parseGtnhProject', () => {
     expect(() => parseGtnhProject('{"nodes": 3}')).toThrow(/does not look like/);
     // A community download wraps the project.
     expect(parseGtnhProject(JSON.stringify({ plan: fixture })).nodes).toHaveLength(9);
+  });
+
+  it('refuses oversized sections before reading them, and skips oversized recipes', () => {
+    for (const section of ['recipes', 'nodes', 'storages', 'edges'] as const) {
+      const big = { ...fixture, [section]: new Array(IMPORT_LIMITS[section] + 1).fill(0) };
+      expect(() => parseGtnhProject(JSON.stringify(big)), section).toThrow(/Too many/);
+    }
+    const stack = { kind: 'item', id: 'x' };
+    const recipe = {
+      id: 'huge',
+      machineType: 'Mixer',
+      inputs: new Array(IMPORT_LIMITS.stacks + 1).fill(stack),
+    };
+    const p = parseGtnhProject(JSON.stringify({ ...fixture, recipes: [...fixture.recipes, recipe] }));
+    expect(p.recipes.has('huge')).toBe(false);
+    expect(p.skipped).toBe(2);
+  });
+
+  it('flags files from a newer export format', () => {
+    expect(parseGtnhProject(JSON.stringify({ ...fixture, schemaVersion: 1 })).newerSchema).toBe(false);
+    expect(parseGtnhProject(JSON.stringify({ ...fixture, schemaVersion: 2 })).newerSchema).toBe(true);
+    expect(parseGtnhProject(JSON.stringify({ ...fixture, schemaVersion: undefined })).newerSchema).toBe(
+      false,
+    );
   });
 });
 

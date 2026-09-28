@@ -1,17 +1,11 @@
 import { step } from './geometry';
-import type { HatchAvoid } from './ports';
-import { DEFAULT_TURN_COST, type RouteOptions } from './routing';
-import type {
-  Vec3,
-  HatchKind,
-  HatchPlacement,
-  HatchResult,
-  MultiblockDef,
-  PackResult,
-  PlanLimits,
-  RouteNet,
-  Unit,
-} from './types';
+import type { HatchAvoid } from './hatches/types';
+import { DEFAULT_TURN_COST } from './routing/constants';
+import type { RouteOptions } from './routing/types';
+import type { Vec3 } from './core/types';
+import type { HatchKind, MultiblockDef, PlanLimits, Unit } from './multiblock/types';
+import type { HatchPlacement, HatchResult, PackResult } from './plan/types';
+import type { RouteNet } from './routing/routeNet';
 
 export interface LayoutDeps {
   placeHatches: (def: MultiblockDef, units: Unit[], enabled: HatchKind[], avoid?: HatchAvoid) => HatchResult;

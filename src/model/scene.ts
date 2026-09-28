@@ -1,15 +1,9 @@
 import { controllerFacing, key, unitCells } from './geometry';
-import type {
-  HatchKind,
-  HatchPlacement,
-  MultiblockDef,
-  RouteNet,
-  SceneModel,
-  Unit,
-  Vec3,
-  Voxel,
-  WallStats,
-} from './types';
+import type { Vec3 } from './core/types';
+import type { HatchKind, MultiblockDef, Unit } from './multiblock/types';
+import type { HatchPlacement, WallStats } from './plan/types';
+import type { SceneModel, Voxel } from './render/types';
+import type { RouteNet } from './routing/routeNet';
 
 /**
  * UNIT 6 (renderer) — build the render model.

@@ -1,6 +1,6 @@
 import { get, writable } from 'svelte/store';
 import { t } from '../i18n/en';
-import type { PlanState } from '../model/types';
+import type { PlanState } from '../model/plan/types';
 import { encodePlan } from '../share/codec';
 import {
   clearHash,
@@ -10,8 +10,9 @@ import {
   readHashPlan,
   saveStoredPlan,
 } from '../share/persist';
+import { appMode } from '../state/site';
 import { plan, selectedUnits } from '../state/store';
-import { notify, warnOnce } from './notices';
+import { LONG_LINK_CHARS, linkCopiedNotice, notify, warnOnce } from './notices';
 import { shareApi } from './shareApi';
 
 /** A shared plan from the URL waiting for the user's OPEN / KEEP MINE answer. */
@@ -82,6 +83,9 @@ export async function initSession(): Promise<void> {
     if (hasHash) safeClearHash();
     return;
   }
+  // A plan link opens the machine view whatever view was open last. `initSiteSession` restores the stored
+  // view before its first await, so this (after an await) always comes later.
+  appMode.set('machine');
   if (!stored || samePlan(shared, stored)) {
     applyPlan(shared);
     safeClearHash();
@@ -157,7 +161,7 @@ export async function copyShareLink(): Promise<void> {
   try {
     if (!navigator.clipboard) throw new Error('clipboard unavailable');
     await navigator.clipboard.writeText(url);
-    notify(t.linkCopied);
+    notify(linkCopiedNotice(url), url.length > LONG_LINK_CHARS ? 8000 : undefined);
   } catch (err) {
     warnOnce('clipboard', err);
     shareFallback.set(url);

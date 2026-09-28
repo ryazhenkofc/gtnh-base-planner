@@ -1,6 +1,6 @@
-import type { SiteWarning } from '../model/site/build';
+import type { SiteWarning } from '../model/site/buildTypes';
 import type { ResourceKind } from '../model/site/types';
-import type { HatchKind } from '../model/types';
+import type { HatchKind } from '../model/multiblock/types';
 
 /** All user-visible strings (UNIT 8 owns this file). Use `t.key` in components; never build HTML strings. */
 export const t = {
@@ -27,6 +27,8 @@ export const t = {
   wallshareTag: 'Wall-share',
   /** Picker tag of catalog entries converted from the GT sources by tools/gt-source. */
   generatedTag: 'From source',
+  generatedHint:
+    'Converted from the GregTech sources and not checked by hand: check the structure in game before building.',
 
   // Settings drawer
   limits: 'Limits',
@@ -55,6 +57,8 @@ export const t = {
   plan: 'Plan',
   shareLink: 'Copy share link',
   linkCopied: 'Link copied.',
+  linkCopiedLong:
+    'Link copied. It is long: some chat apps cut such links, so send the JSON file if it fails.',
   linkFallback: 'Copy this link:',
   linkFailed: 'Could not create a link.',
   downloadJson: 'Download JSON',
@@ -270,6 +274,8 @@ export const t = {
     aspects: (n: number) => `${n} Thaumcraft ${n === 1 ? 'flow was' : 'flows were'} left out.`,
     placeholders: (names: string[]) => `Placeholders (not in the catalog yet): ${names.join(', ')}.`,
     truncated: 'The chain is larger than a template can hold; the rest was left out.',
+    newerSchema: (v: number) =>
+      `This file comes from a newer GTNH Planner (format ${v}). Check the result: new fields are not read.`,
     sized: (w: number, d: number) => `Template: ${w} × ${d}.`,
   },
 

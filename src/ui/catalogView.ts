@@ -1,5 +1,5 @@
 import { blockInfo } from '../data/blocks';
-import type { HatchKind, MultiblockDef } from '../model/types';
+import type { HatchKind, MultiblockDef } from '../model/multiblock/types';
 import type { TextureManifest } from '../render/detailed';
 import textureManifest from '../render/textures.json';
 

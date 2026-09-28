@@ -3,10 +3,10 @@ import { catalog } from '../data/catalog';
 import { defaultPlan } from '../state/store';
 import { createPipeline } from '../ui/pipeline';
 import { key, localCells, rotateDir, toWorld } from './geometry';
-import { layoutCandidates, packUnits } from './layout';
+import { layoutCandidates, packUnits } from './layout/packer';
 import { resolveLayout } from './plan';
-import { placeHatches } from './ports';
-import type { PlanLimits } from './types';
+import { placeHatches } from './hatches/placement';
+import type { PlanLimits } from './multiblock/types';
 
 /**
  * Catalog entries written by tools/gt-source/generate.mjs: a few units of each must plan like the hand-made

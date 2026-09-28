@@ -1,6 +1,8 @@
 import { getMultiblock } from '../data/catalog';
 import { effectiveSize } from '../model/resize';
-import type { HatchKind, PlanLimits, PlanState, Rotation, Unit, Vec3 } from '../model/types';
+import type { Rotation, Vec3 } from '../model/core/types';
+import type { HatchKind, PlanLimits, Unit } from '../model/multiblock/types';
+import type { PlanState } from '../model/plan/types';
 import {
   MAX_PAYLOAD_BYTES,
   PlanFormatError,
