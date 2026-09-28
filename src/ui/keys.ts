@@ -30,3 +30,42 @@ export function screenStep(key: ArrowKey, theta: number): [number, number] {
   // Normalise -0 so callers can compare with toEqual.
   return [step[0] + 0, step[1] + 0];
 }
+
+/** Whether a key press goes to a text field rather than to the view. */
+export function isTyping(e: Pick<KeyboardEvent, 'target'>): boolean {
+  const el = e.target as HTMLElement | null;
+  return (
+    !!el &&
+    (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT' || el.isContentEditable)
+  );
+}
+
+/** What a key does in the site view (see `siteKeyAction`). */
+export type SiteKeyAction =
+  | { type: 'undo' }
+  | { type: 'redo' }
+  | { type: 'move'; key: ArrowKey; far: boolean }
+  | { type: 'rotate'; turns: 1 | -1 }
+  | { type: 'frame' }
+  | { type: 'remove' };
+
+/**
+ * The site view's shortcuts: Ctrl/Cmd+Z undo, Ctrl/Cmd+Y or Ctrl/Cmd+Shift+Z redo; on the selected group,
+ * arrows move it (Shift: further), R / Shift+R turn it, F frames it, Delete / Backspace remove it. Other
+ * Ctrl, Cmd or Alt combinations are left to the browser.
+ */
+export function siteKeyAction(
+  e: Pick<KeyboardEvent, 'key' | 'ctrlKey' | 'metaKey' | 'altKey' | 'shiftKey'>,
+): SiteKeyAction | null {
+  if ((e.ctrlKey || e.metaKey) && !e.altKey) {
+    const k = e.key.toLowerCase();
+    if (k === 'y' || (k === 'z' && e.shiftKey)) return { type: 'redo' };
+    return k === 'z' ? { type: 'undo' } : null;
+  }
+  if (e.altKey || e.ctrlKey || e.metaKey) return null;
+  if (isArrowKey(e.key)) return { type: 'move', key: e.key, far: e.shiftKey };
+  if (e.key === 'r' || e.key === 'R') return { type: 'rotate', turns: e.shiftKey ? -1 : 1 };
+  if (e.key === 'f' || e.key === 'F') return { type: 'frame' };
+  if (e.key === 'Delete' || e.key === 'Backspace') return { type: 'remove' };
+  return null;
+}

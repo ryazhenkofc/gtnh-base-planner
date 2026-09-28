@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { DEFAULT_THETA } from '../render/controls';
-import { screenStep } from './keys';
+import { isTyping, screenStep, siteKeyAction } from './keys';
 
 describe('screenStep', () => {
   it('keeps the classic moves in the default view', () => {
@@ -23,5 +23,42 @@ describe('screenStep', () => {
     // Camera west looking east, also after several turns.
     expect(screenStep('ArrowUp', -Math.PI / 2 + 4 * Math.PI)).toEqual([1, 0]);
     expect(screenStep('ArrowDown', (3 * Math.PI) / 2 - 0.3)).toEqual([-1, 0]);
+  });
+});
+
+describe('siteKeyAction', () => {
+  const key = (
+    k: string,
+    mods: Partial<Record<'ctrlKey' | 'metaKey' | 'altKey' | 'shiftKey', boolean>> = {},
+  ) => siteKeyAction({ key: k, ctrlKey: false, metaKey: false, altKey: false, shiftKey: false, ...mods });
+
+  it('maps undo and redo', () => {
+    expect(key('z', { ctrlKey: true })).toEqual({ type: 'undo' });
+    expect(key('Z', { metaKey: true })).toEqual({ type: 'undo' });
+    expect(key('z', { ctrlKey: true, shiftKey: true })).toEqual({ type: 'redo' });
+    expect(key('y', { ctrlKey: true })).toEqual({ type: 'redo' });
+    expect(key('c', { ctrlKey: true })).toBeNull();
+    expect(key('z', { ctrlKey: true, altKey: true })).toBeNull();
+  });
+
+  it('maps the group shortcuts', () => {
+    expect(key('ArrowLeft', { shiftKey: true })).toEqual({ type: 'move', key: 'ArrowLeft', far: true });
+    expect(key('r')).toEqual({ type: 'rotate', turns: 1 });
+    expect(key('R', { shiftKey: true })).toEqual({ type: 'rotate', turns: -1 });
+    expect(key('f')).toEqual({ type: 'frame' });
+    expect(key('Delete')).toEqual({ type: 'remove' });
+    expect(key('Backspace')).toEqual({ type: 'remove' });
+    expect(key('r', { altKey: true })).toBeNull();
+    expect(key('x')).toBeNull();
+  });
+
+  it('leaves keys in text fields alone', () => {
+    const target = (tagName: string, isContentEditable = false) => ({
+      target: { tagName, isContentEditable } as never,
+    });
+    expect(isTyping(target('INPUT'))).toBe(true);
+    expect(isTyping(target('DIV', true))).toBe(true);
+    expect(isTyping(target('CANVAS'))).toBe(false);
+    expect(isTyping({ target: null })).toBe(false);
   });
 });
