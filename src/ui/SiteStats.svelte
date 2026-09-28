@@ -16,6 +16,11 @@
     const s = build.stats;
     const out = [t.site.groupCount(s.groups), t.units(s.units), t.blocks(s.blocks)];
     if ($siteBusy) out.unshift(t.site.building);
+    // While editing, the pipes wait (and their counts would read 0).
+    if ($siteBuild.pending) {
+      out.push(t.site.pipesWait);
+      return out;
+    }
     if (s.pipeBlocks) out.push(t.pipeLength(s.pipeBlocks));
     if (s.cableBlocks) out.push(t.cableLength(s.cableBlocks));
     if (s.terminals) out.push(t.site.connected(s.connected, s.terminals));

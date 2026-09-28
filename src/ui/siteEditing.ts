@@ -17,7 +17,7 @@ import {
   withGrownToFit,
 } from './siteActions';
 import { coalesceNext, mergeIntoLast, undoAction } from './siteHistory';
-import { siteBuild } from './sitePipeline';
+import { holdRouting, siteBuild } from './sitePipeline';
 
 /* Editing the selected template group: shared by the keyboard, the nudge pad and dragging in the view. */
 
@@ -100,6 +100,7 @@ export function setSelectedOrigin(axis: 0 | 1, n: number): void {
   if (!gid || !g) return;
   const o: [number, number] = [...g.origin];
   o[axis] = n;
+  holdRouting();
   editGroup(gid, (s) => withGroupPatched(s, gid, { origin: o }));
 }
 
@@ -121,6 +122,7 @@ export function moveSelectedBy(dx: number, dz: number, coalesce = true): void {
   const gid = selectedId();
   if (!gid || (dx === 0 && dz === 0)) return;
   if (coalesce) coalesceNext(`move:${gid}`);
+  holdRouting();
   editGroup(gid, (s) => withGroupMoved(s, gid, dx, dz));
 }
 
@@ -135,6 +137,7 @@ export function rotateSelected(dir: 1 | -1): void {
   const gid = selectedId();
   if (!gid) return;
   coalesceNext(`turn:${gid}`);
+  holdRouting();
   editGroup(gid, (s) => withGroupRotated(s, gid, dir));
 }
 

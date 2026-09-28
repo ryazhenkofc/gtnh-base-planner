@@ -18,6 +18,8 @@ import type { SiteWorkerRequest, SiteWorkerResponse } from './siteWorker';
 export interface SiteResult {
   build: SiteBuild | null;
   error: string | null;
+  /** The build has no pipes yet: they are routed once editing pauses (see `holdRouting`). */
+  pending?: boolean;
 }
 
 /**
@@ -25,7 +27,8 @@ export interface SiteResult {
  * templates take seconds to pack and route, so the build runs in a worker: the last result stays on screen
  * (and `siteBusy` is true) until the new one arrives, with the groups shown before their pipes when routing
  * is slow. Changes made meanwhile are coalesced into one more build. Without workers (tests, old browsers,
- * a worker that fails to load) it builds right here.
+ * a worker that fails to load) it builds right here. While the user moves groups (`holdRouting`), builds
+ * skip routing: the groups follow at once and the pipes are routed when input has been quiet for a moment.
  */
 export const siteBuild = writable<SiteResult>({ build: null, error: null }, () =>
   // Only while something shows the site (the machine view never builds it).
@@ -55,16 +58,17 @@ function setBusy(on: boolean, now = false): void {
 /** The builder used when there is no worker (shared with imports, so their packs are reused). */
 let localBuilder: ReturnType<typeof createSiteBuilder> | null = null;
 const here = () => (localBuilder ??= createSiteBuilder());
-function buildHere(s: SiteState, opts: SiteBuildOptions): SiteResult {
+function buildHere(s: SiteState, opts: SiteBuildOptions, pending = false): SiteResult {
   try {
-    return { build: here()(s, opts), error: null };
+    return { build: here()(s, opts), error: null, pending };
   } catch (err) {
     warnOnce('buildSite', err);
     return { build: null, error: err instanceof Error ? err.message : String(err) };
   }
 }
 
-type BuildRequest = { site: SiteState; opts: SiteBuildOptions };
+/** `pending`: a build without pipes while editing; the routed one follows. */
+type BuildRequest = { site: SiteState; opts: SiteBuildOptions; pending: boolean };
 type ImportResult = { site: SiteState; report: ImportReport };
 interface PendingImport {
   project: GtnhProject;
@@ -102,7 +106,7 @@ function fallBack(err: unknown): void {
   const req = queued ?? (was && 'build' in was ? was.build : null);
   queued = null;
   setBusy(false);
-  if (req) siteBuild.set(buildHere(req.site, req.opts));
+  if (req) siteBuild.set(buildHere(req.site, req.opts, req.pending));
 }
 
 /** Drops whatever the worker is doing (its result is no longer wanted). */
@@ -128,7 +132,7 @@ function startWorker(): Worker | null {
     if (!job || msg.id !== job.id) return;
     if ('partial' in msg && msg.partial) {
       // Groups first; the routed build of the same request is still coming.
-      if (!queued) siteBuild.set({ build: msg.build, error: null });
+      if (!queued) siteBuild.set({ build: msg.build, error: null, pending: true });
       setBusy(true, true);
       return;
     }
@@ -139,7 +143,7 @@ function startWorker(): Worker | null {
     } else if ('error' in msg) {
       warnOnce('buildSite', msg.error);
       siteBuild.set({ build: null, error: msg.error });
-    } else if ('build' in msg) siteBuild.set({ build: msg.build, error: null });
+    } else if ('build' in msg) siteBuild.set({ build: msg.build, error: null, pending: job.build.pending });
     sendQueued();
   };
   worker.onerror = (e) => {
@@ -168,20 +172,48 @@ function sendQueued(): void {
   const req = queued;
   queued = null;
   if (!w) {
-    siteBuild.set(buildHere(req.site, req.opts));
+    siteBuild.set(buildHere(req.site, req.opts, req.pending));
     setBusy(false);
     return;
   }
   inFlight = { id: ++nextId, build: req };
-  post(w, { id: inFlight.id, type: 'build', ...req });
+  post(w, { id: inFlight.id, type: 'build', site: req.site, opts: req.opts });
+}
+
+/** Pipes are not routed while the user is editing; they follow this long after the last edit. */
+export const ROUTE_IDLE_MS = 600;
+let quietAt = 0;
+let latest: { site: SiteState; opts: SiteBuildOptions } | null = null;
+let idleTimer: ReturnType<typeof setTimeout> | undefined;
+
+/**
+ * The user is moving or turning something: until input has paused for ROUTE_IDLE_MS, builds place the
+ * groups without routing (fast), and the last routed pipes stay on screen, faded.
+ */
+export function holdRouting(): void {
+  quietAt = Date.now() + ROUTE_IDLE_MS;
 }
 
 function request(s: SiteState, opts: SiteBuildOptions): void {
-  if (workerFailed) {
-    siteBuild.set(buildHere(s, opts));
+  latest = { site: s, opts };
+  clearTimeout(idleTimer);
+  const wait = quietAt - Date.now();
+  if ((opts.pipes || opts.cables) && wait > 0) {
+    idleTimer = setTimeout(() => {
+      if (latest) submit(latest.site, latest.opts, false);
+    }, wait);
+    submit(s, { ...opts, pipes: false, cables: false }, true);
     return;
   }
-  queued = { site: s, opts };
+  submit(s, opts, false);
+}
+
+function submit(s: SiteState, opts: SiteBuildOptions, pending: boolean): void {
+  if (workerFailed) {
+    siteBuild.set(buildHere(s, opts, pending));
+    return;
+  }
+  queued = { site: s, opts, pending };
   setBusy(true);
   // The worker is busy with a site that is gone (an import or an opened file replaced it): drop that build
   // rather than wait for it. Its group cache would not help the new site anyway.
@@ -222,13 +254,23 @@ export function importSite(
   });
 }
 
+/** Pipes of the last routed build: shown faded while a pending build has none. */
+let lastPipes: SceneModel['pipes'] = null;
+
 /**
  * The scene with nets of every resource but the isolated one faded (cheap: no re-routing), and the
- * site's width and depth named beside its edges.
+ * site's width and depth named beside its edges. While pipes wait for editing to pause, the last routed
+ * ones are shown, all faded.
  */
+
 export const siteScene = derived([siteBuild, isolate], ([$b, $iso]): SceneModel | null => {
   const scene = $b.build?.scene ?? null;
   if (!scene) return scene;
+  if (!$b.pending) lastPipes = scene.pipes;
+  else if (!scene.pipes && lastPipes) {
+    const faded = lastPipes.map((p) => ({ ...p, dim: true }));
+    return { ...(scene.site ? withDimensions(scene, [0, 0], scene.site.size, 0) : scene), pipes: faded };
+  }
   const measured = scene.site ? withDimensions(scene, [0, 0], scene.site.size, 0) : scene;
   if (!scene.pipes) return measured;
   const nets = $b.build!.nets;

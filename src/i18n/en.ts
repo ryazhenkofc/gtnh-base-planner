@@ -170,6 +170,7 @@ export const t = {
     nothingToRedo: 'Nothing to redo.',
     addLinkOpen: 'Add link…',
     addLinkClose: 'Cancel',
+    pipesWait: 'Pipes follow when you pause',
     hint: {
       title: 'Move the group',
       drag: 'Move (drag the group)',
