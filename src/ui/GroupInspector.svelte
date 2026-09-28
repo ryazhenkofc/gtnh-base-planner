@@ -20,7 +20,7 @@
   } from './fields';
   import NudgePad from './NudgePad.svelte';
   import NumberStepper from './NumberStepper.svelte';
-  import { updateSite, withGroupPatched, type GroupPatch } from './siteActions';
+  import { groupLimitAxis, updateSite, withGroupPatched, type GroupPatch } from './siteActions';
   import {
     duplicateSelected,
     frameSelected,
@@ -71,9 +71,10 @@
     const n = Number(text.trim());
     if (text.trim() !== '' && Number.isFinite(n)) setSelectedOrigin(axis, n);
   }
+  /** `axis` is a site axis (the field's label); the group stores its limits unturned. */
   function commitLimit(axis: 'x' | 'y' | 'z', text: string) {
     const v = parseLimit(text);
-    if (v !== undefined) patch({ limits: { ...group.limits, [axis]: v } });
+    if (v !== undefined) patch({ limits: { ...group.limits, [groupLimitAxis(axis, group.rotation)]: v } });
   }
   function toggleHatch(kind: HatchKind) {
     const on = group.enabledHatches.includes(kind);
@@ -176,7 +177,7 @@
       {#each [['x', t.site.maxX], ['y', t.limitY], ['z', t.site.maxZ]] as const as [axis, label] (axis)}
         <label class="col"
           ><span>{label}</span><NumberStepper
-            value={formatLimit(group.limits[axis])}
+            value={formatLimit(group.limits[groupLimitAxis(axis, group.rotation)])}
             {label}
             min={LIMIT_MIN}
             max={LIMIT_MAX}

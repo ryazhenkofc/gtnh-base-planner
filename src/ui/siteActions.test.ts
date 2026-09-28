@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { emptySite, validateSiteState } from '../share/siteCodec';
 import type { PlanState } from '../model/types';
 import {
+  groupLimitAxis,
   pruned,
   withCorridor,
   withGroupAdded,
@@ -170,5 +171,14 @@ describe('site actions', () => {
     );
     expect(withResourceColor(s, 'item:coke', '#ABCDEF').resources['item:coke'].color).toBe('#abcdef');
     expect(withResourceColor(s, 'item:coke', 'red')).toBe(s);
+  });
+});
+
+describe('group limits', () => {
+  it('map the site axes onto a turned group', () => {
+    expect([0, 2].map((r) => groupLimitAxis('x', r as 0 | 2))).toEqual(['x', 'x']);
+    expect([1, 3].map((r) => groupLimitAxis('x', r as 1 | 3))).toEqual(['z', 'z']);
+    expect(groupLimitAxis('z', 1)).toBe('x');
+    expect(groupLimitAxis('y', 1)).toBe('y');
   });
 });

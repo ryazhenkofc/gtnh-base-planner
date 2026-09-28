@@ -180,7 +180,9 @@ export function createPipeline(deps: PipelineDeps = defaultDeps) {
     function routedOrPlain() {
       try {
         return resolveRoutedLayout(def!, packed, p.enabledHatches, p.limits, { kinds, below }, d);
-      } catch {
+      } catch (err) {
+        // Routing never fails on purpose, so this is a bug: report it, then fall back.
+        warnOnce('resolveRoutedLayout', err);
         return resolveLayout(def!, packed, p.enabledHatches, p.limits, d);
       }
     }

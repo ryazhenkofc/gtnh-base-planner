@@ -26,6 +26,15 @@ function nextId(prefix: string, taken: Iterable<string>): string {
 
 const clampInt = (n: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, Math.round(n)));
 
+/**
+ * The group's own limit axis behind a site-axis field. Limits pack the group before it is turned, so on a
+ * group turned a quarter (rotation 1 or 3) its X limit runs along the site's Z and the other way round.
+ */
+export function groupLimitAxis(axis: keyof PlanLimits, rotation: Rotation): keyof PlanLimits {
+  if (axis === 'y' || rotation % 2 === 0) return axis;
+  return axis === 'x' ? 'z' : 'x';
+}
+
 /** Drops ports no link uses and resources nothing uses. */
 export function pruned(s: SiteState): SiteState {
   const portIds = new Set(

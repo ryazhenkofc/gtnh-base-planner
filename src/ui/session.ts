@@ -10,6 +10,7 @@ import {
   readHashPlan,
   saveStoredPlan,
 } from '../share/persist';
+import { appMode } from '../state/site';
 import { plan, selectedUnits } from '../state/store';
 import { notify, warnOnce } from './notices';
 import { shareApi } from './shareApi';
@@ -82,6 +83,9 @@ export async function initSession(): Promise<void> {
     if (hasHash) safeClearHash();
     return;
   }
+  // A plan link opens the machine view whatever view was open last. `initSiteSession` restores the stored
+  // view before its first await, so this (after an await) always comes later.
+  appMode.set('machine');
   if (!stored || samePlan(shared, stored)) {
     applyPlan(shared);
     safeClearHash();

@@ -7,7 +7,7 @@ import { dominantBlockId, hatchKindsOf, iconFaces, matchesQuery, shade } from '.
 import { createPipeline, type PipelineDeps } from './pipeline';
 import { statsParts } from './statsText';
 
-vi.spyOn(console, 'warn').mockImplementation(() => {});
+const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
 
 const stats: WallStats = {
   totalBlocks: 40,
@@ -139,6 +139,8 @@ describe('pipeline', () => {
     expect(r.scene).not.toBeNull();
     expect(r.pipes).toBeNull();
     expect(r.error).toBe('boom');
+    // The routed-layout fallback reports the error instead of hiding it.
+    expect(warn).toHaveBeenCalledWith('resolveRoutedLayout: boom');
   });
 
   it('reports an unknown multiblock', () => {

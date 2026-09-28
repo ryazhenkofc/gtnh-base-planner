@@ -77,6 +77,23 @@ describe('validateSiteState', () => {
     expect(() => validateSiteState({ ...sample(), size: [4, 30] })).toThrow(/Site size/);
   });
 
+  it('rejects object-prototype names as resource keys and references', () => {
+    const dust = { kind: 'item', name: 'Dust', color: '#aabbcc' };
+    for (const key of ['__proto__', 'constructor', 'prototype']) {
+      // JSON.parse makes "__proto__" an own key, as a decoded link or file would.
+      const bad = { ...sample(), resources: JSON.parse(`{${JSON.stringify(key)}: ${JSON.stringify(dust)}}`) };
+      expect(() => validateSiteState(bad), key).toThrow(/not allowed/);
+    }
+    for (const name of ['constructor', 'toString', 'hasOwnProperty']) {
+      const port = sample();
+      port.ports[0].resource = name;
+      expect(() => validateSiteState(port), name).toThrow(/unknown resource/);
+      const link = sample();
+      link.links[1].resource = name;
+      expect(() => validateSiteState(link), name).toThrow(/unknown resource/);
+    }
+  });
+
   it('accepts only gtnhplanner.com /datasets/ icon paths', () => {
     const ok = sample();
     ok.resources['item:dust'].icon =
