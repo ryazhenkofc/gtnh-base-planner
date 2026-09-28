@@ -340,12 +340,14 @@
       >
     </div>
     <p class="hint">{t.site.sizeHint(SITE_MIN_SIZE, SITE_MAX_SIZE)}</p>
-    <!-- In the top bar on wide screens; here only when the bar has no room for them. -->
-    <ul class="rows narrow-only">
+    <ul class="rows">
       <li class="row">
-        <button class="link" disabled={!$site.groups.length} onclick={arrange}>{t.site.arrange}</button>
+        <button class="link" data-testid="site-arrange" disabled={!$site.groups.length} onclick={arrange}
+          >{t.site.arrange}</button
+        >
       </li>
-      <li class="row"><button class="link" onclick={onimport}>{t.site.importOpen}</button></li>
+      <!-- In the top bar on wide screens; here only when the bar has no room for it. -->
+      <li class="row narrow-only"><button class="link" onclick={onimport}>{t.site.importOpen}</button></li>
     </ul>
   </section>
 

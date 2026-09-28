@@ -2,7 +2,6 @@
   import { t } from '../i18n/en';
   import { flowAnimation, site } from '../state/site';
   import ModeSwitch from './ModeSwitch.svelte';
-  import { arrange } from './siteCommands';
 
   interface Props {
     panelOpen: boolean;
@@ -18,12 +17,8 @@
     <span class="tier">{$site.size[0]} × {$site.size[1]}</span>
   </div>
 
-  <!-- Template-wide actions, in their own column so they never run into the mode switch. -->
+  <!-- In its own column so it never runs into the mode switch. -->
   <div class="group actions">
-    <button class="link" data-testid="site-arrange" disabled={!$site.groups.length} onclick={arrange}
-      >{t.site.arrange}</button
-    >
-    <span class="sep" aria-hidden="true">{t.separator}</span>
     <button class="link" data-testid="site-import" onclick={onimport}>{t.site.importOpen}</button>
   </div>
 

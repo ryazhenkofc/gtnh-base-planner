@@ -116,7 +116,7 @@ test('imports a GTNH Planner chain into a routed site', async ({ page }) => {
   await page.screenshot({ path: 'e2e/screenshots/site-panel.png' });
 
   // Arrange puts the chain back in order and everything stays connected.
-  await page.getByTestId('site-arrange').click();
+  await panel.getByTestId('site-arrange').click();
   await expect(stats).toContainText(/(\d+)\/\1 connected/);
 
   // Icons can be switched off: colour swatches only.
