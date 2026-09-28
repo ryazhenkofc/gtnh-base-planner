@@ -27,6 +27,8 @@ export const t = {
   wallshareTag: 'Wall-share',
   /** Picker tag of catalog entries converted from the GT sources by tools/gt-source. */
   generatedTag: 'From source',
+  generatedHint:
+    'Converted from the GregTech sources and not checked by hand: check the structure in game before building.',
 
   // Settings drawer
   limits: 'Limits',
