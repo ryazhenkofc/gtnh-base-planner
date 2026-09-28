@@ -619,7 +619,7 @@
   }
   .hint,
   .meta {
-    color: var(--faint);
+    color: var(--muted);
     text-transform: none;
     letter-spacing: 0.02em;
   }
@@ -656,7 +656,7 @@
     letter-spacing: 0.02em;
   }
   .x {
-    color: var(--faint);
+    color: var(--muted);
   }
   .swatch {
     position: relative;

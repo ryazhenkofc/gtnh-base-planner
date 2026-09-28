@@ -2,7 +2,8 @@
 :root {
   --bg: #ffffff;
   --text: #111111;
-  --muted: #9a9a9a;
+  --muted: #707070;
+  /* Decoration only (separators, disabled controls, key-cap borders): never text people must read. */
   --faint: #c8c8c8;
   --line: #ececec;
   /* Outline of the picked resource (Links, legend). */
@@ -88,7 +89,7 @@ select {
   text-align: center;
 }
 .field::placeholder {
-  color: var(--faint);
+  color: var(--muted);
 }
 .field:focus {
   text-decoration: underline;

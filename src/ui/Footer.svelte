@@ -21,7 +21,7 @@
     align-items: baseline;
     white-space: nowrap;
     font-size: 9px;
-    color: var(--faint);
+    color: var(--muted);
     z-index: 10;
   }
   .dot {

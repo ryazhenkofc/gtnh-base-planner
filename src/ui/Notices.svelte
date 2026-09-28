@@ -56,6 +56,6 @@
     text-align: center;
   }
   .x {
-    color: var(--faint);
+    color: var(--muted);
   }
 </style>

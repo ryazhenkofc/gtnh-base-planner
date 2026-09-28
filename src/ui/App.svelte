@@ -326,7 +326,7 @@
     text-align: center;
   }
   .detail {
-    color: var(--faint);
+    color: var(--muted);
     text-transform: none;
     letter-spacing: 0.02em;
   }

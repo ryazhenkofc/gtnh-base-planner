@@ -271,7 +271,7 @@
   }
   .hint {
     margin: 10px 0 0;
-    color: var(--faint);
+    color: var(--muted);
     text-transform: none;
     letter-spacing: 0.02em;
   }
