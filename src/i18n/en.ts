@@ -1,4 +1,4 @@
-import type { SiteWarning } from '../model/site/build';
+import type { SiteWarning } from '../model/site/buildTypes';
 import type { ResourceKind } from '../model/site/types';
 import type { HatchKind } from '../model/types';
 

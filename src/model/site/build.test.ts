@@ -4,7 +4,9 @@ import { PLACEHOLDER_DEF, SINGLE_BLOCK_DEF } from '../../data/generic';
 import { validateMultiblockDef } from '../../data/validate';
 import { key, toWorld, localCells } from '../geometry';
 import type { Rotation, Unit, Vec3 } from '../types';
-import { createSiteBuilder, groupIndexOfUnit, hatchKindFor } from './build';
+import { createSiteBuilder } from './build';
+import { hatchKindFor } from './demand';
+import { groupIndexOfUnit } from './ids';
 import { buildGroup, groupPoint, placeUnit, withDemand } from './group';
 import type { SiteGroup, SiteState } from './types';
 

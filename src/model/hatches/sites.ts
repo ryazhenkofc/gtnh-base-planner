@@ -11,7 +11,7 @@ import {
 import type { Dir, HatchKind, MultiblockDef, Unit, Vec3 } from '../types';
 import { CLEAR_AHEAD, FACE_ORDER, FLOOD_LIMIT } from './constants';
 import { comparePos } from './geometry';
-import type { Entry, Site } from './types';
+import type { Site } from './types';
 
 /** Discovering every cell a hatch may take, with its open faces, around a set of placed units. */
 

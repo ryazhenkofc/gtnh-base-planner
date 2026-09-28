@@ -9,7 +9,8 @@ import {
   multiblockForName,
 } from '../data/gtnhplanner-machines';
 import { arrangeSite, grownSize } from '../model/site/arrange';
-import { createSiteBuilder, localFootprints, type SiteBuilder } from '../model/site/build';
+import { createSiteBuilder, localFootprints } from '../model/site/build';
+import type { SiteBuilder } from '../model/site/buildTypes';
 import { IO_KINDS } from '../model/site/group';
 import {
   iconUrl,

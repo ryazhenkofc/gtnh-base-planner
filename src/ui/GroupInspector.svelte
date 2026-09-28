@@ -1,7 +1,7 @@
 <script lang="ts">
   import { PLACEHOLDER_ID, SINGLE_BLOCK_ID, getSiteDef } from '../data/generic';
   import { t } from '../i18n/en';
-  import type { PlacedGroup } from '../model/site/build';
+  import type { PlacedGroup } from '../model/site/buildTypes';
   import { IO_KINDS } from '../model/site/group';
   import type { SiteGroup } from '../model/site/types';
   import type { HatchKind } from '../model/types';

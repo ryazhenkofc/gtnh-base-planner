@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { t } from '../i18n/en';
-  import { groupIndexOfUnit } from '../model/site/build';
+  import { groupIndexOfUnit } from '../model/site/ids';
   import type { HatchResult, PackResult, RouteNet } from '../model/types';
   import { appMode, flowAnimation, isolate, site, siteGroup, siteNet } from '../state/site';
   import { plan, selectedUnits, viewMode, xray } from '../state/store';

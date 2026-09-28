@@ -1,7 +1,8 @@
 import { get } from 'svelte/store';
 import { getSiteDef } from '../data/generic';
 import { t } from '../i18n/en';
-import { localFootprints, type SiteBuild } from '../model/site/build';
+import { localFootprints } from '../model/site/build';
+import type { SiteBuild } from '../model/site/buildTypes';
 import type { SiteState } from '../model/site/types';
 import { SITE_MAX_SIZE } from '../share/siteCodec';
 import { appMode, site, siteGroup } from '../state/site';

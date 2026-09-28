@@ -1,0 +1,113 @@
+import { getSiteDef } from '../../data/generic';
+import { effectiveSize, sizedDef } from '../resize';
+import type { PlacedGroup, SiteWarning } from './buildTypes';
+import {
+  buildGroup,
+  IO_KINDS,
+  placeHatch,
+  placeUnit,
+  rotatedGroupSize,
+  type Demand,
+  type GroupBuild,
+  type Toward,
+} from './group';
+import { GROUP_STRIDE } from './ids';
+import type { SiteGroup, SiteState } from './types';
+
+/**
+ * Built groups by everything their build depends on (multiblock, size, count, limits, hatches, demand,
+ * connections from below, pipe directions). Holds the build or its error; the builds are never mutated.
+ */
+export type GroupCache = Map<string, GroupBuild | { error: string }>;
+
+/**
+ * Every group of the site packed, given its hatches and placed on the site (turned, moved, with unit ids
+ * made unique by `GROUP_STRIDE`). Reuses and refreshes `cache`, and drops the entries no group uses any
+ * more, so memory stays bounded while editing.
+ */
+export function placeGroups(
+  site: SiteState,
+  demands: ReadonlyMap<string, Demand>,
+  towardOf: (g: SiteGroup) => Toward,
+  below: boolean,
+  cache: GroupCache,
+): { groups: PlacedGroup[]; warnings: SiteWarning[] } {
+  const warnings: SiteWarning[] = [];
+  const used = new Set<string>();
+  const groups: PlacedGroup[] = site.groups.map((g, index) => {
+    const raw = getSiteDef(g.multiblockId);
+    const demand = demands.get(g.id) ?? {};
+    const empty: PlacedGroup = {
+      group: g,
+      index,
+      units: [],
+      hatches: [],
+      min: [g.origin[0], 0, g.origin[1]],
+      max: [g.origin[0], 0, g.origin[1]],
+      demand,
+    };
+    if (!raw) {
+      warnings.push({ type: 'error', group: g.id, message: `Unknown multiblock "${g.multiblockId}"` });
+      return { ...empty, error: 'unknown' };
+    }
+    const def = sizedDef(raw, effectiveSize(raw, g.size));
+    const base = g.enabledHatches.filter((k) => !IO_KINDS.includes(k));
+    const toward = towardOf(g);
+    const ck = JSON.stringify([
+      def.id,
+      effectiveSize(raw, g.size) ?? null,
+      g.count,
+      g.limits,
+      base,
+      demand,
+      below,
+      toward,
+    ]);
+    used.add(ck);
+    let built = cache.get(ck);
+    if (!built) {
+      try {
+        built = buildGroup(def, g.count, g.limits, base, demand, below, toward);
+      } catch (err) {
+        // Shown on the group; a malformed definition must not stop the rest of the site.
+        built = { error: err instanceof Error ? err.message : String(err) };
+      }
+      cache.set(ck, built);
+    }
+    if ('error' in built) {
+      warnings.push({ type: 'error', group: g.id, message: built.error });
+      return { ...empty, def, error: built.error };
+    }
+    const b = built;
+    const gid = (id: number) => index * GROUP_STRIDE + id;
+    const units = b.units.map((u) => ({
+      ...placeUnit(b.def, u, b.size, g.rotation, g.origin),
+      id: gid(u.id),
+    }));
+    const hatches = b.hatches.map((h) => ({
+      ...placeHatch(h, b.size, g.rotation, g.origin),
+      unitIds: h.unitIds.map(gid),
+    }));
+    const rs = rotatedGroupSize(b.size, g.rotation);
+    if (b.pack.placed < b.pack.requested)
+      warnings.push({ type: 'fewer', group: g.id, placed: b.pack.placed, requested: b.pack.requested });
+    if (b.unplaced.length) warnings.push({ type: 'unplaced', group: g.id, count: b.unplaced.length });
+    const missingBy = new Map<string, number>();
+    for (const m of b.missing) missingBy.set(m.resource, (missingBy.get(m.resource) ?? 0) + 1);
+    for (const [resource, n] of missingBy)
+      warnings.push({ type: 'missing', group: g.id, resource, units: n });
+    return {
+      group: g,
+      index,
+      def: b.def,
+      build: b,
+      units,
+      hatches,
+      min: [g.origin[0], 0, g.origin[1]],
+      max: [g.origin[0] + rs[0], rs[1], g.origin[1] + rs[2]],
+      demand,
+    };
+  });
+  for (const k of [...cache.keys()]) if (!used.has(k)) cache.delete(k);
+  return { groups, warnings };
+}
