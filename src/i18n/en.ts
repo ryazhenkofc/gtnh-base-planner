@@ -55,6 +55,8 @@ export const t = {
   plan: 'Plan',
   shareLink: 'Copy share link',
   linkCopied: 'Link copied.',
+  linkCopiedLong:
+    'Link copied. It is long: some chat apps cut such links, so send the JSON file if it fails.',
   linkFallback: 'Copy this link:',
   linkFailed: 'Could not create a link.',
   downloadJson: 'Download JSON',
