@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { getMultiblock } from '../data/catalog';
 import { key, rotateDir, step, unitCells } from './geometry';
 import { layoutCandidates, packUnits } from './layout/packer';
-import { placeHatches } from './ports';
+import { placeHatches } from './hatches/placement';
 import { catalog } from '../data/catalog';
 import type { Dir, HatchKind, HatchResult, MultiblockDef, Rotation, Unit, Vec3 } from './types';
 

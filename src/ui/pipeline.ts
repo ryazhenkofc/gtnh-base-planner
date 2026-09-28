@@ -6,7 +6,7 @@ import { loosenings } from '../model/layout/variants';
 import { alongX } from '../model/orient';
 import { resolveLayout, resolveRoutedLayout, type ResolvedLayout } from '../model/plan';
 import { effectiveSize, sizedDef } from '../model/resize';
-import { placeHatches } from '../model/ports';
+import { placeHatches } from '../model/hatches/placement';
 import { CABLE_KINDS, PIPE_KINDS, routePipes, withPipeFaces, type RoutedKind } from '../model/routing';
 import { buildSceneModel } from '../model/scene';
 import type {

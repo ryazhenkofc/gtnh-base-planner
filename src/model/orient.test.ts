@@ -3,7 +3,7 @@ import { getMultiblock } from '../data/catalog';
 import { controllerFacing, rotateDir, unitCells } from './geometry';
 import { packUnits } from './layout/packer';
 import { alongX } from './orient';
-import { placeHatches } from './ports';
+import { placeHatches } from './hatches/placement';
 import type { MultiblockDef, Unit } from './types';
 
 const NO_LIMITS = { x: null, y: null, z: null };

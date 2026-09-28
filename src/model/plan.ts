@@ -1,5 +1,5 @@
 import { step } from './geometry';
-import type { HatchAvoid } from './ports';
+import type { HatchAvoid } from './hatches/types';
 import { DEFAULT_TURN_COST, type RouteOptions } from './routing';
 import type {
   Vec3,

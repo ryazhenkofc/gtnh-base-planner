@@ -5,7 +5,7 @@ import { createPipeline } from '../ui/pipeline';
 import { key, localCells, rotateDir, toWorld } from './geometry';
 import { layoutCandidates, packUnits } from './layout/packer';
 import { resolveLayout } from './plan';
-import { placeHatches } from './ports';
+import { placeHatches } from './hatches/placement';
 import type { PlanLimits } from './types';
 
 /**

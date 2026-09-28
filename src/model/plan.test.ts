@@ -14,7 +14,7 @@ import {
   type LayoutDeps,
   type RoutedLayoutDeps,
 } from './plan';
-import { placeHatches } from './ports';
+import { placeHatches } from './hatches/placement';
 import { ROUTED_KINDS, routePipes } from './routing';
 import type { HatchResult, PlanLimits, RouteNet, Unit } from './types';
 

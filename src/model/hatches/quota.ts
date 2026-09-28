@@ -1,0 +1,33 @@
+import type { HatchKind, HatchResult, MultiblockDef, Unit } from '../types';
+import { HATCH_PRIORITY } from './constants';
+
+/** Which hatch kinds to place and how many each unit wants. */
+
+/** How many hatches of one kind each unit wants (`target`) and may have at most (`max`). */
+export function quota(def: MultiblockDef, kind: HatchKind): { target: number; max: number } {
+  const req = def.requiredHatches?.[kind];
+  if (!req) return { target: 1, max: Infinity };
+  const max = typeof req.max === 'number' && req.max >= 0 ? Math.floor(req.max) : Infinity;
+  const min = Number.isFinite(req.min) ? Math.max(0, Math.floor(req.min)) : 0;
+  // An enabled kind always gets at least one hatch, unless the definition forbids it (max 0).
+  return { target: Math.min(Math.max(min, 1), max), max };
+}
+
+/** Kinds to place: enabled, supported by the def (it has a hatch block), deduplicated, fixed order. */
+export function kindsToPlace(def: MultiblockDef, enabled: readonly HatchKind[]): HatchKind[] {
+  const wanted = new Set(enabled);
+  return HATCH_PRIORITY.filter((k) => wanted.has(k) && def.hatchBlocks?.[k] !== undefined);
+}
+
+export function sortedIds(units: readonly Unit[]): number[] {
+  return [...new Set(units.map((u) => u.id))].sort((a, b) => a - b);
+}
+
+export function allUnplaced(def: MultiblockDef, units: readonly Unit[], kinds: HatchKind[]): HatchResult {
+  const unplaced: HatchResult['unplaced'] = [];
+  for (const kind of kinds) {
+    const { target } = quota(def, kind);
+    for (const unitId of sortedIds(units)) for (let i = 0; i < target; i++) unplaced.push({ unitId, kind });
+  }
+  return { hatches: [], unplaced };
+}
