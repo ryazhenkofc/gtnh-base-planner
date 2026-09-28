@@ -1,6 +1,6 @@
 import { isSingleBlock } from '../../data/generic';
 import { rotateDir, rotatedSize, step, unitCells } from '../geometry';
-import { layoutCandidates, packUnits } from '../layout';
+import { layoutCandidates, packUnits } from '../layout/packer';
 import { resolveLayout } from '../plan';
 import { placeHatches } from '../ports';
 import type {

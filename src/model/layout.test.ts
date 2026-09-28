@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { getMultiblock } from '../data/catalog';
 import { controllerFacing, key, step, unitBounds, unitCells } from './geometry';
-import { layoutCandidates, loosenings, packUnits } from './layout';
+import { layoutCandidates, packUnits } from './layout/packer';
+import { loosenings } from './layout/variants';
 import type { MultiblockDef, PlanLimits, Unit, Vec3 } from './types';
 
 const coke = getMultiblock('coke-oven')!;

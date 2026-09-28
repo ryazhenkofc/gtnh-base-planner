@@ -33,7 +33,7 @@ import {
 } from '../share/siteCodec';
 import { clampCount } from '../ui/fields';
 import { rotatedSize } from '../model/geometry';
-import { packUnits } from '../model/layout';
+import { packUnits } from '../model/layout/packer';
 import { effectiveSize, sizedDef } from '../model/resize';
 import type { MultiblockDef, PlanLimits } from '../model/types';
 

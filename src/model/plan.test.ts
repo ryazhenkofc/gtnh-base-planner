@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { catalog, getMultiblock } from '../data/catalog';
-import { layoutCandidates, loosenings, packUnits } from './layout';
+import { layoutCandidates, packUnits } from './layout/packer';
+import { loosenings } from './layout/variants';
 import {
   hatchMoves,
   improveHatches,

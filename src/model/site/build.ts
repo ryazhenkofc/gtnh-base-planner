@@ -1,7 +1,7 @@
 import { getSiteDef, isSingleBlock } from '../../data/generic';
 import { DEFAULT_HATCH_COLORS } from '../colors';
 import { controllerFacing, dirVec, key, rotateDir, rotatedSize, step, unitCells } from '../geometry';
-import { packUnits } from '../layout';
+import { packUnits } from '../layout/packer';
 import { sizedDef, effectiveSize } from '../resize';
 import { buildSceneModel } from '../scene';
 import type {

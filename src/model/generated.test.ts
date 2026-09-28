@@ -3,7 +3,7 @@ import { catalog } from '../data/catalog';
 import { defaultPlan } from '../state/store';
 import { createPipeline } from '../ui/pipeline';
 import { key, localCells, rotateDir, toWorld } from './geometry';
-import { layoutCandidates, packUnits } from './layout';
+import { layoutCandidates, packUnits } from './layout/packer';
 import { resolveLayout } from './plan';
 import { placeHatches } from './ports';
 import type { PlanLimits } from './types';

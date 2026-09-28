@@ -1,7 +1,8 @@
 import { derived } from 'svelte/store';
 import { getMultiblock } from '../data/catalog';
 import { DEFAULT_HATCH_COLORS } from '../model/colors';
-import { layoutCandidates, loosenings, packUnits } from '../model/layout';
+import { layoutCandidates, packUnits } from '../model/layout/packer';
+import { loosenings } from '../model/layout/variants';
 import { alongX } from '../model/orient';
 import { resolveLayout, resolveRoutedLayout, type ResolvedLayout } from '../model/plan';
 import { effectiveSize, sizedDef } from '../model/resize';
