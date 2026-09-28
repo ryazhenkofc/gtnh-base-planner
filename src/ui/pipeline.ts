@@ -25,6 +25,7 @@ import { computeWallStats } from '../model/walls';
 import { connectBelow, plan, showCables, showPipes } from '../state/store';
 import { withBuildDimensions } from './dimensions';
 import { warnOnce } from './notices';
+import { hatchKey, layoutKey, pipesKey, sceneKey } from './pipelineKeys';
 
 /** The model functions the pipeline calls (injectable for tests). */
 export interface PipelineDeps {
@@ -128,27 +129,29 @@ export function createPipeline(deps: PipelineDeps = defaultDeps) {
     };
     if (!def) return { ...empty, error: `Unknown multiblock "${p.multiblockId}"` };
 
-    const layoutKey = JSON.stringify([def.id, size ?? null, p.count, p.limits, p.manualUnits ?? null]);
     const kinds: RoutedKind[] = [...(pipesOn ? PIPE_KINDS : []), ...(cablesOn ? CABLE_KINDS : [])];
     // With pipes or cables on, an auto layout is chosen so that every hatch gets connected.
     const routedLayout = kinds.length > 0 && !p.manualUnits;
-    const hatchKey =
-      layoutKey +
-      JSON.stringify(p.enabledHatches) +
-      (routedLayout ? kinds.join() : '') +
-      (below ? '|below' : '');
-    const pipesKey = hatchKey + kinds.join();
     const colors = mergeColors(p.colors);
-    const sceneKey = pipesKey + JSON.stringify(colors);
-    if (lastResult && sceneKey === lastResultKey) return lastResult;
+    const layoutK = layoutKey({
+      defId: def.id,
+      size,
+      count: p.count,
+      limits: p.limits,
+      manualUnits: p.manualUnits,
+    });
+    const hatchK = hatchKey(layoutK, p.enabledHatches, routedLayout ? kinds : null, below);
+    const pipesK = pipesKey(hatchK, kinds);
+    const sceneK = sceneKey(pipesK, colors);
+    if (lastResult && sceneK === lastResultKey) return lastResult;
 
     const finish = (r: PipelineResult) => {
-      lastResultKey = sceneKey;
+      lastResultKey = sceneK;
       lastResult = r;
       return r;
     };
 
-    const pack = layoutStage(layoutKey, () => {
+    const pack = layoutStage(layoutK, () => {
       if (p.manualUnits) {
         const n = p.manualUnits.length;
         return { units: p.manualUnits, requested: n, placed: n };
@@ -159,7 +162,7 @@ export function createPipeline(deps: PipelineDeps = defaultDeps) {
     const packed = pack.value;
     // Hatches may loosen the layout (gaps between units) when the compact one leaves no room for them,
     // and so may pipes and cables when they cannot reach every hatch.
-    const placed = hatchStage(hatchKey, () =>
+    const placed = hatchStage(hatchK, () =>
       p.manualUnits
         ? {
             pack: pack.value,
@@ -195,20 +198,20 @@ export function createPipeline(deps: PipelineDeps = defaultDeps) {
     const layout = placed.value.pack;
     const loosened = placed.value.loosened;
 
-    const stats = statsStage(hatchKey, () => deps.computeWallStats(def, units, hatchResult.hatches));
+    const stats = statsStage(hatchK, () => deps.computeWallStats(def, units, hatchResult.hatches));
     if (!stats.ok)
       return finish({ ...empty, pack: layout, loosened, hatches: hatchResult, error: stats.error });
 
     // Pipes and cables are optional: a routing failure still renders the build without them.
     const routed = placed.value.pipes;
-    const pipes = pipesStage(pipesKey, () =>
+    const pipes = pipesStage(pipesK, () =>
       kinds.length > 0 ? (routed ?? d.routePipes(def, units, hatchResult.hatches, { kinds, below })) : null,
     );
     const pipeNets = pipes.ok ? pipes.value : null;
 
     // Hatches turn to whichever side their pipe reaches them from.
     // Width and depth of the whole build are measured beside it.
-    const scene = sceneStage(sceneKey, () =>
+    const scene = sceneStage(sceneK, () =>
       withBuildDimensions(
         deps.buildSceneModel(
           def,

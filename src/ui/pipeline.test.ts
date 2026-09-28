@@ -86,6 +86,36 @@ describe('pipeline', () => {
     expect(r2.pack?.reason).toBe('limits');
   });
 
+  it('recomputes each stage exactly when one of its inputs changes', () => {
+    const deps = fakeDeps();
+    const run = createPipeline(deps);
+    const p = defaultPlan();
+    const calls = () => [
+      deps.packUnits.mock.calls.length,
+      deps.placeHatches.mock.calls.length,
+      deps.routePipes.mock.calls.length,
+      deps.buildSceneModel.mock.calls.length,
+    ];
+    run(p, false);
+    let before = calls();
+    const step = (next: Parameters<typeof run>, changed: [boolean, boolean, boolean, boolean]) => {
+      run(...next);
+      const now = calls();
+      expect(now.map((n, i) => n > before[i])).toEqual(changed);
+      before = now;
+    };
+    // [pack, hatches, pipes, scene]
+    step([{ ...p, colors: { itemIn: '#000000' } }, false], [false, false, false, true]);
+    step([{ ...p, limits: { ...p.limits, x: 3 } }, false], [true, true, false, true]);
+    step([{ ...p, limits: { ...p.limits, x: 3 }, enabledHatches: [] }, false], [false, true, false, true]);
+    step([{ ...p, limits: { ...p.limits, x: 3 }, enabledHatches: [] }, true], [false, true, true, true]);
+    step([{ ...p, limits: { ...p.limits, x: 3 }, enabledHatches: [] }, false], [false, true, false, true]);
+    step(
+      [{ ...p, limits: { ...p.limits, x: 3 }, enabledHatches: [] }, false, false, true],
+      [false, true, false, true],
+    );
+  });
+
   it('loosens the layout when pipes cannot reach every hatch, and routes it once', () => {
     const deps = fakeDeps();
     const wide: Unit[] = [{ id: 0, origin: [0, 0, 0], rotation: 0 }];
