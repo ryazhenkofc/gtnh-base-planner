@@ -32,8 +32,12 @@ jobs:
         run: npm run check
       - name: Unit tests
         run: npm test
+      - name: Dependency audit
+        run: npm audit --omit=dev --audit-level=high
       - name: Build
         run: npm run build
+      - name: Size budget
+        run: npm run size
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
       - name: End-to-end tests
