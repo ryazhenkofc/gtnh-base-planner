@@ -65,8 +65,11 @@ The planner checks layout rules for the transcribed structure only. It is not a 
    Optimize never change those.
    Select a group (click it, or pick it in the panel)
    and drag it in the view, or move it with the arrow keys as seen on screen (Shift: 5 blocks) or the arrows in
-   the panel; R turns it (Shift+R back), F frames it and Delete removes it. The panel edits the selected group:
-   its label and machine, count, limits and extra hatches, and X and Z to place it exactly. Ctrl+Z undoes any
+   the panel; PageUp and PageDown raise and lower it (Shift: 5 blocks), R turns it (Shift+R back), F frames it
+   and Delete removes it. The panel edits the selected group: its label and machine, count, limits and extra
+   hatches, and X, Z and height to place it exactly. Template inputs and outputs (the chests, tanks and energy
+   blocks on the edge) move the same way: click one, then drag it or use the arrows; A gives it back to
+   automatic placement. Ports stand on the ground, so they have no height. Ctrl+Z undoes any
    change to the template (Ctrl+Shift+Z or Ctrl+Y redoes it). Moving a group past an edge grows the template
    that way (and ARRANGE grows it when the chain does not fit). While you move or turn groups the pipes wait,
    shown faded, and are routed again a moment after you stop.

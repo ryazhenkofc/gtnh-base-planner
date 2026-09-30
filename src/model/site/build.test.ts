@@ -8,8 +8,8 @@ import type { Unit } from '../multiblock/types';
 import { createSiteBuilder } from './build';
 import { deriveSiteDemand, hatchKindFor } from './demand';
 import { placeGroups, type GroupCache } from './groups';
+import { groupIndexOfUnit, portIndexOfUnit, portUnitId } from './ids';
 import { groupToward } from './toward';
-import { groupIndexOfUnit } from './ids';
 import { buildGroup, groupPoint, placeUnit, singleBlockLimits, withDemand } from './group';
 import type { SiteGroup, SiteState } from './types';
 
@@ -219,9 +219,25 @@ describe('buildSite', () => {
         expect(solid.has(key(p))).toBe(false);
         expect(p[0] >= 0 && p[0] < 30 && p[2] >= 0 && p[2] < 30 && p[1] >= 0).toBe(true);
       }
-    // Unit ids tell which group a voxel belongs to.
+    // Unit ids tell which group a voxel belongs to, and port blocks carry the id of their port.
     const ids = b.scene.voxels.flatMap((v) => v.unitIds);
-    expect(new Set(ids.map(groupIndexOfUnit))).toEqual(new Set([0, 1]));
+    expect(new Set(ids.filter((id) => portIndexOfUnit(id) < 0).map(groupIndexOfUnit))).toEqual(
+      new Set([0, 1]),
+    );
+    for (const [i, p] of chain.ports.entries()) {
+      const cell = b.ports.find((x) => x.port.id === p.id)!.cell;
+      expect(b.scene.voxels.find((v) => key(v.pos) === key(cell))!.unitIds).toEqual([portUnitId(i)]);
+    }
+  });
+
+  it('builds a pinned port where it was put', () => {
+    const pinned = {
+      ...chain,
+      ports: chain.ports.map((p) => (p.id === 'dust' ? { ...p, pos: [9, 27] as [number, number] } : p)),
+    };
+    const b = createSiteBuilder()(pinned, { pipes: true, cables: false });
+    expect(b.ports.find((p) => p.port.id === 'dust')!.cell).toEqual([9, 0, 27]);
+    expect(b.nets.find((n) => n.resource === 'item:dust')!.route!.connected).toBe(2);
   });
 
   it('reuses group builds between runs and only repacks what changed', () => {

@@ -48,6 +48,10 @@ describe('siteKeyAction', () => {
     expect(key('f')).toEqual({ type: 'frame' });
     expect(key('Delete')).toEqual({ type: 'remove' });
     expect(key('Backspace')).toEqual({ type: 'remove' });
+    expect(key('PageUp')).toEqual({ type: 'lift', dy: 1, far: false });
+    expect(key('PageDown', { shiftKey: true })).toEqual({ type: 'lift', dy: -1, far: true });
+    expect(key('PageUp', { ctrlKey: true })).toBeNull();
+    expect(key('a')).toEqual({ type: 'auto' });
     expect(key('r', { altKey: true })).toBeNull();
     expect(key('x')).toBeNull();
   });

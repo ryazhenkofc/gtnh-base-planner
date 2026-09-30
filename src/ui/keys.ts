@@ -46,12 +46,15 @@ export type SiteKeyAction =
   | { type: 'redo' }
   | { type: 'move'; key: ArrowKey; far: boolean }
   | { type: 'rotate'; turns: 1 | -1 }
+  | { type: 'lift'; dy: 1 | -1; far: boolean }
+  | { type: 'auto' }
   | { type: 'frame' }
   | { type: 'remove' };
 
 /**
  * The site view's shortcuts: Ctrl/Cmd+Z undo, Ctrl/Cmd+Y or Ctrl/Cmd+Shift+Z redo; on the selected group,
- * arrows move it (Shift: further), R / Shift+R turn it, F frames it, Delete / Backspace remove it. Other
+ * arrows move it (Shift: further), PageUp / PageDown raise and lower it (Shift: further), R / Shift+R turn
+ * it, F frames it, A hands a port back to automatic placement, Delete / Backspace remove it. Other
  * Ctrl, Cmd or Alt combinations are left to the browser.
  */
 export function siteKeyAction(
@@ -64,6 +67,9 @@ export function siteKeyAction(
   }
   if (e.altKey || e.ctrlKey || e.metaKey) return null;
   if (isArrowKey(e.key)) return { type: 'move', key: e.key, far: e.shiftKey };
+  if (e.key === 'PageUp' || e.key === 'PageDown')
+    return { type: 'lift', dy: e.key === 'PageUp' ? 1 : -1, far: e.shiftKey };
+  if (e.key === 'a' || e.key === 'A') return { type: 'auto' };
   if (e.key === 'r' || e.key === 'R') return { type: 'rotate', turns: e.shiftKey ? -1 : 1 };
   if (e.key === 'f' || e.key === 'F') return { type: 'frame' };
   if (e.key === 'Delete' || e.key === 'Backspace') return { type: 'remove' };

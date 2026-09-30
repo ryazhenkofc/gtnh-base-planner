@@ -9,6 +9,7 @@ import type { RouteNet } from '../routing/routeNet';
 import type { PlacedGroup, PlacedPort, SiteNet } from './buildTypes';
 import { siteResource } from './demand';
 import { groupPoint, type SiteHatch } from './group';
+import { portUnitId } from './ids';
 import { netKind } from './nets';
 import type { SiteState } from './types';
 
@@ -29,6 +30,7 @@ export function buildSiteScene(
   const colors = { ...DEFAULT_HATCH_COLORS, ...site.colors };
   const resourceOf = (k: string) => siteResource(site, k);
   const placedPort = new Map(ports.map((p) => [p.port.id, p]));
+  const portIndex = new Map(site.ports.map((p, i) => [p.id, i]));
 
   const voxelMap = new Map<string, Voxel>();
   for (const pg of groups) {
@@ -72,7 +74,7 @@ export function buildSiteScene(
         blockId: `site.port.${res.kind}`,
         kind: 'controller',
         facing: pp.faces[0],
-        unitIds: [],
+        unitIds: [portUnitId(portIndex.get(pp.port.id) ?? 0)],
       });
   }
   const voxels = [...voxelMap.values()];
