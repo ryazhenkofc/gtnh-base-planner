@@ -6,6 +6,7 @@ import type { SceneModel } from '../model/render/types';
 import { isolate, site, siteCables, sitePipes } from '../state/site';
 import { connectBelow } from '../state/store';
 import { withDimensions } from './dimensions';
+import type { Arranged } from './siteArrange';
 import { createSiteWorkerController, type ImportResult, type SiteResult } from './siteWorkerController';
 
 export type { SiteResult } from './siteWorkerController';
@@ -87,6 +88,14 @@ export function importSite(
   opts: ImportOptions,
 ): Promise<ImportResult> {
   return controller.importSite(project, choices, opts);
+}
+
+/**
+ * Arranges a site inside its own size (on floors if the chain does not fit the ground, see `arrangeOnFloors`)
+ * in the build worker: a big template can take seconds to measure.
+ */
+export function arrangeInSize(site: SiteState, below: boolean): Promise<Arranged> {
+  return controller.arrange(site, below);
 }
 
 /** Pipes of the last routed build: shown faded while a pending build has none. */

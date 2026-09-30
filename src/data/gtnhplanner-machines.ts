@@ -1,5 +1,6 @@
 import { catalog } from './catalog';
 import gtMachineTypes from './gt-machine-types.generated.json';
+import { SINGLE_MACHINES } from './single-machines';
 
 /**
  * How GTNH Planner (gtnhplanner.com) names machines, mapped to what a site can build.
@@ -64,10 +65,15 @@ export const MULTIBLOCK_ALIASES: Readonly<Record<string, string>> = {
   'high energy laser': 'high-energy-laser-purification-unit',
   'residual decontaminant degasser': 'residual-decontaminant-degasser-purification-unit',
   'absolute baryonic perfection': 'absolute-baryonic-perfection-purification-unit',
+  // GT++ names its fuel cells "Mk I", where the catalog says "Mk-I".
+  'solid-oxide fuel cell mk i': 'solid-oxide-fuel-cell-mk-i',
+  'solid-oxide fuel cell mk ii': 'solid-oxide-fuel-cell-mk-ii',
 };
 
 /** GT single-block machines (recipe map names). */
 export const SINGLE_BLOCK_NAMES: ReadonlySet<string> = new Set([
+  // Every machine that has a look of its own (src/data/single-machines.json).
+  ...SINGLE_MACHINES.flatMap((m) => m.names),
   'alloy smelter',
   'amplifabricator',
   'arc furnace',

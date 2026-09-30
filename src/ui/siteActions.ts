@@ -1,6 +1,6 @@
-import { getSiteDef } from '../data/generic';
+import { getSiteDef, isSingleBlock } from '../data/generic';
+import { getSingleMachine } from '../data/single-machines';
 import { fallbackColor } from '../import/gtnhplanner';
-import { arrangeSite } from '../model/site/arrange';
 import { IO_KINDS } from '../model/site/group';
 import type { Endpoint, ResourceKind, SiteGroup, SiteState } from '../model/site/types';
 import { effectiveSize } from '../model/resize';
@@ -12,6 +12,7 @@ import {
   MAX_GROUPS,
   MAX_LINKS,
   MAX_PORTS,
+  SITE_MAX_ELEVATION,
   SITE_MAX_SIZE,
   SITE_MIN_SIZE,
   emptySite,
@@ -98,6 +99,10 @@ export interface GroupPatch {
   size?: number;
   limits?: PlanLimits;
   origin?: [number, number];
+  /** Single-block machines: which machine they are (see `SiteGroup.machine`); null clears it. */
+  machine?: string | null;
+  /** Blocks above the ground; 0 puts the group back on it. */
+  elevation?: number;
   rotation?: Rotation;
   label?: string | null;
   /** Hatch kinds the group places besides its link hatches (IO kinds are dropped: links decide those). */
@@ -116,6 +121,7 @@ export function withGroupPatched(s: SiteState, id: string, patch: GroupPatch): S
         next.enabledHatches = def.defaultHatches.filter((k) => !IO_KINDS.includes(k));
         delete next.size;
         delete next.label;
+        delete next.machine;
       }
     }
     if (patch.count !== undefined) next.count = clampCount(patch.count);
@@ -130,6 +136,16 @@ export function withGroupPatched(s: SiteState, id: string, patch: GroupPatch): S
         clampInt(patch.origin[0], -SITE_MAX_SIZE, 2 * SITE_MAX_SIZE),
         clampInt(patch.origin[1], -SITE_MAX_SIZE, 2 * SITE_MAX_SIZE),
       ];
+    if (patch.machine === null) delete next.machine;
+    else if (patch.machine !== undefined && getSingleMachine(patch.machine)) {
+      const def = getSiteDef(next.multiblockId);
+      if (def && isSingleBlock(def)) next.machine = patch.machine;
+    }
+    if (patch.elevation !== undefined) {
+      const e = clampInt(patch.elevation, 0, SITE_MAX_ELEVATION);
+      if (e > 0) next.elevation = e;
+      else delete next.elevation;
+    }
     if (patch.enabledHatches)
       next.enabledHatches = [...new Set(patch.enabledHatches)].filter((k) => !IO_KINDS.includes(k));
     if (patch.rotation !== undefined) next.rotation = (((patch.rotation % 4) + 4) % 4) as Rotation;
@@ -330,15 +346,6 @@ export function withName(s: SiteState, name: string): SiteState {
   if (n) next.name = n;
   else delete next.name;
   return next;
-}
-
-/** Auto-arranged groups; `footprints` are the local [x, z] sizes of the built groups. */
-export function withArranged(
-  s: SiteState,
-  footprints: Map<string, [number, number]>,
-): { site: SiteState; fits: boolean; needed: [number, number] } {
-  const r = arrangeSite(s, (id) => footprints.get(id));
-  return { site: { ...s, groups: r.groups }, fits: r.fits, needed: r.needed };
 }
 
 // Store wrappers

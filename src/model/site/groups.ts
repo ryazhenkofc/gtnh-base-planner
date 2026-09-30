@@ -42,8 +42,8 @@ export function placeGroups(
       index,
       units: [],
       hatches: [],
-      min: [g.origin[0], 0, g.origin[1]],
-      max: [g.origin[0], 0, g.origin[1]],
+      min: [g.origin[0], g.elevation ?? 0, g.origin[1]],
+      max: [g.origin[0], g.elevation ?? 0, g.origin[1]],
       demand,
     };
     if (!raw) {
@@ -81,14 +81,15 @@ export function placeGroups(
     const b = built;
     const gid = (id: number) => index * GROUP_STRIDE + id;
     const units = b.units.map((u) => ({
-      ...placeUnit(b.def, u, b.size, g.rotation, g.origin),
+      ...placeUnit(b.def, u, b.size, g.rotation, g.origin, g.elevation),
       id: gid(u.id),
     }));
     const hatches = b.hatches.map((h) => ({
-      ...placeHatch(h, b.size, g.rotation, g.origin),
+      ...placeHatch(h, b.size, g.rotation, g.origin, g.elevation),
       unitIds: h.unitIds.map(gid),
     }));
     const rs = rotatedGroupSize(b.size, g.rotation);
+    const elevation = g.elevation ?? 0;
     if (b.pack.placed < b.pack.requested)
       warnings.push({ type: 'fewer', group: g.id, placed: b.pack.placed, requested: b.pack.requested });
     if (b.unplaced.length) warnings.push({ type: 'unplaced', group: g.id, count: b.unplaced.length });
@@ -103,8 +104,8 @@ export function placeGroups(
       build: b,
       units,
       hatches,
-      min: [g.origin[0], 0, g.origin[1]],
-      max: [g.origin[0] + rs[0], rs[1], g.origin[1] + rs[2]],
+      min: [g.origin[0], elevation, g.origin[1]],
+      max: [g.origin[0] + rs[0], elevation + rs[1], g.origin[1] + rs[2]],
       demand,
     };
   });

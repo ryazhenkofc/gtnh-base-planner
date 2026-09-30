@@ -1,4 +1,5 @@
-import { getSiteDef } from '../data/generic';
+import { getSiteDef, isSingleBlock } from '../data/generic';
+import { getSingleMachine } from '../data/single-machines';
 import { effectiveSize } from '../model/resize';
 import {
   iconUrl,
@@ -44,6 +45,8 @@ import {
 export const SITE_VERSION = 1;
 export const SITE_MIN_SIZE = 8;
 export const SITE_MAX_SIZE = 256;
+/** Highest a group may stand above the ground (blocks). */
+export const SITE_MAX_ELEVATION = 256;
 export const DEFAULT_SITE_SIZE: [number, number] = [30, 30];
 export const MAX_CORRIDOR = 6;
 export const DEFAULT_CORRIDOR = 2;
@@ -150,6 +153,14 @@ function validateGroup(value: unknown, index: number): SiteGroup {
   };
   const label = optionalString(field(obj, 'label'), `${what} label`, MAX_NAME);
   if (label !== undefined) group.label = label;
+  const machine = field(obj, 'machine');
+  // A look this version does not know (a newer list) is left out rather than refused: it is only cosmetic.
+  if (typeof machine === 'string' && getSingleMachine(machine) && isSingleBlock(def)) group.machine = machine;
+  const elevation = field(obj, 'elevation');
+  if (elevation !== undefined && elevation !== null) {
+    const e = expectInt(elevation, `${what} elevation`, 0, SITE_MAX_ELEVATION);
+    if (e > 0) group.elevation = e;
+  }
   const sizeRaw = field(obj, 'size');
   if (sizeRaw !== undefined && sizeRaw !== null) {
     const size = effectiveSize(def, expectInt(sizeRaw, `${what} size`, 1, MAX_SIZE));

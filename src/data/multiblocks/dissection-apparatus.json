@@ -11,22 +11,11 @@
     ["CCCCC", "CCCCC", "CCCCC", "CCCCC", "CCCCC"]
   ],
   "legend": {
-    "C": {
-      "blockId": "gt.casing.cleanStainless",
-      "hatches": ["itemIn", "itemOut", "energy", "maintenance"]
-    },
-    "P": {
-      "blockId": "gt.casing.itemPipeTin"
-    },
-    "G": {
-      "blockId": "gt.glass.reinforced"
-    }
+    "C": { "blockId": "gt.casing.cleanStainless", "hatches": ["itemIn", "itemOut", "energy", "maintenance"] },
+    "P": { "blockId": "gt.casing.itemPipeTin" },
+    "G": { "blockId": "gt.glass.reinforced" }
   },
-  "controller": {
-    "pos": [2, 0, 0],
-    "facing": "north",
-    "blockId": "gt.controller"
-  },
+  "controller": { "pos": [2, 0, 0], "facing": "north", "blockId": "gregtech:gt.blockmachines@3010" },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",
     "itemOut": "gt.hatch.outputBus",
@@ -35,18 +24,10 @@
   },
   "shareableHatches": ["itemIn", "itemOut"],
   "requiredHatches": {
-    "itemIn": {
-      "min": 1
-    },
-    "itemOut": {
-      "min": 1
-    },
-    "energy": {
-      "min": 1
-    },
-    "maintenance": {
-      "min": 1
-    }
+    "itemIn": { "min": 1 },
+    "itemOut": { "min": 1 },
+    "energy": { "min": 1 },
+    "maintenance": { "min": 1 }
   },
   "defaultHatches": ["itemIn", "itemOut", "energy", "maintenance"],
   "wallshare": true,

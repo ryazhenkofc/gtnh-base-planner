@@ -7,7 +7,7 @@ import type { HatchKind, PlanLimits } from '../multiblock/types';
  * today: `count` units of one multiblock, packed with the same packer.
  *
  * Coordinates: X = east, Z = south, like the rest of the app. The site covers cells `0 <= x < size[0]`,
- * `0 <= z < size[1]`; everything stands on y = 0.
+ * `0 <= z < size[1]`; groups stand on y = 0, or higher on a floor (see `SiteGroup.elevation`).
  */
 
 export type ResourceKind = 'item' | 'fluid' | 'power';
@@ -55,6 +55,16 @@ export interface SiteGroup {
   origin: [number, number];
   /** Quarter turns clockwise of the whole group, around its bounding box. */
   rotation: Rotation;
+  /**
+   * Single-block machines only: which GT machine they are (an id of `src/data/single-machines.json`), so the
+   * template draws each with its own look. Absent = a plain machine hull.
+   */
+  machine?: string;
+  /**
+   * Blocks between the ground and the group's lowest layer; absent = on the ground. A template that does
+   * not fit its ground area is built on several floors, each one a level of groups raised this much.
+   */
+  elevation?: number;
   /** Where an imported group came from (shown in labels and the group list). */
   source?: { name: string; machineCount?: number; tier?: string };
 }

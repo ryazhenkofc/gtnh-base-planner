@@ -1,4 +1,5 @@
 import { isSingleBlock } from '../../data/generic';
+import { singleMachineBlockId } from '../../data/single-machines';
 import { DEFAULT_HATCH_COLORS } from '../colors';
 import { key } from '../geometry';
 import { buildSceneModel } from '../scene';
@@ -41,13 +42,16 @@ export function buildSiteScene(
       {
         ...b.stats,
         conflictCells: b.stats.conflictCells.map((c) =>
-          groupPoint(c, b.size, pg.group.rotation, pg.group.origin),
+          groupPoint(c, b.size, pg.group.rotation, pg.group.origin, pg.group.elevation),
         ),
       },
       null,
       colors,
     );
+    // Each single-block machine shows the look of its own machine.
+    const look = single && pg.group.machine ? singleMachineBlockId(pg.group.machine) : null;
     for (const v of local.voxels) {
+      if (look) v.blockId = look;
       const k = key(v.pos);
       if (conflictCells.has(k)) v.conflict = true;
       const prev = voxelMap.get(k);

@@ -132,14 +132,50 @@ function assign(hatches: SiteHatch[], kind: HatchKind, resources: string[], unit
   });
 }
 
-/** GT single-block machines: a grid with one free block between them, so each keeps open faces for IO. */
+/** Blocks from one layer of single-block machines to the next: the machine and two free blocks for pipes. */
+export const SINGLE_LAYER_PITCH = 3;
+
+/**
+ * GT single-block machines: a grid with one free block between them, so each keeps open faces for IO.
+ * `limits.x` caps the machines per row and `limits.y` stacks the grid in layers, each holding an equal share.
+ */
 function singleBlockLayout(count: number, limits: PlanLimits): Unit[] {
-  const perRow = Math.max(1, Math.min(limits.x ?? Math.ceil(Math.sqrt(count)), count));
-  return Array.from({ length: count }, (_, i) => ({
-    id: i,
-    origin: [(i % perRow) * 2, 0, Math.floor(i / perRow) * 3] as Vec3,
-    rotation: 0 as Rotation,
-  }));
+  const layers = Math.max(1, Math.min(limits.y ?? 1, count));
+  const perLayer = Math.ceil(count / layers);
+  const perRow = Math.max(1, Math.min(limits.x ?? Math.ceil(Math.sqrt(perLayer)), perLayer));
+  return Array.from({ length: count }, (_, i) => {
+    const layer = Math.floor(i / perLayer);
+    const at = i % perLayer;
+    return {
+      id: i,
+      origin: [(at % perRow) * 2, layer * SINGLE_LAYER_PITCH, Math.floor(at / perRow) * 3] as Vec3,
+      rotation: 0 as Rotation,
+    };
+  });
+}
+
+/**
+ * Limits that fit `count` single-block machines into `room` blocks along X and Z (either way round): the
+ * fewest layers that do, else the most `maxLayers` allows with the squarest grid. The grid takes 2 blocks
+ * per machine along a row and 3 per row.
+ */
+export function singleBlockLimits(count: number, room: [number, number], maxLayers: number): PlanLimits {
+  let best: PlanLimits = { x: null, y: null, z: null };
+  let bestSpan = Infinity;
+  for (let layers = 1; layers <= maxLayers; layers++) {
+    const perLayer = Math.ceil(count / layers);
+    for (let perRow = 1; perRow <= perLayer; perRow++) {
+      const span: [number, number] = [2 * perRow - 1, 3 * Math.ceil(perLayer / perRow) - 2];
+      if ((span[0] <= room[0] && span[1] <= room[1]) || (span[1] <= room[0] && span[0] <= room[1]))
+        return { x: perRow, y: layers, z: null };
+      // Nothing fits yet: remember the squarest grid of the tallest stack.
+      if (layers === maxLayers && Math.max(...span) < bestSpan) {
+        bestSpan = Math.max(...span);
+        best = { x: perRow, y: layers, z: null };
+      }
+    }
+  }
+  return best;
 }
 
 /** Faces a single-block machine offers for IO, in order (its front, north, stays free for the player). */
@@ -248,7 +284,11 @@ function buildSingleBlocks(
       });
     });
   const size: Vec3 = units.length
-    ? [Math.max(...units.map((u) => u.origin[0])) + 1, 1, Math.max(...units.map((u) => u.origin[2])) + 1]
+    ? [
+        Math.max(...units.map((u) => u.origin[0])) + 1,
+        Math.max(...units.map((u) => u.origin[1])) + 1,
+        Math.max(...units.map((u) => u.origin[2])) + 1,
+      ]
     : [0, 0, 0];
   const stats: WallStats = {
     totalBlocks: units.length,
@@ -273,8 +313,11 @@ function buildSingleBlocks(
   };
 }
 
-/** Place a local point of a group of local size `size` on the site: turn it `r` times, then move it. */
-export function groupPoint(p: Vec3, size: Vec3, r: Rotation, origin: [number, number]): Vec3 {
+/**
+ * Place a local point of a group of local size `size` on the site: turn it `r` times, then move it (along the
+ * ground by `origin`, upwards by `elevation`).
+ */
+export function groupPoint(p: Vec3, size: Vec3, r: Rotation, origin: [number, number], elevation = 0): Vec3 {
   let [x, y, z] = p;
   let sx = size[0];
   let sz = size[2];
@@ -284,7 +327,7 @@ export function groupPoint(p: Vec3, size: Vec3, r: Rotation, origin: [number, nu
     x = nx;
     [sx, sz] = [sz, sx];
   }
-  return [x + origin[0], y, z + origin[1]];
+  return [x + origin[0], y + elevation, z + origin[1]];
 }
 
 /** Size of the group's bounding box after rotation. */
@@ -299,19 +342,36 @@ export function placeUnit(
   size: Vec3,
   r: Rotation,
   origin: [number, number],
+  elevation = 0,
 ): Unit {
   const s = rotatedSize(def, u.rotation);
-  const a = groupPoint(u.origin, size, r, origin);
-  const b = groupPoint([u.origin[0] + s[0] - 1, u.origin[1], u.origin[2] + s[2] - 1], size, r, origin);
+  const a = groupPoint(u.origin, size, r, origin, elevation);
+  const b = groupPoint(
+    [u.origin[0] + s[0] - 1, u.origin[1], u.origin[2] + s[2] - 1],
+    size,
+    r,
+    origin,
+    elevation,
+  );
   return {
     id: u.id,
-    origin: [Math.min(a[0], b[0]), u.origin[1], Math.min(a[2], b[2])],
+    origin: [Math.min(a[0], b[0]), a[1], Math.min(a[2], b[2])],
     rotation: ((u.rotation + r) % 4) as Rotation,
   };
 }
 
-export function placeHatch(h: SiteHatch, size: Vec3, r: Rotation, origin: [number, number]): SiteHatch {
-  const out: SiteHatch = { ...h, cell: groupPoint(h.cell, size, r, origin), face: rotateDir(h.face, r) };
+export function placeHatch(
+  h: SiteHatch,
+  size: Vec3,
+  r: Rotation,
+  origin: [number, number],
+  elevation = 0,
+): SiteHatch {
+  const out: SiteHatch = {
+    ...h,
+    cell: groupPoint(h.cell, size, r, origin, elevation),
+    face: rotateDir(h.face, r),
+  };
   if (h.blocked) out.blocked = h.blocked.map((d) => rotateDir(d, r));
   return out;
 }

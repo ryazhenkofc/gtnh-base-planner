@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { arrangeSite, grownSize } from './arrange';
-import { createSiteBuilder, localFootprints } from './build';
+import { FLOOR_CLEARANCE, arrangeSite, grownSize } from './arrange';
+import { createSiteBuilder, localFootprints, localHeights } from './build';
 import type { SiteGroup, SiteState } from './types';
 
 function g(id: string, multiblockId: string, count = 1): SiteGroup {
@@ -99,5 +99,78 @@ describe('arrangeSite', () => {
     const xs = new Set(r.groups.map((gr) => gr.origin[0]));
     expect(xs.size).toBeGreaterThan(1);
     for (const gr of r.groups) expect(gr.origin[1]).toBeGreaterThanOrEqual(2);
+  });
+});
+
+describe('arrangeSite on floors', () => {
+  /** Six unlinked-in-a-row groups: each link puts the next one a column east. */
+  function line(n: number, size: [number, number]): SiteState {
+    const groups = Array.from({ length: n }, (_, i) => g(`g${i}`, 'electric-blast-furnace'));
+    const links = groups.slice(1).map((gr, i) => ({
+      id: `l${i}`,
+      from: { group: groups[i].id },
+      to: { group: gr.id },
+      resource: 'r',
+    }));
+    return { ...chain(), size, groups, links, resources: chain().resources };
+  }
+  const sizeOf = () => [6, 6] as [number, number];
+  const heightOf = () => 5;
+
+  it('keeps everything on the ground, as before, unless asked for floors', () => {
+    const r = arrangeSite(line(6, [20, 20]), sizeOf);
+    expect(r.floors).toBe(1);
+    expect(r.fits).toBe(false);
+    expect(r.needed[0]).toBeGreaterThan(20);
+    expect(r.groups.every((gr) => gr.elevation === undefined)).toBe(true);
+  });
+
+  it('puts the columns that do not fit the width on a floor above, inside the site', () => {
+    const site = line(6, [20, 20]);
+    const r = arrangeSite(site, sizeOf, { floors: { heightOf } });
+    expect(r.floors).toBeGreaterThan(1);
+    expect(r.fits).toBe(true);
+    expect(r.needed[0]).toBeLessThanOrEqual(20);
+    for (const gr of r.groups) {
+      expect(gr.origin[0]).toBeGreaterThanOrEqual(0);
+      expect(gr.origin[0] + 6).toBeLessThanOrEqual(20);
+    }
+    const heights = [...new Set(r.groups.map((gr) => gr.elevation ?? 0))].sort((a, b) => a - b);
+    // The next floor starts above the tallest group below it and a clearance for pipes.
+    expect(heights[0]).toBe(0);
+    expect(heights[1]).toBe(5 + FLOOR_CLEARANCE);
+  });
+
+  it('runs the second floor back towards the start, so the chain ends where the next floor begins', () => {
+    const r = arrangeSite(line(6, [20, 20]), sizeOf, { floors: { heightOf } });
+    const first = r.groups.filter((gr) => !gr.elevation);
+    const second = r.groups.filter((gr) => gr.elevation);
+    const lastOfFirst = first.reduce((a, b) => (b.origin[0] > a.origin[0] ? b : a));
+    const startOfSecond = second.find((gr) => gr.id === `g${first.length}`)!;
+    expect(Math.abs(startOfSecond.origin[0] - lastOfFirst.origin[0])).toBeLessThan(6);
+  });
+
+  it('does not stack anything while one floor is enough, and clears a stale elevation', () => {
+    const site = line(2, [40, 40]);
+    site.groups[1].elevation = 9;
+    const r = arrangeSite(site, sizeOf, { floors: { heightOf } });
+    expect(r.floors).toBe(1);
+    expect(r.groups.every((gr) => gr.elevation === undefined)).toBe(true);
+  });
+
+  it('builds floors with no overlaps and every pipe connected', () => {
+    const site = { ...chain(), size: [14, 30] as [number, number] };
+    const build = createSiteBuilder();
+    const first = build(site, { pipes: false, cables: false });
+    const sizes = localFootprints(first);
+    const heights = localHeights(first);
+    const r = arrangeSite(site, (id) => sizes.get(id), {
+      floors: { heightOf: (id) => heights.get(id) ?? 1 },
+    });
+    expect(r.floors).toBeGreaterThan(1);
+    const placed = build({ ...site, groups: r.groups }, { pipes: true, cables: false });
+    expect(placed.warnings.filter((w) => w.type === 'overlap' || w.type === 'outside')).toEqual([]);
+    const top = Math.max(...placed.groups.map((pg) => pg.max[1]));
+    expect(top).toBeGreaterThan(Math.max(...placed.groups.map((pg) => pg.max[1] - pg.min[1])));
   });
 });

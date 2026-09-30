@@ -635,22 +635,41 @@ export async function build(opts) {
   const blocks = new Map(); // id → { name, color }
   const gaps = [];
   const used = new Set(defs.flatMap((d) => [...d.blocks]));
+  // A hand-made entry keeps its own structure but shows its machine's own controller: the dump knows which block
+  // that is (by name when several entries share a class, as the turbines do).
+  const handControllers = new Map(); // hand entry id -> { blockId, name }
+  for (const { doc, hand: h } of covered) {
+    const exact = h.name === doc.controller.display_name;
+    if (handControllers.has(h.id) && !exact) continue;
+    handControllers.set(h.id, {
+      blockId: blockIdOf(doc.controller.registry_name, doc.controller.meta),
+      name: h.name,
+    });
+  }
+  for (const { blockId } of handControllers.values()) used.add(blockId);
+  const controllerName = (id) => {
+    const d = defs.find((x) => x.def.controller.blockId === id);
+    if (d) return `${d.def.name} Controller`;
+    const h = [...handControllers.values()].find((x) => x.blockId === id);
+    return h ? `${h.name} Controller` : null;
+  };
+  // A sprite no jar carries (vanilla, AE2) cannot give a flat colour: the previous run's colour stays.
+  const previousColor = new Map(
+    (existsSync(BLOCKS_OUT) ? JSON.parse(readFileSync(BLOCKS_OUT, 'utf8')) : []).map((b) => [b.id, b.color]),
+  );
   for (const id of [...used].sort()) {
     if (id.startsWith('gt.hatch.')) continue;
     const at = id.lastIndexOf('@');
     const key = `${id.slice(0, at)}|${id.slice(at + 1)}`;
     const entry = manifest.blocks[key];
-    const isController = defs.some((d) => d.def.controller.blockId === id);
+    const isController = controllerName(id) !== null;
     const f = entry ? (isController ? controllerFaces(tiles, entry) : blockFaces(tiles, entry)) : null;
     if (f) faces[id] = f;
     else gaps.push(id);
-    const name =
-      entry?.display_name ??
-      (isController ? `${defs.find((d) => d.def.controller.blockId === id).def.name} Controller` : null) ??
-      id;
+    const name = entry?.display_name ?? (isController ? controllerName(id) : null) ?? id;
     const flat = !f && entry ? composer.compose(commonSide(entry) ?? []) : null;
     const color = f ? meanColor(tiles.tiles.get(f.side)) : flat ? meanColor(flat) : null;
-    blocks.set(id, { name, color: color ?? '#8f8f8f' });
+    blocks.set(id, { name, color: color ?? previousColor.get(id) ?? '#8f8f8f' });
   }
   // A cell only a machine-specific hatch may fill: an HV machine hull, as those hatches mostly are.
   blocks.set('gt.hatch.special', { name: 'Machine-specific Hatch', color: '#6b7280' });
@@ -731,6 +750,13 @@ export async function build(opts) {
   for (const g of generated) if (!retained.includes(g)) rmSync(join(MULTI_DIR, `${g.id}.json`));
   for (const { def } of defs)
     await writeFormatted(join(MULTI_DIR, `${def.id}.json`), JSON.stringify(def) + '\n');
+  // Hand-made entries that still show the generic controller get their machine's own.
+  for (const h of hand) {
+    const c = handControllers.get(h.id);
+    if (!c || h.def.controller.blockId !== 'gt.controller') continue;
+    const def = { ...h.def, controller: { ...h.def.controller, blockId: c.blockId } };
+    await writeFormatted(join(MULTI_DIR, `${h.id}.json`), JSON.stringify(def) + '\n');
+  }
 
   // Tiles: the composited ones are written here; carried ones keep their source file and options.
   const before = existsSync(TEXTURES_OUT)

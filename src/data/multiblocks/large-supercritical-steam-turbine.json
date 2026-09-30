@@ -9,29 +9,16 @@
     ["---", "CCC", " B ", " B ", "AEA", "AEA", "B B"]
   ],
   "legend": {
-    "C": {
-      "blockId": "gt.casing.turbineSC"
-    },
-    "B": {
-      "blockId": "gt.frame.pbi"
-    },
-    "A": {
-      "blockId": "gt.casing.pbiPipe"
-    },
-    "D": {
-      "blockId": "gt.hatch.dynamo",
-      "hatches": ["dynamo"]
-    },
+    "C": { "blockId": "gt.casing.turbineSC" },
+    "B": { "blockId": "gt.frame.pbi" },
+    "A": { "blockId": "gt.casing.pbiPipe" },
+    "D": { "blockId": "gt.hatch.dynamo", "hatches": ["dynamo"] },
     "E": {
       "blockId": "gt.casing.turbineSC",
       "hatches": ["maintenance", "fluidIn", "fluidOut", "itemOut", "itemIn"]
     }
   },
-  "controller": {
-    "pos": [1, 1, 1],
-    "facing": "north",
-    "blockId": "gt.controller"
-  },
+  "controller": { "pos": [1, 1, 1], "facing": "north", "blockId": "gregtech:gt.blockmachines@15526" },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",
     "itemOut": "gt.hatch.outputBus",
@@ -42,20 +29,10 @@
   },
   "shareableHatches": ["fluidIn", "fluidOut", "itemIn", "itemOut"],
   "requiredHatches": {
-    "maintenance": {
-      "min": 1,
-      "max": 1
-    },
-    "fluidIn": {
-      "min": 1
-    },
-    "dynamo": {
-      "min": 1,
-      "max": 1
-    },
-    "fluidOut": {
-      "min": 1
-    }
+    "maintenance": { "min": 1, "max": 1 },
+    "fluidIn": { "min": 1 },
+    "dynamo": { "min": 1, "max": 1 },
+    "fluidOut": { "min": 1 }
   },
   "defaultHatches": ["fluidIn", "dynamo", "maintenance", "fluidOut"],
   "wallshare": true,

@@ -177,6 +177,7 @@ resources under `src/main/resources/` in the repository), tinted and layered the
 - `src/main/resources/assets/goodgenerator/textures/blocks/yottaFluidTankCasing_SIDE.png`
 - `src/main/resources/assets/goodgenerator/textures/blocks/yottaFluidTankCell/1.png`
 - `src/main/resources/assets/gregtech/textures/blocks/icons/NeutronActivator_Off.png`
+- `src/main/resources/assets/gregtech/textures/blocks/icons/turbines/TURBINE_15.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/ALGAE_CASING.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/AQUATIC_CASING.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/AQUATIC_CASING_TOP.png`
@@ -202,6 +203,10 @@ resources under `src/main/resources/` in the repository), tinted and layered the
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/BLOCK_ZINC.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/CASING_REDOX_EV.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/CASING_REDOX_UV.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/CASING_REINFORCED_WOOD.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/CASING_REINFORCED_WOOD_TOP.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/COKE_OVEN_CASING.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/COKE_OVEN_OVERLAY_INACTIVE.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/COLLIDER_CASING.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/COMPRESSOR_CASING.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/COMPRESSOR_PIPE_CASING.png`
@@ -260,6 +265,7 @@ resources under `src/main/resources/` in the repository), tinted and layered the
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/INDUSTRIAL_SIEVE_CASING.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/INDUSTRIAL_STRENGTH_CONCRETE.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/INTEGRAL_FRAMEWORK_EV.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/LARGETURBINE_NEW5.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/LARGE_SIEVE_GRATE.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/LASER_PLATE.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_BRONZEPLATEDBRICKS.png`
@@ -270,6 +276,7 @@ resources under `src/main/resources/` in the repository), tinted and layered the
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_CABLE.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_CHEMICALLY_INERT.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_CLEAN_STAINLESSSTEEL.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_DENSEBRICKS.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_EMS.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_ENGINE_INTAKE.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_EXTREME_CORROSION_RESISTANT.png`
@@ -405,10 +412,12 @@ resources under `src/main/resources/` in the repository), tinted and layered the
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_ENGRAVER.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_ETCHING_ARRAY.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_EXOFOUNDRY.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_EXTREME_DIESEL_ENGINE.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_FRIDGE.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_HEARTH.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_HEAT_EXCHANGER.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_IMPLOSION_COMPRESSOR.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_INDUSTRIAL_EXTRACTOR.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_LARGE_BOILER.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_LARGE_CHEMICAL_REACTOR.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_LHC_ACCELERATOR.png`
@@ -417,6 +426,8 @@ resources under `src/main/resources/` in the repository), tinted and layered the
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_MEGA_CHEMICAL_REACTOR.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_MEGA_DISTILLATION_TOWER.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_MEGA_OIL_CRACKER.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_MULTI_AUTOCLAVE.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_MULTI_BREWERY.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_MULTI_CANNER.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_MULTI_COMPRESSOR.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_MULTI_LATEX.png`
@@ -431,9 +442,16 @@ resources under `src/main/resources/` in the repository), tinted and layered the
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_ORE_FACTORY.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_PLANETARYSIPHON.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_PURIFICATION_PLANT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_PYROLYSE_OVEN.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_SMD_PROCESSOR.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_SOLAR_FACTORY_INACTIVE.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_SPLITTER.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_STEAM_ALLOY_SMELTER_MULTI.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_STEAM_CENTRIFUGE.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_STEAM_COMPRESSOR.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_STEAM_FORGE_HAMMER.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_STEAM_FURNACE_MULTI.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_STEAM_WASHER.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_SUPERCONDUCTOR_SPLITTER.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_VACUUM_FREEZER.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_WATER_PUMP.png`
@@ -447,6 +465,7 @@ resources under `src/main/resources/` in the repository), tinted and layered the
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_MULTI_NEUTRONIUM.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_QCHEST.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_TELEPORTER.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_TOP_STEAM_MACERATOR.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/PARTICLE_CONTAINMENT_CASING.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/PHONON_CONDUIT.png`
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/PRIMITIVE_WOODEN_CASING_SIDE.png`
@@ -589,6 +608,7 @@ resources under `src/main/resources/` in the repository), tinted and layered the
 - `src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/industrialVacuumFreezer.png`
 - `src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/industrialWashPlant.png`
 - `src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/industrialWiremill.png`
+- `src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/largeFluidExtractor.png`
 - `src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/largeRocketEngine.png`
 - `src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/megaAlloyBlastSmelter.png`
 - `src/main/resources/assets/miscutils/textures/blocks/iconsets/controllerFaces/quantumForceTransformer.png`
@@ -614,3 +634,61 @@ material icon multiplied by the material colour:
 - `src/main/resources/assets/gtnhintergalactic/textures/blocks/spaceElevator/InternalStructure.png`
 
 <!-- /tools/game-dump -->
+
+<!-- tools/game-dump: single-block machines -->
+
+### Files used by the single-block machines of the template view
+
+The front overlays of the GT single-block machines (`tools/texture-sources/SINGLE_*.png`, see
+[`tools/game-dump/single-machines.mjs`](tools/game-dump/single-machines.mjs)) are these sprites of the
+GT5-Unofficial `5.09.54.133` jar, drawn over the machine hull:
+
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/alloy_smelter/OVERLAY_FRONT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/amplifab/OVERLAY_FRONT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/arc_furnace/OVERLAY_FRONT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/assembler/OVERLAY_FRONT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/autoclave/OVERLAY_FRONT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/bender/OVERLAY_FRONT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/boxinator/OVERLAY_FRONT_BOXINATOR.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/canner/OVERLAY_FRONT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/centrifuge/OVERLAY_FRONT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/chemical_bath/OVERLAY_FRONT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/chemical_reactor/OVERLAY_FRONT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/circuitassembler/OVERLAY_FRONT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/compressor/OVERLAY_FRONT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/cutter/OVERLAY_FRONT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/distillery/OVERLAY_FRONT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/electric_furnace/OVERLAY_FRONT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/electrolyzer/OVERLAY_FRONT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/electromagnetic_separator/OVERLAY_FRONT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/extractor/OVERLAY_FRONT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/extruder/OVERLAY_FRONT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/fermenter/OVERLAY_FRONT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/fluid_canner/OVERLAY_FRONT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/fluid_extractor/OVERLAY_FRONT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/fluid_heater/OVERLAY_FRONT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/fluid_solidifier/OVERLAY_FRONT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/hammer/OVERLAY_FRONT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/laser_engraver/OVERLAY_FRONT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/lathe/OVERLAY_FRONT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/macerator/OVERLAY_FRONT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/microwave/OVERLAY_FRONT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/mixer/OVERLAY_FRONT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/ore_washer/OVERLAY_FRONT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/plasma_arc_furnace/OVERLAY_FRONT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/polarizer/OVERLAY_FRONT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/potionbrewer/OVERLAY_FRONT_POTIONBREWER.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/press/OVERLAY_FRONT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/printer/OVERLAY_FRONT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/pump/OVERLAY_FRONT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/recycler/OVERLAY_FRONT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/replicator/OVERLAY_FRONT_REPLICATOR.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/sifter/OVERLAY_FRONT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/thermal_centrifuge/OVERLAY_FRONT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/unboxinator/OVERLAY_FRONT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/basicmachines/wiremill/OVERLAY_FRONT.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_MASSFAB.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_ROCK_BREAKER.png`
+- `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_SCANNER.png`
+
+<!-- /tools/game-dump: single-block machines -->

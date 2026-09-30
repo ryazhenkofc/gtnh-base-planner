@@ -9,6 +9,7 @@ import {
 import { createSiteBuilder } from '../model/site/build';
 import type { SiteBuild, SiteBuildOptions } from '../model/site/buildTypes';
 import type { SiteState } from '../model/site/types';
+import { arrangeHere, type Arranged } from './siteArrange';
 
 /**
  * Builds sites off the main thread: packing hundreds of units and routing a large template takes seconds,
@@ -18,6 +19,7 @@ import type { SiteState } from '../model/site/types';
 
 export type SiteWorkerRequest =
   | { id: number; type: 'build'; site: SiteState; opts: SiteBuildOptions }
+  | { id: number; type: 'arrange'; site: SiteState; below: boolean }
   | {
       id: number;
       type: 'import';
@@ -30,6 +32,7 @@ export type SiteWorkerRequest =
 export type SiteWorkerResponse =
   | { id: number; build: SiteBuild; partial?: boolean }
   | { id: number; imported: { site: SiteState; report: ImportReport } }
+  | { id: number; arranged: Arranged }
   | { id: number; error: string };
 
 /** Above this many pipe and cable ends, the groups are shown before the nets are routed. */
@@ -43,6 +46,10 @@ self.onmessage = (e: MessageEvent<SiteWorkerRequest>) => {
   try {
     if (req.type === 'import') {
       post({ id: req.id, imported: buildSiteFromGtnh(req.project, req.choices, req.opts, buildSite) });
+      return;
+    }
+    if (req.type === 'arrange') {
+      post({ id: req.id, arranged: arrangeHere(req.site, req.below, buildSite) });
       return;
     }
     const { id, site, opts } = req;

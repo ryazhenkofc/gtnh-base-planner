@@ -23,21 +23,11 @@
         "fluidIn": ["south", "west", "east", "up", "down"]
       }
     },
-    "B": {
-      "blockId": "gt.casing.bronzeGearbox"
-    },
-    "C": {
-      "blockId": "gt.casing.bronzePipe"
-    },
-    "D": {
-      "blockId": "gt.glass.reinforced"
-    }
+    "B": { "blockId": "gt.casing.bronzeGearbox" },
+    "C": { "blockId": "gt.casing.bronzePipe" },
+    "D": { "blockId": "gt.glass.reinforced" }
   },
-  "controller": {
-    "pos": [7, 1, 1],
-    "facing": "north",
-    "blockId": "gt.controller"
-  },
+  "controller": { "pos": [7, 1, 1], "facing": "north", "blockId": "gregtech:gt.blockmachines@31082" },
   "hatchBlocks": {
     "steamIn": "gt.hatch.steamInput",
     "itemIn": "gt.hatch.steamInputBus",
@@ -46,18 +36,10 @@
   },
   "shareableHatches": ["steamIn", "itemIn", "itemOut", "fluidIn"],
   "requiredHatches": {
-    "steamIn": {
-      "min": 1
-    },
-    "itemIn": {
-      "min": 1
-    },
-    "fluidIn": {
-      "min": 1
-    },
-    "itemOut": {
-      "min": 1
-    }
+    "steamIn": { "min": 1 },
+    "itemIn": { "min": 1 },
+    "fluidIn": { "min": 1 },
+    "itemOut": { "min": 1 }
   },
   "defaultHatches": ["steamIn", "itemIn", "itemOut", "fluidIn"],
   "wallshare": true,

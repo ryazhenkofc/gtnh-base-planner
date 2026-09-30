@@ -61,6 +61,35 @@ describe('validateSiteState', () => {
     expect(s.groups[1].size).toBe(7);
   });
 
+  it('keeps the machine of single-block groups only, and drops one it does not know', () => {
+    const s = sample();
+    s.groups.push({
+      id: 'sb',
+      multiblockId: 'single-block',
+      count: 2,
+      limits: { x: null, y: null, z: null },
+      enabledHatches: [],
+      origin: [1, 1],
+      rotation: 0,
+      machine: 'macerator',
+    });
+    s.groups[0].machine = 'macerator';
+    const out = validateSiteState(s);
+    expect(out.groups[2].machine).toBe('macerator');
+    expect('machine' in out.groups[0]).toBe(false);
+    s.groups[2].machine = 'flux-capacitor';
+    expect('machine' in validateSiteState(s).groups[2]).toBe(false);
+  });
+
+  it('keeps the elevation of a group, and drops a zero one', () => {
+    const s = sample();
+    s.groups[0].elevation = 12;
+    s.groups[1].elevation = 0;
+    const out = validateSiteState(s);
+    expect(out.groups[0].elevation).toBe(12);
+    expect('elevation' in out.groups[1]).toBe(false);
+  });
+
   it('rejects broken references and wrong port directions', () => {
     const bad1 = sample();
     bad1.links[1].to = { group: 'nope' };
@@ -146,6 +175,8 @@ describe('malformed site links and files', () => {
       ['colour', (s) => (s.resources['item:dust'].color = 'red')],
       ['origin', (s) => (s.groups[0].origin = [1.5, 0])],
       ['far origin', (s) => (s.groups[0].origin = [1e9, 0])],
+      ['elevation', (s) => (s.groups[0].elevation = 1.5)],
+      ['high elevation', (s) => (s.groups[0].elevation = 100000)],
       ['port position', (s) => (s.ports[0].pos = [-1, 0])],
       ['count', (s) => (s.groups[0].count = 0)],
       ['control characters', (s) => (s.groups[0].label = 'a\u0000b')],

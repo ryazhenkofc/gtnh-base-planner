@@ -5,7 +5,7 @@
   import { IO_KINDS } from '../model/site/group';
   import type { SiteGroup } from '../model/site/types';
   import type { HatchKind } from '../model/multiblock/types';
-  import { SITE_MAX_SIZE } from '../share/siteCodec';
+  import { SITE_MAX_ELEVATION, SITE_MAX_SIZE } from '../share/siteCodec';
   import { siteGroup } from '../state/site';
   import { hatchKindsOf } from './catalogView';
   import {
@@ -70,6 +70,10 @@
   function commitOrigin(axis: 0 | 1, text: string) {
     const n = Number(text.trim());
     if (text.trim() !== '' && Number.isFinite(n)) setSelectedOrigin(axis, n);
+  }
+  function commitElevation(text: string) {
+    const n = Number(text.trim());
+    if (text.trim() !== '' && Number.isFinite(n)) patch({ elevation: n });
   }
   /** `axis` is a site axis (the field's label); the group stores its limits unturned. */
   function commitLimit(axis: 'x' | 'y' | 'z', text: string) {
@@ -237,6 +241,16 @@
             max={2 * SITE_MAX_SIZE}
             testid="site-group-z"
             oncommit={(v) => commitOrigin(1, v)}
+          /></label
+        >
+        <label class="pair"
+          ><span>{t.site.elevation}</span><NumberStepper
+            value={String(group.elevation ?? 0)}
+            label={t.site.elevation}
+            min={0}
+            max={SITE_MAX_ELEVATION}
+            testid="site-group-elevation"
+            oncommit={(v) => commitElevation(v)}
           /></label
         >
         <div class="row">
