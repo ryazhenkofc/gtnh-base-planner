@@ -6,7 +6,9 @@ import { key, toWorld, localCells } from '../geometry';
 import type { Rotation, Vec3 } from '../core/types';
 import type { Unit } from '../multiblock/types';
 import { createSiteBuilder } from './build';
-import { hatchKindFor } from './demand';
+import { deriveSiteDemand, hatchKindFor } from './demand';
+import { placeGroups, type GroupCache } from './groups';
+import { groupToward } from './toward';
 import { groupIndexOfUnit } from './ids';
 import { buildGroup, groupPoint, placeUnit, singleBlockLimits, withDemand } from './group';
 import type { SiteGroup, SiteState } from './types';
@@ -382,5 +384,43 @@ describe('placeholder', () => {
     expect(vf.size).toBeDefined();
     const cells: Vec3[] = b.units.map((u) => u.origin);
     expect(cells.length).toBe(2);
+  });
+});
+
+describe('the per-group pack cache', () => {
+  const flat = site({ groups: [group('a', 'electric-blast-furnace', [3, 3])] });
+  const stacked = site({
+    groups: [group('a', 'electric-blast-furnace', [3, 3], { limits: { x: 1, y: 2, z: 1 } })],
+  });
+  const run = (s: SiteState, cache: GroupCache, prune?: boolean) => {
+    const d = deriveSiteDemand(s);
+    placeGroups(s, d.demands, groupToward(s, d.endsOf), false, cache, prune);
+  };
+
+  it('drops the packs a site does not use, so editing keeps memory bounded', () => {
+    const cache: GroupCache = new Map();
+    run(flat, cache);
+    run(stacked, cache);
+    expect(cache.size).toBe(1);
+  });
+
+  it('keeps them all when asked, for a search that comes back to the same packs', () => {
+    const cache: GroupCache = new Map();
+    run(flat, cache, false);
+    run(stacked, cache, false);
+    expect(cache.size).toBe(2);
+    // Going back to the first layout packs nothing new.
+    const before = new Set(cache.keys());
+    run(flat, cache, false);
+    expect(new Set(cache.keys())).toEqual(before);
+  });
+
+  it('is what the builder’s keepCache option does', () => {
+    const build = createSiteBuilder();
+    const a = build(flat, { pipes: false, cables: false, keepCache: true });
+    build(stacked, { pipes: false, cables: false, keepCache: true });
+    // The same pack comes back for the same group, not a rebuilt one.
+    const again = build(flat, { pipes: false, cables: false, keepCache: true });
+    expect(again.groups[0].build).toBe(a.groups[0].build);
   });
 });

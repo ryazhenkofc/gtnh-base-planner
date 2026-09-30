@@ -23,7 +23,7 @@ export type GroupCache = Map<string, GroupBuild | { error: string }>;
 /**
  * Every group of the site packed, given its hatches and placed on the site (turned, moved, with unit ids
  * made unique by `GROUP_STRIDE`). Reuses and refreshes `cache`, and drops the entries no group uses any
- * more, so memory stays bounded while editing.
+ * more (unless `prune` is off), so memory stays bounded while editing.
  */
 export function placeGroups(
   site: SiteState,
@@ -31,6 +31,7 @@ export function placeGroups(
   towardOf: (g: SiteGroup) => Toward,
   below: boolean,
   cache: GroupCache,
+  prune = true,
 ): { groups: PlacedGroup[]; warnings: SiteWarning[] } {
   const warnings: SiteWarning[] = [];
   const used = new Set<string>();
@@ -109,6 +110,6 @@ export function placeGroups(
       demand,
     };
   });
-  for (const k of [...cache.keys()]) if (!used.has(k)) cache.delete(k);
+  if (prune) for (const k of [...cache.keys()]) if (!used.has(k)) cache.delete(k);
   return { groups, warnings };
 }

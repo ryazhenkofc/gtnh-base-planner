@@ -149,6 +149,12 @@ class Layout {
   readonly w: number[];
   readonly d: number[];
   readonly present: boolean[];
+  /** Nets each group is in, the wire length last computed for each net, and the nets changed since. */
+  private readonly netsOf: number[][];
+  private readonly wires: Float64Array;
+  private readonly dirty: Set<number>;
+  /** Groups changed since `begin`, with what they were then (for `rollback`). */
+  private readonly journal = new Map<number, [number, number, Rotation, number]>();
   /** Groups a group is linked to. */
   readonly partners: number[][];
   /** Every shape of each group; `shape[i]` is the one it has. */
@@ -174,6 +180,10 @@ class Layout {
     this.n = gs.length;
     const index = new Map(gs.map((g, i) => [g.id, i]));
     this.nets = buildNets(site, index);
+    this.netsOf = gs.map(() => []);
+    this.nets.forEach((net, k) => new Set(net.groups).forEach((gi) => this.netsOf[gi].push(k)));
+    this.wires = new Float64Array(this.nets.length);
+    this.dirty = new Set(this.nets.keys());
     this.shapes = gs.map((g) => {
       const given = shapes?.get(g.id);
       return given && given.length > 0
@@ -262,6 +272,10 @@ class Layout {
   }
 
   set(i: number, x: number, z: number, r: Rotation = this.rot[i], s: number = this.shape[i]): void {
+    if (x !== this.x[i] || z !== this.z[i] || r !== this.rot[i] || s !== this.shape[i]) {
+      for (const k of this.netsOf[i]) this.dirty.add(k);
+      if (!this.journal.has(i)) this.journal.set(i, [this.x[i], this.z[i], this.rot[i], this.shape[i]]);
+    }
     this.x[i] = x;
     this.z[i] = z;
     if (r !== this.rot[i] || s !== this.shape[i]) {
@@ -344,9 +358,19 @@ class Layout {
     return this.centre * centre + (1 - this.centre) * gap;
   }
 
+  /** Takes a group out of the layout (`false`) or puts it back: its nets change. */
+  setPresent(i: number, present: boolean): void {
+    if (this.present[i] === present) return;
+    this.present[i] = present;
+    for (const k of this.netsOf[i]) this.dirty.add(k);
+  }
+
+  /** Total wire length; only the nets of groups that moved since the last call are measured again. */
   wireLength(): number {
+    for (const k of this.dirty) this.wires[k] = this.wire(this.nets[k]);
+    this.dirty.clear();
     let s = 0;
-    for (const net of this.nets) s += this.wire(net);
+    for (let k = 0; k < this.wires.length; k++) s += this.wires[k];
     return s;
   }
 
@@ -368,6 +392,19 @@ class Layout {
 
   cost(): number {
     return this.wireLength() + this.compact * this.span();
+  }
+
+  /** Starts a move: what changes from here can be undone with `rollback`. */
+  begin(): void {
+    this.journal.clear();
+  }
+
+  /** Puts back every group the move since `begin` changed. */
+  rollback(): void {
+    const changed = [...this.journal];
+    this.journal.clear();
+    for (const [i, [x, z, r, s]] of changed) this.set(i, x, z, r, s);
+    this.journal.clear();
   }
 
   snapshot(): { x: number[]; z: number[]; rot: Rotation[]; shape: number[] } {
@@ -501,11 +538,11 @@ export function annealGroups(
     for (const p of [...m.partners[seed]].sort(() => rand() - 0.5)) if (chosen.length < 3) chosen.push(p);
     if (chosen.length < 2 && m.n > 1) chosen.push((seed + randInt(1, m.n - 1)) % m.n);
     const old = chosen.map((i) => [i, m.x[i], m.z[i], m.rot[i]] as const);
-    for (const i of chosen) m.present[i] = false;
+    for (const i of chosen) m.setPresent(i, false);
     chosen.sort(() => rand() - 0.5);
     let ok = true;
     for (const i of chosen) {
-      m.present[i] = true;
+      m.setPresent(i, true);
       const here = [m.x[i], m.z[i], m.rot[i]] as const;
       const spot: { at: [number, number, Rotation] | null; cost: number } = { at: null, cost: Infinity };
       const consider = (x: number, z: number, r: Rotation) => {
@@ -538,7 +575,7 @@ export function annealGroups(
     }
     if (!ok) {
       for (const [i, x, z, r] of old) {
-        m.present[i] = true;
+        m.setPresent(i, true);
         m.set(i, x, z, r);
       }
     }
@@ -568,13 +605,14 @@ export function annealGroups(
   let progress = 0;
   let done = 0;
   for (; done < iterations; done++) {
-    if (done % 64 === 0) {
+    // A step judged by `evaluate` can take tens of milliseconds: read the clock every time then.
+    if (done % 64 === 0 || opts.evaluate) {
       progress = done / iterations;
       if (opts.budgetMs !== undefined) progress = Math.max(progress, (now() - started) / opts.budgetMs);
       if (progress >= 1) break;
     }
     const temp = t0 * Math.pow(t1 / t0, progress);
-    const undo = m.snapshot();
+    m.begin();
     const pickMove = rand();
     let moved = false;
     if (reshapable.length > 0 && rand() < 0.15) {
@@ -624,7 +662,7 @@ export function annealGroups(
         bestState = m.snapshot();
       }
     } else {
-      m.restore(undo);
+      m.rollback();
     }
   }
 

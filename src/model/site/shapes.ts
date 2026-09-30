@@ -9,7 +9,7 @@ import type { SiteGroup, SiteLink, SiteState } from './types';
  * layers, units along Z), measured by building them. The annealer moves between them.
  *
  * Candidates per group, in this order (the list is cut at `MAX_SHAPES`): one layer with rows along X or Z and
- * a few in-between grids, then two layers, then three. A candidate only counts when it places every unit,
+ * a few in-between grids, then two layers, then three. Groups with locked limits get none. A candidate only counts when it places every unit,
  * leaves no more hatches or resources unplaced than the group's current packing does, stays under
  * `MAX_HEIGHT` and has a footprint or height the others do not.
  */
@@ -38,40 +38,90 @@ function candidateLimits(count: number, size: readonly number[]): PlanLimits[] {
   return out;
 }
 
-export function groupShapes(site: SiteState, builder: SiteBuilder, below: boolean): Map<string, Shape[]> {
-  const variants: { of: SiteGroup; limits: PlanLimits }[] = [];
-  for (const g of site.groups) {
-    const def = getSiteDef(g.multiblockId);
-    if (!def || isSingleBlock(def) || g.count < 2) continue;
+export interface ShapeOptions {
+  /** Milliseconds to spend measuring; groups left over get no shapes. Default: no limit. */
+  budgetMs?: number;
+  /** Clock for `budgetMs`. Default `performance.now`. */
+  now?: () => number;
+}
+
+/**
+ * Shapes per group id (only groups with alternatives appear). Groups are measured smallest first, each in a
+ * trial build of its own, and the cost of packing a unit seen so far decides whether the next group still
+ * fits the budget: a group of a hundred units takes seconds to pack six ways.
+ */
+export function groupShapes(
+  site: SiteState,
+  builder: SiteBuilder,
+  below: boolean,
+  opts: ShapeOptions = {},
+): Map<string, Shape[]> {
+  const now = opts.now ?? (() => performance.now());
+  const began = now();
+  const out = new Map<string, Shape[]>();
+  const order = site.groups
+    .filter((g) => {
+      const def = getSiteDef(g.multiblockId);
+      return def && !isSingleBlock(def) && g.count >= 2 && !g.limitsLocked;
+    })
+    .sort((a, b) => a.count - b.count);
+  /** Milliseconds per unit built, over the variants measured so far. */
+  let unitsBuilt = 0;
+  let spent = 0;
+  for (const g of order) {
+    const def = getSiteDef(g.multiblockId)!;
     const seen = new Set([limitsKey(g.limits)]);
+    const variants: PlanLimits[] = [];
     for (const limits of candidateLimits(g.count, def.size)) {
       const k = limitsKey(limits);
       if (seen.has(k)) continue;
       seen.add(k);
-      variants.push({ of: g, limits });
+      variants.push(limits);
     }
+    if (variants.length === 0) continue;
+    if (opts.budgetMs !== undefined) {
+      const left = opts.budgetMs - (now() - began);
+      const predicted = unitsBuilt > 0 ? (spent / unitsBuilt) * g.count * variants.length : 0;
+      if (left <= 0 || predicted > left) continue;
+    }
+    const t = now();
+    const list = measure(site, g, variants, builder, below);
+    spent += now() - t;
+    unitsBuilt += g.count * variants.length;
+    if (list) out.set(g.id, list);
   }
-  const out = new Map<string, Shape[]>();
-  if (variants.length === 0) return out;
+  return out;
+}
 
+/** The shapes of one group: its own first, then the variants that build as well as it does. */
+function measure(
+  site: SiteState,
+  g: SiteGroup,
+  variants: PlanLimits[],
+  builder: SiteBuilder,
+  below: boolean,
+): Shape[] | null {
   // Variants get ids of their own and a copy of every link end of their group, so they need the same hatches.
   const vid = (i: number) => `~s${i}`;
   const extra: SiteLink[] = [];
   for (const l of site.links)
-    variants.forEach((v, i) => {
+    variants.forEach((_, i) => {
       for (const side of ['from', 'to'] as const) {
         const e = l[side];
-        if ('group' in e && e.group === v.of.id)
+        if ('group' in e && e.group === g.id)
           extra.push({ ...l, id: `${l.id}~${side}${i}`, [side]: { group: vid(i) } });
       }
     });
   const trial: SiteState = {
     ...site,
-    groups: [...site.groups, ...variants.map((v, i) => ({ ...v.of, id: vid(i), limits: v.limits }))],
+    groups: [...site.groups, ...variants.map((limits, i) => ({ ...g, id: vid(i), limits }))],
     links: [...site.links, ...extra],
   };
   const built = new Map(
-    builder(trial, { pipes: false, cables: false, below }).groups.map((pg) => [pg.group.id, pg.build]),
+    builder(trial, { pipes: false, cables: false, below, keepCache: true }).groups.map((pg) => [
+      pg.group.id,
+      pg.build,
+    ]),
   );
   const shapeOf = (id: string, limits: PlanLimits): Shape | null => {
     const b = built.get(id);
@@ -79,25 +129,21 @@ export function groupShapes(site: SiteState, builder: SiteBuilder, below: boolea
   };
   const sameFoot = (a: Shape, b: Shape) =>
     a.size[0] === b.size[0] && a.size[1] === b.size[1] && a.height === b.height;
-
-  for (const g of site.groups) {
-    const now = shapeOf(g.id, g.limits);
-    const current = built.get(g.id);
-    if (!now || !current) continue;
-    const list: Shape[] = [now];
-    variants.forEach((v, i) => {
-      if (v.of.id !== g.id || list.length > MAX_SHAPES) return;
-      const b = built.get(vid(i));
-      const shape = shapeOf(vid(i), v.limits);
-      if (!b || !shape) return;
-      if (b.pack.placed < b.pack.requested) return;
-      if (b.unplaced.length > current.unplaced.length || b.missing.length > current.missing.length) return;
-      if (shape.height > MAX_HEIGHT || list.some((s) => sameFoot(s, shape))) return;
-      list.push(shape);
-    });
-    if (list.length > 1) out.set(g.id, list);
-  }
-  return out;
+  const now = shapeOf(g.id, g.limits);
+  const current = built.get(g.id);
+  if (!now || !current) return null;
+  const list: Shape[] = [now];
+  variants.forEach((limits, i) => {
+    if (list.length > MAX_SHAPES) return;
+    const b = built.get(vid(i));
+    const shape = shapeOf(vid(i), limits);
+    if (!b || !shape) return;
+    if (b.pack.placed < b.pack.requested) return;
+    if (b.unplaced.length > current.unplaced.length || b.missing.length > current.missing.length) return;
+    if (shape.height > MAX_HEIGHT || list.some((x) => sameFoot(x, shape))) return;
+    list.push(shape);
+  });
+  return list.length > 1 ? list : null;
 }
 
 function limitsKey(l: PlanLimits): string {

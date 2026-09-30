@@ -20,6 +20,11 @@ export interface SiteBuildOptions {
    * ground (a trench). Default false.
    */
   below?: boolean;
+  /**
+   * Keep the packs of groups this site does not use (the builder otherwise drops them, so memory stays bounded
+   * while editing). For searches that build many layouts of one site and come back to the same packs.
+   */
+  keepCache?: boolean;
 }
 
 export interface PlacedGroup {

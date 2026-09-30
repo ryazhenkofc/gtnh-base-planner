@@ -45,6 +45,28 @@ describe('groupShapes', () => {
     expect(shapes.some((sh) => sh.size[0] * sh.size[1] < shapes[0].size[0] * shapes[0].size[1])).toBe(true);
   });
 
+  it('gives no shapes to a group whose limits are locked', () => {
+    const locked = { ...group('a', 'electric-blast-furnace', 6), limitsLocked: true };
+    const s = site([locked, group('b', 'electric-blast-furnace', 6)]);
+    const shapes = groupShapes(s, createSiteBuilder(), false);
+    expect(shapes.has('a')).toBe(false);
+    expect(shapes.has('b')).toBe(true);
+  });
+
+  it('measures the smallest groups first and stops when the budget is used up', () => {
+    const s = site([group('big', 'electric-blast-furnace', 8), group('small', 'electric-blast-furnace', 2)]);
+    // No time at all: nothing is measured.
+    expect(groupShapes(s, createSiteBuilder(), false, { budgetMs: 0 }).size).toBe(0);
+    // A clock that jumps after the first group: only the smaller one (2 units) gets measured.
+    let t = 0;
+    const now = () => (t += 40);
+    const shapes = groupShapes(s, createSiteBuilder(), false, { budgetMs: 100, now });
+    expect(shapes.has('small')).toBe(true);
+    expect(shapes.has('big')).toBe(false);
+    // With no limit both are measured.
+    expect([...groupShapes(s, createSiteBuilder(), false).keys()].sort()).toEqual(['big', 'small']);
+  });
+
   it('leaves single units and single-block machines alone', () => {
     const s = site([group('a', 'electric-blast-furnace', 1)]);
     expect(groupShapes(s, createSiteBuilder(), false).size).toBe(0);

@@ -222,11 +222,78 @@ describe('optimizeSite with repacking', () => {
     expect(r.reshaped).toBe(changed.length);
   });
 
+  it('never changes the limits of a locked group, but still repacks the others', () => {
+    const { builder, site } = laidOut();
+    const locked = {
+      ...site,
+      groups: site.groups.map((g) => (g.id === 'a' || g.id === 'b' ? { ...g, limitsLocked: true } : g)),
+    };
+    for (const steps of [120, 300]) {
+      const r = optimizeSite(locked, builder, { refineSteps: steps, refineRuns: 1 });
+      for (const id of ['a', 'b']) {
+        const before = locked.groups.find((g) => g.id === id)!;
+        const after = r.site.groups.find((g) => g.id === id)!;
+        expect(after.limits).toEqual(before.limits);
+        expect(after.limitsLocked).toBe(true);
+      }
+      expect(better(r.start, r.result)).toBe(false);
+    }
+    // The unlocked groups are still free to change.
+    const free = optimizeSite(locked, builder, { refineSteps: 300, refineRuns: 1 });
+    const freed = free.site.groups.filter(
+      (g, i) => JSON.stringify(g.limits) !== JSON.stringify(locked.groups[i].limits),
+    );
+    expect(freed.every((g) => g.id === 'c' || g.id === 'd')).toBe(true);
+  });
+
   it('keeps every group’s limits when repacking is switched off', () => {
     const { builder, site } = laidOut();
     const r = optimizeSite(site, builder, { refineSteps: 120, refineRuns: 1, reshape: false });
     expect(r.reshaped).toBe(0);
     expect(r.site.groups.map((g) => g.limits)).toEqual(site.groups.map((g) => g.limits));
+  });
+});
+
+describe('scoreBuild', () => {
+  it('counts unrouted nets as unconnected terminals, not as problems', () => {
+    const build = {
+      groups: [{ min: [0, 0, 0], max: [5, 5, 5] }],
+      warnings: [
+        { type: 'unrouted', resource: 'a', connected: 1, total: 3 },
+        { type: 'overlap', groups: ['a', 'b'] },
+      ],
+      stats: { terminals: 10, connected: 8, pipeBlocks: 6, cableBlocks: 1 },
+    } as unknown as SiteBuild;
+    expect(scoreBuild(build)).toEqual({ problems: 1, unconnected: 2, blocks: 7, span: 10 });
+  });
+});
+
+describe('optimizeSite time budget', () => {
+  it('with no time left hands the start back untouched after routing it once', () => {
+    let routed = 0;
+    const counting = stub(() => 5);
+    const builder: SiteBuilder = (s, o) => {
+      if (o.pipes) routed++;
+      return counting(s, o);
+    };
+    const start = arranged();
+    const r = optimizeSite(start, builder, { budgetMs: 0 });
+    expect(r.improved).toBe(false);
+    expect(r.site).toBe(start);
+    expect(routed).toBe(1);
+  });
+
+  it('skips the polish when one routing is too slow for it to make a few steps', () => {
+    let t = 0;
+    const slow = stub(() => 5);
+    // Every routing takes 400 ms of the injected clock; the budget holds fewer than eight of them.
+    const builder: SiteBuilder = (s, o) => {
+      if (o.pipes) t += 400;
+      return slow(s, o);
+    };
+    const r = optimizeSite(arranged(), builder, { budgetMs: 2000, now: () => t, iterations: 3000 });
+    // The start, and candidates while half the budget lasts; never a run of polish steps.
+    expect(r.tried).toBeLessThanOrEqual(3);
   });
 });
 

@@ -154,13 +154,20 @@ Today: `plan → packUnits → placeHatches → computeWallStats → routePipes 
 - **Does not fit**: say so with the size needed ("needs 34 × 30"). Optionally stack low groups.
 - **Manual**: drag a group on the ground grid (snap to blocks), `R` rotates it, and collisions are highlighted
   live. Before 3D dragging exists, number fields in Settings do the same job.
-- Optimiser (built, OPTIMIZE button, `src/model/site/anneal.ts` and `optimize.ts`). Stage 1 anneals group positions
-  and turns on an estimate (net wire length, part between centres and part across the free gap, plus the bounding-box
-  span) from several seeds and routes each result. The estimate misleads: on test webs its best layouts routed
-  worse than the start. Stage 2 therefore anneals again from the best layout, judging every step by the router
-  (cached per layout, 5-20 ms a step). A result replaces the arrangement only if it beats it on the router's own
-  numbers. Groups of several units may also be repacked with other `limits` (rows and layers, up to three; `shapes.ts` measures
-  each alternative with the packer), as one more move in both stages. Not yet: routing only the nets a move touches.
+- Optimiser (built, OPTIMIZE button, `src/model/site/anneal.ts`, `optimize.ts`, `shapes.ts`). Stage 1 anneals group
+  positions and turns on an estimate (net wire length, part between centres and part across the free gap, plus
+  the bounding-box span) from several seeds and routes the best results. The estimate misleads: on test webs its
+  best layouts routed worse than the start. Stage 2 therefore anneals again from the best layout, judging every
+  step by the router (cached per layout). A result replaces the arrangement only if it beats it on the router's own
+  numbers (problems, unconnected terminals, pipe blocks, span), so it is never worse than Arrange.
+  Groups of several units may also be repacked with other `limits` (rows and layers, up to three); runs alternate
+  between allowing that and not, since repacking widens the spread of results more than it moves the median.
+  Groups whose limits are locked (`SiteGroup.limitsLocked`, set by editing them) are never repacked, nor by Arrange.
+  One time budget (10 s) covers everything; one routing of the start layout sets the pace, so slow-to-route plans
+  (a thousand machines: seconds per routing) get fewer candidates and no polish. Packs are kept across the search
+  (`SiteBuildOptions.keepCache`). Measured on exported plans of 16 to 154 groups: 25-50 % fewer pipe and cable blocks
+  on most, 5-14 % where routing is slow, nothing where no layout beat the start. Not yet: routing only the nets a
+  move touches, which is the next speed-up.
 
 ## 6. Showing I/O
 

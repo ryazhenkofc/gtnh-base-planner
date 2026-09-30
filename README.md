@@ -60,7 +60,9 @@ The planner checks layout rules for the transcribed structure only. It is not a 
    with shorter pipes in the background: simulated annealing on a cheap length estimate finds candidates, then a
    second pass judges every step by the real router. It may also pack a group of several units another way (rows or
    layers, which sets the group's limits), and says how many it changed. A result is kept only if the router connects at least as much with
-   fewer pipe blocks; otherwise the plain arrangement stays. It takes from under a second to a few seconds.
+   fewer pipe blocks; otherwise the plain arrangement stays. It runs against a time budget of about ten seconds (a second or two for small chains), and a plan that is slow
+   to route gets fewer tries. A group's limits can be kept in its settings (editing them keeps them): Arrange and
+   Optimize never change those.
    Select a group (click it, or pick it in the panel)
    and drag it in the view, or move it with the arrow keys as seen on screen (Shift: 5 blocks) or the arrows in
    the panel; R turns it (Shift+R back), F frames it and Delete removes it. The panel edits the selected group:

@@ -17,7 +17,14 @@ export function createSiteBuilder(): SiteBuilder {
 
   return function buildSite(site, opts) {
     const demand = deriveSiteDemand(site);
-    const placed = placeGroups(site, demand.demands, groupToward(site, demand.endsOf), !!opts.below, cache);
+    const placed = placeGroups(
+      site,
+      demand.demands,
+      groupToward(site, demand.endsOf),
+      !!opts.below,
+      cache,
+      !opts.keepCache,
+    );
     const { groups } = placed;
     const occupancy = analyzeOccupancy(site, groups);
     const { ports, warnings: portWarnings } = placeSitePorts(site, groups, occupancy);
