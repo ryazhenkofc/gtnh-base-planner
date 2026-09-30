@@ -57,18 +57,6 @@ export function shade(hex: string, factor: number): string {
   return '#' + ch.map((c) => c.toString(16).padStart(2, '0')).join('');
 }
 
-export interface TileColors {
-  top: string;
-  left: string;
-  right: string;
-}
-
-/** Three faces of the isometric preview cube. */
-export function tileColors(def: MultiblockDef): TileColors {
-  const base = blockInfo(dominantBlockId(def)).color;
-  return { top: shade(base, 1.15), left: shade(base, 0.9), right: shade(base, 0.72) };
-}
-
 /** One face of the picker icon: atlas tiles (drawn in order) and the flat fallback colour. */
 export interface IconFace {
   tiles: string[];
@@ -83,23 +71,46 @@ export interface IconFaces {
 }
 
 /**
+ * The three faces of an icon cube made of one block, with `front` tiles drawn over the left side. Tiles missing
+ * from the atlas are dropped (the face goes flat, in the block's colour).
+ */
+function cubeFaces(blockId: string, front: (string | undefined)[], manifest: TextureManifest): IconFaces {
+  const base = blockInfo(blockId).color;
+  const colors = { top: shade(base, 1.15), left: shade(base, 0.9), right: shade(base, 0.72) };
+  const block = manifest.blocks[blockId];
+  const known = (name: string | undefined): name is string => !!name && name in manifest.tiles;
+  const face = (tile: string | undefined, color: string, overlays: (string | undefined)[] = []): IconFace => {
+    if (!block || block.flat || !known(tile)) return { tiles: [], color };
+    return { tiles: [tile, ...overlays.filter(known)], color };
+  };
+  return {
+    top: face(block?.top ?? block?.side, colors.top),
+    left: face(block?.side, colors.left, front),
+    right: face(block?.side, colors.right),
+  };
+}
+
+/**
  * Textured faces of the picker icon: the dominant casing on every face, with the controller's
  * front overlay on the left one. Tiles missing from the atlas are dropped (the face goes flat).
  */
 export function iconFaces(def: MultiblockDef, manifest: TextureManifest = TEXTURES): IconFaces {
-  const colors = tileColors(def);
-  const casing = manifest.blocks[dominantBlockId(def)];
-  const front = manifest.blocks[def.controller.blockId]?.front;
-  const known = (name: string | undefined): name is string => !!name && name in manifest.tiles;
-  const face = (base: string | undefined, color: string, overlay?: string): IconFace => {
-    if (!casing || casing.flat || !known(base)) return { tiles: [], color };
-    return { tiles: known(overlay) ? [base, overlay] : [base], color };
-  };
-  return {
-    top: face(casing?.top ?? casing?.side, colors.top),
-    left: face(casing?.side, colors.left, front),
-    right: face(casing?.side, colors.right),
-  };
+  return cubeFaces(dominantBlockId(def), [manifest.blocks[def.controller.blockId]?.front], manifest);
+}
+
+/**
+ * Icon of one block in the required-blocks list. A hatch is drawn as the casing it replaces with its overlay
+ * on the front, as in game; any other block shows its own textures, with its front overlay (a controller's)
+ * on the left face.
+ */
+export function blockIconFaces(
+  blockId: string,
+  hatch?: { kind: HatchKind; base?: string },
+  manifest: TextureManifest = TEXTURES,
+): IconFaces {
+  if (hatch?.base && manifest.blocks[hatch.base])
+    return cubeFaces(hatch.base, manifest.hatchOverlays[hatch.kind] ?? [], manifest);
+  return cubeFaces(blockId, [manifest.blocks[blockId]?.front], manifest);
 }
 
 const iconCache = new Map<string, IconFaces>();

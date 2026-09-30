@@ -587,7 +587,7 @@
     letter-spacing: 0;
     color: var(--text);
   }
-  @media (min-width: 901px) {
+  @media (min-width: 761px) {
     .narrow-only {
       display: none;
     }

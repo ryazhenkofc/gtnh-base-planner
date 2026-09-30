@@ -18,27 +18,13 @@
       "blockId": "gt.casing.pressureContainment",
       "hatches": ["itemIn", "itemOut", "fluidIn", "fluidOut", "maintenance", "energy"]
     },
-    "B": {
-      "blockId": "gt.glass.reinforced"
-    },
-    "C": {
-      "blockId": "gt.frame.ptfe"
-    },
-    "D": {
-      "blockId": "gt.casing.bronzePipe"
-    },
-    "E": {
-      "blockId": "gt.casing.itemPipeTin"
-    },
-    "F": {
-      "blockId": "gt.coil.cupronickel"
-    }
+    "B": { "blockId": "gt.glass.reinforced" },
+    "C": { "blockId": "gt.frame.ptfe" },
+    "D": { "blockId": "gt.casing.bronzePipe" },
+    "E": { "blockId": "gt.casing.itemPipeTin" },
+    "F": { "blockId": "gt.coil.cupronickel" }
   },
-  "controller": {
-    "pos": [3, 0, 0],
-    "facing": "north",
-    "blockId": "gt.controller"
-  },
+  "controller": { "pos": [3, 0, 0], "facing": "north", "blockId": "gregtech:gt.blockmachines@687" },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",
     "itemOut": "gt.hatch.outputBus",
@@ -48,14 +34,7 @@
     "maintenance": "gt.hatch.maintenance"
   },
   "shareableHatches": ["itemIn", "itemOut", "fluidIn", "fluidOut"],
-  "requiredHatches": {
-    "energy": {
-      "min": 1
-    },
-    "maintenance": {
-      "min": 1
-    }
-  },
+  "requiredHatches": { "energy": { "min": 1 }, "maintenance": { "min": 1 } },
   "defaultHatches": ["itemIn", "itemOut", "fluidIn", "energy", "maintenance"],
   "wallshare": true,
   "notes": "7x7x9. A long pressure vessel of Pressure Containment Casings (at least 128) that take every bus and hatch, with glass ends, heating coils along the top (coil tier sets speed), PTFE frame boxes, and pipe casings inside: fluid pipe casings (bronze shown; tier sets parallels) and item pipe casings (tin shown). GT also needs at least one input and one output of any kind."

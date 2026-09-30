@@ -94,4 +94,26 @@ describe('site worker controller', () => {
     void c.importSite(project, new Map(), {});
     await expect(first).rejects.toThrow(/replaced/);
   });
+
+  it('arranges in the worker and hands back what it answers', async () => {
+    const w = fakeWorker();
+    const { c } = setup(() => w as unknown as Worker);
+    const site = named('a');
+    const done = c.arrange(site, true);
+    expect(w.sent[0]).toMatchObject({ type: 'arrange', site, below: true });
+    const arranged = { site, fits: true, needed: [10, 10] as [number, number], floors: 2 };
+    w.reply({ id: w.sent[0].id, arranged });
+    await expect(done).resolves.toEqual(arranged);
+  });
+
+  it('arranges right here without a worker, and rejects an arrangement a newer job replaces', async () => {
+    const { c } = setup(() => null);
+    const r = await c.arrange(named('a'), false);
+    expect(r).toMatchObject({ fits: true, floors: 1 });
+    const w = fakeWorker();
+    const { c: c2 } = setup(() => w as unknown as Worker);
+    const first = c2.arrange(named('a'), false);
+    void c2.arrange(named('b'), false);
+    await expect(first).rejects.toThrow(/replaced/);
+  });
 });

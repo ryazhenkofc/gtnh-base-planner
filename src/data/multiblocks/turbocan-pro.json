@@ -16,15 +16,9 @@
       "blockId": "gt.casing.solidSteel",
       "hatches": ["itemIn", "itemOut", "maintenance", "energy", "fluidIn", "fluidOut"]
     },
-    "B": {
-      "blockId": "gt.casing.steelPipe"
-    }
+    "B": { "blockId": "gt.casing.steelPipe" }
   },
-  "controller": {
-    "pos": [3, 2, 2],
-    "facing": "north",
-    "blockId": "gt.controller"
-  },
+  "controller": { "pos": [3, 2, 2], "facing": "north", "blockId": "gregtech:gt.blockmachines@360" },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",
     "itemOut": "gt.hatch.outputBus",
@@ -34,14 +28,7 @@
     "maintenance": "gt.hatch.maintenance"
   },
   "shareableHatches": ["itemIn", "itemOut", "fluidIn", "fluidOut"],
-  "requiredHatches": {
-    "energy": {
-      "min": 1
-    },
-    "maintenance": {
-      "min": 1
-    }
-  },
+  "requiredHatches": { "energy": { "min": 1 }, "maintenance": { "min": 1 } },
   "defaultHatches": ["itemIn", "itemOut", "energy", "maintenance"],
   "wallshare": true,
   "notes": "7x5x7 (a round base and top joined by a hollow core ringed by Steel Pipe Casings). Solid Steel Machine Casings (at least 85) take every bus and hatch. The controller sits in the middle layer, two blocks back from the front edge. GT also needs at least one input and one output of any kind."

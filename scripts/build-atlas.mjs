@@ -343,6 +343,32 @@ export const HAND_BLOCK_MAP = {
   },
 };
 
+// The controller of the Bricked Blast Furnace (a dumped block: the dump has no texture for it, as it is drawn by
+// an older class): firebricks with the furnace front.
+HAND_BLOCK_MAP['gregtech:gt.blockmachines@140'] = {
+  side: 'MACHINE_CASING_DENSEBRICKS',
+  front: 'MACHINE_CASING_BRICKEDBLASTFURNACE_INACTIVE',
+};
+
+// GT single-block machines of the template view (src/data/single-machines.json): the machine hull with the
+// machine's own front overlay. The overlays are copied from the GT5-Unofficial jar by
+// tools/game-dump/single-machines.mjs into tools/texture-sources/SINGLE_<ID>.png.
+const SINGLE_MACHINES = JSON.parse(readFileSync(join(ROOT, 'src/data/single-machines.json'), 'utf8'));
+for (const m of SINGLE_MACHINES) {
+  const hull = m.base === 'hv' ? 'HV' : 'LV';
+  let front = m.tile;
+  if (m.sprite) {
+    front = `SINGLE_${m.id.toUpperCase().replaceAll('-', '_')}`;
+    HAND_TILES[front] = { path: `src/main/resources/assets/gregtech/textures/blocks/${m.sprite}.png` };
+  }
+  HAND_BLOCK_MAP[`site.machine.${m.id}`] = {
+    side: `MACHINE_${hull}_SIDE`,
+    top: `MACHINE_${hull}_TOP`,
+    bottom: `MACHINE_${hull}_BOTTOM`,
+    front,
+  };
+}
+
 const generated = existsSync(TEXTURES_GENERATED)
   ? JSON.parse(readFileSync(TEXTURES_GENERATED, 'utf8'))
   : { tiles: {}, blocks: {} };

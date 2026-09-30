@@ -14,24 +14,15 @@
       "hatches": ["fluidIn", "energy", "maintenance"],
       "region": "side"
     },
-    "r": {
-      "blockId": "gt.casing.cleanStainless",
-      "hatches": ["fluidOut", "energy", "maintenance"]
-    },
+    "r": { "blockId": "gt.casing.cleanStainless", "hatches": ["fluidOut", "energy", "maintenance"] },
     "m": {
       "blockId": "gt.casing.cleanStainless",
       "hatches": ["fluidIn", "itemIn", "energy", "maintenance"],
       "region": "middle"
     },
-    "K": {
-      "blockId": "gt.coil.cupronickel"
-    }
+    "K": { "blockId": "gt.coil.cupronickel" }
   },
-  "controller": {
-    "pos": [2, 1, 0],
-    "facing": "north",
-    "blockId": "gt.controller"
-  },
+  "controller": { "pos": [2, 1, 0], "facing": "north", "blockId": "gregtech:gt.blockmachines@1160" },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",
     "fluidIn": "gt.hatch.inputHatch",
@@ -41,19 +32,10 @@
   },
   "shareableHatches": ["itemIn", "fluidIn", "fluidOut"],
   "requiredHatches": {
-    "fluidIn": {
-      "min": 2,
-      "regions": ["side", "middle"]
-    },
-    "fluidOut": {
-      "min": 1
-    },
-    "energy": {
-      "min": 1
-    },
-    "maintenance": {
-      "min": 1
-    }
+    "fluidIn": { "min": 2, "regions": ["side", "middle"] },
+    "fluidOut": { "min": 1 },
+    "energy": { "min": 1 },
+    "maintenance": { "min": 1 }
   },
   "defaultHatches": ["fluidIn", "fluidOut", "energy", "maintenance"],
   "wallshare": true,

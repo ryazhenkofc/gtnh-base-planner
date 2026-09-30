@@ -6,6 +6,7 @@
  * Blocks used only by generated catalog entries live in `./blocks.generated.json` (tools/game-dump).
  */
 import generatedBlocks from './blocks.generated.json' with { type: 'json' };
+import { SINGLE_MACHINES, singleMachineBlockId } from './single-machines';
 
 export interface BlockInfo {
   id: string;
@@ -103,8 +104,15 @@ const list: BlockInfo[] = [
 /** Blocks of the generated catalog entries (tools/game-dump); hand-made entries above win. */
 const generated: BlockInfo[] = generatedBlocks;
 
+/** The look of each GT single-block machine in a template (src/data/single-machines.json). */
+const machines: BlockInfo[] = SINGLE_MACHINES.map((m) => ({
+  id: singleMachineBlockId(m.id),
+  name: m.name,
+  color: '#7c848c',
+}));
+
 export const BLOCKS: Readonly<Record<string, BlockInfo>> = Object.fromEntries(
-  [...generated, ...list].map((b) => [b.id, b]),
+  [...generated, ...machines, ...list].map((b) => [b.id, b]),
 );
 
 export function blockInfo(id: string): BlockInfo {

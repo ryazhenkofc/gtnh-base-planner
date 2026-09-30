@@ -11,10 +11,13 @@
     def: MultiblockDef | undefined;
     pickerOpen: boolean;
     settingsOpen: boolean;
+    blocksOpen: boolean;
     ontogglepicker: () => void;
     ontogglesettings: () => void;
+    ontoggleblocks: () => void;
   }
-  let { def, pickerOpen, settingsOpen, ontogglepicker, ontogglesettings }: Props = $props();
+  let { def, pickerOpen, settingsOpen, blocksOpen, ontogglepicker, ontogglesettings, ontoggleblocks }: Props =
+    $props();
 
   function commitCount(text: string) {
     const n = parseCount(text);
@@ -69,6 +72,14 @@
   </div>
 
   <div class="group settings">
+    <span class="sep dot" aria-hidden="true">{t.separator}</span>
+    <button
+      class="link"
+      class:active={blocksOpen}
+      aria-expanded={blocksOpen}
+      data-testid="blocks-toggle"
+      onclick={ontoggleblocks}>{t.bom.toggle}</button
+    >
     <span class="sep dot" aria-hidden="true">{t.separator}</span>
     <button
       class="link"

@@ -1,14 +1,16 @@
 <script lang="ts">
   import { t } from '../i18n/en';
-  import { flowAnimation, site } from '../state/site';
+  import { site } from '../state/site';
   import ModeSwitch from './ModeSwitch.svelte';
 
   interface Props {
     panelOpen: boolean;
+    blocksOpen: boolean;
     ontogglepanel: () => void;
+    ontoggleblocks: () => void;
     onimport: () => void;
   }
-  let { panelOpen, ontogglepanel, onimport }: Props = $props();
+  let { panelOpen, blocksOpen, ontogglepanel, ontoggleblocks, onimport }: Props = $props();
 </script>
 
 <header class="bar">
@@ -19,23 +21,24 @@
 
   <!-- In its own column so it never runs into the mode switch. -->
   <div class="group actions">
-    <button class="link" data-testid="site-import" onclick={onimport}>{t.site.importOpen}</button>
+    <button class="link" data-testid="site-import" title={t.site.importOpen} onclick={onimport}
+      >{t.site.importShort}</button
+    >
   </div>
 
   <div class="group modes">
     <ModeSwitch />
-    <span class="sep dot" aria-hidden="true">{t.separator}</span>
-    <button
-      class="link"
-      class:active={$flowAnimation}
-      aria-pressed={$flowAnimation}
-      title={t.site.animationHint}
-      data-testid="site-animation"
-      onclick={() => flowAnimation.update((v) => !v)}>{t.site.animation}</button
-    >
   </div>
 
   <div class="group settings">
+    <span class="sep dot" aria-hidden="true">{t.separator}</span>
+    <button
+      class="link"
+      class:active={blocksOpen}
+      aria-expanded={blocksOpen}
+      data-testid="blocks-toggle"
+      onclick={ontoggleblocks}>{t.bom.toggle}</button
+    >
     <span class="sep dot" aria-hidden="true">{t.separator}</span>
     <button
       class="link"
@@ -56,8 +59,8 @@
     height: var(--bar-h);
     padding: 0 var(--gutter);
     display: grid;
-    grid-template-columns: auto 1fr auto auto;
-    grid-template-areas: 'name actions modes settings';
+    grid-template-columns: auto auto 1fr auto auto;
+    grid-template-areas: 'name actions . modes settings';
     column-gap: 24px;
     align-items: center;
     z-index: 30;
@@ -87,9 +90,19 @@
   }
   .actions {
     grid-area: actions;
-    justify-self: center;
     min-width: 0;
     white-space: nowrap;
+  }
+  /* Wide enough for the middle of the bar to be free: centred on the page, like the count in the machine view. */
+  @media (min-width: 1100px) {
+    .actions {
+      /* A grid area would be the containing block; the bar itself is wanted. */
+      grid-area: auto;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
   }
   .modes {
     grid-area: modes;
@@ -104,11 +117,13 @@
   .dot {
     margin: 0 10px;
   }
-  /* Too narrow for both: the actions stay in the Template panel instead. */
-  @media (max-width: 900px) {
+  /* Too narrow to fit beside the name: the action stays in the Template panel instead. */
+  @media (max-width: 760px) {
     .actions {
       display: none;
     }
+  }
+  @media (max-width: 900px) {
     .name {
       max-width: none;
     }

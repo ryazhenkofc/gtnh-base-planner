@@ -12,6 +12,11 @@ import type { SiteGroup, SiteState } from './types';
  *    edges; the west and east edges keep one more block for the boundary ports. A column that is too deep
  *    for the site is split into several columns.
  *
+ * 5. With `floors`, a chain that is wider than the site does not widen it: the columns that no longer fit
+ *    start a new floor, raised above the one below by its tallest group and a clearance for pipes. Floors
+ *    run back and forth (the second one west, the third east again, ...), so the end of one floor lies next
+ *    to the start of the next.
+ *
  * `sizeOf` gives a group's local footprint [x, z] (before rotation). Pure and deterministic.
  */
 
@@ -21,11 +26,22 @@ export interface ArrangeResult {
   fits: boolean;
   /** Smallest [width, depth] this arrangement needs. */
   needed: [number, number];
+  /** Floors used (1 unless `floors` was asked for and the chain was too wide). */
+  floors: number;
 }
+
+export interface ArrangeOptions {
+  /** Build on several floors instead of widening the site; gives each group's height (blocks). */
+  floors?: { heightOf: (id: string) => number };
+}
+
+/** Free blocks between one floor's tallest group and the next floor, for pipes to pass. */
+export const FLOOR_CLEARANCE = 3;
 
 export function arrangeSite(
   site: SiteState,
   sizeOf: (id: string) => [number, number] | undefined,
+  opts: ArrangeOptions = {},
 ): ArrangeResult {
   const ids = site.groups.map((g) => g.id);
   const index = new Map(ids.map((id, i) => [id, i]));
@@ -151,9 +167,17 @@ export function arrangeSite(
     return options.find((rs) => total(rs) <= depth) ?? options[2];
   };
 
-  const out = site.groups.map((g) => ({ ...g }));
+  const out = site.groups.map((g) => {
+    const copy = { ...g };
+    // A new arrangement starts on the ground.
+    delete copy.elevation;
+    return copy;
+  });
   let x = edge;
   let maxZ = 0;
+  /** Where each group stands on its floor, for the floors' mirroring and heights. */
+  const onFloor = new Map<number, { floor: number; x: number; fx: number }>();
+  let floor = 0;
   for (const c of cols) {
     const rots = chooseRotations(c);
     // Split into sub-columns that fit the depth.
@@ -172,24 +196,46 @@ export function arrangeSite(
     for (const sub of subs) {
       const width = Math.max(...sub.map((e) => foot(e.v, e.r)[0]));
       const height = sub.reduce((s, e) => s + foot(e.v, e.r)[1], 0) + gap * (sub.length - 1);
+      // Too wide for what is left of this floor: the next floor starts over from the west edge.
+      if (opts.floors && x > edge && x + width + edge > w) {
+        floor++;
+        x = edge;
+      }
       // Centre the column in the depth when it fits, else start at the corridor.
       let z = Math.max(Math.max(1, gap), Math.floor((d - height) / 2));
       for (const e of sub) {
         const [fx, fz] = foot(e.v, e.r);
         out[e.v].rotation = e.r;
-        out[e.v].origin = [x + Math.floor((width - fx) / 2), z];
+        const gx = x + Math.floor((width - fx) / 2);
+        out[e.v].origin = [gx, z];
+        onFloor.set(e.v, { floor, x: gx, fx });
         z += fz + gap;
         maxZ = Math.max(maxZ, z - gap);
       }
       x += width + gap;
     }
   }
-  const neededW = cols.length ? x - gap + edge : 0;
+  let reach = 0;
+  for (const p of onFloor.values()) reach = Math.max(reach, p.x + p.fx);
+  const neededW = cols.length ? (opts.floors && floor > 0 ? reach + edge : x - gap + edge) : 0;
   const neededD = maxZ + Math.max(1, gap);
+  if (opts.floors && floor > 0) {
+    const { heightOf } = opts.floors;
+    // Every second floor runs the other way: its x mirrored within the width of the widest floor.
+    const span = reach - edge;
+    const top = new Map<number, number>();
+    for (const [v, p] of onFloor) {
+      top.set(p.floor, Math.max(top.get(p.floor) ?? 0, heightOf(ids[v])));
+      if (p.floor % 2 === 1) out[v].origin = [2 * edge + span - p.x - p.fx, out[v].origin[1]];
+    }
+    const base: number[] = [0];
+    for (let f = 1; f <= floor; f++) base[f] = base[f - 1] + (top.get(f - 1) ?? 0) + FLOOR_CLEARANCE;
+    for (const [v, p] of onFloor) if (base[p.floor] > 0) out[v].elevation = base[p.floor];
+  }
   // Centre the chain along X when there is room, so the pipes to both edges' ports stay short.
   const shift = Math.max(0, Math.floor((w - neededW) / 2));
   if (shift > 0) for (const g of out) g.origin = [g.origin[0] + shift, g.origin[1]];
-  return { groups: out, fits: neededW <= w && neededD <= d, needed: [neededW, neededD] };
+  return { groups: out, fits: neededW <= w && neededD <= d, needed: [neededW, neededD], floors: floor + 1 };
 }
 
 /**

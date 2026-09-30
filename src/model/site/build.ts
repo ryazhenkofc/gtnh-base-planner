@@ -72,6 +72,13 @@ function siteStats(
   };
 }
 
+/** Height in blocks of each built group, for `arrangeSite`'s floors. */
+export function localHeights(build: SiteBuild): Map<string, number> {
+  const out = new Map<string, number>();
+  for (const g of build.groups) if (g.build) out.set(g.group.id, g.build.size[1]);
+  return out;
+}
+
 /** Local footprint [x, z] (before rotation) of each built group, for `arrangeSite`. */
 export function localFootprints(build: SiteBuild): Map<string, [number, number]> {
   const out = new Map<string, [number, number]>();

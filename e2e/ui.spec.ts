@@ -95,3 +95,74 @@ test('mobile layout', async ({ page }) => {
   await page.screenshot({ path: 'e2e/screenshots/ui-mobile-settings.png' });
   expect(errors).toEqual([]);
 });
+
+test('required blocks checklist', async ({ page }) => {
+  const errors = collectErrors(page);
+  await page.goto('/');
+  await expect(page.getByTestId('scene')).toBeVisible();
+
+  await page.getByTestId('blocks-toggle').click();
+  const panel = page.getByTestId('blocks-panel');
+  await expect(panel).toBeVisible();
+  const rows = panel.getByTestId('bom-row');
+  await expect(rows.first()).toContainText('Coke Oven');
+  await expect(panel.getByTestId('bom-progress')).toHaveText(/^0\/\d+$/);
+  // The block total matches the stats line under the 3D view.
+  const total = Number((await panel.getByTestId('bom-progress').innerText()).match(/\/(\d+)/)![1]);
+  await expect(page.getByTestId('stats')).toContainText(`${total} blocks`);
+  await expect(panel.getByTestId('bom-io-off')).toBeVisible();
+  await page.screenshot({ path: 'e2e/screenshots/ui-blocks.png' });
+
+  // The sort button orders rows by amount, most first, then fewest first.
+  const amounts = async () =>
+    (await rows.locator('.count').allInnerTexts()).slice(0, 3).map((n) => Number(n));
+  await expect(panel.getByTestId('bom-sort')).toContainText(/by type/i);
+  const most = panel.getByTestId('bom-sort');
+  await most.click();
+  await expect(most).toContainText(/most first/i);
+  const desc = await amounts();
+  expect(desc).toEqual([...desc].sort((a, b) => b - a));
+  await most.click();
+  await expect(most).toContainText(/fewest first/i);
+  const asc = await amounts();
+  expect(asc).toEqual([...asc].sort((a, b) => a - b));
+  await most.click();
+  await expect(most).toContainText(/by type/i);
+
+  // Ticks count the row's blocks and are remembered.
+  await panel.getByTestId('bom-check').first().check();
+  await expect(panel.getByTestId('bom-progress')).toHaveText(/^[1-9]\d*\/\d+$/);
+  await page.reload();
+  await page.getByTestId('blocks-toggle').click();
+  // The ticked row has sunk to the end of the list.
+  await expect(panel.getByTestId('bom-check').last()).toBeChecked();
+  await panel.getByTestId('bom-clear').click();
+  await expect(panel.getByTestId('bom-check').last()).not.toBeChecked();
+
+  // Ticked rows sink to the bottom; the search narrows the list.
+  const first = rows.first();
+  const firstName = await first.locator('.name').innerText();
+  await first.getByTestId('bom-check').check();
+  await expect(rows.last().locator('.name')).toHaveText(firstName);
+  await expect(rows.first().locator('.name')).not.toHaveText(firstName);
+  await panel.getByTestId('bom-clear').click();
+  await panel.getByTestId('bom-search').fill('zzzz-no-such-block');
+  await expect(panel.getByTestId('bom-no-match')).toBeVisible();
+  await expect(rows).toHaveCount(0);
+  await panel.getByTestId('bom-search').fill(firstName.toLowerCase());
+  await expect(rows.first().locator('.name')).toHaveText(firstName);
+  await panel.getByTestId('bom-search').fill('');
+
+  // Pipes and cables get their own list once they are switched on.
+  await panel.getByRole('button', { name: 'Close' }).click();
+  await expect(panel).toBeHidden();
+  await page.getByTestId('settings-toggle').click();
+  await page.getByTestId('toggle-pipes').click();
+  await page.getByTestId('settings').getByRole('button', { name: 'Close' }).click();
+  await page.getByTestId('blocks-toggle').click();
+  await expect(panel).toBeVisible();
+  await expect(panel.getByTestId('bom-io-off')).toBeHidden();
+  await expect(panel).toContainText(/pipes/i);
+
+  expect(errors).toEqual([]);
+});

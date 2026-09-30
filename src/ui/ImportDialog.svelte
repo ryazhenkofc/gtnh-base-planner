@@ -106,6 +106,7 @@
     const notes = [t.importer.done(report.groups, report.ports, report.links)];
     if (fit) notes.push(t.importer.sized(next.size[0], next.size[1]));
     else if (!report.fits) notes.push(t.site.needs(report.needed[0], report.needed[1]));
+    if (!fit && report.floors > 1) notes.push(t.importer.floors(report.floors));
     if (report.aspects) notes.push(t.importer.aspects(report.aspects));
     if (report.truncated) notes.push(t.importer.truncated);
     notify(notes.join(' '), 9000, 'import');
@@ -259,6 +260,7 @@
               }}
             /></label
           >
+          <p class="hint" data-testid="import-fixed-hint">{t.importer.fixedHint}</p>
         {/if}
       </div>
       <div class="actions">
@@ -374,6 +376,10 @@
     gap: 6px 22px;
     align-items: baseline;
     margin-top: 18px;
+  }
+  .fields .hint {
+    flex-basis: 100%;
+    margin: 0;
   }
   .pair {
     display: flex;

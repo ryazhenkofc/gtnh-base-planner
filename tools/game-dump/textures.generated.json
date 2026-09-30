@@ -122,6 +122,18 @@
     "DUMP_CASING_NIOBIUM_CAVITY": { "from": ["assets/gtnhlanth/textures/blocks/casing.niobium_cavity.png"] },
     "DUMP_CASING_REDOX_EV": { "from": ["assets/gregtech/textures/blocks/iconsets/CASING_REDOX_EV.png"] },
     "DUMP_CASING_REDOX_UV": { "from": ["assets/gregtech/textures/blocks/iconsets/CASING_REDOX_UV.png"] },
+    "DUMP_CASING_REINFORCED_WOOD": {
+      "from": ["assets/gregtech/textures/blocks/iconsets/CASING_REINFORCED_WOOD.png"]
+    },
+    "DUMP_CASING_REINFORCED_WOOD__OVERLAY_FRONT_MULTI_BREWERY": {
+      "from": [
+        "assets/gregtech/textures/blocks/iconsets/CASING_REINFORCED_WOOD.png",
+        "assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_MULTI_BREWERY.png"
+      ]
+    },
+    "DUMP_CASING_REINFORCED_WOOD_TOP": {
+      "from": ["assets/gregtech/textures/blocks/iconsets/CASING_REINFORCED_WOOD_TOP.png"]
+    },
     "DUMP_CASING_SHIELDED_ACCELERATOR": {
       "from": ["assets/gtnhlanth/textures/blocks/casing.shielded_accelerator.png"]
     },
@@ -161,6 +173,13 @@
     "DUMP_CASING_TARGET_HOLDER": { "from": ["assets/gtnhlanth/textures/blocks/casing.target_holder.png"] },
     "DUMP_CASING_TARGET_RECEPTACLE": {
       "from": ["assets/gtnhlanth/textures/blocks/casing.target_receptacle.png"]
+    },
+    "DUMP_COKE_OVEN_CASING": { "from": ["assets/gregtech/textures/blocks/iconsets/COKE_OVEN_CASING.png"] },
+    "DUMP_COKE_OVEN_CASING__COKE_OVEN_OVERLAY_INACTIVE": {
+      "from": [
+        "assets/gregtech/textures/blocks/iconsets/COKE_OVEN_CASING.png",
+        "assets/gregtech/textures/blocks/iconsets/COKE_OVEN_OVERLAY_INACTIVE.png"
+      ]
     },
     "DUMP_COLLIDER_CASING": { "from": ["assets/gregtech/textures/blocks/iconsets/COLLIDER_CASING.png"] },
     "DUMP_COLLIDER_CASING__OVERLAY_FRONT_LHC_ACCELERATOR": {
@@ -526,6 +545,48 @@
         "assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_LARGE_BOILER.png"
       ]
     },
+    "DUMP_MACHINE_BRONZEPLATEDBRICKS__OVERLAY_FRONT_STEAM_ALLOY_SMELTER_MULTI": {
+      "from": [
+        "assets/gregtech/textures/blocks/iconsets/MACHINE_BRONZEPLATEDBRICKS.png",
+        "assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_STEAM_ALLOY_SMELTER_MULTI.png"
+      ]
+    },
+    "DUMP_MACHINE_BRONZEPLATEDBRICKS__OVERLAY_FRONT_STEAM_CENTRIFUGE": {
+      "from": [
+        "assets/gregtech/textures/blocks/iconsets/MACHINE_BRONZEPLATEDBRICKS.png",
+        "assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_STEAM_CENTRIFUGE.png"
+      ]
+    },
+    "DUMP_MACHINE_BRONZEPLATEDBRICKS__OVERLAY_FRONT_STEAM_COMPRESSOR": {
+      "from": [
+        "assets/gregtech/textures/blocks/iconsets/MACHINE_BRONZEPLATEDBRICKS.png",
+        "assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_STEAM_COMPRESSOR.png"
+      ]
+    },
+    "DUMP_MACHINE_BRONZEPLATEDBRICKS__OVERLAY_FRONT_STEAM_FORGE_HAMMER": {
+      "from": [
+        "assets/gregtech/textures/blocks/iconsets/MACHINE_BRONZEPLATEDBRICKS.png",
+        "assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_STEAM_FORGE_HAMMER.png"
+      ]
+    },
+    "DUMP_MACHINE_BRONZEPLATEDBRICKS__OVERLAY_FRONT_STEAM_FURNACE_MULTI": {
+      "from": [
+        "assets/gregtech/textures/blocks/iconsets/MACHINE_BRONZEPLATEDBRICKS.png",
+        "assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_STEAM_FURNACE_MULTI.png"
+      ]
+    },
+    "DUMP_MACHINE_BRONZEPLATEDBRICKS__OVERLAY_FRONT_STEAM_WASHER": {
+      "from": [
+        "assets/gregtech/textures/blocks/iconsets/MACHINE_BRONZEPLATEDBRICKS.png",
+        "assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_STEAM_WASHER.png"
+      ]
+    },
+    "DUMP_MACHINE_BRONZEPLATEDBRICKS__OVERLAY_TOP_STEAM_MACERATOR": {
+      "from": [
+        "assets/gregtech/textures/blocks/iconsets/MACHINE_BRONZEPLATEDBRICKS.png",
+        "assets/gregtech/textures/blocks/iconsets/OVERLAY_TOP_STEAM_MACERATOR.png"
+      ]
+    },
     "DUMP_MACHINE_CASING_ADVANCED_CRYOGENIC": {
       "from": ["assets/miscutils/textures/blocks/TileEntities/MACHINE_CASING_ADVANCED_CRYOGENIC.png"]
     },
@@ -556,6 +617,12 @@
         "assets/miscutils/textures/blocks/iconsets/controllerFaces/industrialExtruder.png"
       ]
     },
+    "DUMP_MACHINE_CASING_AUTOCLAVE__OVERLAY_FRONT_MULTI_AUTOCLAVE": {
+      "from": [
+        "assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_AUTOCLAVE.png",
+        "assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_MULTI_AUTOCLAVE.png"
+      ]
+    },
     "DUMP_MACHINE_CASING_BERYLLIUM_INTEGRATED_REACTOR": {
       "from": ["assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_BERYLLIUM_INTEGRATED_REACTOR.png"]
     },
@@ -571,8 +638,26 @@
     "DUMP_MACHINE_CASING_CENTRIFUGE": {
       "from": ["assets/miscutils/textures/blocks/TileEntities/MACHINE_CASING_CENTRIFUGE.png"]
     },
+    "DUMP_MACHINE_CASING_CENTRIFUGE__LARGETURBINE_NEW5": {
+      "from": [
+        "assets/goodgenerator/textures/blocks/supercriticalFluidTurbineCasing.png",
+        "assets/gregtech/textures/blocks/icons/turbines/TURBINE_15.png",
+        "assets/gregtech/textures/blocks/iconsets/LARGETURBINE_NEW5.png",
+        "assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_TURBINE_STAINLESSSTEEL.png",
+        "assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_TURBINE_STEEL.png",
+        "assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_TURBINE_TITANIUM.png",
+        "assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_TURBINE_TUNGSTENSTEEL.png",
+        "assets/miscutils/textures/blocks/TileEntities/MACHINE_CASING_CENTRIFUGE.png"
+      ]
+    },
     "DUMP_MACHINE_CASING_CHEMICALLY_INERT": {
       "from": ["assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_CHEMICALLY_INERT.png"]
+    },
+    "DUMP_MACHINE_CASING_CHEMICALLY_INERT__OVERLAY_FRONT_LARGE_CHEMICAL_REACTOR": {
+      "from": [
+        "assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_CHEMICALLY_INERT.png",
+        "assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_LARGE_CHEMICAL_REACTOR.png"
+      ]
     },
     "DUMP_MACHINE_CASING_CHEMICALLY_INERT__OVERLAY_FRONT_MEGA_CHEMICAL_REACTOR": {
       "from": [
@@ -601,11 +686,15 @@
         "assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_DISTILLATION_TOWER.png",
         "assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_ELECTRIC_BLAST_FURNACE.png",
         "assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_HEAT_EXCHANGER.png",
+        "assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_INDUSTRIAL_EXTRACTOR.png",
         "assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_OIL_CRACKER.png",
         "assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_OIL_DRILL.png",
         "assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_ORE_FACTORY.png",
         "assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_SOLAR_FACTORY_INACTIVE.png"
       ]
+    },
+    "DUMP_MACHINE_CASING_DENSEBRICKS": {
+      "from": ["assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_DENSEBRICKS.png"]
     },
     "DUMP_MACHINE_CASING_EMS": {
       "from": ["assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_EMS.png"]
@@ -681,6 +770,12 @@
     },
     "DUMP_MACHINE_CASING_FROST_PROOF": {
       "from": ["assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_FROST_PROOF.png"]
+    },
+    "DUMP_MACHINE_CASING_FROST_PROOF__OVERLAY_FRONT_VACUUM_FREEZER": {
+      "from": [
+        "assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_FROST_PROOF.png",
+        "assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_VACUUM_FREEZER.png"
+      ]
     },
     "DUMP_MACHINE_CASING_FUSION": {
       "from": ["assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_FUSION.png"]
@@ -956,13 +1051,15 @@
     "DUMP_MACHINE_CASING_ROBUST_TUNGSTENSTEEL__ADVANCED_IMPLOSION": {
       "from": [
         "assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_ROBUST_TUNGSTENSTEEL.png",
-        "assets/miscutils/textures/blocks/iconsets/controllerFaces/advancedImplosion.png"
+        "assets/miscutils/textures/blocks/iconsets/controllerFaces/advancedImplosion.png",
+        "assets/miscutils/textures/blocks/iconsets/controllerFaces/largeFluidExtractor.png"
       ]
     },
     "DUMP_MACHINE_CASING_ROBUST_TUNGSTENSTEEL__OVERLAY_FRONT_OIL_CRACKER": {
       "from": [
         "assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_ROBUST_TUNGSTENSTEEL.png",
         "assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_DIESEL_ENGINE.png",
+        "assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_EXTREME_DIESEL_ENGINE.png",
         "assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_HEAT_EXCHANGER.png",
         "assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_LARGE_BOILER.png",
         "assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_OIL_CRACKER.png",
@@ -997,13 +1094,15 @@
         "assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_SOLID_STEEL.png"
       ]
     },
-    "DUMP_MACHINE_CASING_SOLID_STEEL__OVERLAY_FRONT_OIL_DRILL": {
+    "DUMP_MACHINE_CASING_SOLID_STEEL__OVERLAY_FRONT_IMPLOSION_COMPRESSOR": {
       "from": [
         "assets/ggfab/textures/blocks/iconsets/OVERLAY_FRONT_ADV_ASSLINE.png",
         "assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_SOLID_STEEL.png",
         "assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_ASSEMBLY_LINE.png",
         "assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_DISTILLATION_TOWER.png",
+        "assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_IMPLOSION_COMPRESSOR.png",
         "assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_LARGE_BOILER.png",
+        "assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_MULTI_CANNER.png",
         "assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_MULTI_LATHE.png",
         "assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_OIL_DRILL.png",
         "assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_ORE_DRILL.png"
@@ -1110,10 +1209,11 @@
         "assets/miscutils/textures/blocks/iconsets/controllerFaces/industrialPlatePress.png"
       ]
     },
-    "DUMP_MACHINE_CASING_STABLE_TITANIUM__OVERLAY_FRONT_ORE_DRILL": {
+    "DUMP_MACHINE_CASING_STABLE_TITANIUM__OVERLAY_FRONT_HEAT_EXCHANGER": {
       "from": [
         "assets/gregtech/textures/blocks/iconsets/MACHINE_CASING_STABLE_TITANIUM.png",
         "assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_DIESEL_ENGINE.png",
+        "assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_HEAT_EXCHANGER.png",
         "assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_LARGE_BOILER.png",
         "assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_OIL_DRILL.png",
         "assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_ORE_DRILL.png"
@@ -1241,9 +1341,11 @@
     "DUMP_MACHINE_HEATPROOFCASING": {
       "from": ["assets/gregtech/textures/blocks/iconsets/MACHINE_HEATPROOFCASING.png"]
     },
-    "DUMP_MACHINE_HEATPROOFCASING__OVERLAY_FRONT_ORE_DRILL": {
+    "DUMP_MACHINE_HEATPROOFCASING__OVERLAY_FRONT_ELECTRIC_BLAST_FURNACE": {
       "from": [
         "assets/gregtech/textures/blocks/iconsets/MACHINE_HEATPROOFCASING.png",
+        "assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_ELECTRIC_BLAST_FURNACE.png",
+        "assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_MULTI_SMELTER.png",
         "assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_ORE_DRILL.png"
       ]
     },
@@ -1287,6 +1389,12 @@
       "from": ["assets/gregtech/textures/blocks/iconsets/MACHINE_UEV_BOTTOM.png"]
     },
     "DUMP_MACHINE_ULV_SIDE": { "from": ["assets/gregtech/textures/blocks/iconsets/MACHINE_ULV_SIDE.png"] },
+    "DUMP_MACHINE_ULV_SIDE__OVERLAY_FRONT_PYROLYSE_OVEN": {
+      "from": [
+        "assets/gregtech/textures/blocks/iconsets/MACHINE_ULV_SIDE.png",
+        "assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_PYROLYSE_OVEN.png"
+      ]
+    },
     "DUMP_MAGNETIC_FLUX_CASING": { "from": ["assets/goodgenerator/textures/blocks/magneticFluxCasing.png"] },
     "DUMP_MANIPULATOR_TOP": { "from": ["assets/gregtech/textures/blocks/iconsets/Manipulator_Top.png"] },
     "DUMP_MAR_CASING": { "from": ["assets/goodgenerator/textures/blocks/MAR_Casing.png"] },
@@ -2078,6 +2186,22 @@
     "gregtech:gt.blockglass1@7": { "side": "DUMP_EXOFOUNDRY_GLASS" },
     "gregtech:gt.blockglass1@8": { "side": "DUMP_NANOCHIP_GLASS" },
     "gregtech:gt.blockglass1@9": { "side": "DUMP_BEC_GLASS" },
+    "gregtech:gt.blockmachines@1000": {
+      "side": "DUMP_MACHINE_HEATPROOFCASING",
+      "front": "DUMP_MACHINE_HEATPROOFCASING__OVERLAY_FRONT_ELECTRIC_BLAST_FURNACE"
+    },
+    "gregtech:gt.blockmachines@1001": {
+      "side": "DUMP_MACHINE_CASING_SOLID_STEEL",
+      "front": "DUMP_MACHINE_CASING_SOLID_STEEL__OVERLAY_FRONT_IMPLOSION_COMPRESSOR"
+    },
+    "gregtech:gt.blockmachines@1002": {
+      "side": "DUMP_MACHINE_CASING_FROST_PROOF",
+      "front": "DUMP_MACHINE_CASING_FROST_PROOF__OVERLAY_FRONT_VACUUM_FREEZER"
+    },
+    "gregtech:gt.blockmachines@1003": {
+      "side": "DUMP_MACHINE_HEATPROOFCASING",
+      "front": "DUMP_MACHINE_HEATPROOFCASING__OVERLAY_FRONT_ELECTRIC_BLAST_FURNACE"
+    },
     "gregtech:gt.blockmachines@1004": {
       "side": "DUMP_MACHINE_DIM_INJECTOR",
       "front": "DUMP_MACHINE_DIM_INJECTOR__OVERLAY_DTPF_OFF"
@@ -2114,17 +2238,37 @@
       "side": "DUMP_MACHINE_CASING_GRATE",
       "front": "DUMP_MACHINE_CASING_GRATE__OVERLAY_FRONT_OIL_CRACKER"
     },
+    "gregtech:gt.blockmachines@1126": {
+      "side": "DUMP_MACHINE_CASING_CLEAN_STAINLESSSTEEL",
+      "front": "DUMP_MACHINE_CASING_CLEAN_STAINLESSSTEEL__OVERLAY_FRONT_OIL_CRACKER"
+    },
+    "gregtech:gt.blockmachines@1154": {
+      "side": "DUMP_MACHINE_CASING_STABLE_TITANIUM",
+      "front": "DUMP_MACHINE_CASING_STABLE_TITANIUM__OVERLAY_FRONT_HEAT_EXCHANGER"
+    },
     "gregtech:gt.blockmachines@1157": {
       "side": "DUMP_MACHINE_CASING_SOLID_STEEL",
-      "front": "DUMP_MACHINE_CASING_SOLID_STEEL__OVERLAY_FRONT_OIL_DRILL"
+      "front": "DUMP_MACHINE_CASING_SOLID_STEEL__OVERLAY_FRONT_IMPLOSION_COMPRESSOR"
     },
     "gregtech:gt.blockmachines@1158": {
       "side": "DUMP_MACHINE_CASING_SOLID_STEEL",
-      "front": "DUMP_MACHINE_CASING_SOLID_STEEL__OVERLAY_FRONT_OIL_DRILL"
+      "front": "DUMP_MACHINE_CASING_SOLID_STEEL__OVERLAY_FRONT_IMPLOSION_COMPRESSOR"
+    },
+    "gregtech:gt.blockmachines@1160": {
+      "side": "DUMP_MACHINE_CASING_CLEAN_STAINLESSSTEEL",
+      "front": "DUMP_MACHINE_CASING_CLEAN_STAINLESSSTEEL__OVERLAY_FRONT_OIL_CRACKER"
+    },
+    "gregtech:gt.blockmachines@1169": {
+      "side": "DUMP_MACHINE_CASING_CHEMICALLY_INERT",
+      "front": "DUMP_MACHINE_CASING_CHEMICALLY_INERT__OVERLAY_FRONT_LARGE_CHEMICAL_REACTOR"
+    },
+    "gregtech:gt.blockmachines@1170": {
+      "side": "DUMP_MACHINE_CASING_SOLID_STEEL",
+      "front": "DUMP_MACHINE_CASING_SOLID_STEEL__OVERLAY_FRONT_IMPLOSION_COMPRESSOR"
     },
     "gregtech:gt.blockmachines@1177": {
       "side": "DUMP_MACHINE_CASING_STABLE_TITANIUM",
-      "front": "DUMP_MACHINE_CASING_STABLE_TITANIUM__OVERLAY_FRONT_ORE_DRILL"
+      "front": "DUMP_MACHINE_CASING_STABLE_TITANIUM__OVERLAY_FRONT_HEAT_EXCHANGER"
     },
     "gregtech:gt.blockmachines@1178": {
       "side": "DUMP_MACHINE_CASING_ROBUST_TUNGSTENSTEEL",
@@ -2152,7 +2296,7 @@
     },
     "gregtech:gt.blockmachines@12021": {
       "side": "DUMP_MACHINE_CASING_STABLE_TITANIUM",
-      "front": "DUMP_MACHINE_CASING_STABLE_TITANIUM__OVERLAY_FRONT_ORE_DRILL"
+      "front": "DUMP_MACHINE_CASING_STABLE_TITANIUM__OVERLAY_FRONT_HEAT_EXCHANGER"
     },
     "gregtech:gt.blockmachines@12022": {
       "side": "DUMP_MACHINE_CASING_ROBUST_TUNGSTENSTEEL",
@@ -2168,7 +2312,7 @@
     },
     "gregtech:gt.blockmachines@12729": {
       "side": "DUMP_MACHINE_HEATPROOFCASING",
-      "front": "DUMP_MACHINE_HEATPROOFCASING__OVERLAY_FRONT_ORE_DRILL"
+      "front": "DUMP_MACHINE_HEATPROOFCASING__OVERLAY_FRONT_ELECTRIC_BLAST_FURNACE"
     },
     "gregtech:gt.blockmachines@12733": {
       "side": "DUMP_MACHINE_CASING_RADIATIONPROOF",
@@ -2176,7 +2320,7 @@
     },
     "gregtech:gt.blockmachines@12735": {
       "side": "DUMP_MACHINE_CASING_SOLID_STEEL",
-      "front": "DUMP_MACHINE_CASING_SOLID_STEEL__OVERLAY_FRONT_OIL_DRILL"
+      "front": "DUMP_MACHINE_CASING_SOLID_STEEL__OVERLAY_FRONT_IMPLOSION_COMPRESSOR"
     },
     "gregtech:gt.blockmachines@12739": {
       "side": "DUMP_MACHINE_CASING_MINING_NEUTRONIUM",
@@ -2219,8 +2363,9 @@
     },
     "gregtech:gt.blockmachines@13532": {
       "side": "DUMP_MACHINE_CASING_SOLID_STEEL",
-      "front": "DUMP_MACHINE_CASING_SOLID_STEEL__OVERLAY_FRONT_OIL_DRILL"
+      "front": "DUMP_MACHINE_CASING_SOLID_STEEL__OVERLAY_FRONT_IMPLOSION_COMPRESSOR"
     },
+    "gregtech:gt.blockmachines@140": { "side": "DUMP_MACHINE_CASING_DENSEBRICKS" },
     "gregtech:gt.blockmachines@14001": {
       "side": "DUMP_RECEIVER_CASING_SIDE",
       "top": "DUMP_RECEIVER_CASING",
@@ -2285,15 +2430,15 @@
     },
     "gregtech:gt.blockmachines@142": {
       "side": "DUMP_MACHINE_CASING_STABLE_TITANIUM",
-      "front": "DUMP_MACHINE_CASING_STABLE_TITANIUM__OVERLAY_FRONT_ORE_DRILL"
+      "front": "DUMP_MACHINE_CASING_STABLE_TITANIUM__OVERLAY_FRONT_HEAT_EXCHANGER"
     },
     "gregtech:gt.blockmachines@143": {
       "side": "DUMP_MACHINE_CASING_SOLID_STEEL",
-      "front": "DUMP_MACHINE_CASING_SOLID_STEEL__OVERLAY_FRONT_OIL_DRILL"
+      "front": "DUMP_MACHINE_CASING_SOLID_STEEL__OVERLAY_FRONT_IMPLOSION_COMPRESSOR"
     },
     "gregtech:gt.blockmachines@144": {
       "side": "DUMP_MACHINE_CASING_STABLE_TITANIUM",
-      "front": "DUMP_MACHINE_CASING_STABLE_TITANIUM__OVERLAY_FRONT_ORE_DRILL"
+      "front": "DUMP_MACHINE_CASING_STABLE_TITANIUM__OVERLAY_FRONT_HEAT_EXCHANGER"
     },
     "gregtech:gt.blockmachines@149": {
       "side": "DUMP_MACHINE_CASING_ROBUST_TUNGSTENSTEEL",
@@ -2373,6 +2518,10 @@
       "side": "DUMP_MACHINE_CASING_STABLE_MARAGINGSTEEL",
       "front": "DUMP_MACHINE_CASING_STABLE_MARAGINGSTEEL__INDUSTRIAL_WIREMILL"
     },
+    "gregtech:gt.blockmachines@15512": {
+      "side": "DUMP_MACHINE_CASING_CENTRIFUGE",
+      "front": "DUMP_MACHINE_CASING_CENTRIFUGE__LARGETURBINE_NEW5"
+    },
     "gregtech:gt.blockmachines@15513": {
       "side": "DUMP_CASING_AMAZON",
       "front": "DUMP_CASING_AMAZON__AMAZON_PACKAGER"
@@ -2419,25 +2568,53 @@
       "side": "DUMP_MACHINE_CASING_TURBINE_TUNGSTENSTEEL",
       "front": "DUMP_MACHINE_CASING_TURBINE_TUNGSTENSTEEL__OVERLAY_FRONT_ADVANCED_MULTIBLOCK_ANIMATED"
     },
+    "gregtech:gt.blockmachines@15524": {
+      "side": "DUMP_MACHINE_CASING_TURBINE_STEEL",
+      "front": "DUMP_MACHINE_CASING_CENTRIFUGE__LARGETURBINE_NEW5"
+    },
+    "gregtech:gt.blockmachines@15525": {
+      "side": "DUMP_MACHINE_CASING_TURBINE_TITANIUM",
+      "front": "DUMP_MACHINE_CASING_CENTRIFUGE__LARGETURBINE_NEW5"
+    },
+    "gregtech:gt.blockmachines@15526": {
+      "side": "DUMP_SUPERCRITICAL_FLUID_TURBINE_CASING",
+      "front": "DUMP_MACHINE_CASING_CENTRIFUGE__LARGETURBINE_NEW5"
+    },
+    "gregtech:gt.blockmachines@15527": {
+      "side": "DUMP_MACHINE_CASING_TURBINE_STAINLESSSTEEL",
+      "front": "DUMP_MACHINE_CASING_CENTRIFUGE__LARGETURBINE_NEW5"
+    },
+    "gregtech:gt.blockmachines@15528": {
+      "side": "DUMP_MACHINE_CASING_TURBINE_TUNGSTENSTEEL",
+      "front": "DUMP_MACHINE_CASING_CENTRIFUGE__LARGETURBINE_NEW5"
+    },
     "gregtech:gt.blockmachines@15529": {
       "side": "DUMP_MACHINE_BRONZEPLATEDBRICKS",
       "front": "DUMP_MACHINE_BRONZEPLATEDBRICKS__OVERLAY_FRONT_LARGE_BOILER"
     },
     "gregtech:gt.blockmachines@15530": {
       "side": "DUMP_MACHINE_CASING_SOLID_STEEL",
-      "front": "DUMP_MACHINE_CASING_SOLID_STEEL__OVERLAY_FRONT_OIL_DRILL"
+      "front": "DUMP_MACHINE_CASING_SOLID_STEEL__OVERLAY_FRONT_IMPLOSION_COMPRESSOR"
     },
     "gregtech:gt.blockmachines@15531": {
       "side": "DUMP_MACHINE_CASING_STABLE_TITANIUM",
-      "front": "DUMP_MACHINE_CASING_STABLE_TITANIUM__OVERLAY_FRONT_ORE_DRILL"
+      "front": "DUMP_MACHINE_CASING_STABLE_TITANIUM__OVERLAY_FRONT_HEAT_EXCHANGER"
     },
     "gregtech:gt.blockmachines@15532": {
       "side": "DUMP_MACHINE_CASING_ROBUST_TUNGSTENSTEEL",
       "front": "DUMP_MACHINE_CASING_ROBUST_TUNGSTENSTEEL__OVERLAY_FRONT_OIL_CRACKER"
     },
+    "gregtech:gt.blockmachines@15533": {
+      "side": "DUMP_MACHINE_CASING_STABLE_TITANIUM",
+      "front": "DUMP_MACHINE_CASING_STABLE_TITANIUM__OVERLAY_FRONT_HEAT_EXCHANGER"
+    },
+    "gregtech:gt.blockmachines@15534": {
+      "side": "DUMP_MACHINE_CASING_ROBUST_TUNGSTENSTEEL",
+      "front": "DUMP_MACHINE_CASING_ROBUST_TUNGSTENSTEEL__OVERLAY_FRONT_OIL_CRACKER"
+    },
     "gregtech:gt.blockmachines@15535": {
       "side": "DUMP_MACHINE_CASING_STABLE_TITANIUM",
-      "front": "DUMP_MACHINE_CASING_STABLE_TITANIUM__OVERLAY_FRONT_ORE_DRILL"
+      "front": "DUMP_MACHINE_CASING_STABLE_TITANIUM__OVERLAY_FRONT_HEAT_EXCHANGER"
     },
     "gregtech:gt.blockmachines@15536": {
       "side": "DUMP_MACHINE_CASING_MINING_BLACKPLUTONIUM",
@@ -2481,13 +2658,17 @@
       "side": "DUMP_ALGAE_CASING",
       "front": "DUMP_ALGAE_CASING__ALGAE_POND_BASE"
     },
+    "gregtech:gt.blockmachines@15546": {
+      "side": "DUMP_MACHINE_ULV_SIDE",
+      "front": "DUMP_MACHINE_ULV_SIDE__OVERLAY_FRONT_PYROLYSE_OVEN"
+    },
     "gregtech:gt.blockmachines@15547": {
       "side": "DUMP_MACHINE_CASING_ROBUST_TUNGSTENSTEEL",
       "front": "DUMP_MACHINE_CASING_ROBUST_TUNGSTENSTEEL__ADVANCED_IMPLOSION"
     },
     "gregtech:gt.blockmachines@15548": {
       "side": "DUMP_MACHINE_CASING_SOLID_STEEL",
-      "front": "DUMP_MACHINE_CASING_SOLID_STEEL__OVERLAY_FRONT_OIL_DRILL"
+      "front": "DUMP_MACHINE_CASING_SOLID_STEEL__OVERLAY_FRONT_IMPLOSION_COMPRESSOR"
     },
     "gregtech:gt.blockmachines@15549": {
       "side": "DUMP_MACHINE_CASING_AUTOCLAVE",
@@ -2593,6 +2774,14 @@
       "side": "DUMP_BEC_CASING",
       "front": "DUMP_BEC_CASING__BEC_CONTROLLER_BACKGROUND"
     },
+    "gregtech:gt.blockmachines@236": {
+      "side": "DUMP_COKE_OVEN_CASING",
+      "front": "DUMP_COKE_OVEN_CASING__COKE_OVEN_OVERLAY_INACTIVE"
+    },
+    "gregtech:gt.blockmachines@2730": {
+      "side": "DUMP_MACHINE_CASING_ROBUST_TUNGSTENSTEEL",
+      "front": "DUMP_MACHINE_CASING_ROBUST_TUNGSTENSTEEL__ADVANCED_IMPLOSION"
+    },
     "gregtech:gt.blockmachines@3004": {
       "side": "DUMP_MACHINE_CASING_LASER",
       "front": "DUMP_MACHINE_CASING_LASER__OVERLAY_FRONT_ENGRAVER"
@@ -2612,6 +2801,16 @@
     "gregtech:gt.blockmachines@3008": {
       "side": "DUMP_RADIATION_ABSORBENT_CASING",
       "front": "DUMP_RADIATION_ABSORBENT_CASING__OVERLAY_MULTI_BLACKHOLE"
+    },
+    "gregtech:gt.blockmachines@3010": {
+      "side": "DUMP_MACHINE_CASING_CLEAN_STAINLESSSTEEL",
+      "front": "DUMP_MACHINE_CASING_CLEAN_STAINLESSSTEEL__OVERLAY_FRONT_OIL_CRACKER"
+    },
+    "gregtech:gt.blockmachines@3011": {
+      "side": "DUMP_CASING_REINFORCED_WOOD",
+      "top": "DUMP_CASING_REINFORCED_WOOD_TOP",
+      "bottom": "DUMP_CASING_REINFORCED_WOOD_TOP",
+      "front": "DUMP_CASING_REINFORCED_WOOD__OVERLAY_FRONT_MULTI_BREWERY"
     },
     "gregtech:gt.blockmachines@3013": {
       "side": "DUMP_COLLIDER_CASING",
@@ -2641,6 +2840,10 @@
       "side": "DUMP_INCONEL_REINFORCED_CASING",
       "front": "DUMP_INCONEL_REINFORCED_CASING__OVERLAY_FRONT_MULTI_SMELTER"
     },
+    "gregtech:gt.blockmachines@31026": {
+      "side": "DUMP_MACHINE_CASING_STABLE_TITANIUM",
+      "front": "DUMP_MACHINE_CASING_STABLE_TITANIUM__OVERLAY_FRONT_HEAT_EXCHANGER"
+    },
     "gregtech:gt.blockmachines@31027": {
       "side": "DUMP_MACHINE_CASING_PIPE_T1",
       "front": "DUMP_MACHINE_CASING_PIPE_T1__GRINDER5"
@@ -2648,6 +2851,10 @@
     "gregtech:gt.blockmachines@31035": {
       "side": "DUMP_SPARGE_TOWER_EXTERIOR_CASING",
       "front": "DUMP_SPARGE_TOWER_EXTERIOR_CASING__SPARGE_TOWER"
+    },
+    "gregtech:gt.blockmachines@31041": {
+      "side": "DUMP_MACHINE_BRONZEPLATEDBRICKS",
+      "front": "DUMP_MACHINE_BRONZEPLATEDBRICKS__OVERLAY_TOP_STEAM_MACERATOR"
     },
     "gregtech:gt.blockmachines@31050": {
       "side": "DUMP_ELEMENTAL_CONFINEMENT_SHELL",
@@ -2657,15 +2864,43 @@
       "side": "DUMP_MULTI_USE_CASING",
       "front": "DUMP_MULTI_USE_CASING__FLUID_HEATER"
     },
+    "gregtech:gt.blockmachines@31078": {
+      "side": "DUMP_MACHINE_BRONZEPLATEDBRICKS",
+      "front": "DUMP_MACHINE_BRONZEPLATEDBRICKS__OVERLAY_FRONT_STEAM_COMPRESSOR"
+    },
     "gregtech:gt.blockmachines@31079": {
       "side": "DUMP_MACHINE_CASING_STABLE_TALONITE",
       "front": "DUMP_MACHINE_CASING_STABLE_TALONITE__ADVANCED_HEAT_EXCHANGER"
+    },
+    "gregtech:gt.blockmachines@31080": {
+      "side": "DUMP_MACHINE_BRONZEPLATEDBRICKS",
+      "front": "DUMP_MACHINE_BRONZEPLATEDBRICKS__OVERLAY_FRONT_STEAM_CENTRIFUGE"
+    },
+    "gregtech:gt.blockmachines@31082": {
+      "side": "DUMP_MACHINE_BRONZEPLATEDBRICKS",
+      "front": "DUMP_MACHINE_BRONZEPLATEDBRICKS__OVERLAY_FRONT_STEAM_WASHER"
+    },
+    "gregtech:gt.blockmachines@31083": {
+      "side": "DUMP_MACHINE_BRONZEPLATEDBRICKS",
+      "front": "DUMP_MACHINE_BRONZEPLATEDBRICKS__OVERLAY_FRONT_STEAM_FORGE_HAMMER"
+    },
+    "gregtech:gt.blockmachines@31084": {
+      "side": "DUMP_MACHINE_BRONZEPLATEDBRICKS",
+      "front": "DUMP_MACHINE_BRONZEPLATEDBRICKS__OVERLAY_FRONT_STEAM_CENTRIFUGE"
     },
     "gregtech:gt.blockmachines@31085": {
       "side": "DUMP_PRIMITIVE_WOODEN_CASING_SIDE",
       "top": "DUMP_PRIMITIVE_WOODEN_CASING_TOP",
       "bottom": "DUMP_PRIMITIVE_WOODEN_CASING_TOP",
       "front": "DUMP_PRIMITIVE_WOODEN_CASING_SIDE__OVERLAY_FRONT_WATER_PUMP"
+    },
+    "gregtech:gt.blockmachines@31086": {
+      "side": "DUMP_MACHINE_BRONZEPLATEDBRICKS",
+      "front": "DUMP_MACHINE_BRONZEPLATEDBRICKS__OVERLAY_FRONT_STEAM_ALLOY_SMELTER_MULTI"
+    },
+    "gregtech:gt.blockmachines@31087": {
+      "side": "DUMP_MACHINE_BRONZEPLATEDBRICKS",
+      "front": "DUMP_MACHINE_BRONZEPLATEDBRICKS__OVERLAY_FRONT_STEAM_FURNACE_MULTI"
     },
     "gregtech:gt.blockmachines@31088": {
       "side": "DUMP_MACHINE_CASING_STRENGTHENED_INANIMATE",
@@ -2743,6 +2978,10 @@
       "side": "DUMP_MACHINE_CASING_EMS",
       "front": "DUMP_MACHINE_CASING_EMS__OVERLAY_FRONT_EMS"
     },
+    "gregtech:gt.blockmachines@360": {
+      "side": "DUMP_MACHINE_CASING_SOLID_STEEL",
+      "front": "DUMP_MACHINE_CASING_SOLID_STEEL__OVERLAY_FRONT_IMPLOSION_COMPRESSOR"
+    },
     "gregtech:gt.blockmachines@366": {
       "side": "DUMP_MASS_SOLIDIFIER_CASING",
       "front": "DUMP_MASS_SOLIDIFIER_CASING__OVERLAY_FRONT_MULTI_CANNER"
@@ -2758,7 +2997,11 @@
     "gregtech:gt.blockmachines@5001": { "side": "DUMP_DEFC_0", "front": "DUMP_DEFC_0__OVERLAY_TELEPORTER" },
     "gregtech:gt.blockmachines@686": {
       "side": "DUMP_MACHINE_CASING_SOLID_STEEL",
-      "front": "DUMP_MACHINE_CASING_SOLID_STEEL__OVERLAY_FRONT_OIL_DRILL"
+      "front": "DUMP_MACHINE_CASING_SOLID_STEEL__OVERLAY_FRONT_IMPLOSION_COMPRESSOR"
+    },
+    "gregtech:gt.blockmachines@687": {
+      "side": "DUMP_MACHINE_CASING_AUTOCLAVE",
+      "front": "DUMP_MACHINE_CASING_AUTOCLAVE__OVERLAY_FRONT_MULTI_AUTOCLAVE"
     },
     "gregtech:gt.blockmachines@730": {
       "side": "DUMP_BORON_SILICATE_GLASS_BLOCK",

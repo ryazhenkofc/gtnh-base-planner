@@ -1,6 +1,7 @@
 import type { SiteWarning } from '../model/site/buildTypes';
 import type { ResourceKind } from '../model/site/types';
 import type { HatchKind } from '../model/multiblock/types';
+import type { IoClass, SortMode } from '../model/bom';
 
 /** All user-visible strings (UNIT 8 owns this file). Use `t.key` in components; never build HTML strings. */
 export const t = {
@@ -124,10 +125,13 @@ export const t = {
       `Blocks, ${min} to ${max}. The template grows when a group is moved past an edge. Corridor: free blocks between groups.`,
     arrange: 'Arrange',
     arranged: 'Arranged along the flow.',
-    arrangedGrown: (w: number, d: number) => `Arranged along the flow; the template grew to ${w} × ${d}.`,
+    arranging: 'Arranging…',
+    arrangedFloors: (n: number) => `Arranged along the flow, on ${n} floors.`,
     building: 'Laying out and routing…',
     needs: (w: number, d: number) => `Does not fit: needs ${w} × ${d}.`,
     importOpen: 'Import from GTNH Planner',
+    /** The same action where the top bar has little room. */
+    importShort: 'Import',
     groups: 'Groups',
     noGroups: 'No groups yet. Add one, or import a chain from GTNH Planner.',
     addGroup: 'Add multiblock',
@@ -139,6 +143,7 @@ export const t = {
     count: 'Count',
     x: 'X',
     z: 'Z',
+    elevation: 'Height',
     rotate: 'Rotate',
     remove: 'Remove',
     removeGroup: 'Remove group',
@@ -267,6 +272,8 @@ export const t = {
     port: 'Template port (not placed)',
     skip: 'Skip',
     fit: 'Size the template to the chain',
+    fixedHint:
+      'Keeps this size. What does not fit on the ground is built on floors above it, and big groups stack their machines up.',
     replaces: 'Replaces the current template.',
     skippedEntries: (n: number) => `${n} malformed ${n === 1 ? 'entry was' : 'entries were'} skipped.`,
     done: (groups: number, ports: number, links: number) =>
@@ -277,6 +284,32 @@ export const t = {
     newerSchema: (v: number) =>
       `This file comes from a newer GTNH Planner (format ${v}). Check the result: new fields are not read.`,
     sized: (w: number, d: number) => `Template: ${w} × ${d}.`,
+    floors: (n: number) => `Built on ${n} floors.`,
+  },
+
+  // Required blocks checklist
+  bom: {
+    toggle: 'Blocks',
+    title: 'Required blocks',
+    gathered: (done: number, total: number) => `${done} of ${total} gathered`,
+    clear: 'Clear ticks',
+    sort: (mode: SortMode) =>
+      `Sort: ${{ grouped: 'by type', most: 'most first', fewest: 'fewest first' }[mode]}`,
+    sortHint: 'Change the order of the list',
+    blocks: 'Blocks',
+    io: 'IO',
+    anyTier: '(any tier)',
+    ioOff: 'No pipes or cables shown. Turn on Pipes or Cables to list them.',
+    empty: 'Nothing to build yet.',
+    search: 'Search blocks',
+    noMatches: 'No block matches.',
+    tick: (name: string) => `Gathered: ${name}`,
+    ioClass: {
+      item: 'Item pipes',
+      fluid: 'Fluid pipes',
+      steam: 'Steam pipes',
+      energy: 'Energy cables',
+    } satisfies Record<IoClass, string>,
   },
 
   hatchKinds: {

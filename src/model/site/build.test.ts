@@ -8,7 +8,7 @@ import type { Unit } from '../multiblock/types';
 import { createSiteBuilder } from './build';
 import { hatchKindFor } from './demand';
 import { groupIndexOfUnit } from './ids';
-import { buildGroup, groupPoint, placeUnit, withDemand } from './group';
+import { buildGroup, groupPoint, placeUnit, singleBlockLimits, withDemand } from './group';
 import type { SiteGroup, SiteState } from './types';
 
 const ebf = getMultiblock('electric-blast-furnace')!;
@@ -288,6 +288,71 @@ describe('buildSite', () => {
     expect(dust.route!.connected).toBe(4);
     expect(b.scene.pipes!.find((p) => p.id === dust.id)!.dim).toBe(true);
     expect(b.scene.pipes!.find((p) => p.color === '#3fa7d6')!.dim).toBe(false);
+  });
+
+  it('raises a group by its elevation: units, hatches, bounds and pipes', () => {
+    const groups = (elevation?: number) => [
+      group('a', 'electric-blast-furnace', [4, 4], { count: 1 }),
+      group('b', 'vacuum-freezer', [16, 4], { count: 1, ...(elevation ? { elevation } : {}) }),
+    ];
+    const links = [{ id: 'l', from: { group: 'a' }, to: { group: 'b' }, resource: 'item:dust' }];
+    const low = createSiteBuilder()(site({ groups: groups(), links }), { pipes: true, cables: false });
+    const high = createSiteBuilder()(site({ groups: groups(10), links }), { pipes: true, cables: false });
+    const [lo, hi] = [low.groups[1], high.groups[1]];
+    expect(hi.min[1]).toBe(10);
+    expect(hi.max[1] - hi.min[1]).toBe(lo.max[1] - lo.min[1]);
+    for (let i = 0; i < lo.units.length; i++) expect(hi.units[i].origin[1]).toBe(lo.units[i].origin[1] + 10);
+    for (let i = 0; i < lo.hatches.length; i++)
+      expect(hi.hatches[i].cell[1]).toBe(lo.hatches[i].cell[1] + 10);
+    // The pipe still reaches the raised group, running up to it.
+    expect(high.nets[0].route!.connected).toBe(high.nets[0].route!.total);
+    expect(Math.max(...high.nets[0].route!.paths.flat().map((c) => c[1]))).toBeGreaterThanOrEqual(9);
+    expect(high.warnings.filter((w) => w.type === 'overlap' || w.type === 'outside')).toEqual([]);
+  });
+
+  it('draws single-block machines with the look of their machine', () => {
+    const s = site({
+      groups: [
+        group('mac', 'single-block', [4, 4], { count: 2, limits: noLimits, machine: 'macerator' }),
+        group('plain', 'single-block', [14, 4], { count: 1, limits: noLimits }),
+        group('ebf', 'electric-blast-furnace', [4, 14], { count: 1 }),
+      ],
+    });
+    const b = createSiteBuilder()(s, { pipes: false, cables: false });
+    const at = (g: number) => new Set(b.groups[g].units.map((u) => key(u.origin)));
+    const blockAt = (cells: Set<string>) =>
+      b.scene.voxels.filter((v) => cells.has(key(v.pos))).map((v) => v.blockId);
+    expect(new Set(blockAt(at(0)))).toEqual(new Set(['site.machine.macerator']));
+    expect(new Set(blockAt(at(1)))).toEqual(new Set(['site.singleblock']));
+    expect(
+      b.scene.voxels.some((v) => v.blockId === 'site.machine.macerator' && v.kind === 'controller'),
+    ).toBe(true);
+  });
+
+  it('stacks single-block machines in layers with room for pipes between them', () => {
+    const flat = buildGroup(SINGLE_BLOCK_DEF, 12, { x: 4, y: 1, z: null }, [], {});
+    const tall = buildGroup(SINGLE_BLOCK_DEF, 12, { x: 2, y: 3, z: null }, [], {});
+    expect(flat.size[1]).toBe(1);
+    expect(tall.size[1]).toBe(7);
+    expect(new Set(tall.units.map((u) => u.origin[1]))).toEqual(new Set([0, 3, 6]));
+    expect(tall.units).toHaveLength(12);
+    expect(tall.size[0] * tall.size[2]).toBeLessThan(flat.size[0] * flat.size[2]);
+  });
+
+  it('finds the fewest layers that fit single-block machines into a room', () => {
+    const fits = (n: number, room: [number, number]) => {
+      const l = singleBlockLimits(n, room, 12);
+      const perLayer = Math.ceil(n / (l.y ?? 1));
+      const rows = Math.ceil(perLayer / (l.x ?? 1));
+      return { layers: l.y, span: [2 * (l.x ?? 1) - 1, 3 * rows - 2] };
+    };
+    expect(fits(20, [100, 100]).layers).toBe(1);
+    const tight = fits(100, [20, 20]);
+    expect(tight.layers).toBeGreaterThan(1);
+    expect(tight.span[0]).toBeLessThanOrEqual(20);
+    expect(tight.span[1]).toBeLessThanOrEqual(20);
+    // Nothing fits: the tallest stack, as square as it gets.
+    expect(fits(1000, [5, 5]).layers).toBe(12);
   });
 
   it('merges links of one resource sharing an end into one net', () => {

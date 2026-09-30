@@ -1,4 +1,5 @@
 import { PLACEHOLDER_ID, SINGLE_BLOCK_ID, getSiteDef, isSingleBlock } from '../data/generic';
+import { singleMachineForName } from '../data/single-machines';
 import {
   SINGLE_BLOCK_NAMES,
   SKIP_NAMES,
@@ -8,10 +9,10 @@ import {
   multiblockForMachineType,
   multiblockForName,
 } from '../data/gtnhplanner-machines';
-import { arrangeSite, grownSize } from '../model/site/arrange';
-import { createSiteBuilder, localFootprints } from '../model/site/build';
+import { arrangeSite, grownSize, type ArrangeResult } from '../model/site/arrange';
+import { createSiteBuilder, localFootprints, localHeights } from '../model/site/build';
 import type { SiteBuilder } from '../model/site/buildTypes';
-import { IO_KINDS } from '../model/site/group';
+import { IO_KINDS, singleBlockLimits } from '../model/site/group';
 import {
   iconUrl,
   type Endpoint,
@@ -358,6 +359,9 @@ export function importRows(project: GtnhProject): ImportRow[] {
 /** Most layers an imported group is stacked to, and the tallest stack allowed (blocks). */
 const MAX_LAYERS = 4;
 const MAX_STACK_HEIGHT = 24;
+/** Most layers a group may be stacked to when it must fit a site of a size the user set. */
+const MAX_BOUND_LAYERS = 12;
+const MAX_BOUND_HEIGHT = 48;
 /** A stack is kept only when it shrinks the footprint to at most this share of the flat one. */
 const STACK_GAIN = 0.75;
 
@@ -368,16 +372,32 @@ const STACK_GAIN = 0.75;
  * layer along X and Z. All variants are built in one trial site (pipes off) under ids of their own;
  * `builder` keeps the packs of the chosen ones for the build that follows.
  */
-function stackGroups(site: SiteState, builder: SiteBuilder, below?: boolean): SiteGroup[] {
+function stackGroups(
+  site: SiteState,
+  builder: SiteBuilder,
+  below?: boolean,
+  bound?: { only: ReadonlySet<string>; room: [number, number] },
+): SiteGroup[] {
   const variants: { of: string; limits: PlanLimits }[] = [];
+  const singles = new Map<string, PlanLimits>();
   for (const g of site.groups) {
     const def = getSiteDef(g.multiblockId);
+    if (bound && !bound.only.has(g.id)) continue;
+    if (def && bound && isSingleBlock(def)) {
+      // Single-block machines stack by rule, not by trial: no build is needed to know their footprint.
+      singles.set(g.id, singleBlockLimits(g.count, bound.room, MAX_BOUND_LAYERS));
+      continue;
+    }
     if (!def || isSingleBlock(def)) continue;
     const ratio = def.size[2] / Math.max(1, def.size[0]);
-    for (let y = 2; y <= MAX_LAYERS && g.count > y - 1; y++) {
+    for (let y = 2; y <= (bound ? MAX_BOUND_LAYERS : MAX_LAYERS) && g.count > y - 1; y++) {
       const perLayer = Math.ceil(g.count / y);
       const rows = new Set<number>();
-      for (const r of [Math.sqrt(perLayer), Math.sqrt(perLayer * ratio), Math.sqrt(perLayer / ratio)])
+      // A group that must fit tries the squarest grid only: every variant is a full build.
+      const shapes = bound
+        ? [Math.sqrt(perLayer * ratio)]
+        : [Math.sqrt(perLayer), Math.sqrt(perLayer * ratio), Math.sqrt(perLayer / ratio)];
+      for (const r of shapes)
         for (const x of [Math.floor(r), Math.ceil(r)]) rows.add(Math.min(perLayer, Math.max(1, x)));
       for (const x of rows) {
         const z = Math.ceil(perLayer / x);
@@ -387,7 +407,9 @@ function stackGroups(site: SiteState, builder: SiteBuilder, below?: boolean): Si
       }
     }
   }
-  if (variants.length === 0) return site.groups;
+  const withSingles = (groups: SiteGroup[]) =>
+    singles.size ? groups.map((g) => (singles.has(g.id) ? { ...g, limits: singles.get(g.id)! } : g)) : groups;
+  if (variants.length === 0) return withSingles(site.groups);
 
   // Variants get ids of their own and a copy of every link end of their group, so the same hatches.
   const vid = (i: number) => `~v${i}`;
@@ -413,12 +435,53 @@ function stackGroups(site: SiteState, builder: SiteBuilder, below?: boolean): Si
   const built = new Map(
     builder(trial, { pipes: false, cables: false, below }).groups.map((pg) => [pg.group.id, pg]),
   );
+  const maxHeight = bound ? MAX_BOUND_HEIGHT : MAX_STACK_HEIGHT;
   const area = (id: string): number | null => {
     const b = built.get(id)?.build;
-    if (!b || b.pack.placed < b.pack.requested || b.unplaced.length || b.size[1] > MAX_STACK_HEIGHT)
-      return null;
+    if (!b || b.pack.placed < b.pack.requested || b.unplaced.length || b.size[1] > maxHeight) return null;
     return b.size[0] * b.size[2];
   };
+  if (bound) {
+    // A group that must fit: the fewest layers whose footprint fits the room (either way round), else the
+    // smallest footprint there is.
+    const [rx, rz] = bound.room;
+    const fits = (id: string) => {
+      const b = built.get(id)?.build;
+      return !!b && ((b.size[0] <= rx && b.size[2] <= rz) || (b.size[2] <= rx && b.size[0] <= rz));
+    };
+    type Pick = { limits: PlanLimits; fit: boolean; unplaced: number; layers: number; area: number };
+    const chosen = new Map<string, Pick>();
+    // Rooms first, then the fewest hatches left without a place (a tight stack has little wall to put them
+    // on, but a group inside the plot beats one hanging out of it), then the fewest layers, then the smallest.
+    const beats = (x: Pick, y: Pick) =>
+      x.fit !== y.fit
+        ? x.fit
+        : x.fit
+          ? x.unplaced !== y.unplaced
+            ? x.unplaced < y.unplaced
+            : x.layers !== y.layers
+              ? x.layers < y.layers
+              : x.area < y.area
+          : x.area < y.area;
+    const consider = (of: string, limits: PlanLimits, id: string) => {
+      const b = built.get(id)?.build;
+      if (!b || b.pack.placed < b.pack.requested || b.size[1] > maxHeight) return;
+      const next: Pick = {
+        limits,
+        fit: fits(id),
+        unplaced: b.unplaced.length,
+        layers: limits.y ?? 1,
+        area: b.size[0] * b.size[2],
+      };
+      const cur = chosen.get(of);
+      if (!cur || beats(next, cur)) chosen.set(of, next);
+    };
+    for (const g of site.groups) if (bound.only.has(g.id)) consider(g.id, g.limits, g.id);
+    variants.forEach((v, i) => consider(v.of, v.limits, vid(i)));
+    return withSingles(
+      site.groups.map((g) => ({ ...g, limits: { ...(chosen.get(g.id)?.limits ?? g.limits) } })),
+    );
+  }
   const best = new Map<string, { limits: PlanLimits; area: number }>();
   for (const g of site.groups) {
     const b = built.get(g.id)?.build;
@@ -432,11 +495,57 @@ function stackGroups(site: SiteState, builder: SiteBuilder, below?: boolean): Si
   return site.groups.map((g) => ({ ...g, limits: { ...(best.get(g.id)?.limits ?? g.limits) } }));
 }
 
+/**
+ * Arranges `site` inside its own size: the chain runs west to east, what is too wide for one floor goes on the
+ * next one above, and a group bigger than the ground itself stacks its machines up until it fits. Never grows
+ * the site. `builder` packs the groups to measure them (and keeps the packs for the build that follows).
+ */
+export function arrangeOnFloors(
+  site: SiteState,
+  builder: SiteBuilder,
+  below?: boolean,
+): { site: SiteState; arranged: ArrangeResult } {
+  const onFloors = (s: SiteState) => {
+    const built = builder(s, { pipes: false, cables: false, below });
+    const footprints = localFootprints(built);
+    const heights = localHeights(built);
+    return {
+      footprints,
+      arranged: arrangeSite(s, (id) => footprints.get(id), {
+        floors: { heightOf: (id) => heights.get(id) ?? 1 },
+      }),
+    };
+  };
+  let laid = onFloors(site);
+  let out = site;
+  if (!laid.arranged.fits) {
+    const gap = Math.max(1, site.corridor);
+    const room: [number, number] = [
+      Math.max(1, site.size[0] - 2 * (1 + gap)),
+      Math.max(1, site.size[1] - 2 * gap),
+    ];
+    const tooBig = new Set(
+      site.groups
+        .filter((g) => {
+          const f = laid.footprints.get(g.id);
+          return f && !((f[0] <= room[0] && f[1] <= room[1]) || (f[1] <= room[0] && f[0] <= room[1]));
+        })
+        .map((g) => g.id),
+    );
+    if (tooBig.size > 0) {
+      out = { ...site, groups: stackGroups(site, builder, below, { only: tooBig, room }) };
+      laid = onFloors(out);
+    }
+  }
+  return { site: { ...out, groups: laid.arranged.groups }, arranged: laid.arranged };
+}
+
 export interface ImportOptions {
   size?: [number, number];
   /**
    * Size the site to the chain: the smallest, squarest size it fits (up to the maximum), whatever `size`
-   * says. Default true. Off: keep `size`, even when the chain does not fit.
+   * says. Default true. Off: keep `size`, and build on several floors what does not fit its ground area
+   * (a group too big for the ground stacks its machines up as well).
    */
   fit?: boolean;
   corridor?: number;
@@ -459,6 +568,8 @@ export interface ImportReport {
   /** Whether the arranged groups fit the site. */
   fits: boolean;
   needed: [number, number];
+  /** Floors the groups stand on (1 = all on the ground). */
+  floors: number;
 }
 
 /** Groups whose packed footprint stays within this many blocks along both sides are packed as usual. */
@@ -613,6 +724,14 @@ export function buildSiteFromGtnh(
     };
     if (row.node.overclockTier) g.source!.tier = row.node.overclockTier.slice(0, 16);
     if (choice.type !== 'multiblock') g.label = row.machine.slice(0, 120);
+    if (choice.type === 'single') {
+      // The machine's own look, by the names the node and its recipe map use.
+      const handler = row.recipe.handlers.find((h) => h.id === row.node.machineHandlerId);
+      const look = [handler?.label, row.recipe.machineType, row.machine]
+        .map((n) => (n ? singleMachineForName(n) : undefined))
+        .find((m) => m);
+      if (look) g.machine = look.id;
+    }
     groups.push(g);
     groupOfNode.set(row.node.id, id);
   }
@@ -746,6 +865,11 @@ export function buildSiteFromGtnh(
     size = grownSize({ ...site, size: [SITE_MIN_SIZE, SITE_MIN_SIZE] }, (id) => sizes.get(id), SITE_MAX_SIZE);
     site = { ...site, size };
     arranged = arrangeSite(site, (id) => sizes.get(id));
+  } else {
+    // The size is the user's: what is too wide for one floor goes on the next.
+    const laid = arrangeOnFloors(site, builder, opts.below);
+    site = laid.site;
+    arranged = laid.arranged;
   }
   site = { ...site, groups: arranged.groups };
   return {
@@ -760,6 +884,7 @@ export function buildSiteFromGtnh(
       truncated,
       fits: arranged.fits,
       needed: arranged.needed,
+      floors: arranged.floors,
     },
   };
 }

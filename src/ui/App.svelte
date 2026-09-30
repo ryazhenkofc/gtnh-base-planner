@@ -6,8 +6,10 @@
   import { plan, selectedUnits, viewMode, xray } from '../state/store';
   import { selectMultiblock } from './actions';
   import { startSessions } from './appSession';
+  import BlocksPanel from './BlocksPanel.svelte';
   import { clearOtherViewWarnings, createBuildWarnings } from './buildWarnings';
   import { watchDrawerInset, type Inset } from './drawerInset';
+  import FlowToggle from './FlowToggle.svelte';
   import Footer from './Footer.svelte';
   import ImportDialog from './ImportDialog.svelte';
   import Legend from './Legend.svelte';
@@ -43,6 +45,8 @@
   let settingsOpen = $state(false);
   let rendererFailed = $state(false);
   let sitePanelOpen = $state(false);
+  /** The required-blocks drawer (both views); it shares the right edge with Settings and the Template panel. */
+  let blocksOpen = $state(false);
   let importOpen = $state(false);
   /** Site view: what the multiblock picker is open for. */
   let sitePicker = $state<'add' | 'change' | null>(null);
@@ -96,6 +100,7 @@
       const gid = $siteGroup;
       updateSite((s) => withGroupPatched(s, gid, { multiblockId: id }));
     }
+    blocksOpen = false;
     sitePanelOpen = true;
   }
 
@@ -106,6 +111,7 @@
         if (importOpen) importOpen = false;
         else if (sitePicker) sitePicker = null;
         else if (sitePanelOpen) sitePanelOpen = false;
+        else if (blocksOpen) blocksOpen = false;
         else {
           siteGroup.set(null);
           siteNet.set(null);
@@ -113,6 +119,7 @@
         }
       } else if (pickerOpen) pickerOpen = false;
       else if (settingsOpen) settingsOpen = false;
+      else if (blocksOpen) blocksOpen = false;
       return;
     }
     if (!siteMode || importOpen || sitePicker || isTyping(e)) return;
@@ -144,6 +151,7 @@
     // Re-measure whenever a drawer opens or closes.
     void sitePanelOpen;
     void settingsOpen;
+    void blocksOpen;
     void siteMode;
     return watchDrawerInset((next) => (inset = next));
   });
@@ -184,7 +192,15 @@
 
     <SiteBar
       panelOpen={sitePanelOpen}
-      ontogglepanel={() => (sitePanelOpen = !sitePanelOpen)}
+      {blocksOpen}
+      ontogglepanel={() => {
+        sitePanelOpen = !sitePanelOpen;
+        if (sitePanelOpen) blocksOpen = false;
+      }}
+      ontoggleblocks={() => {
+        blocksOpen = !blocksOpen;
+        if (blocksOpen) sitePanelOpen = false;
+      }}
       onimport={() => (importOpen = true)}
     />
 
@@ -196,8 +212,17 @@
       />
     {:else}
       <SiteLegend />
-      <SiteStats onproblems={() => (sitePanelOpen = true)} />
+      <FlowToggle />
+      <SiteStats
+        onproblems={() => {
+          blocksOpen = false;
+          sitePanelOpen = true;
+        }}
+      />
       {#if $siteGroup && !importOpen}<MoveHint />{/if}
+      {#if blocksOpen}
+        <BlocksPanel scene={$siteScene} onclose={() => (blocksOpen = false)} />
+      {/if}
       {#if sitePanelOpen}
         <SitePanel
           onclose={() => (sitePanelOpen = false)}
@@ -225,13 +250,27 @@
       {def}
       {pickerOpen}
       {settingsOpen}
+      {blocksOpen}
       ontogglepicker={() => {
         pickerOpen = !pickerOpen;
-        if (pickerOpen) settingsOpen = false;
+        if (pickerOpen) {
+          settingsOpen = false;
+          blocksOpen = false;
+        }
       }}
       ontogglesettings={() => {
         settingsOpen = !settingsOpen;
-        if (settingsOpen) pickerOpen = false;
+        if (settingsOpen) {
+          pickerOpen = false;
+          blocksOpen = false;
+        }
+      }}
+      ontoggleblocks={() => {
+        blocksOpen = !blocksOpen;
+        if (blocksOpen) {
+          pickerOpen = false;
+          settingsOpen = false;
+        }
       }}
     />
 
@@ -240,6 +279,10 @@
     {:else}
       <Legend enabled={$plan.enabledHatches} colors={$plan.colors} />
       <StatsLine result={$build} />
+    {/if}
+
+    {#if blocksOpen && !pickerOpen}
+      <BlocksPanel scene={$build.scene} onclose={() => (blocksOpen = false)} />
     {/if}
 
     {#if settingsOpen}

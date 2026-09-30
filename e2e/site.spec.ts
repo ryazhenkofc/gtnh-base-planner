@@ -179,3 +179,35 @@ test('site view on a phone', async ({ page }) => {
   await expect(page.getByTestId('site-stats')).toBeVisible();
   await page.screenshot({ path: 'e2e/screenshots/site-mobile.png' });
 });
+
+test('imports into a size of its own and builds on floors what does not fit', async ({ page }) => {
+  const errors = collectErrors(page);
+  await page.goto('/');
+  await page.getByTestId('mode-site').click();
+  await page.getByTestId('site-import').click();
+  const dialog = page.getByTestId('import-dialog');
+  await page.getByTestId('import-text').fill(FIXTURE);
+  await page.getByTestId('import-read').click();
+  await expect(page.getByTestId('import-rows').locator('tbody tr')).toHaveCount(8);
+
+  // Autosizing is the default; turning it off asks for a size and says what happens to a big chain.
+  await expect(page.getByTestId('import-fixed-hint')).toBeHidden();
+  await dialog.getByLabel('Size the template to the chain').uncheck();
+  await expect(page.getByTestId('import-fixed-hint')).toBeVisible();
+  for (const name of ['Width', 'Depth']) {
+    const field = dialog.getByRole('textbox', { name });
+    await field.fill('20');
+    await field.press('Enter');
+  }
+  await page.getByTestId('import-build').click();
+  await expect(dialog).toBeHidden();
+
+  await expect(page.getByTestId('site-name').locator('xpath=..')).toContainText('20 × 20');
+  const stats = page.getByTestId('site-stats');
+  await expect(stats).toContainText('6 groups');
+  await expect(stats).toContainText(/(\d+)\/\1 connected/);
+  await expect(page.getByText(/built on \d+ floors/i)).toBeVisible();
+  await page.waitForTimeout(400);
+  await page.screenshot({ path: 'e2e/screenshots/site-floors.png' });
+  expect(errors).toEqual([]);
+});

@@ -9,6 +9,7 @@ import { createSiteBuilder } from '../model/site/build';
 import type { SiteBuild, SiteBuildOptions } from '../model/site/buildTypes';
 import type { SiteState } from '../model/site/types';
 import { warnOnce } from './notices';
+import { arrangeHere, type Arranged } from './siteArrange';
 import type { SiteWorkerRequest, SiteWorkerResponse } from './siteWorker';
 
 export interface SiteResult {
@@ -36,6 +37,8 @@ export interface SiteWorkerController {
     choices: Map<string, MachineChoice>,
     opts: ImportOptions,
   ) => Promise<ImportResult>;
+  /** Arranges `site` inside its own size, on floors if need be; drops the current job, which it replaces. */
+  arrange: (site: SiteState, below: boolean) => Promise<Arranged>;
 }
 
 type BuildRequest = { site: SiteState; opts: SiteBuildOptions; pending: boolean };
@@ -44,6 +47,13 @@ interface PendingImport {
   choices: Map<string, MachineChoice>;
   opts: ImportOptions;
   resolve: (r: ImportResult) => void;
+  reject: (err: Error) => void;
+}
+
+interface PendingArrange {
+  site: SiteState;
+  below: boolean;
+  resolve: (r: Arranged) => void;
   reject: (err: Error) => void;
 }
 
@@ -66,7 +76,11 @@ export function createSiteWorkerController(
   let workerFailed = false;
   let nextId = 0;
   /** What the worker is on, if anything. */
-  let inFlight: { id: number; build: BuildRequest } | { id: number; import: PendingImport } | null = null;
+  let inFlight:
+    | { id: number; build: BuildRequest }
+    | { id: number; import: PendingImport }
+    | { id: number; arrange: PendingArrange }
+    | null = null;
   /** The newest build not sent yet. */
   let queued: BuildRequest | null = null;
 
@@ -91,6 +105,14 @@ export function createSiteWorkerController(
     }
   }
 
+  function arrangeLocally(job: PendingArrange): void {
+    try {
+      job.resolve(arrangeHere(job.site, job.below, here()));
+    } catch (err) {
+      job.reject(err instanceof Error ? err : new Error(String(err)));
+    }
+  }
+
   /** The worker cannot be used: finish what it was doing here, and build here from now on. */
   function fallBack(err: unknown): void {
     warnOnce('siteWorker', err);
@@ -100,6 +122,7 @@ export function createSiteWorkerController(
     const was = inFlight;
     inFlight = null;
     if (was && 'import' in was) importHere(was.import);
+    if (was && 'arrange' in was) arrangeLocally(was.arrange);
     const req = queued ?? (was && 'build' in was ? was.build : null);
     queued = null;
     events.onBusy(false);
@@ -113,6 +136,7 @@ export function createSiteWorkerController(
     const was = inFlight;
     inFlight = null;
     if (was && 'import' in was) was.import.reject(new Error('Import replaced by a newer one.'));
+    if (was && 'arrange' in was) was.arrange.reject(new Error('Arrange replaced by a newer job.'));
   }
 
   function startWorker(): Worker | null {
@@ -143,6 +167,9 @@ export function createSiteWorkerController(
       if ('import' in job) {
         if ('imported' in msg) job.import.resolve(msg.imported);
         else job.import.reject(new Error('error' in msg ? msg.error : 'Import failed'));
+      } else if ('arrange' in job) {
+        if ('arranged' in msg) job.arrange.resolve(msg.arranged);
+        else job.arrange.reject(new Error('error' in msg ? msg.error : 'Arrange failed'));
       } else if ('error' in msg) {
         warnOnce('buildSite', msg.error);
         events.onBuild({ build: null, error: msg.error });
@@ -212,6 +239,22 @@ export function createSiteWorkerController(
         }
         inFlight = { id: ++nextId, import: imp };
         post(w, { id: inFlight.id, type: 'import', project, choices, opts });
+      });
+    },
+
+    arrange(site, below) {
+      return new Promise((resolve, reject) => {
+        const job: PendingArrange = { site, below, resolve, reject };
+        // Builds of the current site wait: the arrangement changes it.
+        queued = null;
+        if (inFlight) stopWorker();
+        const w = workerFailed ? null : startWorker();
+        if (!w) {
+          arrangeLocally(job);
+          return;
+        }
+        inFlight = { id: ++nextId, arrange: job };
+        post(w, { id: inFlight.id, type: 'arrange', site, below });
       });
     },
   };

@@ -7,6 +7,7 @@ import fixture from './__fixtures__/gtnhplanner-titanium.json';
 import {
   IMPORT_LIMITS,
   ImportError,
+  arrangeOnFloors,
   buildSiteFromGtnh,
   fallbackColor,
   importRows,
@@ -95,6 +96,23 @@ describe('machine mapping', () => {
     // Also a GT++ machine type, but first of all a single-block machine.
     expect(choice('Electrolyzer')).toEqual({ type: 'single' });
     expect(choice('Something Unknown')).toEqual({ type: 'placeholder' });
+    // Generators and tanks are machines of their own, not placeholders.
+    expect(choice('Gas Turbine')).toEqual({ type: 'single' });
+    expect(choice('Tank')).toEqual({ type: 'single' });
+    expect(choice('Solid-Oxide Fuel Cell Mk I')).toEqual({
+      type: 'multiblock',
+      id: 'solid-oxide-fuel-cell-mk-i',
+    });
+  });
+
+  it('gives an imported single-block machine the look of its machine', () => {
+    const data = JSON.parse(text);
+    const { site } = buildSiteFromGtnh(parseGtnhProject(JSON.stringify(data)));
+    const electrolyzer = site.groups.find((g) => g.multiblockId === 'single-block')!;
+    expect(electrolyzer.machine).toBe('electrolyzer');
+    // Multiblocks have no machine look.
+    for (const g of site.groups.filter((x) => x.multiblockId !== 'single-block'))
+      expect(g.machine).toBeUndefined();
   });
 
   it('shows machines missing from the catalog as placeholders', () => {
@@ -188,6 +206,56 @@ describe('buildSiteFromGtnh', () => {
     expect(Math.max(...fitted.site.size)).toBeLessThan(80);
     const kept = buildSiteFromGtnh(p, new Map(), { size: [128, 128], fit: false });
     expect(kept.site.size).toEqual([128, 128]);
+  });
+
+  it('keeps a size it is given and builds on floors what does not fit its ground', () => {
+    const p = parseGtnhProject(text);
+    const { site, report } = buildSiteFromGtnh(p, new Map(), { size: [20, 20], fit: false });
+    expect(site.size).toEqual([20, 20]);
+    expect(report.floors).toBeGreaterThan(1);
+    expect(report.fits).toBe(true);
+    expect(site.groups.some((g) => (g.elevation ?? 0) > 0)).toBe(true);
+    expect(() => validateSiteState(site)).not.toThrow();
+    const b = createSiteBuilder()(site, { pipes: true, cables: true });
+    expect(b.warnings.filter((w) => w.type === 'overlap' || w.type === 'outside')).toEqual([]);
+    const connected = b.nets.reduce((s, n) => s + (n.route?.connected ?? 0), 0);
+    const total = b.nets.reduce((s, n) => s + (n.route?.total ?? 0), 0);
+    expect(connected / total).toBeGreaterThan(0.9);
+  });
+
+  it('arranges a big template inside the size it already has, on floors, without growing it', () => {
+    const p = parseGtnhProject(text);
+    for (const n of p.nodes) n.machineCount *= 12;
+    const builder = createSiteBuilder();
+    // Imported at the size its chain wants, then squeezed into a smaller plot, as the Arrange button does.
+    const { site: big, report } = buildSiteFromGtnh(p, new Map(), {}, builder);
+    expect(report.floors).toBe(1);
+    const small = { ...big, size: [24, 24] as [number, number] };
+    const r = arrangeOnFloors(small, builder);
+    expect(r.site.size).toEqual([24, 24]);
+    expect(r.arranged.fits).toBe(true);
+    expect(r.arranged.floors).toBeGreaterThan(1);
+    const b = builder(r.site, { pipes: true, cables: true });
+    expect(b.warnings.filter((w) => w.type === 'overlap' || w.type === 'outside')).toEqual([]);
+    // A plot that already holds it stays flat.
+    const roomy = arrangeOnFloors({ ...big, size: [128, 128] }, builder);
+    expect(roomy.arranged.floors).toBe(1);
+    expect(roomy.site.groups.every((g) => g.elevation === undefined)).toBe(true);
+  });
+
+  it('sizes to the chain by default and then needs no floors', () => {
+    const { site, report } = buildSiteFromGtnh(parseGtnhProject(text));
+    expect(report.floors).toBe(1);
+    expect(site.groups.every((g) => g.elevation === undefined)).toBe(true);
+  });
+
+  it('stacks the machines of a group that is bigger than the ground itself', () => {
+    const p = parseGtnhProject(text);
+    for (const n of p.nodes) n.machineCount *= 12;
+    const { site, report } = buildSiteFromGtnh(p, new Map(), { size: [24, 24], fit: false });
+    expect(site.size).toEqual([24, 24]);
+    expect(site.groups.some((g) => (g.limits.y ?? 1) > 1)).toBe(true);
+    expect(report.floors).toBeGreaterThan(1);
   });
 
   it('stacks groups of several machines when that saves ground', () => {

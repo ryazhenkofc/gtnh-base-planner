@@ -1,17 +1,15 @@
 import { get } from 'svelte/store';
 import { getSiteDef } from '../data/generic';
 import { t } from '../i18n/en';
-import { localFootprints } from '../model/site/build';
 import type { SiteBuild } from '../model/site/buildTypes';
 import type { SiteState } from '../model/site/types';
-import { SITE_MAX_SIZE } from '../share/siteCodec';
 import { appMode, site, siteGroup } from '../state/site';
-import { plan } from '../state/store';
+import { connectBelow, plan } from '../state/store';
 import { notify } from './notices';
-import { withArranged, withGroupAdded, withGrownToFit, withPlanAdded, withSiteSize } from './siteActions';
+import { withGroupAdded, withGrownToFit, withPlanAdded } from './siteActions';
 import { growAfterBuild } from './siteEditing';
 import { undoAction } from './siteHistory';
-import { siteBuild } from './sitePipeline';
+import { arrangeInSize, siteBuild } from './sitePipeline';
 
 /** Where a new group goes: east of every built group, or at the start of the site. */
 export function freeOrigin(s: SiteState, build: SiteBuild | null): [number, number] {
@@ -51,26 +49,29 @@ export function addPlanToSite(): void {
   notify(t.site.addedToSite);
 }
 
-export function arrange(): void {
+/**
+ * Arranges the groups along the flow inside the template's own size: what is too wide for the ground goes on
+ * floors above it, and a group bigger than the ground stacks its machines up. The size is never changed. It
+ * runs in the build worker, as a big template takes seconds to measure.
+ */
+export async function arrange(): Promise<void> {
   const s = get(site);
-  const build = get(siteBuild).build;
-  if (!build) return;
-  let r = withArranged(s, localFootprints(build));
-  // Too small for the arrangement: grow the template to what it needs (as far as it can grow).
-  if (!r.fits) {
-    const bigger = withSiteSize(
-      s,
-      Math.min(SITE_MAX_SIZE, Math.max(s.size[0], r.needed[0])),
-      Math.min(SITE_MAX_SIZE, Math.max(s.size[1], r.needed[1])),
-    );
-    if (bigger !== s) r = withArranged(bigger, localFootprints(build));
+  if (!s.groups.length) return;
+  notify(t.site.arranging, 120000, 'arrange');
+  let r;
+  try {
+    r = await arrangeInSize(s, get(connectBelow));
+  } catch {
+    // Replaced by a newer job (an import, say): that one reports for itself.
+    return;
   }
-  const grown = r.site.size[0] !== s.size[0] || r.site.size[1] !== s.size[1];
+  // The template was edited while it was being arranged: the result no longer fits it.
+  if (get(site) !== s) return;
   site.set(r.site);
   notify(
     r.fits
-      ? grown
-        ? t.site.arrangedGrown(r.site.size[0], r.site.size[1])
+      ? r.floors > 1
+        ? t.site.arrangedFloors(r.floors)
         : t.site.arranged
       : t.site.needs(r.needed[0], r.needed[1]),
     r.fits ? 6000 : 8000,

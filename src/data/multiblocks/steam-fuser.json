@@ -10,39 +10,18 @@
     ["CCC", "CCC", "CCC", "CCC"]
   ],
   "legend": {
-    "C": {
-      "blockId": "gt.casing.bronzePlated",
-      "hatches": ["steamIn", "itemIn", "itemOut"]
-    },
-    "P": {
-      "blockId": "gt.casing.bronzePipe"
-    },
-    "G": {
-      "blockId": "gt.glass.reinforced"
-    }
+    "C": { "blockId": "gt.casing.bronzePlated", "hatches": ["steamIn", "itemIn", "itemOut"] },
+    "P": { "blockId": "gt.casing.bronzePipe" },
+    "G": { "blockId": "gt.glass.reinforced" }
   },
-  "controller": {
-    "pos": [1, 1, 0],
-    "facing": "north",
-    "blockId": "gt.controller"
-  },
+  "controller": { "pos": [1, 1, 0], "facing": "north", "blockId": "gregtech:gt.blockmachines@31086" },
   "hatchBlocks": {
     "steamIn": "gt.hatch.steamInput",
     "itemIn": "gt.hatch.steamInputBus",
     "itemOut": "gt.hatch.steamOutputBus"
   },
   "shareableHatches": ["steamIn", "itemIn", "itemOut"],
-  "requiredHatches": {
-    "steamIn": {
-      "min": 1
-    },
-    "itemIn": {
-      "min": 1
-    },
-    "itemOut": {
-      "min": 1
-    }
-  },
+  "requiredHatches": { "steamIn": { "min": 1 }, "itemIn": { "min": 1 }, "itemOut": { "min": 1 } },
   "defaultHatches": ["steamIn", "itemIn", "itemOut"],
   "wallshare": true,
   "notes": "Steam multiblock: runs on steam from steam input hatches, no energy or maintenance hatch. Every tiered part (machine casing, gear box, pipe casing, firebox, frame) must be the same tier: bronze (shown) or steel (Solid Steel Machine Casing and steel parts; high-pressure steam, faster). Buses are steam input/output buses. Steam alloy smelter (Steam Fuser), 3x3x4, at least 25 machine casings; glass on the sides of the middle layer. Sharing: every hatch found during the structure check is added to each controller whose structure contains it, so steam hatches and buses in a shared wall serve both machines."
