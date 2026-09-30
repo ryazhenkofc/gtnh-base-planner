@@ -1,6 +1,7 @@
 import { annealGroups, type AnnealOptions } from './anneal';
 import { localFootprints, localHeights } from './build';
 import type { SiteBuild, SiteBuilder } from './buildTypes';
+import { groupShapes } from './shapes';
 import type { SiteGroup, SiteState } from './types';
 
 /**
@@ -12,7 +13,8 @@ import type { SiteGroup, SiteState } from './types';
  * 2. Polish: anneal again from the best layout found, this time judging every step by the router itself
  *    (`scoreBuild`, cached per layout), for a number of steps or a time budget.
  *
- * Ranking, in order: build problems (overlaps, groups outside, unrouted nets, ...), terminals left
+ * Groups of several units may also be packed another way (other `limits`: rows, layers), see `groupShapes`; the
+ * result says how many were. Ranking, in order: build problems (overlaps, groups outside, unrouted nets, ...), terminals left
  * unconnected, pipe and cable blocks, then the width + depth of the layout. The start wins ties, so the
  * result is never worse than the arrangement it was given.
  */
@@ -20,6 +22,8 @@ import type { SiteGroup, SiteState } from './types';
 export interface OptimizeOptions extends Pick<AnnealOptions, 'budgetMs' | 'iterations' | 'now'> {
   /** Explore runs, from seeds 1 to `seeds`. Default `DEFAULT_SEEDS`. */
   seeds?: number;
+  /** Let groups be repacked with other limits (units along X and Z, layers). Default true. */
+  reshape?: boolean;
   /** Whether the site is built with connections from below (see `SiteBuildOptions.below`). */
   below?: boolean;
   /** Router-judged steps per polish run; 0 skips the polish. Default `DEFAULT_REFINE_STEPS`. */
@@ -31,9 +35,9 @@ export interface OptimizeOptions extends Pick<AnnealOptions, 'budgetMs' | 'itera
 }
 
 export const DEFAULT_SEEDS = 4;
-export const DEFAULT_REFINE_STEPS = 200;
+export const DEFAULT_REFINE_STEPS = 500;
 export const DEFAULT_REFINE_RUNS = 2;
-export const DEFAULT_REFINE_MS = 4000;
+export const DEFAULT_REFINE_MS = 6000;
 
 /** Start temperature of a polish run, as a share of the typical uphill step of a random move. */
 const REFINE_HEAT = 0.2;
@@ -55,6 +59,8 @@ export interface OptimizeResult {
   result: LayoutScore;
   /** Different layouts that were routed and compared. */
   tried: number;
+  /** Groups that were repacked (their limits differ from the start's). */
+  reshaped: number;
 }
 
 export function scoreBuild(build: SiteBuild): LayoutScore {
@@ -98,6 +104,7 @@ export function optimizeSite(
   const footprints = localFootprints(measured);
   const heights = localHeights(measured);
   const sizeOf = (id: string) => footprints.get(id);
+  const shapes = opts.reshape === false ? undefined : groupShapes(site, builder, below);
   const heightOf = (id: string) => heights.get(id) ?? 1;
 
   /** The router's verdict on a layout, remembered: the annealer comes back to the same layouts often. */
@@ -124,6 +131,7 @@ export function optimizeSite(
     const r = annealGroups(site, sizeOf, {
       seed,
       heightOf,
+      shapes,
       iterations: opts.iterations,
       budgetMs: opts.budgetMs,
       now: opts.now,
@@ -142,6 +150,7 @@ export function optimizeSite(
       const r = annealGroups({ ...site, groups: best.groups }, sizeOf, {
         seed: run,
         heightOf,
+        shapes,
         iterations: steps,
         budgetMs: left / (runs - run + 1),
         now: opts.now,
@@ -159,9 +168,14 @@ export function optimizeSite(
     start,
     result: best.score,
     tried: scores.size - 1,
+    reshaped: improved ? best.groups.filter((g, i) => limitsKey(g) !== limitsKey(site.groups[i])).length : 0,
   };
 }
 
 function layoutKey(groups: readonly SiteGroup[]): string {
-  return groups.map((g) => `${g.origin[0]},${g.origin[1]},${g.rotation}`).join(';');
+  return groups.map((g) => `${g.origin[0]},${g.origin[1]},${g.rotation},${limitsKey(g)}`).join(';');
+}
+
+function limitsKey(g: SiteGroup): string {
+  return `${g.limits.x}/${g.limits.y}/${g.limits.z}`;
 }

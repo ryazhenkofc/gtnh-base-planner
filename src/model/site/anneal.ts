@@ -1,5 +1,6 @@
 import type { Rotation } from '../core/types';
 import { FLOOR_CLEARANCE } from './arrange';
+import type { PlanLimits } from '../multiblock/types';
 import type { SiteGroup, SiteLink, SiteState } from './types';
 
 /**
@@ -48,6 +49,11 @@ export interface AnnealOptions {
   evaluate?: (groups: SiteGroup[]) => number;
   /** Start temperature as a share of the typical uphill step of a random move. Default 0.5. */
   heat?: number;
+  /**
+   * Other shapes a group may take (by group id; the group's own `limits` name its current one). A group with more than one gets a
+   * move that repacks it in place; the result carries the chosen `limits`. Groups without an entry keep theirs.
+   */
+  shapes?: ReadonlyMap<string, readonly Shape[]>;
 }
 
 export interface AnnealResult {
@@ -58,6 +64,16 @@ export interface AnnealResult {
   /** False when nothing better was found (or the start was not a valid layout); `groups` is then the start. */
   improved: boolean;
   iterations: number;
+}
+
+/**
+ * One way to pack a group: the `limits` that give it, and the footprint [x, z] and height that result (before
+ * rotation). A group's current shape is the one whose `limits` match its own.
+ */
+export interface Shape {
+  limits: PlanLimits;
+  size: [number, number];
+  height: number;
 }
 
 export const DEFAULT_COMPACT = 0.3;
@@ -135,7 +151,11 @@ class Layout {
   readonly present: boolean[];
   /** Groups a group is linked to. */
   readonly partners: number[][];
-  private readonly foot: [number, number][];
+  /** Every shape of each group; `shape[i]` is the one it has. */
+  readonly shapes: (readonly Shape[])[];
+  readonly shape: number[];
+  /** The shape each group started with. */
+  readonly home: number[];
   private readonly y0: number[];
   private readonly h: number[];
   private readonly gap: number;
@@ -148,12 +168,26 @@ class Layout {
     heightOf: (id: string) => number,
     readonly compact: number,
     private readonly centre: number = DEFAULT_CENTRE,
+    shapes?: ReadonlyMap<string, readonly Shape[]>,
   ) {
     const gs = site.groups;
     this.n = gs.length;
     const index = new Map(gs.map((g, i) => [g.id, i]));
     this.nets = buildNets(site, index);
-    this.foot = gs.map((g) => sizeOf(g.id) ?? [3, 3]);
+    this.shapes = gs.map((g) => {
+      const given = shapes?.get(g.id);
+      return given && given.length > 0
+        ? given
+        : [{ limits: g.limits, size: sizeOf(g.id) ?? [3, 3], height: Math.max(1, heightOf(g.id)) }];
+    });
+    // The shape a group has now: the one its limits name, else the first.
+    this.shape = gs.map((g, i) =>
+      Math.max(
+        0,
+        this.shapes[i].findIndex((sh) => sameLimits(sh.limits, g.limits)),
+      ),
+    );
+    this.home = [...this.shape];
     this.x = gs.map((g) => g.origin[0]);
     this.z = gs.map((g) => g.origin[1]);
     this.rot = gs.map((g) => g.rotation);
@@ -161,7 +195,7 @@ class Layout {
     this.d = gs.map((_, i) => this.footOf(i, this.rot[i])[1]);
     this.present = gs.map(() => true);
     this.y0 = gs.map((g) => g.elevation ?? 0);
-    this.h = gs.map((g) => Math.max(1, heightOf(g.id)));
+    this.h = this.shapes.map((list, i) => Math.max(1, list[this.shape[i]].height));
     this.gap = site.corridor;
     // The same margins `arrangeSite` keeps: one more block on the west and east for the ports.
     const edge = 1 + Math.max(1, this.gap);
@@ -180,8 +214,8 @@ class Layout {
     this.partners = partners.map((s) => [...s]);
   }
 
-  footOf(i: number, r: Rotation): [number, number] {
-    const [fx, fz] = this.foot[i];
+  footOf(i: number, r: Rotation, s: number = this.shape[i]): [number, number] {
+    const [fx, fz] = this.shapes[i][s].size;
     return r % 2 === 0 ? [fx, fz] : [fz, fx];
   }
 
@@ -227,12 +261,14 @@ class Layout {
     return true;
   }
 
-  set(i: number, x: number, z: number, r: Rotation = this.rot[i]): void {
+  set(i: number, x: number, z: number, r: Rotation = this.rot[i], s: number = this.shape[i]): void {
     this.x[i] = x;
     this.z[i] = z;
-    if (r !== this.rot[i]) {
+    if (r !== this.rot[i] || s !== this.shape[i]) {
       this.rot[i] = r;
-      [this.w[i], this.d[i]] = this.footOf(i, r);
+      this.shape[i] = s;
+      [this.w[i], this.d[i]] = this.footOf(i, r, s);
+      this.h[i] = Math.max(1, this.shapes[i][s].height);
     }
   }
 
@@ -334,13 +370,17 @@ class Layout {
     return this.wireLength() + this.compact * this.span();
   }
 
-  snapshot(): { x: number[]; z: number[]; rot: Rotation[] } {
-    return { x: [...this.x], z: [...this.z], rot: [...this.rot] };
+  snapshot(): { x: number[]; z: number[]; rot: Rotation[]; shape: number[] } {
+    return { x: [...this.x], z: [...this.z], rot: [...this.rot], shape: [...this.shape] };
   }
 
-  restore(s: { x: number[]; z: number[]; rot: Rotation[] }): void {
-    for (let i = 0; i < this.n; i++) this.set(i, s.x[i], s.z[i], s.rot[i]);
+  restore(s: { x: number[]; z: number[]; rot: Rotation[]; shape: number[] }): void {
+    for (let i = 0; i < this.n; i++) this.set(i, s.x[i], s.z[i], s.rot[i], s.shape[i]);
   }
+}
+
+function sameLimits(a: PlanLimits, b: PlanLimits): boolean {
+  return a.x === b.x && a.y === b.y && a.z === b.z;
 }
 
 /** Small deterministic generator (mulberry32). */
@@ -378,10 +418,12 @@ export function annealGroups(
     opts.heightOf ?? (() => 1),
     opts.compact ?? DEFAULT_COMPACT,
     opts.centre ?? DEFAULT_CENTRE,
+    opts.shapes,
   );
   const toGroups = () =>
     site.groups.map((g, i) => ({
       ...g,
+      ...(m.shape[i] === m.home[i] ? {} : { limits: { ...m.shapes[i][m.shape[i]].limits } }),
       origin: [m.x[i], m.z[i]] as [number, number],
       rotation: m.rot[i],
     }));
@@ -406,13 +448,35 @@ export function annealGroups(
   const [w, d] = site.size;
   const gap = site.corridor;
 
-  /** Puts `i` at `x`,`z` (rotated to `r`) if that is a valid place; otherwise leaves it where it was. */
-  const tryPlace = (i: number, x: number, z: number, r: Rotation = m.rot[i]): boolean => {
-    const was = [m.x[i], m.z[i], m.rot[i]] as const;
-    m.set(i, x, z, r);
+  /** Puts `i` at `x`,`z` (rotated to `r`, packed as shape `s`) if that is a valid place; otherwise leaves it. */
+  const tryPlace = (
+    i: number,
+    x: number,
+    z: number,
+    r: Rotation = m.rot[i],
+    s: number = m.shape[i],
+  ): boolean => {
+    const was = [m.x[i], m.z[i], m.rot[i], m.shape[i]] as const;
+    m.set(i, x, z, r, s);
     if (m.valid(i)) return true;
-    m.set(i, was[0], was[1], was[2]);
+    m.set(i, was[0], was[1], was[2], was[3]);
     return false;
+  };
+
+  /** Groups that can be packed more than one way. */
+  const reshapable = m.shapes.flatMap((list, i) => (list.length > 1 ? [i] : []));
+
+  /** Packs a group another way, in place: around its centre, else from its min corner. */
+  const reshape = (): boolean => {
+    const i = pick(reshapable);
+    const s = (m.shape[i] + randInt(1, m.shapes[i].length - 1)) % m.shapes[i].length;
+    const [nw, nd] = m.footOf(i, m.rot[i], s);
+    const cx = m.x[i] + m.w[i] / 2;
+    const cz = m.z[i] + m.d[i] / 2;
+    return (
+      tryPlace(i, Math.round(cx - nw / 2), Math.round(cz - nd / 2), m.rot[i], s) ||
+      tryPlace(i, m.x[i], m.z[i], m.rot[i], s)
+    );
   };
 
   /** Where `i` would sit flush against `j` on a side (aligned by centre, nudged a little). */
@@ -513,7 +577,9 @@ export function annealGroups(
     const undo = m.snapshot();
     const pickMove = rand();
     let moved = false;
-    if (pickMove < 0.4) {
+    if (reshapable.length > 0 && rand() < 0.15) {
+      moved = reshape();
+    } else if (pickMove < 0.4) {
       const i = randInt(0, m.n - 1);
       const reach = 1 + Math.floor((1 - progress) * (1 - progress) * 0.4 * Math.max(w, d));
       moved = tryPlace(i, m.x[i] + randInt(-reach, reach), m.z[i] + randInt(-reach, reach));

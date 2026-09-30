@@ -85,5 +85,5 @@ export async function arrange(optimize = false): Promise<void> {
 
 /** What optimising did, in the router's numbers (pipe and cable blocks). */
 function optimizedNotice(o: NonNullable<Arranged['optimized']>): string {
-  return o.improved ? t.site.optimized(o.start.blocks, o.result.blocks) : t.site.optimizedSame;
+  return o.improved ? t.site.optimized(o.start.blocks, o.result.blocks, o.reshaped) : t.site.optimizedSame;
 }

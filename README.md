@@ -58,7 +58,8 @@ The planner checks layout rules for the transcribed structure only. It is not a 
    ADD TO TEMPLATE copies the current plan into the template as a group.
 3. ARRANGE lays the groups out west to east along the flow. OPTIMIZE arranges, then searches for a tighter layout
    with shorter pipes in the background: simulated annealing on a cheap length estimate finds candidates, then a
-   second pass judges every step by the real router. A result is kept only if the router connects at least as much with
+   second pass judges every step by the real router. It may also pack a group of several units another way (rows or
+   layers, which sets the group's limits), and says how many it changed. A result is kept only if the router connects at least as much with
    fewer pipe blocks; otherwise the plain arrangement stays. It takes from under a second to a few seconds.
    Select a group (click it, or pick it in the panel)
    and drag it in the view, or move it with the arrow keys as seen on screen (Shift: 5 blocks) or the arrows in

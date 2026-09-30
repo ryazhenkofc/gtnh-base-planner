@@ -116,7 +116,11 @@ describe('site worker controller', () => {
     await plain;
     const tuned = c.arrange(site, false, true);
     expect(w.sent[1]).toMatchObject({ type: 'arrange', optimize: true });
-    const optimized = { improved: false, start: { problems: 0, unconnected: 0, blocks: 1, span: 1 } };
+    const optimized = {
+      improved: false,
+      reshaped: 0,
+      start: { problems: 0, unconnected: 0, blocks: 1, span: 1 },
+    };
     const arranged = { site, fits: true, needed: [10, 10] as [number, number], floors: 1, optimized };
     w.reply({
       id: w.sent[1].id,

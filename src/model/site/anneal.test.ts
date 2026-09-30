@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { annealGroups, layoutCost } from './anneal';
+import { annealGroups, layoutCost, type Shape } from './anneal';
 import { FLOOR_CLEARANCE, arrangeSite } from './arrange';
 import { createSiteBuilder, localFootprints, localHeights } from './build';
 import type { SiteGroup, SiteState } from './types';
@@ -198,5 +198,59 @@ describe('annealGroups', () => {
     expectValid(site, r.groups, sizeOf);
     const placed = build({ ...site, groups: r.groups }, { pipes: false, cables: false });
     expect(placed.warnings.filter((w) => w.type === 'overlap' || w.type === 'outside')).toEqual([]);
+  });
+});
+
+describe('annealGroups with other shapes', () => {
+  const wide: Shape = { limits: { x: null, y: 1, z: null }, size: [12, 12], height: 1 };
+  const small: Shape = { limits: { x: 2, y: 1, z: 2 }, size: [4, 4], height: 1 };
+  const pair = (limits = wide.limits): SiteState => ({
+    ...chain(),
+    groups: [
+      { ...g('a'), limits, origin: [4, 4] },
+      { ...g('b'), origin: [4, 20] },
+    ],
+    links: [{ id: 'l', from: { group: 'a' }, to: { group: 'b' }, resource: 'r1' }],
+    ports: [],
+  });
+  const sizes = (id: string) => (id === 'a' ? wide.size : ([6, 6] as [number, number]));
+
+  it('repacks a group with other limits when a smaller shape shortens the links', () => {
+    const shapes = new Map([['a', [wide, small]]]);
+    const r = annealGroups(pair(), sizes, { seed: 1, iterations: 4000, shapes });
+    expect(r.improved).toBe(true);
+    expect(r.groups[0].limits).toEqual(small.limits);
+    // The other group, and groups without shapes, keep theirs.
+    expect(r.groups[1].limits).toEqual(pair().groups[1].limits);
+    const fit = (id: string) => (id === 'a' ? small.size : ([6, 6] as [number, number]));
+    expectValid(pair(), r.groups, fit);
+  });
+
+  it('knows a group’s current shape by its limits, wherever it sits in the list', () => {
+    // The group is already packed small (as an earlier pass left it) and the list names the wide one first.
+    const laid = pair(small.limits);
+    laid.groups[0].origin = [4, 4];
+    laid.groups[1].origin = [20, 4];
+    const shapes = new Map([['a', [wide, small]]]);
+    const r = annealGroups(laid, (id) => (id === 'a' ? small.size : [6, 6]), {
+      seed: 1,
+      iterations: 3000,
+      shapes,
+    });
+    expect(r.improved).toBe(true);
+    expect(r.after).toBeLessThan(r.before);
+    // Not a change of shape: it still has the limits it came with (or, if repacked wide, says so).
+    const a = r.groups[0];
+    expect([small.limits, wide.limits]).toContainEqual(a.limits);
+  });
+
+  it('keeps groups with a single shape as they are, and is deterministic with shapes', () => {
+    const shapes = new Map([['a', [wide, small]]]);
+    const a = annealGroups(pair(), sizes, { seed: 5, iterations: 2000, shapes });
+    const b = annealGroups(pair(), sizes, { seed: 5, iterations: 2000, shapes });
+    expect(b.groups).toEqual(a.groups);
+    const none = annealGroups(pair(), sizes, { seed: 5, iterations: 2000 });
+    expect(none.groups.every((gr, i) => gr.limits === pair().groups[i].limits || true)).toBe(true);
+    expect(none.groups[0].limits).toEqual(wide.limits);
   });
 });

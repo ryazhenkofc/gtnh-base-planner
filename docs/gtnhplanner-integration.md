@@ -159,7 +159,8 @@ Today: `plan → packUnits → placeHatches → computeWallStats → routePipes 
   span) from several seeds and routes each result. The estimate misleads: on test webs its best layouts routed
   worse than the start. Stage 2 therefore anneals again from the best layout, judging every step by the router
   (cached per layout, 5-20 ms a step). A result replaces the arrangement only if it beats it on the router's own
-  numbers. Not yet: changing a group's `limits`, routing only the nets a move touches.
+  numbers. Groups of several units may also be repacked with other `limits` (rows and layers, up to three; `shapes.ts` measures
+  each alternative with the packer), as one more move in both stages. Not yet: routing only the nets a move touches.
 
 ## 6. Showing I/O
 

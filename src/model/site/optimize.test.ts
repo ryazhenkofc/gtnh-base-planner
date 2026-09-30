@@ -161,6 +161,75 @@ describe('optimizeSite', () => {
   });
 });
 
+describe('optimizeSite with repacking', () => {
+  /** A chain of groups of several units: each can be packed in rows or layers. */
+  function crowded(): SiteState {
+    const r = (name: string) => res(name);
+    return {
+      v: 1,
+      kind: 'site',
+      size: [60, 40],
+      corridor: 2,
+      groups: [
+        group('d', 'vacuum-freezer', 2),
+        group('a', 'electric-blast-furnace', 4),
+        group('b', 'large-chemical-reactor', 3),
+        group('c', 'implosion-compressor', 2),
+      ],
+      links: [
+        { id: '1', from: { group: 'a' }, to: { group: 'b' }, resource: 'r1' },
+        { id: '2', from: { group: 'a' }, to: { group: 'c' }, resource: 'r2' },
+        { id: '3', from: { group: 'b' }, to: { group: 'd' }, resource: 'r3' },
+        { id: '4', from: { group: 'c' }, to: { group: 'd' }, resource: 'r4' },
+      ],
+      ports: [],
+      resources: { r1: r('1'), r2: r('2'), r3: r('3'), r4: r('4') },
+      colors: {},
+    };
+  }
+
+  function laidOut() {
+    const builder = createSiteBuilder();
+    const site = crowded();
+    const sizes = localFootprints(builder(site, { pipes: false, cables: false }));
+    return { builder, site: { ...site, groups: arrangeSite(site, (id) => sizes.get(id)).groups } };
+  }
+
+  it('never does worse than the arranged start after real routing, and builds clean', () => {
+    const { builder, site } = laidOut();
+    const r = optimizeSite(site, builder, { refineSteps: 120, refineRuns: 1 });
+    expect(better(r.start, r.result)).toBe(false);
+    // The arrangement it was given is the fallback: handed back untouched unless something beat it.
+    if (!r.improved) expect(r.site).toBe(site);
+    const build = builder(r.site, { pipes: true, cables: true });
+    expect(scoreBuild(build)).toEqual(r.result);
+    for (const n of build.nets) expect(n.route!.connected).toBe(n.route!.total);
+    expect(build.warnings.filter((w) => w.type === 'overlap' || w.type === 'outside')).toEqual([]);
+    // Repacking never changes what is built: same machines, same counts.
+    expect(r.site.groups.map((g) => [g.id, g.multiblockId, g.count])).toEqual(
+      site.groups.map((g) => [g.id, g.multiblockId, g.count]),
+    );
+    expect(build.groups.every((pg) => pg.build!.pack.placed === pg.group.count)).toBe(true);
+  });
+
+  it('repacks groups on a chain where that shortens the pipes, and says how many', () => {
+    const { builder, site } = laidOut();
+    const r = optimizeSite(site, builder, { refineSteps: 300, refineRuns: 1 });
+    expect(r.improved).toBe(true);
+    const changed = r.site.groups.filter(
+      (g, i) => JSON.stringify(g.limits) !== JSON.stringify(site.groups[i].limits),
+    );
+    expect(r.reshaped).toBe(changed.length);
+  });
+
+  it('keeps every group’s limits when repacking is switched off', () => {
+    const { builder, site } = laidOut();
+    const r = optimizeSite(site, builder, { refineSteps: 120, refineRuns: 1, reshape: false });
+    expect(r.reshaped).toBe(0);
+    expect(r.site.groups.map((g) => g.limits)).toEqual(site.groups.map((g) => g.limits));
+  });
+});
+
 describe('better', () => {
   const base = { problems: 0, unconnected: 0, blocks: 10, span: 20 };
   it('ranks problems, then unconnected terminals, then pipe blocks, then span', () => {

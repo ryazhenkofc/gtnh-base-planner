@@ -9,6 +9,8 @@ export interface Optimized {
   improved: boolean;
   start: LayoutScore;
   result: LayoutScore;
+  /** Groups that were repacked with other limits. */
+  reshaped: number;
 }
 
 /** A site arranged inside its own size (see `arrangeOnFloors`). */
@@ -41,7 +43,7 @@ export function arrangeHere(
   if (optimize && r.arranged.fits) {
     const o = optimizeSite(r.site, builder, { below });
     out.site = o.site;
-    out.optimized = { improved: o.improved, start: o.start, result: o.result };
+    out.optimized = { improved: o.improved, start: o.start, result: o.result, reshaped: o.reshaped };
   }
   return out;
 }
