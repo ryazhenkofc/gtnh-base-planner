@@ -155,6 +155,14 @@ test('builds a site by hand and switches back to the machine view', async ({ pag
     .click();
   await expect(page.getByTestId('site-stats')).toContainText('2 groups');
 
+  // Its limits can be kept: Arrange and Optimize leave a kept group's packing alone.
+  const lock = panel.getByTestId('site-lock-limits');
+  await expect(lock).toHaveAttribute('aria-pressed', 'false');
+  await lock.click();
+  await expect(lock).toHaveAttribute('aria-pressed', 'true');
+  await lock.click();
+  await expect(lock).toHaveAttribute('aria-pressed', 'false');
+
   // A link from a site input to the furnace, with a new resource.
   await panel.getByTestId('site-link-open').click();
   const form = panel.getByTestId('site-link-form');

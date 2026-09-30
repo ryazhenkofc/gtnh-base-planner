@@ -47,6 +47,11 @@ export interface SiteGroup {
   /** Height / length of a resizable multiblock (see `PlanState.size`). */
   size?: number;
   /**
+   * The group's `limits` are the user's own: Arrange and Optimize never change them (they still move and turn
+   * the group). Set by editing the limits, and switchable in the group's settings.
+   */
+  limitsLocked?: boolean;
+  /**
    * Non-IO hatch kinds to place (energy, maintenance, muffler, dynamo). Item, fluid and steam hatches come
    * from the links that touch the group: one hatch per resource.
    */

@@ -169,6 +169,9 @@ export const t = {
     maxX: 'Max X',
     maxZ: 'Max Z',
     packingHint: 'Multiblocks along each axis. Empty = unlimited.',
+    lockLimits: 'Keep these limits',
+    lockLimitsHint:
+      'Arrange and Optimize never change the limits of a group that is kept. Editing the limits keeps them.',
     hatches: 'Extra hatches',
     turn: 'Turn',
     turnLeft: 'Turn counter-clockwise',

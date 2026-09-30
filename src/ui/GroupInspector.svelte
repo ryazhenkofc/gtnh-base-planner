@@ -197,6 +197,15 @@
       {/each}
     </div>
     <p class="hint">{t.site.packingHint}</p>
+    <ul class="rows">
+      <ToggleRow
+        on={!!group.limitsLocked}
+        label={t.site.lockLimits}
+        testid="site-lock-limits"
+        ontoggle={() => patch({ limitsLocked: !group.limitsLocked })}
+      />
+    </ul>
+    <p class="hint">{t.site.lockLimitsHint}</p>
     {#if extraKinds.length}
       <p class="sub-label">{t.site.hatches}</p>
       <ul class="rows">

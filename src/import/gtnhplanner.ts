@@ -382,6 +382,7 @@ function stackGroups(
   const singles = new Map<string, PlanLimits>();
   for (const g of site.groups) {
     const def = getSiteDef(g.multiblockId);
+    if (g.limitsLocked) continue;
     if (bound && !bound.only.has(g.id)) continue;
     if (def && bound && isSingleBlock(def)) {
       // Single-block machines stack by rule, not by trial: no build is needed to know their footprint.

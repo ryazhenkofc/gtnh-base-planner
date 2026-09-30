@@ -258,6 +258,27 @@ describe('buildSiteFromGtnh', () => {
     expect(report.floors).toBeGreaterThan(1);
   });
 
+  it('never stacks a group whose limits are locked', () => {
+    const p = parseGtnhProject(text);
+    for (const n of p.nodes) n.machineCount *= 12;
+    const builder = createSiteBuilder();
+    const { site: big } = buildSiteFromGtnh(p, new Map(), {}, builder);
+    const plain = arrangeOnFloors({ ...big, size: [24, 24] }, builder).site;
+    const stacked = plain.groups.filter(
+      (g) => JSON.stringify(g.limits) !== JSON.stringify(big.groups.find((x) => x.id === g.id)!.limits),
+    );
+    expect(stacked.length).toBeGreaterThan(0);
+    const keep = new Set(stacked.map((g) => g.id));
+    const pinned = {
+      ...big,
+      size: [24, 24] as [number, number],
+      groups: big.groups.map((g) => (keep.has(g.id) ? { ...g, limitsLocked: true } : g)),
+    };
+    const r = arrangeOnFloors(pinned, builder);
+    for (const g of r.site.groups.filter((x) => keep.has(x.id)))
+      expect(g.limits).toEqual(big.groups.find((x) => x.id === g.id)!.limits);
+  });
+
   it('stacks groups of several machines when that saves ground', () => {
     const p = parseGtnhProject(text);
     for (const n of p.nodes) n.machineCount *= 6;
