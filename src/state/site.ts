@@ -9,6 +9,13 @@ export const appMode = writable<AppMode>('machine');
 export const site = writable<SiteState>(emptySite());
 /** Selected group id (highlighted in the scene, edited in the site panel). */
 export const siteGroup = writable<string | null>(null);
+/**
+ * Selected port id (an input or output on the site edge): dragged or nudged like a group, never together
+ * with one. Selecting either clears the other.
+ */
+export const sitePort = writable<string | null>(null);
+siteGroup.subscribe((id) => id !== null && sitePort.set(null));
+sitePort.subscribe((id) => id !== null && siteGroup.set(null));
 /** Selected net id (from clicking a pipe): shown in the info line. */
 export const siteNet = writable<number | null>(null);
 /** Resource key whose nets are highlighted; every other net is drawn faded. */

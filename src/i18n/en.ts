@@ -169,8 +169,10 @@ export const t = {
     nudge: 'Move the group',
     nudgeStep: (axis: string, sign: number) => `${sign > 0 ? '+' : '−'}${axis}`,
     nudgeDir: { up: 'Move away', down: 'Move closer', left: 'Move left', right: 'Move right' },
+    raise: 'Raise one block (PageUp)',
+    lower: 'Lower one block (PageDown)',
     placementHint:
-      'Drag the selected group in the view, or use the arrows. X and Z are its corner in blocks.',
+      'Drag the selected group in the view, or use the arrows. PageUp and PageDown raise and lower it. X and Z are its corner in blocks.',
     undo: 'Undo',
     redo: 'Redo',
     undone: 'Undone.',
@@ -182,7 +184,11 @@ export const t = {
     pipesWait: 'Pipes follow when you pause',
     hint: {
       title: 'Move the group',
+      titlePort: 'Move the port',
       drag: 'Move (drag the group)',
+      dragPort: 'Move (drag the port)',
+      lift: 'Raise / lower 1 block',
+      autoPort: 'Auto place',
       move: 'Move 1 block',
       fast: 'Move 5 blocks',
       rotate: 'Turn (Shift: back)',

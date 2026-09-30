@@ -16,6 +16,7 @@ import {
   withLinkRemoved,
   withName,
   withPlanAdded,
+  withPortPlaced,
   withResourceColor,
   withSiteSize,
 } from './siteActions';
@@ -153,6 +154,24 @@ describe('site actions', () => {
     const g = withGrownToFit(s, [-3, -2], [2, 4], 1);
     expect(g.ports[0].pos).toEqual([0, 15]);
     expect(() => validateSiteState(g)).not.toThrow();
+  });
+
+  it('pins a port to a cell inside the site and gives it back to automatic placement', () => {
+    let s = two();
+    s = withLinkAdded(s, { port: true }, { group: 'g1' }, { name: 'Iron Dust', kind: 'item' });
+    const id = s.ports[0].id;
+    const pinned = withPortPlaced(s, id, [5, 7]);
+    expect(pinned.ports[0].pos).toEqual([5, 7]);
+    expect(withPortPlaced(pinned, id, [5, 7])).toBe(pinned);
+    // Dragged past an edge it stops on the edge cell.
+    const [w, d] = s.size;
+    expect(withPortPlaced(s, id, [-4, 999]).ports[0].pos).toEqual([0, d - 1]);
+    expect(withPortPlaced(s, id, [w + 3, 2]).ports[0].pos).toEqual([w - 1, 2]);
+    const auto = withPortPlaced(pinned, id, null);
+    expect('pos' in auto.ports[0]).toBe(false);
+    expect(withPortPlaced(s, id, null)).toBe(s);
+    expect(withPortPlaced(s, 'nope', [1, 1])).toBe(s);
+    expect(() => validateSiteState(pinned)).not.toThrow();
   });
 
   it('clamps size and corridor, names and colours', () => {

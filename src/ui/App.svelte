@@ -1,8 +1,8 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { t } from '../i18n/en';
-  import { groupIndexOfUnit } from '../model/site/ids';
-  import { appMode, flowAnimation, isolate, site, siteGroup, siteNet } from '../state/site';
+  import { groupIndexOfUnit, portIndexOfUnit, portUnitId } from '../model/site/ids';
+  import { appMode, flowAnimation, isolate, site, siteGroup, siteNet, sitePort } from '../state/site';
   import { plan, selectedUnits, viewMode, xray } from '../state/store';
   import { selectMultiblock } from './actions';
   import { startSessions } from './appSession';
@@ -22,8 +22,10 @@
   import Settings from './Settings.svelte';
   import { updateSite, withGroupPatched } from './siteActions';
   import {
+    autoPlaceSelectedPort,
     frameRequest,
     frameSelected,
+    liftSelectedStep,
     moveSelected,
     moveSelectedBy,
     removeSelected,
@@ -63,10 +65,12 @@
   });
   $effect(() => clearOtherViewWarnings(siteMode));
 
-  /** Unit ids of the selected site group (highlighted like selected units). */
+  /** Unit ids of the selected site group or port (highlighted like selected units). */
   const siteSelected = $derived.by(() => {
     // Only the site view needs the site built.
     if (!siteMode) return [];
+    const pi = $sitePort ? $site.ports.findIndex((p) => p.id === $sitePort) : -1;
+    if (pi >= 0) return [portUnitId(pi)];
     const g = $siteBuild.build?.groups.find((x) => x.group.id === $siteGroup);
     return g ? g.units.map((u) => u.id) : [];
   });
@@ -76,8 +80,15 @@
       selectedUnits.set(ids);
       return;
     }
-    const g = ids.length ? $siteBuild.build?.groups[groupIndexOfUnit(ids[0])] : undefined;
-    siteGroup.set(g?.group.id ?? null);
+    const pi = ids.length ? portIndexOfUnit(ids[0]) : -1;
+    const g = ids.length && pi < 0 ? $siteBuild.build?.groups[groupIndexOfUnit(ids[0])] : undefined;
+    // Selecting one clears the other (see `sitePort`); nothing picked clears both.
+    if (pi >= 0 && $site.ports[pi]) sitePort.set($site.ports[pi].id);
+    else if (g) siteGroup.set(g.group.id);
+    else {
+      siteGroup.set(null);
+      sitePort.set(null);
+    }
   }
 
   function onpicknet(id: number | null) {
@@ -114,6 +125,7 @@
         else if (blocksOpen) blocksOpen = false;
         else {
           siteGroup.set(null);
+          sitePort.set(null);
           siteNet.set(null);
           isolate.set(null);
         }
@@ -133,10 +145,13 @@
       return;
     }
     const gid = $siteGroup;
-    if (!gid || !$site.groups.some((g) => g.id === gid)) return;
+    const pid = $sitePort;
+    if (!$site.groups.some((g) => g.id === gid) && !$site.ports.some((p) => p.id === pid)) return;
     e.preventDefault();
     if (action.type === 'move') moveSelected(action.key, action.far);
     else if (action.type === 'rotate') rotateSelected(action.turns);
+    else if (action.type === 'lift') liftSelectedStep(action.dy, action.far);
+    else if (action.type === 'auto') autoPlaceSelectedPort();
     else if (action.type === 'frame') frameSelected();
     else removeSelected();
   }
@@ -219,7 +234,7 @@
           sitePanelOpen = true;
         }}
       />
-      {#if $siteGroup && !importOpen}<MoveHint />{/if}
+      {#if ($siteGroup || $sitePort) && !importOpen}<MoveHint port={!!$sitePort} />{/if}
       {#if blocksOpen}
         <BlocksPanel scene={$siteScene} onclose={() => (blocksOpen = false)} />
       {/if}

@@ -201,6 +201,24 @@ function slug(name: string): string {
   );
 }
 
+/**
+ * Pin port `id` to the cell `to` ([x, z], kept inside the site), or back to automatic placement when `to`
+ * is null. Ports stand on the ground, so there is no height to set.
+ */
+export function withPortPlaced(s: SiteState, id: string, to: [number, number] | null): SiteState {
+  const [w, d] = s.size;
+  let changed = false;
+  const ports = s.ports.map((p) => {
+    if (p.id !== id) return p;
+    const next = { ...p };
+    if (to === null) delete next.pos;
+    else next.pos = [clampInt(to[0], 0, w - 1), clampInt(to[1], 0, d - 1)];
+    changed = JSON.stringify(next) !== JSON.stringify(p);
+    return next;
+  });
+  return changed ? { ...s, ports } : s;
+}
+
 export function withLinkAdded(
   s: SiteState,
   from: LinkEnd,
