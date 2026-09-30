@@ -36,6 +36,18 @@ export interface AnnealOptions {
   compact?: number;
   /** Height in blocks of each group, to tell whether two floors clear each other. Default 1. */
   heightOf?: (id: string) => number;
+  /**
+   * Share of the wire estimate measured between group centres; the rest is measured between the groups'
+   * facing sides (the free gap a pipe has to cross). Default `DEFAULT_CENTRE`.
+   */
+  centre?: number;
+  /**
+   * Replaces the estimate as the cost of a layout (the router's numbers, say). Called with the groups as
+   * they stand; expensive calls make `iterations` or `budgetMs` the limit that matters.
+   */
+  evaluate?: (groups: SiteGroup[]) => number;
+  /** Start temperature as a share of the typical uphill step of a random move. Default 0.5. */
+  heat?: number;
 }
 
 export interface AnnealResult {
@@ -49,6 +61,7 @@ export interface AnnealResult {
 }
 
 export const DEFAULT_COMPACT = 0.3;
+export const DEFAULT_CENTRE = 0.25;
 
 /** Proposals per group, and the most in one run. */
 const ITERATIONS_PER_GROUP = 1500;
@@ -134,6 +147,7 @@ class Layout {
     sizeOf: (id: string) => [number, number] | undefined,
     heightOf: (id: string) => number,
     readonly compact: number,
+    private readonly centre: number = DEFAULT_CENTRE,
   ) {
     const gs = site.groups;
     this.n = gs.length;
@@ -222,7 +236,11 @@ class Layout {
     }
   }
 
-  /** The estimated wire length of one net (half-perimeter of its terminals in X, Z and height). */
+  /**
+   * The estimated wire length of one net, in X, Z and height: `centre` times the half-perimeter of its
+   * terminals' centres, plus the rest times the free gap the net has to cross (from the largest near edge to
+   * the smallest far edge: zero where the groups overlap along that axis).
+   */
   private wire(net: Net): number {
     let x0 = Infinity;
     let x1 = -Infinity;
@@ -230,37 +248,64 @@ class Layout {
     let z1 = -Infinity;
     let y0 = Infinity;
     let y1 = -Infinity;
+    // Gap: highest low edge and lowest high edge on each axis.
+    let xl = -Infinity;
+    let xh = Infinity;
+    let zl = -Infinity;
+    let zh = Infinity;
+    let yl = -Infinity;
+    let yh = Infinity;
     let pts = net.edgeX.length + net.fixed.length;
     for (const gi of net.groups) {
       if (!this.present[gi]) continue;
       pts++;
-      const cx = this.x[gi] + this.w[gi] / 2;
-      const cz = this.z[gi] + this.d[gi] / 2;
-      const cy = this.y0[gi] + this.h[gi] / 2;
+      const gx = this.x[gi];
+      const gz = this.z[gi];
+      const gy = this.y0[gi];
+      const cx = gx + this.w[gi] / 2;
+      const cz = gz + this.d[gi] / 2;
+      const cy = gy + this.h[gi] / 2;
       if (cx < x0) x0 = cx;
       if (cx > x1) x1 = cx;
       if (cz < z0) z0 = cz;
       if (cz > z1) z1 = cz;
       if (cy < y0) y0 = cy;
       if (cy > y1) y1 = cy;
+      if (gx > xl) xl = gx;
+      if (gx + this.w[gi] < xh) xh = gx + this.w[gi];
+      if (gz > zl) zl = gz;
+      if (gz + this.d[gi] < zh) zh = gz + this.d[gi];
+      if (gy > yl) yl = gy;
+      if (gy + this.h[gi] < yh) yh = gy + this.h[gi];
     }
     if (pts < 2) return 0;
     for (const px of net.edgeX) {
       if (px < x0) x0 = px;
       if (px > x1) x1 = px;
+      if (px > xl) xl = px;
+      if (px < xh) xh = px;
     }
     for (const [px, pz] of net.fixed) {
       if (px < x0) x0 = px;
       if (px > x1) x1 = px;
       if (pz < z0) z0 = pz;
       if (pz > z1) z1 = pz;
+      if (px > xl) xl = px;
+      if (px < xh) xh = px;
+      if (pz > zl) zl = pz;
+      if (pz < zh) zh = pz;
     }
     if (net.edgeX.length + net.fixed.length > 0) {
       // Ports stand on the ground.
       if (0 < y0) y0 = 0;
       if (0 > y1) y1 = 0;
+      if (0 > yl) yl = 0;
+      if (0 < yh) yh = 0;
     }
-    return Math.max(0, x1 - x0) + Math.max(0, z1 - z0) + Math.max(0, y1 - y0);
+    const centre = Math.max(0, x1 - x0) + Math.max(0, z1 - z0) + Math.max(0, y1 - y0);
+    if (this.centre >= 1) return centre;
+    const gap = Math.max(0, xl - xh) + Math.max(0, zl - zh) + Math.max(0, yl - yh);
+    return this.centre * centre + (1 - this.centre) * gap;
   }
 
   wireLength(): number {
@@ -327,8 +372,22 @@ export function annealGroups(
   sizeOf: (id: string) => [number, number] | undefined,
   opts: AnnealOptions = {},
 ): AnnealResult {
-  const m = new Layout(site, sizeOf, opts.heightOf ?? (() => 1), opts.compact ?? DEFAULT_COMPACT);
-  const before = m.cost();
+  const m = new Layout(
+    site,
+    sizeOf,
+    opts.heightOf ?? (() => 1),
+    opts.compact ?? DEFAULT_COMPACT,
+    opts.centre ?? DEFAULT_CENTRE,
+  );
+  const toGroups = () =>
+    site.groups.map((g, i) => ({
+      ...g,
+      origin: [m.x[i], m.z[i]] as [number, number],
+      rotation: m.rot[i],
+    }));
+  /** The cost a layout is judged by: the estimate, or `evaluate` when one is given. */
+  const judge = () => (opts.evaluate ? opts.evaluate(toGroups()) : m.cost());
+  const before = judge();
   const unchanged: AnnealResult = {
     groups: site.groups.map((g) => ({ ...g })),
     before,
@@ -425,20 +484,20 @@ export function annealGroups(
   // Start temperature: half the typical uphill step of a random shift, so the start layout is reworked a
   // little at first and then held.
   const uphill: number[] = [];
-  const c0 = m.cost();
-  for (let k = 0; k < 60; k++) {
+  const c0 = judge();
+  for (let k = 0; k < (opts.evaluate ? 12 : 60); k++) {
     const i = randInt(0, m.n - 1);
     const was = [m.x[i], m.z[i]] as const;
     if (tryPlace(i, m.x[i] + randInt(-4, 4), m.z[i] + randInt(-4, 4))) {
-      const delta = m.cost() - c0;
+      const delta = judge() - c0;
       if (delta > 0) uphill.push(delta);
       m.set(i, was[0], was[1]);
     }
   }
-  const t0 = uphill.length ? (0.5 * uphill.reduce((s, v) => s + v, 0)) / uphill.length : 1;
+  const t0 = uphill.length ? ((opts.heat ?? 0.5) * uphill.reduce((s, v) => s + v, 0)) / uphill.length : 1;
   const t1 = t0 / 200;
 
-  let current = m.cost();
+  let current = c0;
   let best = current;
   let bestState = m.snapshot();
   const started = now();
@@ -490,7 +549,7 @@ export function annealGroups(
       moved = ruinAndRecreate();
     }
     if (!moved) continue;
-    const next = m.cost();
+    const next = judge();
     const delta = next - current;
     if (delta <= 0 || rand() < Math.exp(-delta / temp)) {
       current = next;
@@ -505,10 +564,5 @@ export function annealGroups(
 
   m.restore(bestState);
   if (best >= before - 1e-9) return { ...unchanged, iterations: done };
-  const groups = site.groups.map((g, i) => ({
-    ...g,
-    origin: [m.x[i], m.z[i]] as [number, number],
-    rotation: m.rot[i],
-  }));
-  return { groups, before, after: best, improved: true, iterations: done };
+  return { groups: toGroups(), before, after: best, improved: true, iterations: done };
 }

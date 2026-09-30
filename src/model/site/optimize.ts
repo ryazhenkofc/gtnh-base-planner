@@ -4,25 +4,39 @@ import type { SiteBuild, SiteBuilder } from './buildTypes';
 import type { SiteGroup, SiteState } from './types';
 
 /**
- * Optimises an arranged site: anneals the groups' places from several seeds (`annealGroups`), builds and
- * routes the start layout and each different result with the real router, and keeps the best by what the
- * router made of them. The annealer only estimates pipe length, and its tighter layouts can leave a hatch
- * without a way out, so a result must beat the start on the router's own numbers to replace it.
+ * Optimises an arranged site in two stages, and keeps whatever the real router likes best.
+ *
+ * 1. Explore: anneal the groups' places from several seeds on a cheap estimate of pipe length
+ *    (`annealGroups`), then route the start layout and each different result. The estimate cannot see hatches
+ *    or walls, so it is only good for finding candidates: its best layout often routes worse than the start.
+ * 2. Polish: anneal again from the best layout found, this time judging every step by the router itself
+ *    (`scoreBuild`, cached per layout), for a number of steps or a time budget.
  *
  * Ranking, in order: build problems (overlaps, groups outside, unrouted nets, ...), terminals left
- * unconnected, pipe and cable blocks, then the width + depth of the layout. The start wins ties.
+ * unconnected, pipe and cable blocks, then the width + depth of the layout. The start wins ties, so the
+ * result is never worse than the arrangement it was given.
  */
 
 export interface OptimizeOptions extends Pick<AnnealOptions, 'budgetMs' | 'iterations' | 'now'> {
-  /** Annealing runs, from seeds 1 to `seeds`. Default `DEFAULT_SEEDS`. */
+  /** Explore runs, from seeds 1 to `seeds`. Default `DEFAULT_SEEDS`. */
   seeds?: number;
   /** Whether the site is built with connections from below (see `SiteBuildOptions.below`). */
   below?: boolean;
-  /** Called after each layout has been tried, with how many are done of how many. */
-  onProgress?: (done: number, total: number) => void;
+  /** Router-judged steps per polish run; 0 skips the polish. Default `DEFAULT_REFINE_STEPS`. */
+  refineSteps?: number;
+  /** Polish runs, one after the other from the best layout so far. Default `DEFAULT_REFINE_RUNS`. */
+  refineRuns?: number;
+  /** Milliseconds for all polish runs together (the cooling follows the clock). Default `DEFAULT_REFINE_MS`. */
+  refineMs?: number;
 }
 
 export const DEFAULT_SEEDS = 4;
+export const DEFAULT_REFINE_STEPS = 200;
+export const DEFAULT_REFINE_RUNS = 2;
+export const DEFAULT_REFINE_MS = 4000;
+
+/** Start temperature of a polish run, as a share of the typical uphill step of a random move. */
+const REFINE_HEAT = 0.2;
 
 /** What the router made of one layout. */
 export interface LayoutScore {
@@ -34,12 +48,12 @@ export interface LayoutScore {
 
 export interface OptimizeResult {
   site: SiteState;
-  /** Whether an annealed layout replaced the start. */
+  /** Whether an optimised layout replaced the start. */
   improved: boolean;
   /** The start layout, and the one returned. */
   start: LayoutScore;
   result: LayoutScore;
-  /** Different annealed layouts that were routed and compared. */
+  /** Different layouts that were routed and compared. */
   tried: number;
 }
 
@@ -69,6 +83,11 @@ export function better(a: LayoutScore, b: LayoutScore): boolean {
   return false;
 }
 
+/** One number for the annealer, ordered like `better` for any realistic layout. */
+export function scoreValue(s: LayoutScore): number {
+  return s.problems * 5000 + s.unconnected * 200 + s.blocks + 0.1 * s.span;
+}
+
 export function optimizeSite(
   site: SiteState,
   builder: SiteBuilder,
@@ -80,11 +99,27 @@ export function optimizeSite(
   const heights = localHeights(measured);
   const sizeOf = (id: string) => footprints.get(id);
   const heightOf = (id: string) => heights.get(id) ?? 1;
-  const route = (s: SiteState) => scoreBuild(builder(s, { pipes: true, cables: true, below }));
+
+  /** The router's verdict on a layout, remembered: the annealer comes back to the same layouts often. */
+  const scores = new Map<string, LayoutScore>();
+  const route = (groups: SiteGroup[]): LayoutScore => {
+    const key = layoutKey(groups);
+    let score = scores.get(key);
+    if (!score) {
+      score = scoreBuild(builder({ ...site, groups }, { pipes: true, cables: true, below }));
+      scores.set(key, score);
+    }
+    return score;
+  };
+
+  const start = route(site.groups);
+  let best = { groups: site.groups, score: start };
+  const consider = (groups: SiteGroup[]) => {
+    const score = route(groups);
+    if (better(score, best.score)) best = { groups, score };
+  };
 
   const seeds = Math.max(1, opts.seeds ?? DEFAULT_SEEDS);
-  const layouts: SiteGroup[][] = [];
-  const seen = new Set([layoutKey(site.groups)]);
   for (let seed = 1; seed <= seeds; seed++) {
     const r = annealGroups(site, sizeOf, {
       seed,
@@ -93,24 +128,38 @@ export function optimizeSite(
       budgetMs: opts.budgetMs,
       now: opts.now,
     });
-    const key = layoutKey(r.groups);
-    if (!r.improved || seen.has(key)) continue;
-    seen.add(key);
-    layouts.push(r.groups);
+    if (r.improved) consider(r.groups);
   }
 
-  const total = layouts.length + 1;
-  let done = 1;
-  const start = route(site);
-  opts.onProgress?.(done, total);
-  let best = { site, score: start };
-  for (const groups of layouts) {
-    const candidate = { ...site, groups };
-    const score = route(candidate);
-    if (better(score, best.score)) best = { site: candidate, score };
-    opts.onProgress?.(++done, total);
+  const steps = opts.refineSteps ?? DEFAULT_REFINE_STEPS;
+  const runs = Math.max(1, opts.refineRuns ?? DEFAULT_REFINE_RUNS);
+  if (steps > 0) {
+    const now = opts.now ?? (() => performance.now());
+    const deadline = now() + (opts.refineMs ?? DEFAULT_REFINE_MS);
+    for (let run = 1; run <= runs; run++) {
+      const left = deadline - now();
+      if (left <= 0) break;
+      const r = annealGroups({ ...site, groups: best.groups }, sizeOf, {
+        seed: run,
+        heightOf,
+        iterations: steps,
+        budgetMs: left / (runs - run + 1),
+        now: opts.now,
+        heat: REFINE_HEAT,
+        evaluate: (groups) => scoreValue(route(groups)),
+      });
+      if (r.improved) consider(r.groups);
+    }
   }
-  return { site: best.site, improved: best.site !== site, start, result: best.score, tried: layouts.length };
+
+  const improved = best.groups !== site.groups;
+  return {
+    site: improved ? { ...site, groups: best.groups } : site,
+    improved,
+    start,
+    result: best.score,
+    tried: scores.size - 1,
+  };
 }
 
 function layoutKey(groups: readonly SiteGroup[]): string {

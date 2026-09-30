@@ -104,18 +104,27 @@ describe('optimizeSite', () => {
     expect(r.result.blocks).toBe(10);
   });
 
-  it('reports progress for every layout it routes', () => {
-    const seen: [number, number][] = [];
-    const r = optimizeSite(
-      arranged(),
-      stub(() => 1),
-      {
-        iterations: 3000,
-        onProgress: (done, total) => seen.push([done, total]),
-      },
-    );
-    expect(seen.length).toBe(r.tried + 1);
-    expect(seen[seen.length - 1]).toEqual([r.tried + 1, r.tried + 1]);
+  it('routes each distinct layout once, however often the annealer comes back to it', () => {
+    let routed = 0;
+    const counting = stub(() => 1);
+    const builder: SiteBuilder = (s, o) => {
+      if (o.pipes) routed++;
+      return counting(s, o);
+    };
+    const r = optimizeSite(arranged(), builder, { iterations: 3000, refineSteps: 300 });
+    // The start layout plus every different one that was tried.
+    expect(routed).toBe(r.tried + 1);
+  });
+
+  it('polishes with the router: finds what the estimate alone cannot see', () => {
+    // The router pays for every block a group stands south; the annealer's estimate knows nothing of that.
+    const north = stub((s) => s.groups.reduce((t, g) => t + g.origin[1], 0));
+    const start = arranged();
+    const explore = optimizeSite(start, north, { iterations: 0, refineSteps: 0 });
+    expect(explore.improved).toBe(false);
+    const polish = optimizeSite(start, north, { iterations: 0, refineSteps: 400, refineRuns: 1 });
+    expect(polish.improved).toBe(true);
+    expect(polish.result.blocks).toBeLessThan(polish.start.blocks);
   });
 
   it('is never worse than the start on real machines, and every net stays connected', () => {
