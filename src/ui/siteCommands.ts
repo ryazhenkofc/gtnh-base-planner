@@ -9,6 +9,7 @@ import { notify } from './notices';
 import { withGroupAdded, withGrownToFit, withPlanAdded } from './siteActions';
 import { growAfterBuild } from './siteEditing';
 import { undoAction } from './siteHistory';
+import type { Arranged } from './siteArrange';
 import { arrangeInSize, siteBuild } from './sitePipeline';
 
 /** Where a new group goes: east of every built group, or at the start of the site. */
@@ -54,13 +55,13 @@ export function addPlanToSite(): void {
  * floors above it, and a group bigger than the ground stacks its machines up. The size is never changed. It
  * runs in the build worker, as a big template takes seconds to measure.
  */
-export async function arrange(): Promise<void> {
+export async function arrange(optimize = false): Promise<void> {
   const s = get(site);
   if (!s.groups.length) return;
-  notify(t.site.arranging, 120000, 'arrange');
+  notify(optimize ? t.site.optimizing : t.site.arranging, 120000, 'arrange');
   let r;
   try {
-    r = await arrangeInSize(s, get(connectBelow));
+    r = await arrangeInSize(s, get(connectBelow), optimize);
   } catch {
     // Replaced by a newer job (an import, say): that one reports for itself.
     return;
@@ -69,13 +70,20 @@ export async function arrange(): Promise<void> {
   if (get(site) !== s) return;
   site.set(r.site);
   notify(
-    r.fits
-      ? r.floors > 1
-        ? t.site.arrangedFloors(r.floors)
-        : t.site.arranged
-      : t.site.needs(r.needed[0], r.needed[1]),
+    r.fits && r.optimized
+      ? optimizedNotice(r.optimized)
+      : r.fits
+        ? r.floors > 1
+          ? t.site.arrangedFloors(r.floors)
+          : t.site.arranged
+        : t.site.needs(r.needed[0], r.needed[1]),
     r.fits ? 6000 : 8000,
     'arrange',
     undoAction(),
   );
+}
+
+/** What optimising did, in the router's numbers (pipe and cable blocks). */
+function optimizedNotice(o: NonNullable<Arranged['optimized']>): string {
+  return o.improved ? t.site.optimized(o.start.blocks, o.result.blocks) : t.site.optimizedSame;
 }

@@ -119,6 +119,11 @@ test('imports a GTNH Planner chain into a routed site', async ({ page }) => {
   await panel.getByTestId('site-arrange').click();
   await expect(stats).toContainText(/(\d+)\/\1 connected/);
 
+  // Optimize searches for a tighter layout and keeps it only if the router connects everything.
+  await panel.getByTestId('site-optimize').click();
+  await expect(page.getByText(/Optimized:|nothing tried beat it/)).toBeVisible({ timeout: 60000 });
+  await expect(stats).toContainText(/(\d+)\/\1 connected/);
+
   // Icons can be switched off: colour swatches only.
   await panel.getByTestId('site-icons').click();
   await expect(page.getByTestId('site-legend').locator('img')).toHaveCount(0);

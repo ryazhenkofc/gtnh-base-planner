@@ -37,8 +37,11 @@ export interface SiteWorkerController {
     choices: Map<string, MachineChoice>,
     opts: ImportOptions,
   ) => Promise<ImportResult>;
-  /** Arranges `site` inside its own size, on floors if need be; drops the current job, which it replaces. */
-  arrange: (site: SiteState, below: boolean) => Promise<Arranged>;
+  /**
+   * Arranges `site` inside its own size, on floors if need be; drops the current job, which it replaces. With
+   * `optimize`, the arrangement is then annealed and the best layout by the router's numbers kept.
+   */
+  arrange: (site: SiteState, below: boolean, optimize?: boolean) => Promise<Arranged>;
 }
 
 type BuildRequest = { site: SiteState; opts: SiteBuildOptions; pending: boolean };
@@ -53,6 +56,7 @@ interface PendingImport {
 interface PendingArrange {
   site: SiteState;
   below: boolean;
+  optimize: boolean;
   resolve: (r: Arranged) => void;
   reject: (err: Error) => void;
 }
@@ -107,7 +111,7 @@ export function createSiteWorkerController(
 
   function arrangeLocally(job: PendingArrange): void {
     try {
-      job.resolve(arrangeHere(job.site, job.below, here()));
+      job.resolve(arrangeHere(job.site, job.below, here(), job.optimize));
     } catch (err) {
       job.reject(err instanceof Error ? err : new Error(String(err)));
     }
@@ -242,9 +246,9 @@ export function createSiteWorkerController(
       });
     },
 
-    arrange(site, below) {
+    arrange(site, below, optimize = false) {
       return new Promise((resolve, reject) => {
-        const job: PendingArrange = { site, below, resolve, reject };
+        const job: PendingArrange = { site, below, optimize, resolve, reject };
         // Builds of the current site wait: the arrangement changes it.
         queued = null;
         if (inFlight) stopWorker();
@@ -254,7 +258,7 @@ export function createSiteWorkerController(
           return;
         }
         inFlight = { id: ++nextId, arrange: job };
-        post(w, { id: inFlight.id, type: 'arrange', site, below });
+        post(w, { id: inFlight.id, type: 'arrange', site, below, optimize });
       });
     },
   };

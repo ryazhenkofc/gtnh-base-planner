@@ -19,7 +19,7 @@ import { arrangeHere, type Arranged } from './siteArrange';
 
 export type SiteWorkerRequest =
   | { id: number; type: 'build'; site: SiteState; opts: SiteBuildOptions }
-  | { id: number; type: 'arrange'; site: SiteState; below: boolean }
+  | { id: number; type: 'arrange'; site: SiteState; below: boolean; optimize?: boolean }
   | {
       id: number;
       type: 'import';
@@ -49,7 +49,7 @@ self.onmessage = (e: MessageEvent<SiteWorkerRequest>) => {
       return;
     }
     if (req.type === 'arrange') {
-      post({ id: req.id, arranged: arrangeHere(req.site, req.below, buildSite) });
+      post({ id: req.id, arranged: arrangeHere(req.site, req.below, buildSite, req.optimize) });
       return;
     }
     const { id, site, opts } = req;

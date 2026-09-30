@@ -56,7 +56,10 @@ The planner checks layout rules for the transcribed structure only. It is not a 
 2. Import a chain (IMPORT FROM GTNH PLANNER), or build one by hand: ADD MULTIBLOCK, then ADD LINK with a start
    (a group or TEMPLATE INPUT), an end (a group or TEMPLATE OUTPUT) and a resource. In the single-machine view, SETTINGS →
    ADD TO TEMPLATE copies the current plan into the template as a group.
-3. ARRANGE lays the groups out west to east along the flow. Select a group (click it, or pick it in the panel)
+3. ARRANGE lays the groups out west to east along the flow. OPTIMIZE arranges, then searches for a tighter layout
+   with shorter pipes (simulated annealing from four seeds, in the background) and keeps a result only if the router
+   connects at least as much with fewer pipe blocks; otherwise the plain arrangement stays.
+   Select a group (click it, or pick it in the panel)
    and drag it in the view, or move it with the arrow keys as seen on screen (Shift: 5 blocks) or the arrows in
    the panel; R turns it (Shift+R back), F frames it and Delete removes it. The panel edits the selected group:
    its label and machine, count, limits and extra hatches, and X and Z to place it exactly. Ctrl+Z undoes any

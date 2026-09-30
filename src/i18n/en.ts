@@ -126,6 +126,13 @@ export const t = {
     arrange: 'Arrange',
     arranged: 'Arranged along the flow.',
     arranging: 'Arranging…',
+    optimize: 'Optimize',
+    optimizeHint:
+      'Arrange, then search for a tighter layout with shorter pipes (simulated annealing) and keep it if the router agrees.',
+    optimizing: 'Arranging and optimizing…',
+    optimized: (from: number, to: number) =>
+      `Optimized: ${from} → ${to} pipe and cable blocks, tested with the router.`,
+    optimizedSame: 'Arranged along the flow; nothing tried beat it.',
     arrangedFloors: (n: number) => `Arranged along the flow, on ${n} floors.`,
     building: 'Laying out and routing…',
     needs: (w: number, d: number) => `Does not fit: needs ${w} × ${d}.`,

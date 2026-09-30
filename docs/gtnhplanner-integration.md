@@ -154,7 +154,10 @@ Today: `plan → packUnits → placeHatches → computeWallStats → routePipes 
 - **Does not fit**: say so with the size needed ("needs 34 × 30"). Optionally stack low groups.
 - **Manual**: drag a group on the ground grid (snap to blocks), `R` rotates it, and collisions are highlighted
   live. Before 3D dragging exists, number fields in Settings do the same job.
-- Later: an optimiser (simulated annealing on group positions, cost = estimated pipe length + bends).
+- Optimiser (built, OPTIMIZE button): simulated annealing on group positions and turns, cost = estimated wire length
+  - bounding-box span, from several seeds; the best layouts are routed and must beat the plain arrangement on the
+    router's own numbers (`src/model/site/anneal.ts`, `optimize.ts`). Not yet: changing a group's `limits`, bends in
+    the estimate.
 
 ## 6. Showing I/O
 
