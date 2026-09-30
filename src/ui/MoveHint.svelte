@@ -1,6 +1,9 @@
 <script lang="ts">
   import { t } from '../i18n/en';
 
+  /** A port is selected: no turning or raising, but it can go back to automatic placement. */
+  let { port = false }: { port?: boolean } = $props();
+
   const KEY = 'gtnh-planner:move-hint';
 
   function storedOpen(): boolean {
@@ -23,29 +26,43 @@
     }
   }
 
-  const rows: [string[], string][] = [
-    [['Drag'], t.site.hint.drag],
-    [['←', '↑', '→', '↓'], t.site.hint.move],
-    [['Shift', '+', '↑'], t.site.hint.fast],
-    [['R'], t.site.hint.rotate],
-    [['F'], t.site.hint.frame],
-    [['Ctrl', '+', 'Z'], t.site.hint.undo],
-    [['Del'], t.site.hint.remove],
-    [['Esc'], t.site.hint.deselect],
-  ];
+  const rows: [string[], string][] = $derived(
+    port
+      ? [
+          [['Drag'], t.site.hint.dragPort],
+          [['←', '↑', '→', '↓'], t.site.hint.move],
+          [['Shift', '+', '↑'], t.site.hint.fast],
+          [['A'], t.site.hint.autoPort],
+          [['F'], t.site.hint.frame],
+          [['Ctrl', '+', 'Z'], t.site.hint.undo],
+          [['Esc'], t.site.hint.deselect],
+        ]
+      : [
+          [['Drag'], t.site.hint.drag],
+          [['←', '↑', '→', '↓'], t.site.hint.move],
+          [['Shift', '+', '↑'], t.site.hint.fast],
+          [['PgUp', '/', 'PgDn'], t.site.hint.lift],
+          [['R'], t.site.hint.rotate],
+          [['F'], t.site.hint.frame],
+          [['Ctrl', '+', 'Z'], t.site.hint.undo],
+          [['Del'], t.site.hint.remove],
+          [['Esc'], t.site.hint.deselect],
+        ],
+  );
 </script>
 
 {#if open}
   <div class="card" role="dialog" aria-label={t.site.hint.title} data-testid="move-hint">
     <div class="top">
-      <span class="title">{t.site.hint.title}</span>
+      <span class="title">{port ? t.site.hint.titlePort : t.site.hint.title}</span>
       <button class="link x" aria-label={t.close} onclick={() => setOpen(false)}>×</button>
     </div>
     <ul>
       {#each rows as [keys, text] (text)}
         <li>
           <span class="keys"
-            >{#each keys as k, i (i)}{#if k === '+'}<span class="plus">+</span>{:else}<kbd>{k}</kbd
+            >{#each keys as k, i (i)}{#if k === '+' || k === '/'}<span class="plus">{k}</span>{:else}<kbd
+                  >{k}</kbd
                 >{/if}{/each}</span
           >
           <span class="text">{text}</span>

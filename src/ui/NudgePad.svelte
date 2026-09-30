@@ -1,7 +1,14 @@
 <script lang="ts">
   import { t } from '../i18n/en';
   import { type ArrowKey, screenStep } from './keys';
-  import { FAST_STEP, moveSelected, rotateSelected, shiftHeld, viewTheta } from './siteEditing';
+  import {
+    FAST_STEP,
+    liftSelectedStep,
+    moveSelected,
+    rotateSelected,
+    shiftHeld,
+    viewTheta,
+  } from './siteEditing';
 
   /**
    * On-screen arrows and turns for the selected group: the arrow keys and R for touch screens, and a
@@ -9,14 +16,16 @@
    * axis it changes in the current view. Holding a button repeats.
    */
 
-  const cells: ({ key: ArrowKey; glyph: string; label: string } | { turn: 1 | -1 } | null)[] = [
-    null,
+  const cells: (
+    { key: ArrowKey; glyph: string; label: string } | { turn: 1 | -1 } | { lift: 1 | -1 } | null
+  )[] = [
+    { lift: 1 },
     { key: 'ArrowUp', glyph: '↑', label: t.site.nudgeDir.up },
     { turn: -1 },
     { key: 'ArrowLeft', glyph: '←', label: t.site.nudgeDir.left },
     null,
     { key: 'ArrowRight', glyph: '→', label: t.site.nudgeDir.right },
-    null,
+    { lift: -1 },
     { key: 'ArrowDown', glyph: '↓', label: t.site.nudgeDir.down },
     { turn: 1 },
   ];
@@ -77,6 +86,21 @@
         onpointercancel={stop}
         onclick={(e) => keyClick(e, run)}
         >{c.glyph}<span class="ax" class:x={a.axis === 'x'} class:z={a.axis === 'z'}>{a.text}</span></button
+      >
+    {:else if 'lift' in c}
+      {@const dir = c.lift}
+      {@const run = () => liftSelectedStep(dir, $shiftHeld)}
+      <button
+        class="cell"
+        type="button"
+        aria-label={dir > 0 ? t.site.raise : t.site.lower}
+        title={dir > 0 ? t.site.raise : t.site.lower}
+        data-testid={dir > 0 ? 'nudge-raise' : 'nudge-lower'}
+        onpointerdown={(e) => press(e, run)}
+        onpointerup={stop}
+        onpointerleave={stop}
+        onpointercancel={stop}
+        onclick={(e) => keyClick(e, run)}>{dir > 0 ? '⤒' : '⤓'}<span class="ax y">Y</span></button
       >
     {:else}
       {@const dir = c.turn}
@@ -141,5 +165,8 @@
   }
   .ax.z {
     color: var(--axis-z);
+  }
+  .ax.y {
+    color: var(--muted);
   }
 </style>

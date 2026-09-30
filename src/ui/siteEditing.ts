@@ -3,7 +3,8 @@ import { getSiteDef } from '../data/generic';
 import { t } from '../i18n/en';
 import type { SiteState } from '../model/site/types';
 import type { Vec3 } from '../model/core/types';
-import { site, siteGroup } from '../state/site';
+import { SITE_MAX_ELEVATION } from '../share/siteCodec';
+import { site, siteGroup, sitePort } from '../state/site';
 import { type ArrowKey, screenStep } from './keys';
 import { notify } from './notices';
 import { freeOrigin } from './siteCommands';
@@ -15,6 +16,7 @@ import {
   withGroupRemoved,
   withGroupRotated,
   withGrownToFit,
+  withPortPlaced,
 } from './siteActions';
 import { coalesceNext, mergeIntoLast, undoAction } from './siteHistory';
 import { holdRouting, siteBuild } from './sitePipeline';
@@ -114,13 +116,44 @@ export function groupName(id: string): string {
   return g?.label ?? (g && getSiteDef(g.multiblockId)?.name) ?? id;
 }
 
+function selectedPortId(): string | null {
+  const pid = get(sitePort);
+  return pid && get(site).ports.some((p) => p.id === pid) ? pid : null;
+}
+
+/** A port's cell [x, z] from the last build, or null before it has been placed. */
+function portCell(id: string): [number, number] | null {
+  const pp = get(siteBuild).build?.ports.find((p) => p.port.id === id);
+  return pp ? [pp.cell[0], pp.cell[2]] : null;
+}
+
+/** Pin port `pid` `dx`, `dz` blocks from where it stands now (it stays inside the site). */
+function movePortBy(pid: string, dx: number, dz: number, coalesce: boolean): void {
+  const cell = portCell(pid);
+  if (!cell) return;
+  if (coalesce) coalesceNext(`move:port:${pid}`);
+  holdRouting();
+  updateSite((s) => withPortPlaced(s, pid, [cell[0] + dx, cell[1] + dz]));
+}
+
+/** Give the selected port back to automatic placement on the edge. */
+export function autoPlaceSelectedPort(): void {
+  const pid = selectedPortId();
+  if (!pid) return;
+  holdRouting();
+  updateSite((s) => withPortPlaced(s, pid, null));
+}
+
 /**
- * Move the selected group by whole blocks along the site axes. With `coalesce` (key presses), quick
- * repeats are one undo step; a drag is always its own step.
+ * Move the selected group or port by whole blocks along the site axes. With `coalesce` (key presses),
+ * quick repeats are one undo step; a drag is always its own step.
  */
 export function moveSelectedBy(dx: number, dz: number, coalesce = true): void {
+  if (dx === 0 && dz === 0) return;
+  const pid = selectedPortId();
+  if (pid) return movePortBy(pid, dx, dz, coalesce);
   const gid = selectedId();
-  if (!gid || (dx === 0 && dz === 0)) return;
+  if (!gid) return;
   if (coalesce) coalesceNext(`move:${gid}`);
   holdRouting();
   editGroup(gid, (s) => withGroupMoved(s, gid, dx, dz));
@@ -131,6 +164,22 @@ export function moveSelected(key: ArrowKey, fast: boolean): void {
   const [dx, dz] = screenStep(key, get(viewTheta));
   const n = fast ? FAST_STEP : 1;
   moveSelectedBy(dx * n, dz * n);
+}
+
+/** Raise (positive `dy`) or lower the selected group by whole blocks, between the ground and the top. */
+export function liftSelected(dy: number, coalesce = true): void {
+  const gid = selectedId();
+  const g = gid ? get(site).groups.find((x) => x.id === gid) : undefined;
+  if (!gid || !g || dy === 0) return;
+  const to = Math.min(SITE_MAX_ELEVATION, Math.max(0, (g.elevation ?? 0) + dy));
+  if (coalesce) coalesceNext(`lift:${gid}`);
+  holdRouting();
+  updateSite((s) => withGroupPatched(s, gid, { elevation: to }));
+}
+
+/** PageUp / PageDown: one block, or `FAST_STEP` with Shift. */
+export function liftSelectedStep(dir: 1 | -1, fast: boolean): void {
+  liftSelected(dir * (fast ? FAST_STEP : 1));
 }
 
 export function rotateSelected(dir: 1 | -1): void {
@@ -163,8 +212,14 @@ export function removeSelected(): void {
   notify(t.site.removed(name), 6000, 'edit', undoAction());
 }
 
-/** Aim the camera at the selected group (or do nothing when it is not built yet). */
+/** Aim the camera at the selected group or port (or do nothing when it is not built yet). */
 export function frameSelected(): void {
+  const pid = selectedPortId();
+  const cell = pid ? portCell(pid) : null;
+  if (cell) {
+    frameRequest.set({ min: [cell[0], 0, cell[1]], max: [cell[0] + 1, 1, cell[1] + 1], seq: ++frameSeq });
+    return;
+  }
   const gid = selectedId();
   const g = get(siteBuild).build?.groups.find((x) => x.group.id === gid);
   if (!g) return;
