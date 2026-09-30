@@ -163,6 +163,8 @@ Today: `plan → packUnits → placeHatches → computeWallStats → routePipes 
   Groups of several units may also be repacked with other `limits` (rows and layers, up to three); runs alternate
   between allowing that and not, since repacking widens the spread of results more than it moves the median.
   Groups whose limits are locked (`SiteGroup.limitsLocked`, set by editing them) are never repacked, nor by Arrange.
+  It runs when the OPTIMIZE button is pressed and, unless switched off in the import dialog, by itself once an
+  imported template has been built and shown (skipped if it was edited meanwhile); ARRANGE stays as it was.
   One time budget (10 s) covers everything; one routing of the start layout sets the pace, so slow-to-route plans
   (a thousand machines: seconds per routing) get fewer candidates and no polish. Packs are kept across the search
   (`SiteBuildOptions.keepCache`). Measured on exported plans of 16 to 154 groups: 25-50 % fewer pipe and cable blocks

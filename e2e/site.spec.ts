@@ -38,7 +38,11 @@ test.beforeEach(async ({ page }) => {
   });
 });
 
-async function importFixture(page: Page, viaPanel = false): Promise<void> {
+/**
+ * Imports the fixture through the dialog. The optimisation that follows an import is switched off unless
+ * `optimize`: it swaps the layout a few seconds later, which would make the other tests wait on it.
+ */
+async function importFixture(page: Page, viaPanel = false, optimize = false): Promise<void> {
   await page.getByTestId('mode-site').click();
   if (viaPanel) {
     await page.getByTestId('site-panel-toggle').click();
@@ -50,6 +54,9 @@ async function importFixture(page: Page, viaPanel = false): Promise<void> {
   await page.getByTestId('import-read').click();
   await expect(page.getByTestId('import-rows').locator('tbody tr')).toHaveCount(8);
   await page.screenshot({ path: 'e2e/screenshots/site-import-dialog.png' });
+  const toggle = page.getByTestId('import-optimize');
+  await expect(toggle).toBeChecked();
+  if (!optimize) await toggle.uncheck();
   await page.getByTestId('import-build').click();
   await expect(dialog).toBeHidden();
 }
@@ -134,6 +141,21 @@ test('imports a GTNH Planner chain into a routed site', async ({ page }) => {
   await page.reload();
   await expect(page.getByTestId('site-stats')).toContainText('6 groups');
 
+  expect(errors).toEqual([]);
+});
+
+test('optimises the template by itself after an import, once it is shown', async ({ page }) => {
+  const errors = collectErrors(page);
+  await page.goto('/');
+  await importFixture(page, false, true);
+  const stats = page.getByTestId('site-stats');
+  // The plain layout is on screen first ...
+  await expect(stats).toContainText('6 groups');
+  await expect(stats).toContainText(/(\d+)\/\1 connected/);
+  // ... and the optimised one replaces it, with its own notice and an Undo.
+  const notice = page.getByText(/Optimized:|nothing tried beat it/);
+  await expect(notice).toBeVisible({ timeout: 60000 });
+  await expect(stats).toContainText(/(\d+)\/\1 connected/);
   expect(errors).toEqual([]);
 });
 

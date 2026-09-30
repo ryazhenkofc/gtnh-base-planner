@@ -80,7 +80,9 @@ yet), a template port (passive sources such as crops, bees and ore veins) or ski
 in [`src/data/gtnhplanner-machines.ts`](src/data/gtnhplanner-machines.ts); names it does not list are also
 looked up among the machine types GT gives each multiblock ("Vacuum Furnace" is the Utupu-Tanuri), which
 `tools/gt-source/machine-types.mjs` collects. The template is sized to the chain, and each port sits on the
-edge nearest the groups it serves. Storages between machines are passed
+edge nearest the groups it serves. After an import the template is shown at once with the plain layout, then optimized
+in the background (the box "Optimize the layout after import" in the dialog, on by default; Undo brings the plain layout
+back). ARRANGE and OPTIMIZE stay in the template panel for later. Storages between machines are passed
 through; product drains become output ports, trash drains void ports. Thaumcraft aspect flows are left out.
 
 ## Data model

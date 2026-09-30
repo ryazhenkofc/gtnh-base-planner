@@ -283,6 +283,9 @@ export const t = {
     port: 'Template port (not placed)',
     skip: 'Skip',
     fit: 'Size the template to the chain',
+    optimizeAfter: 'Optimize the layout after import',
+    optimizeAfterHint:
+      'Once the template is shown, searches a few seconds for a layout with shorter pipes. Undo brings the plain layout back.',
     fixedHint:
       'Keeps this size. What does not fit on the ground is built on floors above it, and big groups stack their machines up.',
     replaces: 'Replaces the current template.',
