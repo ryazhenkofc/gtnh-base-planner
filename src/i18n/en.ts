@@ -126,6 +126,14 @@ export const t = {
     arrange: 'Arrange',
     arranged: 'Arranged along the flow.',
     arranging: 'Arranging…',
+    optimize: 'Optimize',
+    optimizeHint:
+      'Arrange, then search for a tighter layout with shorter pipes (simulated annealing) and keep it if the router agrees.',
+    optimizing: 'Arranging and optimizing…',
+    optimized: (from: number, to: number, reshaped: number) =>
+      `Optimized: ${from} → ${to} pipe and cable blocks, tested with the router.` +
+      (reshaped > 0 ? ` ${reshaped} ${reshaped === 1 ? 'group' : 'groups'} packed another way.` : ''),
+    optimizedSame: 'Arranged along the flow; nothing tried beat it.',
     arrangedFloors: (n: number) => `Arranged along the flow, on ${n} floors.`,
     building: 'Laying out and routing…',
     needs: (w: number, d: number) => `Does not fit: needs ${w} × ${d}.`,
@@ -161,6 +169,9 @@ export const t = {
     maxX: 'Max X',
     maxZ: 'Max Z',
     packingHint: 'Multiblocks along each axis. Empty = unlimited.',
+    lockLimits: 'Keep these limits',
+    lockLimitsHint:
+      'Arrange and Optimize never change the limits of a group that is kept. Editing the limits keeps them.',
     hatches: 'Extra hatches',
     turn: 'Turn',
     turnLeft: 'Turn counter-clockwise',
@@ -278,6 +289,9 @@ export const t = {
     port: 'Template port (not placed)',
     skip: 'Skip',
     fit: 'Size the template to the chain',
+    optimizeAfter: 'Optimize the layout after import',
+    optimizeAfterHint:
+      'Once the template is shown, searches a few seconds for a layout with shorter pipes. Undo brings the plain layout back.',
     fixedHint:
       'Keeps this size. What does not fit on the ground is built on floors above it, and big groups stack their machines up.',
     replaces: 'Replaces the current template.',

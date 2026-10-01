@@ -79,6 +79,8 @@ export function withPlanAdded(s: SiteState, p: PlanState, origin?: [number, numb
     limits: { ...p.limits },
     enabledHatches: p.enabledHatches.filter((k) => !IO_KINDS.includes(k)),
   };
+  // Limits set in the machine view are the user's: keep them.
+  if (Object.values(p.limits).some((v) => v !== null && v !== undefined)) next.limitsLocked = true;
   if (p.size !== undefined) next.size = p.size;
   return { ...added, groups: [...added.groups.slice(0, -1), next] };
 }
@@ -97,7 +99,9 @@ export interface GroupPatch {
   multiblockId?: string;
   count?: number;
   size?: number;
+  /** Editing the limits by hand also locks them (see `SiteGroup.limitsLocked`) unless `limitsLocked` says otherwise. */
   limits?: PlanLimits;
+  limitsLocked?: boolean;
   origin?: [number, number];
   /** Single-block machines: which machine they are (see `SiteGroup.machine`); null clears it. */
   machine?: string | null;
@@ -130,7 +134,12 @@ export function withGroupPatched(s: SiteState, id: string, patch: GroupPatch): S
       const size = def ? effectiveSize(def, patch.size) : undefined;
       if (size !== undefined) next.size = size;
     }
-    if (patch.limits) next.limits = { ...patch.limits };
+    if (patch.limits) {
+      next.limits = { ...patch.limits };
+      next.limitsLocked = true;
+    }
+    if (patch.limitsLocked === false) delete next.limitsLocked;
+    else if (patch.limitsLocked) next.limitsLocked = true;
     if (patch.origin)
       next.origin = [
         clampInt(patch.origin[0], -SITE_MAX_SIZE, 2 * SITE_MAX_SIZE),

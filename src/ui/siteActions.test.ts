@@ -52,6 +52,39 @@ describe('site actions', () => {
     expect(g.enabledHatches).toEqual(['energy', 'maintenance']);
   });
 
+  it('locks a group’s limits when they are edited by hand, and lets the lock be switched', () => {
+    let s = two();
+    expect(s.groups[0].limitsLocked).toBeUndefined();
+    s = withGroupPatched(s, 'g1', { limits: { x: 2, y: 1, z: null } });
+    expect(s.groups[0]).toMatchObject({ limits: { x: 2, y: 1, z: null }, limitsLocked: true });
+    // Other edits leave the lock alone, and only the edited group is locked.
+    s = withGroupPatched(s, 'g1', { count: 4 });
+    expect(s.groups[0].limitsLocked).toBe(true);
+    expect(s.groups[1].limitsLocked).toBeUndefined();
+    s = withGroupPatched(s, 'g1', { limitsLocked: false });
+    expect(s.groups[0].limitsLocked).toBeUndefined();
+    s = withGroupPatched(s, 'g1', { limitsLocked: true });
+    expect(s.groups[0].limitsLocked).toBe(true);
+    // A copy keeps the lock with the limits.
+    expect(withGroupDuplicated(s, 'g1', [30, 3]).groups[2]).toMatchObject({ limitsLocked: true });
+  });
+
+  it('locks the limits of a machine plan that set some, and not one that left them open', () => {
+    const plan = (limits: PlanState['limits']): PlanState =>
+      ({
+        v: 1,
+        multiblockId: 'electric-blast-furnace',
+        count: 2,
+        limits,
+        enabledHatches: ['energy'],
+        colors: {},
+      }) as PlanState;
+    const open = withPlanAdded(emptySite(), plan({ x: null, y: null, z: null }), [5, 5]).groups[0];
+    expect(open.limitsLocked).toBeUndefined();
+    const set = withPlanAdded(emptySite(), plan({ x: null, y: 2, z: null }), [5, 5]).groups[0];
+    expect(set.limitsLocked).toBe(true);
+  });
+
   it('links groups and ports, reusing ports and resources', () => {
     let s = two();
     s = withLinkAdded(s, { port: true }, { group: 'g1' }, { name: 'Iron Dust', kind: 'item' }, 2);

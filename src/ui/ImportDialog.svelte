@@ -20,6 +20,7 @@
   import { fallbackColor } from '../import/gtnhplanner';
   import { importSite } from './sitePipeline';
   import { replaceSite } from './siteActions';
+  import { optimizeAfterImport } from './siteCommands';
 
   interface Props {
     onclose: () => void;
@@ -47,6 +48,8 @@
   let width = $state(get(site).size[0]);
   let depth = $state(get(site).size[1]);
   let fit = $state(true);
+  /** Optimise the layout in the background once the template is shown. */
+  let optimizeAfter = $state(true);
 
   function encode(c: MachineChoice): string {
     return c.type === 'multiblock' ? `mb:${c.id}` : c.type;
@@ -113,6 +116,7 @@
     if (report.placeholders.length)
       notify(t.importer.placeholders(report.placeholders), 9000, 'import-placeholders');
     onclose();
+    if (optimizeAfter) void optimizeAfterImport(next);
   }
 
   /** Up to three item and fluid outputs of a row's recipe, each once (a recipe may list one twice). */
@@ -238,6 +242,11 @@
       <div class="fields">
         <label class="pair check"
           ><input type="checkbox" bind:checked={fit} /><span>{t.importer.fit}</span></label
+        >
+        <label class="pair check" title={t.importer.optimizeAfterHint}
+          ><input type="checkbox" data-testid="import-optimize" bind:checked={optimizeAfter} /><span
+            >{t.importer.optimizeAfter}</span
+          ></label
         >
         {#if !fit}
           <label class="pair"

@@ -161,6 +161,7 @@ function validateGroup(value: unknown, index: number): SiteGroup {
     const e = expectInt(elevation, `${what} elevation`, 0, SITE_MAX_ELEVATION);
     if (e > 0) group.elevation = e;
   }
+  if (field(obj, 'limitsLocked') === true) group.limitsLocked = true;
   const sizeRaw = field(obj, 'size');
   if (sizeRaw !== undefined && sizeRaw !== null) {
     const size = effectiveSize(def, expectInt(sizeRaw, `${what} size`, 1, MAX_SIZE));

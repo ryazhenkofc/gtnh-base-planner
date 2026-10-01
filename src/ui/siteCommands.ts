@@ -1,4 +1,4 @@
-import { get } from 'svelte/store';
+import { get, type Readable } from 'svelte/store';
 import { getSiteDef } from '../data/generic';
 import { t } from '../i18n/en';
 import type { SiteBuild } from '../model/site/buildTypes';
@@ -9,7 +9,8 @@ import { notify } from './notices';
 import { withGroupAdded, withGrownToFit, withPlanAdded } from './siteActions';
 import { growAfterBuild } from './siteEditing';
 import { undoAction } from './siteHistory';
-import { arrangeInSize, siteBuild } from './sitePipeline';
+import type { Arranged } from './siteArrange';
+import { arrangeInSize, siteBuild, type SiteResult } from './sitePipeline';
 
 /** Where a new group goes: east of every built group, or at the start of the site. */
 export function freeOrigin(s: SiteState, build: SiteBuild | null): [number, number] {
@@ -54,13 +55,13 @@ export function addPlanToSite(): void {
  * floors above it, and a group bigger than the ground stacks its machines up. The size is never changed. It
  * runs in the build worker, as a big template takes seconds to measure.
  */
-export async function arrange(): Promise<void> {
+export async function arrange(optimize = false): Promise<void> {
   const s = get(site);
   if (!s.groups.length) return;
-  notify(t.site.arranging, 120000, 'arrange');
+  notify(optimize ? t.site.optimizing : t.site.arranging, 120000, 'arrange');
   let r;
   try {
-    r = await arrangeInSize(s, get(connectBelow));
+    r = await arrangeInSize(s, get(connectBelow), optimize);
   } catch {
     // Replaced by a newer job (an import, say): that one reports for itself.
     return;
@@ -69,13 +70,78 @@ export async function arrange(): Promise<void> {
   if (get(site) !== s) return;
   site.set(r.site);
   notify(
-    r.fits
-      ? r.floors > 1
-        ? t.site.arrangedFloors(r.floors)
-        : t.site.arranged
-      : t.site.needs(r.needed[0], r.needed[1]),
+    r.fits && r.optimized
+      ? optimizedNotice(r.optimized)
+      : r.fits
+        ? r.floors > 1
+          ? t.site.arrangedFloors(r.floors)
+          : t.site.arranged
+        : t.site.needs(r.needed[0], r.needed[1]),
     r.fits ? 6000 : 8000,
     'arrange',
     undoAction(),
   );
+}
+
+/** What optimising did, in the router's numbers (pipe and cable blocks). */
+function optimizedNotice(o: NonNullable<Arranged['optimized']>): string {
+  return o.improved ? t.site.optimized(o.start.blocks, o.result.blocks, o.reshaped) : t.site.optimizedSame;
+}
+
+/** Whether `build` is the build of `s`: built, routed (not the groups alone) and of the same groups. */
+function isBuildOf(result: SiteResult, s: SiteState): boolean {
+  const b = result.build;
+  return (
+    !!b &&
+    !result.pending &&
+    b.groups.length === s.groups.length &&
+    b.groups.every((pg, i) => pg.group.id === s.groups[i].id)
+  );
+}
+
+/**
+ * Resolves true once `imported` is on screen, built and routed; false when the template was edited or
+ * replaced meanwhile, its build failed, or `timeoutMs` passed.
+ */
+export function whenBuilt(
+  imported: SiteState,
+  sites: Readable<SiteState> = site,
+  builds: Readable<SiteResult> = siteBuild,
+  timeoutMs = 120000,
+): Promise<boolean> {
+  return new Promise((resolve) => {
+    const stops: (() => void)[] = [];
+    let done = false;
+    const finish = (ok: boolean) => {
+      if (done) return;
+      done = true;
+      clearTimeout(timer);
+      // The subscriptions may still be starting up: stop them after this turn.
+      queueMicrotask(() => stops.forEach((stop) => stop()));
+      resolve(ok);
+    };
+    const timer = setTimeout(() => finish(false), timeoutMs);
+    stops.push(
+      sites.subscribe((s) => {
+        if (s !== imported) finish(false);
+      }),
+      builds.subscribe((r) => {
+        if (isBuildOf(r, imported)) finish(true);
+        else if (r.error) finish(false);
+      }),
+    );
+  });
+}
+
+/**
+ * After an import: shows the imported layout first, then optimises it in the background (what the Optimize
+ * button does), unless the template was edited while it was being built.
+ */
+export async function optimizeAfterImport(
+  imported: SiteState,
+  run: () => Promise<void> = () => arrange(true),
+  built: () => Promise<boolean> = () => whenBuilt(imported),
+): Promise<void> {
+  if (!(await built()) || get(site) !== imported) return;
+  await run();
 }

@@ -106,6 +106,37 @@ describe('site worker controller', () => {
     await expect(done).resolves.toEqual(arranged);
   });
 
+  it('asks the worker to optimise as well only when told to', async () => {
+    const w = fakeWorker();
+    const { c } = setup(() => w as unknown as Worker);
+    const site = named('a');
+    const plain = c.arrange(site, false);
+    expect(w.sent[0]).toMatchObject({ type: 'arrange', optimize: false });
+    w.reply({ id: w.sent[0].id, arranged: { site, fits: true, needed: [10, 10], floors: 1 } });
+    await plain;
+    const tuned = c.arrange(site, false, true);
+    expect(w.sent[1]).toMatchObject({ type: 'arrange', optimize: true });
+    const optimized = {
+      improved: false,
+      reshaped: 0,
+      start: { problems: 0, unconnected: 0, blocks: 1, span: 1 },
+    };
+    const arranged = { site, fits: true, needed: [10, 10] as [number, number], floors: 1, optimized };
+    w.reply({
+      id: w.sent[1].id,
+      arranged: { ...arranged, optimized: { ...optimized, result: optimized.start } },
+    });
+    await expect(tuned).resolves.toMatchObject({ optimized: { improved: false } });
+  });
+
+  it('optimises right here without a worker', async () => {
+    const { c } = setup(() => null);
+    const r = await c.arrange(named('a'), false, true);
+    expect(r.fits).toBe(true);
+    expect(r.optimized).toBeDefined();
+    expect((await c.arrange(named('a'), false)).optimized).toBeUndefined();
+  });
+
   it('arranges right here without a worker, and rejects an arrangement a newer job replaces', async () => {
     const { c } = setup(() => null);
     const r = await c.arrange(named('a'), false);

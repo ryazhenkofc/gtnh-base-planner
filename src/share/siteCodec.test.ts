@@ -142,6 +142,17 @@ describe('validateSiteState', () => {
     }
   });
 
+  it('keeps a group’s locked limits through JSON and links, and ignores anything but true', async () => {
+    const data = sample() as unknown as { groups: Record<string, unknown>[] };
+    data.groups[0].limitsLocked = true;
+    const s = validateSiteState(data);
+    expect(s.groups[0].limitsLocked).toBe(true);
+    expect(siteFromJson(siteToJson(s)).groups[0].limitsLocked).toBe(true);
+    expect((await decodeSite(await encodeSite(s))).groups[0].limitsLocked).toBe(true);
+    data.groups[0].limitsLocked = 'yes';
+    expect(validateSiteState(data).groups[0].limitsLocked).toBeUndefined();
+  });
+
   it('round-trips through JSON and links', async () => {
     const s = validateSiteState(sample());
     expect(siteFromJson(siteToJson(s))).toEqual(s);

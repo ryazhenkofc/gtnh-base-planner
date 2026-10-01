@@ -56,7 +56,14 @@ The planner checks layout rules for the transcribed structure only. It is not a 
 2. Import a chain (IMPORT FROM GTNH PLANNER), or build one by hand: ADD MULTIBLOCK, then ADD LINK with a start
    (a group or TEMPLATE INPUT), an end (a group or TEMPLATE OUTPUT) and a resource. In the single-machine view, SETTINGS →
    ADD TO TEMPLATE copies the current plan into the template as a group.
-3. ARRANGE lays the groups out west to east along the flow. Select a group (click it, or pick it in the panel)
+3. ARRANGE lays the groups out west to east along the flow. OPTIMIZE arranges, then searches for a tighter layout
+   with shorter pipes in the background: simulated annealing on a cheap length estimate finds candidates, then a
+   second pass judges every step by the real router. It may also pack a group of several units another way (rows or
+   layers, which sets the group's limits), and says how many it changed. A result is kept only if the router connects at least as much with
+   fewer pipe blocks; otherwise the plain arrangement stays. It runs against a time budget of about ten seconds (a second or two for small chains), and a plan that is slow
+   to route gets fewer tries. A group's limits can be kept in its settings (editing them keeps them): Arrange and
+   Optimize never change those.
+   Select a group (click it, or pick it in the panel)
    and drag it in the view, or move it with the arrow keys as seen on screen (Shift: 5 blocks) or the arrows in
    the panel; PageUp and PageDown raise and lower it (Shift: 5 blocks), R turns it (Shift+R back), F frames it
    and Delete removes it. The panel edits the selected group: its label and machine, count, limits and extra
@@ -76,7 +83,9 @@ yet), a template port (passive sources such as crops, bees and ore veins) or ski
 in [`src/data/gtnhplanner-machines.ts`](src/data/gtnhplanner-machines.ts); names it does not list are also
 looked up among the machine types GT gives each multiblock ("Vacuum Furnace" is the Utupu-Tanuri), which
 `tools/gt-source/machine-types.mjs` collects. The template is sized to the chain, and each port sits on the
-edge nearest the groups it serves. Storages between machines are passed
+edge nearest the groups it serves. After an import the template is shown at once with the plain layout, then optimized
+in the background (the box "Optimize the layout after import" in the dialog, on by default; Undo brings the plain layout
+back). ARRANGE and OPTIMIZE stay in the template panel for later. Storages between machines are passed
 through; product drains become output ports, trash drains void ports. Thaumcraft aspect flows are left out.
 
 ## Data model
