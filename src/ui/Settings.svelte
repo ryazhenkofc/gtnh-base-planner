@@ -284,21 +284,22 @@
     color: var(--text);
     margin: 0 0 14px;
   }
+  /* One row per limit, label left and stepper right: the same grid as the on/off rows below. */
   .limits {
     display: flex;
-    flex-wrap: wrap;
-    gap: 6px 22px;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 12px;
   }
   .limit {
     display: flex;
-    align-items: baseline;
-    gap: 6px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 32px;
   }
   .limit > span {
     white-space: nowrap;
-  }
-  .limit :global(.field) {
-    text-align: left;
   }
   .hint {
     margin: 10px 0 0;

@@ -73,7 +73,7 @@
 <style>
   .stepper {
     display: inline-flex;
-    align-items: baseline;
+    align-items: center;
     gap: 1px;
   }
   .stepper :global(.field) {
@@ -89,8 +89,9 @@
     appearance: none;
     background: none;
     border: 0;
-    padding: 2px 5px;
-    font-size: 13px;
+    padding: 6px 8px;
+    min-width: 28px;
+    font-size: 14px;
     line-height: 1;
     color: var(--muted);
     cursor: pointer;

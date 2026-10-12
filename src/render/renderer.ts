@@ -374,6 +374,8 @@ export function createRenderer(
   /** The load in flight or done, with the texture set it was started for. */
   let detailedLoad: { set: TextureSet; promise: Promise<MaterialProvider> } | null = null;
   let textureSet: TextureSet = 'classic';
+  /** The loaded provider of the set being switched away from, kept until the new set's load settles. */
+  let spareDetailed: MaterialProvider | null = null;
   let wantedMode: ViewMode = 'simple';
   let provider: MaterialProvider = simpleProvider;
   let modeRequest = 0;
@@ -1157,6 +1159,12 @@ export function createRenderer(
             // The Modernity atlas is only built when override textures exist: use the classic one.
             console.warn('Modernity textures are unavailable, using the classic set.', err);
             textureSet = 'classic';
+            if (spareDetailed && !disposed) {
+              // Take the classic provider that was showing back instead of loading it a second time.
+              detailedProvider = spareDetailed;
+              detailedLoad = { set: 'classic', promise: Promise.resolve(spareDetailed) };
+            }
+            spareDetailed = null;
             options.onTextureFallback?.();
             return this.setViewMode(mode);
           }
@@ -1178,7 +1186,10 @@ export function createRenderer(
       const old = detailedProvider;
       detailedProvider = null;
       detailedLoad = null;
+      // Only worth keeping while DETAILED view is on screen: otherwise `old` is disposed just below.
+      spareDetailed = wantedMode === 'detailed' ? old : null;
       if (wantedMode === 'detailed') await this.setViewMode('detailed');
+      spareDetailed = null;
       // In DETAILED view setViewMode disposes it when the new provider takes over.
       if (old && wantedMode !== 'detailed') old.dispose();
     },
