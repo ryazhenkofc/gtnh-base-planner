@@ -344,14 +344,6 @@
       <li class="row">
         <button
           class="link"
-          data-testid="site-arrange"
-          disabled={!$site.groups.length}
-          onclick={() => arrange()}>{t.site.arrange}</button
-        >
-      </li>
-      <li class="row">
-        <button
-          class="link"
           data-testid="site-optimize"
           title={t.site.optimizeHint}
           disabled={!$site.groups.length}
@@ -474,7 +466,7 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    min-height: 26px;
+    min-height: 32px;
   }
   .row.col {
     flex-direction: column;

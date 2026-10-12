@@ -127,7 +127,7 @@ export const t = {
     corridor: 'Corridor',
     sizeHint: (min: number, max: number) =>
       `Blocks, ${min} to ${max}. The template grows when a group is moved past an edge. Corridor: free blocks between groups.`,
-    arrange: 'Arrange',
+
     arranged: 'Arranged along the flow.',
     arranging: 'Arranging…',
     optimize: 'Optimize',

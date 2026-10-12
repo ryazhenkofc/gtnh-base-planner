@@ -95,6 +95,7 @@
     line-height: 1;
     color: var(--muted);
     cursor: pointer;
+    transition: color var(--fade) ease;
   }
   .down {
     order: -1;

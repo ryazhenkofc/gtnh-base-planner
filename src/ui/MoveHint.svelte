@@ -132,7 +132,7 @@
     border-bottom-width: 2px;
     color: var(--text);
     font: inherit;
-    font-size: 10px;
+    font-size: 11px;
     text-align: center;
     letter-spacing: 0;
     text-transform: none;

@@ -27,7 +27,7 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    min-height: 26px;
+    min-height: 32px;
   }
   .toggle {
     appearance: none;
@@ -45,6 +45,7 @@
     text-align: left;
     cursor: pointer;
     color: var(--muted);
+    transition: color var(--fade) ease;
   }
   .toggle:hover,
   .toggle.on {

@@ -11,6 +11,8 @@
   /* Axis names in the Template panel, as on the axis gizmo (darkened to read as small text). */
   --axis-x: #c9302c;
   --axis-z: #2f6fd1;
+  /* One fade length for hovers and drawers; switched off for people who ask for less motion. */
+  --fade: 140ms;
   --gutter: 28px;
   --bar-h: 56px;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -66,6 +68,7 @@ select {
   text-decoration: none;
   text-underline-offset: 4px;
   text-decoration-thickness: 1px;
+  transition: color var(--fade) ease;
 }
 .link:hover,
 .link.active {
@@ -101,8 +104,10 @@ select {
 }
 
 :focus-visible {
-  outline: 1px solid var(--text);
+  /* A white halo keeps the ring readable over the dark parts of the 3D scene. */
+  outline: 2px solid var(--text);
   outline-offset: 3px;
+  box-shadow: 0 0 0 5px var(--bg);
 }
 .field:focus-visible {
   outline: none;
@@ -115,4 +120,24 @@ select {
   overflow: hidden;
   clip-path: inset(50%);
   white-space: nowrap;
+}
+
+/* Drawers fade in. Opacity only: the canvas measures the drawer's box, which a slide would shift. */
+aside.drawer {
+  animation: fade-in var(--fade) ease-out;
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
