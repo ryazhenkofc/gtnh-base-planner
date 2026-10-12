@@ -68,6 +68,10 @@ export interface MultiblockDef {
   name: string;
   /** Voltage tier or short tag shown in the picker, e.g. "LV", "Steam". */
   tier?: string;
+  /** Tiers of one machine share this value; without it the name minus a trailing tier tag decides. */
+  tierGroup?: string;
+  /** Its Cupronickel coils are a fixed part of the structure, not the heating-coil slot a plan can change. */
+  fixedCoil?: boolean;
   /** Link to the GT5-Unofficial (or other) source file the structure was transcribed from. */
   source?: string;
   /** Set on entries written by tools/gt-source/generate.mjs (converted from the GT sources, not hand-checked). */

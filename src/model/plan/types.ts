@@ -19,6 +19,8 @@ export interface PlanState {
    * means `resize.default`.
    */
   size?: number;
+  /** Heating coil block (a `HEATING_COILS` id) of a multiblock that has them; absent means the default coil. */
+  coil?: string;
 }
 
 export interface PackResult {

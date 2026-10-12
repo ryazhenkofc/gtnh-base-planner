@@ -6,6 +6,7 @@ import { validateSiteState } from '../share/siteCodec';
 import fixture from './__fixtures__/gtnhplanner-titanium.json';
 import {
   IMPORT_LIMITS,
+  MAX_IMPORT_BYTES,
   ImportError,
   arrangeOnFloors,
   buildSiteFromGtnh,
@@ -374,5 +375,14 @@ describe('buildSiteFromGtnh', () => {
     expect(fallbackColor('item:x')).toMatch(/^#[0-9a-f]{6}$/);
     expect(fallbackColor('item:x')).toBe(fallbackColor('item:x'));
     expect(fallbackColor('item:x')).not.toBe(fallbackColor('item:y'));
+  });
+});
+
+describe('parseGtnhProject limits', () => {
+  it('rejects oversize, malformed and over-full files without hanging', () => {
+    expect(() => parseGtnhProject('x'.repeat(MAX_IMPORT_BYTES + 1))).toThrow(ImportError);
+    expect(() => parseGtnhProject('['.repeat(100_000))).toThrow(ImportError);
+    const nodes = Array.from({ length: 100_000 }, (_, i) => ({ id: String(i) }));
+    expect(() => parseGtnhProject(JSON.stringify({ nodes, recipes: [] }))).toThrow(ImportError);
   });
 });

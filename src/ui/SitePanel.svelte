@@ -344,14 +344,6 @@
       <li class="row">
         <button
           class="link"
-          data-testid="site-arrange"
-          disabled={!$site.groups.length}
-          onclick={() => arrange()}>{t.site.arrange}</button
-        >
-      </li>
-      <li class="row">
-        <button
-          class="link"
           data-testid="site-optimize"
           title={t.site.optimizeHint}
           disabled={!$site.groups.length}
@@ -429,7 +421,8 @@
 <style>
   .drawer {
     position: fixed;
-    top: 0;
+    /* Below the top bar, whose mode switch and toggles stay in reach. */
+    top: var(--bar-h);
     right: 0;
     bottom: 0;
     width: 340px;
@@ -440,7 +433,7 @@
     padding: 0 var(--gutter) 48px;
   }
   .top {
-    height: var(--bar-h);
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -473,7 +466,7 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    min-height: 26px;
+    min-height: 32px;
   }
   .row.col {
     flex-direction: column;

@@ -329,7 +329,7 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    min-height: 26px;
+    min-height: 32px;
   }
   .row.wrap {
     flex-wrap: wrap;

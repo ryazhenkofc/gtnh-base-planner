@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 import { DEFAULT_MULTIBLOCK_ID, getMultiblock } from '../data/catalog';
-import type { ViewMode } from '../model/core/types';
+import type { TextureSet, ViewMode } from '../model/core/types';
 import type { PlanState } from '../model/plan/types';
 
 export function defaultPlan(multiblockId = DEFAULT_MULTIBLOCK_ID): PlanState {
@@ -21,6 +21,32 @@ export const viewMode = writable<ViewMode>('detailed');
 export const showPipes = writable(false);
 export const showCables = writable(false);
 export const xray = writable(false);
+const TEXTURES_KEY = 'gtnh-planner:textures';
+/** Modernity unless the person switched it off. */
+export const textureSet = writable<TextureSet>(storedTextureSet());
+
+function storedTextureSet(): TextureSet {
+  try {
+    return globalThis.localStorage?.getItem(TEXTURES_KEY) === 'classic' ? 'classic' : 'modernity';
+  } catch {
+    return 'modernity';
+  }
+}
+let remember = true;
+/** The Modernity atlas could not load: show the classic set for now without it becoming the saved choice. */
+export function useClassicTextures() {
+  remember = false;
+  textureSet.set('classic');
+  remember = true;
+}
+textureSet.subscribe((set) => {
+  if (!remember) return;
+  try {
+    globalThis.localStorage?.setItem(TEXTURES_KEY, set);
+  } catch {
+    // Not important enough to report.
+  }
+});
 
 const BELOW_KEY = 'gtnh-planner:below';
 

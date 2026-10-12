@@ -18,7 +18,7 @@
  * Ids from src/data/blocks.ts and src/data/blocks.generated.json that are not mapped get `{ "flat": true }`
  * (flat colour in DETAILED view).
  */
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { deflateSync, inflateSync } from 'node:zlib';
@@ -27,6 +27,9 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 // Build inputs only: kept out of public/ so they are never copied into the deployed site.
 const SRC_DIR = join(ROOT, 'tools/texture-sources');
 const ATLAS_PNG = join(ROOT, 'public/textures/atlas.png');
+// Optional Modernity set: tile-named PNGs that replace the classic tile; same layout, so the manifest is shared.
+const MODERNITY_DIR = join(ROOT, 'tools/texture-sources-modernity');
+const MODERNITY_PNG = join(ROOT, 'public/textures/atlas-modernity.png');
 const TEXTURES_JSON = join(ROOT, 'src/render/textures.json');
 const BLOCKS_TS = join(ROOT, 'src/data/blocks.ts');
 const BLOCKS_GENERATED = join(ROOT, 'src/data/blocks.generated.json');
@@ -112,6 +115,10 @@ export const HAND_TILES = {
   MACHINE_COIL_HSSS: {},
   MACHINE_COIL_NAQUADAH: {},
   MACHINE_COIL_NAQUADAHALLOY: {},
+  MACHINE_COIL_ELECTRUMFLUX: {},
+  MACHINE_COIL_TRINIUM: {},
+  MACHINE_COIL_INFINITY: {},
+  MACHINE_COIL_ETERNAL: {},
   // Glass
   REINFORCED_GLASS: {},
   // Steel Frame Box: the generic frame icon tinted with the Steel material colour (0x808080)
@@ -241,6 +248,17 @@ export const HAND_BLOCK_MAP = {
   },
   'gt.casing.robustTungstensteel': { side: 'MACHINE_CASING_ROBUST_TUNGSTENSTEEL' },
   'gt.coil.cupronickel': { side: 'MACHINE_COIL_CUPRONICKEL' },
+  // The other heating coils (BlockCasings5; metas 0, 5, 8 and 12 come from the game dump)
+  'gregtech:gt.blockcasings5@1': { side: 'MACHINE_COIL_KANTHAL' },
+  'gregtech:gt.blockcasings5@2': { side: 'MACHINE_COIL_NICHROME' },
+  'gregtech:gt.blockcasings5@3': { side: 'MACHINE_COIL_TUNGSTENSTEEL' },
+  'gregtech:gt.blockcasings5@4': { side: 'MACHINE_COIL_HSSG' },
+  'gregtech:gt.blockcasings5@6': { side: 'MACHINE_COIL_NAQUADAHALLOY' },
+  'gregtech:gt.blockcasings5@7': { side: 'MACHINE_COIL_ELECTRUMFLUX' },
+  'gregtech:gt.blockcasings5@9': { side: 'MACHINE_COIL_HSSS' },
+  'gregtech:gt.blockcasings5@10': { side: 'MACHINE_COIL_TRINIUM' },
+  'gregtech:gt.blockcasings5@11': { side: 'MACHINE_COIL_INFINITY' },
+  'gregtech:gt.blockcasings5@13': { side: 'MACHINE_COIL_ETERNAL' },
   'gt.glass.reinforced': { side: 'REINFORCED_GLASS' },
   'gt.casing.firebricks': { side: 'MACHINE_CASING_DENSEBRICKS' },
   'gt.casing.titaniumPipe': { side: 'MACHINE_CASING_PIPE_TITANIUM' },
@@ -696,6 +714,25 @@ async function formatJson(text) {
   }
 }
 
+/**
+ * The Modernity atlas: the classic tiles with those that have a PNG named after them in `dir` replaced
+ * (final art, so no tint). Null when no tile is overridden. Same tile order, so the manifest is shared.
+ */
+export function buildModernAtlas(tiles, dir) {
+  const modern = { ...tiles };
+  let replaced = 0;
+  for (const name of Object.keys(tiles)) {
+    const file = join(dir, `${name}.png`);
+    if (!existsSync(file)) continue;
+    const img = decodePng(readFileSync(file));
+    if (img.width < TILE || img.width % TILE)
+      throw new Error(`${file}: width ${img.width} is not a multiple of ${TILE}`);
+    modern[name] = firstFrameTile(img);
+    replaced++;
+  }
+  return replaced ? { image: packAtlas(modern).image, replaced } : null;
+}
+
 async function main() {
   if (process.argv.includes('--fetch')) await fetchSources();
   const tiles = {};
@@ -703,6 +740,13 @@ async function main() {
     const file = join(SRC_DIR, `${name}.png`);
     if (!existsSync(file)) throw new Error(`missing ${file}; run with --fetch`);
     tiles[name] = firstFrameTile(decodePng(readFileSync(file)), opts.tint);
+  }
+  const modern = buildModernAtlas(tiles, MODERNITY_DIR);
+  // Never leave an atlas from removed overrides behind: the app would deploy and load it.
+  rmSync(MODERNITY_PNG, { force: true });
+  if (modern) {
+    writeFileSync(MODERNITY_PNG, encodePng(modern.image));
+    console.log(`modernity atlas: ${modern.replaced} tiles replaced`);
   }
   const { image, rects } = packAtlas(tiles);
   const { manifest, flat } = buildManifest(rects, image, readBlockIds());

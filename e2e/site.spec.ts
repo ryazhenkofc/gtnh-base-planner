@@ -122,11 +122,7 @@ test('imports a GTNH Planner chain into a routed site', async ({ page }) => {
   await panel.getByTestId('site-group-rotate').click();
   await page.screenshot({ path: 'e2e/screenshots/site-panel.png' });
 
-  // Arrange puts the chain back in order and everything stays connected.
-  await panel.getByTestId('site-arrange').click();
-  await expect(stats).toContainText(/(\d+)\/\1 connected/);
-
-  // Optimize searches for a tighter layout and keeps it only if the router connects everything.
+  // Optimize arranges the chain, then searches for a tighter layout and keeps it only if the router connects everything.
   await panel.getByTestId('site-optimize').click();
   await expect(page.getByText(/Optimized:|nothing tried beat it/)).toBeVisible({ timeout: 60000 });
   await expect(stats).toContainText(/(\d+)\/\1 connected/);

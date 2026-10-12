@@ -1,13 +1,15 @@
 import * as THREE from 'three';
 import { dirVec, key } from '../model/geometry';
 import { isCable } from '../model/routing/kinds';
-import type { Dir, Vec3, ViewMode } from '../model/core/types';
+import type { Dir, TextureSet, Vec3, ViewMode } from '../model/core/types';
 import type { SceneModel, Voxel } from '../model/render/types';
 import { DEFAULT_PHI, DEFAULT_THETA, fitPoints, fitView, OrbitControls } from './controls';
 import type { BlockVisual, MaterialProvider } from './materials';
 import { createSimpleProvider } from './simple';
 
 export interface RendererOptions {
+  /** The Modernity textures could not load and the classic set is shown instead. */
+  onTextureFallback?: () => void;
   /** Called with the unit ids under the pointer on click (empty array = background or a pipe). */
   onPick?: (unitIds: number[]) => void;
   /** Called on click with the id of the net (`RouteNet.id`) under the pointer, or null. */
@@ -29,6 +31,8 @@ export interface Renderer {
   setScene(model: SceneModel): void;
   setViewMode(mode: ViewMode): Promise<void>;
   setXray(on: boolean): void;
+  /** Texture set of the DETAILED view. `modernity` needs `public/textures/atlas-modernity.png` (see README). */
+  setTextureSet(set: TextureSet): Promise<void>;
   setSelected(unitIds: number[]): void;
   /** Animate flow arrows along nets that carry `flows` (site view). */
   setFlowAnimation(on: boolean): void;
@@ -367,7 +371,12 @@ export function createRenderer(
 
   const simpleProvider = createSimpleProvider();
   let detailedProvider: MaterialProvider | null = null;
-  let detailedLoad: Promise<MaterialProvider> | null = null;
+  /** The load in flight or done, with the texture set it was started for. */
+  let detailedLoad: { set: TextureSet; promise: Promise<MaterialProvider> } | null = null;
+  let textureSet: TextureSet = 'classic';
+  /** The loaded provider of the set being switched away from, kept until the new set's load settles. */
+  let spareDetailed: MaterialProvider | null = null;
+  let wantedMode: ViewMode = 'simple';
   let provider: MaterialProvider = simpleProvider;
   let modeRequest = 0;
 
@@ -1115,33 +1124,74 @@ export function createRenderer(
 
     async setViewMode(mode) {
       const request = ++modeRequest;
+      wantedMode = mode;
       let next: MaterialProvider = simpleProvider;
       if (mode === 'detailed') {
         // One shared load, so quick toggles never create (and leak) a second provider.
-        detailedLoad ??= (async () => {
-          const mod = await import('./detailed');
-          const p = mod.createDetailedProvider();
-          try {
-            await p.load();
-          } catch (err) {
-            p.dispose();
-            throw err;
-          }
-          if (disposed) p.dispose();
-          else detailedProvider = p;
-          return p;
-        })();
+        const set = textureSet;
+        detailedLoad ??= {
+          set,
+          promise: (async () => {
+            const mod = await import('./detailed');
+            const p = mod.createDetailedProvider(
+              set === 'modernity' ? { atlasPath: 'textures/atlas-modernity.png' } : {},
+            );
+            try {
+              await p.load();
+            } catch (err) {
+              p.dispose();
+              throw err;
+            }
+            // A load for a texture set that was switched away meanwhile is dropped.
+            if (disposed || set !== textureSet) p.dispose();
+            else detailedProvider = p;
+            return p;
+          })(),
+        };
+        const load = detailedLoad;
         try {
-          next = await detailedLoad;
+          next = await load.promise;
         } catch (err) {
-          detailedLoad = null; // allow a retry later
+          if (detailedLoad === load) detailedLoad = null; // allow a retry later
+          // A load for a texture set that was switched away meanwhile: the newer request decides.
+          if (load.set !== textureSet) return;
+          if (textureSet === 'modernity') {
+            // The Modernity atlas is only built when override textures exist: use the classic one.
+            console.warn('Modernity textures are unavailable, using the classic set.', err);
+            textureSet = 'classic';
+            if (spareDetailed && !disposed) {
+              // Take the classic provider that was showing back instead of loading it a second time.
+              detailedProvider = spareDetailed;
+              detailedLoad = { set: 'classic', promise: Promise.resolve(spareDetailed) };
+            }
+            spareDetailed = null;
+            options.onTextureFallback?.();
+            return this.setViewMode(mode);
+          }
           console.warn('DETAILED view is unavailable, falling back to SIMPLE.', err);
           next = simpleProvider;
         }
       }
       if (disposed || request !== modeRequest || next === provider) return;
+      const prev = provider;
       provider = next;
+      // A detailed provider of a texture set that was switched away is not kept for later.
+      if (prev !== simpleProvider && prev !== detailedProvider) prev.dispose();
       rebuild();
+    },
+
+    async setTextureSet(set) {
+      if (disposed || set === textureSet) return;
+      textureSet = set;
+      const old = detailedProvider;
+      detailedProvider = null;
+      detailedLoad = null;
+      // Only worth keeping while DETAILED view is on screen: otherwise `old` is disposed just below.
+      spareDetailed = wantedMode === 'detailed' ? old : null;
+      if (wantedMode === 'detailed') await this.setViewMode('detailed');
+      spareDetailed = null;
+      // In DETAILED view setViewMode disposes it when the new provider takes over.
+      if (old && wantedMode !== 'detailed') old.dispose();
     },
 
     setXray(on) {

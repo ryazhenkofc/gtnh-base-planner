@@ -149,7 +149,7 @@
   }
   .empty {
     border-color: transparent;
-    font-size: 10px;
+    font-size: 11px;
     color: var(--text);
     cursor: default;
   }
@@ -157,7 +157,7 @@
     position: absolute;
     right: 2px;
     bottom: 1px;
-    font-size: 8px;
+    font-size: 10px;
     letter-spacing: 0;
   }
   .ax.x {

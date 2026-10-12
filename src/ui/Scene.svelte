@@ -1,15 +1,18 @@
 <script lang="ts">
   import { onMount, untrack } from 'svelte';
   import { DEFAULT_HATCH_COLORS } from '../model/colors';
-  import type { Vec3, ViewMode } from '../model/core/types';
+  import type { TextureSet, Vec3, ViewMode } from '../model/core/types';
   import type { SceneModel } from '../model/render/types';
   import { createRenderer, type Renderer } from '../render/renderer';
-  import { warnOnce } from './notices';
+  import { useClassicTextures } from '../state/store';
+  import { notify, warnOnce } from './notices';
+  import { t as tx } from '../i18n/en';
 
   interface Props {
     scene: SceneModel | null;
     mode: ViewMode;
     xray: boolean;
+    textureSet: TextureSet;
     selected: number[];
     onpick: (unitIds: number[]) => void;
     onfail: () => void;
@@ -32,6 +35,7 @@
     scene,
     mode,
     xray,
+    textureSet,
     selected,
     onpick,
     onfail,
@@ -75,6 +79,10 @@
         onView: (theta) => onview?.(theta),
         onMoveSelection: (dx, dz) => onmove?.(dx, dz),
         onDragOffset: (o) => ondrag?.(o),
+        onTextureFallback: () => {
+          useClassicTextures();
+          notify(tx.modernityMissing);
+        },
       });
     } catch (err) {
       warnOnce('createRenderer', err);
@@ -104,6 +112,12 @@
       guard('setScene', () => r.setScene(EMPTY_SCENE));
       untrack(() => onpick([]));
     }
+  });
+  // The texture set first: the first DETAILED load then goes straight to the wanted atlas.
+  $effect(() => {
+    const r = renderer;
+    const set = textureSet;
+    if (r) guard('setTextureSet', () => r.setTextureSet(set));
   });
   $effect(() => {
     const r = renderer;

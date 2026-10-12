@@ -5,6 +5,7 @@ import { layoutCandidates, packUnits } from '../model/layout/packer';
 import { loosenings } from '../model/layout/variants';
 import { alongX } from '../model/orient';
 import { resolveLayout, resolveRoutedLayout, type ResolvedLayout } from '../model/plan';
+import { coiledDef } from '../model/coil';
 import { effectiveSize, sizedDef } from '../model/resize';
 import { placeHatches } from '../model/hatches/placement';
 import { withPipeFaces } from '../model/routing/attachments';
@@ -110,7 +111,7 @@ export function createPipeline(deps: PipelineDeps = defaultDeps) {
     const raw = deps.getMultiblock(p.multiblockId);
     const size = raw ? effectiveSize(raw, p.size) : undefined;
     // A resizable multiblock is built at the plan's height / length.
-    const def = raw ? sizedDef(raw, size) : undefined;
+    const def = raw ? coiledDef(sizedDef(raw, size), p.coil) : undefined;
     const empty: PipelineResult = {
       def,
       pack: null,
@@ -128,7 +129,8 @@ export function createPipeline(deps: PipelineDeps = defaultDeps) {
     const routedLayout = kinds.length > 0 && !p.manualUnits;
     const colors = mergeColors(p.colors);
     const layoutK = layoutKey({
-      defId: def.id,
+      // The coil changes the blocks, not the layout, but the later stages are keyed on this.
+      defId: p.coil ? `${def.id}@${p.coil}` : def.id,
       size,
       count: p.count,
       limits: p.limits,

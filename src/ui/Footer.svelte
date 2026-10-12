@@ -20,7 +20,7 @@
     display: flex;
     align-items: baseline;
     white-space: nowrap;
-    font-size: 9px;
+    font-size: 11px;
     color: var(--muted);
     z-index: 10;
   }

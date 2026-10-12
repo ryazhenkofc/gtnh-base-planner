@@ -1,9 +1,21 @@
 <script lang="ts">
   import { t } from '../i18n/en';
   import type { MultiblockDef, PlanLimits } from '../model/multiblock/types';
-  import { connectBelow, plan, showCables, showPipes, xray } from '../state/store';
-  import { resetColors, resetPlan, setHatchColor, setLimit, setSize, toggleHatch } from './actions';
-  import { hatchKindsOf } from './catalogView';
+  import { connectBelow, plan, showCables, showPipes, textureSet, xray } from '../state/store';
+  import {
+    resetColors,
+    resetPlan,
+    selectMultiblock,
+    setHatchColor,
+    setCoil,
+    setLimit,
+    setSize,
+    stackVertical,
+    toggleHatch,
+  } from './actions';
+  import { catalog, getMultiblock } from '../data/catalog';
+  import { DEFAULT_COIL, HEATING_COILS, hasHeatingCoil } from '../model/coil';
+  import { hatchKindsOf, tierSiblings } from './catalogView';
   import { LIMIT_MAX, LIMIT_MIN, formatLimit, parseLimit, parseSize } from './fields';
   import { notify } from './notices';
   import NumberStepper from './NumberStepper.svelte';
@@ -25,6 +37,9 @@
   ];
 
   const kinds = $derived(def ? hatchKindsOf(def) : []);
+  const tiers = $derived(def ? tierSiblings(def, catalog) : []);
+  // The built `def` already has the chosen coil in it: ask the catalog entry.
+  const hasCoil = $derived(hasHeatingCoil(getMultiblock($plan.multiblockId)));
   const resize = $derived(def?.resize);
   const sizeLabel = $derived(resize?.label === 'length' ? t.length : t.height);
 
@@ -73,6 +88,42 @@
     >{t.site.addToSite}</button
   >
 
+  {#if tiers.length}
+    <section>
+      <h2>{t.tier}</h2>
+      <ul class="rows">
+        {#each tiers as tier (tier.id)}
+          <li>
+            <button
+              class="link"
+              class:active={tier.id === def?.id}
+              data-testid={`tier-${tier.id}`}
+              onclick={() => selectMultiblock(tier.id)}>{tier.label}</button
+            >
+          </li>
+        {/each}
+      </ul>
+    </section>
+  {/if}
+
+  {#if hasCoil}
+    <section>
+      <h2>{t.coil}</h2>
+      <ul class="coils">
+        {#each HEATING_COILS as coil (coil.id)}
+          <li>
+            <button
+              class="link"
+              class:active={coil.id === ($plan.coil ?? DEFAULT_COIL)}
+              data-testid={`coil-${coil.id}`}
+              onclick={() => setCoil(coil.id)}>{coil.label}</button
+            >
+          </li>
+        {/each}
+      </ul>
+    </section>
+  {/if}
+
   {#if resize}
     <section>
       <h2>{t.size}</h2>
@@ -110,6 +161,7 @@
         </label>
       {/each}
     </div>
+    <button class="link" data-testid="stack-vertical" onclick={stackVertical}>{t.stackVertical}</button>
     <p class="hint">{t.limitsHint}</p>
     {#if $plan.manualUnits}<p class="hint">{t.manualNote}</p>{/if}
   </section>
@@ -167,6 +219,12 @@
         testid="toggle-below"
         ontoggle={() => connectBelow.update((v) => !v)}
       />
+      <ToggleRow
+        on={$textureSet === 'modernity'}
+        label={t.modernity}
+        testid="toggle-modernity"
+        ontoggle={() => textureSet.update((v) => (v === 'modernity' ? 'classic' : 'modernity'))}
+      />
       <ToggleRow on={$xray} label={t.xray} testid="toggle-xray" ontoggle={() => xray.update((v) => !v)} />
     </ul>
   </section>
@@ -216,7 +274,8 @@
 <style>
   .drawer {
     position: fixed;
-    top: 0;
+    /* Below the top bar, whose mode switch and toggles stay in reach. */
+    top: var(--bar-h);
     right: 0;
     bottom: 0;
     width: 300px;
@@ -227,7 +286,7 @@
     padding: 0 var(--gutter) 48px;
   }
   .top {
-    height: var(--bar-h);
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -247,27 +306,37 @@
     color: var(--text);
     margin: 0 0 14px;
   }
+  /* One row per limit, label left and stepper right: the same grid as the on/off rows below. */
   .limits {
     display: flex;
-    flex-wrap: wrap;
-    gap: 6px 22px;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 12px;
   }
   .limit {
     display: flex;
-    align-items: baseline;
-    gap: 6px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 32px;
   }
   .limit > span {
     white-space: nowrap;
-  }
-  .limit :global(.field) {
-    text-align: left;
   }
   .hint {
     margin: 10px 0 0;
     color: var(--muted);
     text-transform: none;
     letter-spacing: 0.02em;
+  }
+  /* Fourteen names: wrapped like a sentence rather than a column that fills the drawer. */
+  .coils {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px 16px;
   }
   .rows {
     list-style: none;
@@ -278,7 +347,7 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    min-height: 26px;
+    min-height: 32px;
   }
   .row.col {
     flex-direction: column;
