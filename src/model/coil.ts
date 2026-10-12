@@ -24,9 +24,15 @@ export const HEATING_COILS: readonly { id: string; label: string }[] = [
   { id: 'gregtech:gt.blockcasings5@13', label: 'Eternal' },
 ];
 
+/**
+ * The block ids a catalog multiblock's heating coils are stored as: the hand-written entries use
+ * `gt.coil.cupronickel`, those converted from the game use Cupronickel's real id.
+ */
+const STORED_AS_DEFAULT = new Set([DEFAULT_COIL, 'gregtech:gt.blockcasings5@0']);
+
 /** Whether the multiblock has heating coils whose tier a plan can change. */
 export function hasHeatingCoil(def: MultiblockDef | undefined): boolean {
-  return !!def && Object.values(def.legend).some((e) => e.blockId === DEFAULT_COIL);
+  return !!def && !def.fixedCoil && Object.values(def.legend).some((e) => STORED_AS_DEFAULT.has(e.blockId));
 }
 
 const memo = new WeakMap<MultiblockDef, Map<string, MultiblockDef>>();
@@ -45,7 +51,7 @@ export function coiledDef(def: MultiblockDef, coil: string | undefined): Multibl
   if (!out) {
     const legend: Record<string, LegendEntry> = {};
     for (const [ch, e] of Object.entries(def.legend)) {
-      legend[ch] = e.blockId === DEFAULT_COIL ? { ...e, blockId: coil } : e;
+      legend[ch] = STORED_AS_DEFAULT.has(e.blockId) ? { ...e, blockId: coil } : e;
     }
     byCoil.set(coil, (out = { ...def, legend }));
   }
