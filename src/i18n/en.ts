@@ -33,6 +33,7 @@ export const t = {
 
   // Settings drawer
   limits: 'Limits',
+  stackVertical: 'Stack vertically',
   limitsHint: 'Max multiblocks along each axis. Empty = unlimited.',
   limitX: 'X',
   limitY: 'Layers',
@@ -47,6 +48,8 @@ export const t = {
   stepUp: (label: string) => `More (${label})`,
   stepDown: (label: string) => `Less (${label})`,
   hatches: 'Hatches',
+  tier: 'Tier',
+  modernity: 'Modernity textures',
   hatchColor: (name: string) => `${name} colour`,
   resetColors: 'Reset colours',
   view: 'View',

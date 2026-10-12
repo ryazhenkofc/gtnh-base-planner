@@ -8,6 +8,7 @@ import {
   withLimit,
   withMultiblock,
   withSize,
+  withStack,
 } from './actions';
 import { samePlan } from './session';
 
@@ -61,6 +62,14 @@ describe('plan transforms', () => {
     expect(withHatchColor(p, 'itemIn', '#ABCDEF').colors.itemIn).toBe('#abcdef');
     expect(withHatchColor(p, 'itemIn', 'red')).toBe(p);
     expect(withDefaultColors(withHatchColor(p, 'itemIn', '#000000')).colors).toEqual({});
+  });
+});
+
+describe('withStack', () => {
+  it('sets a one-unit tower and is a no-op when already stacked', () => {
+    const p = withStack(defaultPlan());
+    expect(p.limits).toEqual({ x: 1, y: null, z: 1 });
+    expect(withStack(p)).toBe(p);
   });
 });
 

@@ -131,3 +131,19 @@ export function matchesQuery(def: MultiblockDef, query: string): boolean {
   if (!q) return true;
   return [def.name, def.tier ?? '', def.id].some((s) => s.toLowerCase().includes(q));
 }
+
+const TIER_SUFFIX = /\s+(Mk-?[IVX]+|Mark [IVX]+|T\d+|[IVX]+)$/;
+
+/**
+ * Other tiers of a multiblock: same name once a trailing tier tag (Mk-II, T3, IV) is dropped. The tag-less base
+ * counts as tier "I". Empty when the multiblock has no siblings.
+ */
+export function tierSiblings(
+  def: MultiblockDef,
+  all: readonly MultiblockDef[],
+): { id: string; label: string }[] {
+  const base = (d: MultiblockDef) => d.tierGroup ?? d.name.replace(TIER_SUFFIX, '');
+  const family = all.filter((d) => base(d) === base(def));
+  if (family.length < 2) return [];
+  return family.map((d) => ({ id: d.id, label: TIER_SUFFIX.exec(d.name)?.[1] ?? 'I' }));
+}

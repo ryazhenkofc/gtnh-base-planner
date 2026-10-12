@@ -1,15 +1,17 @@
 <script lang="ts">
   import { onMount, untrack } from 'svelte';
   import { DEFAULT_HATCH_COLORS } from '../model/colors';
-  import type { Vec3, ViewMode } from '../model/core/types';
+  import type { TextureSet, Vec3, ViewMode } from '../model/core/types';
   import type { SceneModel } from '../model/render/types';
   import { createRenderer, type Renderer } from '../render/renderer';
+  import { textureSet as textureSetStore } from '../state/store';
   import { warnOnce } from './notices';
 
   interface Props {
     scene: SceneModel | null;
     mode: ViewMode;
     xray: boolean;
+    textureSet: TextureSet;
     selected: number[];
     onpick: (unitIds: number[]) => void;
     onfail: () => void;
@@ -32,6 +34,7 @@
     scene,
     mode,
     xray,
+    textureSet,
     selected,
     onpick,
     onfail,
@@ -75,6 +78,7 @@
         onView: (theta) => onview?.(theta),
         onMoveSelection: (dx, dz) => onmove?.(dx, dz),
         onDragOffset: (o) => ondrag?.(o),
+        onTextureFallback: () => textureSetStore.set('classic'),
       });
     } catch (err) {
       warnOnce('createRenderer', err);
@@ -109,6 +113,11 @@
     const r = renderer;
     const m = mode;
     if (r) guard('setViewMode', () => r.setViewMode(m));
+  });
+  $effect(() => {
+    const r = renderer;
+    const set = textureSet;
+    if (r) guard('setTextureSet', () => r.setTextureSet(set));
   });
   $effect(() => {
     const r = renderer;

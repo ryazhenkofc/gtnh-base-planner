@@ -29,6 +29,10 @@ export function tileSourcePath(name: string): string;
 export function decodePng(data: Uint8Array): RgbaImage;
 export function encodePng(image: RgbaImage): Uint8Array;
 export function firstFrameTile(image: RgbaImage, tint?: readonly number[]): Uint8Array;
+export function buildModernAtlas(
+  tiles: Record<string, Uint8Array>,
+  dir: string,
+): { image: RgbaImage; replaced: number } | null;
 export function packAtlas(tiles: Record<string, Uint8Array>): {
   image: RgbaImage;
   rects: Record<string, [number, number, number, number]>;

@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 import { DEFAULT_MULTIBLOCK_ID, getMultiblock } from '../data/catalog';
-import type { ViewMode } from '../model/core/types';
+import type { TextureSet, ViewMode } from '../model/core/types';
 import type { PlanState } from '../model/plan/types';
 
 export function defaultPlan(multiblockId = DEFAULT_MULTIBLOCK_ID): PlanState {
@@ -21,6 +21,23 @@ export const viewMode = writable<ViewMode>('detailed');
 export const showPipes = writable(false);
 export const showCables = writable(false);
 export const xray = writable(false);
+const TEXTURES_KEY = 'gtnh-planner:textures';
+export const textureSet = writable<TextureSet>(storedTextureSet());
+
+function storedTextureSet(): TextureSet {
+  try {
+    return globalThis.localStorage?.getItem(TEXTURES_KEY) === 'modernity' ? 'modernity' : 'classic';
+  } catch {
+    return 'classic';
+  }
+}
+textureSet.subscribe((set) => {
+  try {
+    globalThis.localStorage?.setItem(TEXTURES_KEY, set);
+  } catch {
+    // Not important enough to report.
+  }
+});
 
 const BELOW_KEY = 'gtnh-planner:below';
 

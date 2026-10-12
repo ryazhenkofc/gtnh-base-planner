@@ -3,7 +3,7 @@
   import { t } from '../i18n/en';
   import { groupIndexOfUnit, portIndexOfUnit, portUnitId } from '../model/site/ids';
   import { appMode, flowAnimation, isolate, site, siteGroup, siteNet, sitePort } from '../state/site';
-  import { plan, selectedUnits, viewMode, xray } from '../state/store';
+  import { plan, selectedUnits, textureSet, viewMode, xray } from '../state/store';
   import { selectMultiblock } from './actions';
   import { startSessions } from './appSession';
   import BlocksPanel from './BlocksPanel.svelte';
@@ -179,6 +179,7 @@
     scene={siteMode ? $siteScene : $build.scene}
     mode={$viewMode}
     xray={$xray}
+    textureSet={$textureSet}
     selected={siteMode ? siteSelected : $selectedUnits}
     flow={$flowAnimation}
     onview={(theta) => viewTheta.set(theta)}

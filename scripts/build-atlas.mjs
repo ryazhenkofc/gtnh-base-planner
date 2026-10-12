@@ -18,7 +18,7 @@
  * Ids from src/data/blocks.ts and src/data/blocks.generated.json that are not mapped get `{ "flat": true }`
  * (flat colour in DETAILED view).
  */
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { deflateSync, inflateSync } from 'node:zlib';
@@ -27,6 +27,9 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 // Build inputs only: kept out of public/ so they are never copied into the deployed site.
 const SRC_DIR = join(ROOT, 'tools/texture-sources');
 const ATLAS_PNG = join(ROOT, 'public/textures/atlas.png');
+// Optional Modernity set: tile-named PNGs that replace the classic tile; same layout, so the manifest is shared.
+const MODERNITY_DIR = join(ROOT, 'tools/texture-sources-modernity');
+const MODERNITY_PNG = join(ROOT, 'public/textures/atlas-modernity.png');
 const TEXTURES_JSON = join(ROOT, 'src/render/textures.json');
 const BLOCKS_TS = join(ROOT, 'src/data/blocks.ts');
 const BLOCKS_GENERATED = join(ROOT, 'src/data/blocks.generated.json');
@@ -696,6 +699,22 @@ async function formatJson(text) {
   }
 }
 
+/**
+ * The Modernity atlas: the classic tiles with those that have a PNG named after them in `dir` replaced
+ * (final art, so no tint). Null when no tile is overridden. Same tile order, so the manifest is shared.
+ */
+export function buildModernAtlas(tiles, dir) {
+  const modern = { ...tiles };
+  let replaced = 0;
+  for (const name of Object.keys(tiles)) {
+    const file = join(dir, `${name}.png`);
+    if (!existsSync(file)) continue;
+    modern[name] = firstFrameTile(decodePng(readFileSync(file)));
+    replaced++;
+  }
+  return replaced ? { image: packAtlas(modern).image, replaced } : null;
+}
+
 async function main() {
   if (process.argv.includes('--fetch')) await fetchSources();
   const tiles = {};
@@ -703,6 +722,13 @@ async function main() {
     const file = join(SRC_DIR, `${name}.png`);
     if (!existsSync(file)) throw new Error(`missing ${file}; run with --fetch`);
     tiles[name] = firstFrameTile(decodePng(readFileSync(file)), opts.tint);
+  }
+  const modern = buildModernAtlas(tiles, MODERNITY_DIR);
+  // Never leave an atlas from removed overrides behind: the app would deploy and load it.
+  rmSync(MODERNITY_PNG, { force: true });
+  if (modern) {
+    writeFileSync(MODERNITY_PNG, encodePng(modern.image));
+    console.log(`modernity atlas: ${modern.replaced} tiles replaced`);
   }
   const { image, rects } = packAtlas(tiles);
   const { manifest, flat } = buildManifest(rects, image, readBlockIds());

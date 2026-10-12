@@ -50,6 +50,13 @@ export function withMultiblock(p: PlanState, id: string): PlanState {
   return next;
 }
 
+/** Tower: one unit per layer. Drops a manual layout like any limit change. */
+export function withStack(p: PlanState): PlanState {
+  const limits = { x: 1, y: null, z: 1 };
+  if (p.limits.x === 1 && p.limits.y === null && p.limits.z === 1) return p;
+  return { ...withoutManual(p), limits };
+}
+
 export function withHatchToggled(p: PlanState, kind: HatchKind): PlanState {
   const on = p.enabledHatches.includes(kind);
   return {
@@ -73,6 +80,7 @@ export const setCount = (n: number) => plan.update((p) => withCount(p, n));
 export const setSize = (n: number) => plan.update((p) => withSize(p, n));
 export const setLimit = (axis: keyof PlanLimits, v: number | null) =>
   plan.update((p) => withLimit(p, axis, v));
+export const stackVertical = () => plan.update(withStack);
 export const toggleHatch = (k: HatchKind) => plan.update((p) => withHatchToggled(p, k));
 export const setHatchColor = (k: HatchKind, c: string) => plan.update((p) => withHatchColor(p, k, c));
 export const resetColors = () => plan.update(withDefaultColors);

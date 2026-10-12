@@ -1,9 +1,19 @@
 <script lang="ts">
   import { t } from '../i18n/en';
   import type { MultiblockDef, PlanLimits } from '../model/multiblock/types';
-  import { connectBelow, plan, showCables, showPipes, xray } from '../state/store';
-  import { resetColors, resetPlan, setHatchColor, setLimit, setSize, toggleHatch } from './actions';
-  import { hatchKindsOf } from './catalogView';
+  import { connectBelow, plan, showCables, showPipes, textureSet, xray } from '../state/store';
+  import {
+    resetColors,
+    resetPlan,
+    selectMultiblock,
+    setHatchColor,
+    setLimit,
+    setSize,
+    stackVertical,
+    toggleHatch,
+  } from './actions';
+  import { catalog } from '../data/catalog';
+  import { hatchKindsOf, tierSiblings } from './catalogView';
   import { LIMIT_MAX, LIMIT_MIN, formatLimit, parseLimit, parseSize } from './fields';
   import { notify } from './notices';
   import NumberStepper from './NumberStepper.svelte';
@@ -25,6 +35,7 @@
   ];
 
   const kinds = $derived(def ? hatchKindsOf(def) : []);
+  const tiers = $derived(def ? tierSiblings(def, catalog) : []);
   const resize = $derived(def?.resize);
   const sizeLabel = $derived(resize?.label === 'length' ? t.length : t.height);
 
@@ -73,6 +84,24 @@
     >{t.site.addToSite}</button
   >
 
+  {#if tiers.length}
+    <section>
+      <h2>{t.tier}</h2>
+      <ul class="rows">
+        {#each tiers as tier (tier.id)}
+          <li>
+            <button
+              class="link"
+              class:active={tier.id === def?.id}
+              data-testid={`tier-${tier.id}`}
+              onclick={() => selectMultiblock(tier.id)}>{tier.label}</button
+            >
+          </li>
+        {/each}
+      </ul>
+    </section>
+  {/if}
+
   {#if resize}
     <section>
       <h2>{t.size}</h2>
@@ -110,6 +139,7 @@
         </label>
       {/each}
     </div>
+    <button class="link" data-testid="stack-vertical" onclick={stackVertical}>{t.stackVertical}</button>
     <p class="hint">{t.limitsHint}</p>
     {#if $plan.manualUnits}<p class="hint">{t.manualNote}</p>{/if}
   </section>
@@ -166,6 +196,12 @@
         title={t.belowHint}
         testid="toggle-below"
         ontoggle={() => connectBelow.update((v) => !v)}
+      />
+      <ToggleRow
+        on={$textureSet === 'modernity'}
+        label={t.modernity}
+        testid="toggle-modernity"
+        ontoggle={() => textureSet.update((v) => (v === 'modernity' ? 'classic' : 'modernity'))}
       />
       <ToggleRow on={$xray} label={t.xray} testid="toggle-xray" ontoggle={() => xray.update((v) => !v)} />
     </ul>

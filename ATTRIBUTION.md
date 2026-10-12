@@ -692,3 +692,7 @@ GT5-Unofficial `5.09.54.133` jar, drawn over the machine hull:
 - `src/main/resources/assets/gregtech/textures/blocks/iconsets/OVERLAY_FRONT_SCANNER.png`
 
 <!-- /tools/game-dump: single-block machines -->
+
+## Modernity textures (optional)
+
+Files in `tools/texture-sources-modernity/` are third-party. List each file here with its author and licence before adding it.

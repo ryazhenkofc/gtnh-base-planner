@@ -1,13 +1,15 @@
 import * as THREE from 'three';
 import { dirVec, key } from '../model/geometry';
 import { isCable } from '../model/routing/kinds';
-import type { Dir, Vec3, ViewMode } from '../model/core/types';
+import type { Dir, TextureSet, Vec3, ViewMode } from '../model/core/types';
 import type { SceneModel, Voxel } from '../model/render/types';
 import { DEFAULT_PHI, DEFAULT_THETA, fitPoints, fitView, OrbitControls } from './controls';
 import type { BlockVisual, MaterialProvider } from './materials';
 import { createSimpleProvider } from './simple';
 
 export interface RendererOptions {
+  /** The Modernity textures could not load and the classic set is shown instead. */
+  onTextureFallback?: () => void;
   /** Called with the unit ids under the pointer on click (empty array = background or a pipe). */
   onPick?: (unitIds: number[]) => void;
   /** Called on click with the id of the net (`RouteNet.id`) under the pointer, or null. */
@@ -29,6 +31,8 @@ export interface Renderer {
   setScene(model: SceneModel): void;
   setViewMode(mode: ViewMode): Promise<void>;
   setXray(on: boolean): void;
+  /** Texture set of the DETAILED view. `modernity` needs `public/textures/atlas-modernity.png` (see README). */
+  setTextureSet(set: TextureSet): Promise<void>;
   setSelected(unitIds: number[]): void;
   /** Animate flow arrows along nets that carry `flows` (site view). */
   setFlowAnimation(on: boolean): void;
@@ -368,6 +372,8 @@ export function createRenderer(
   const simpleProvider = createSimpleProvider();
   let detailedProvider: MaterialProvider | null = null;
   let detailedLoad: Promise<MaterialProvider> | null = null;
+  let textureSet: TextureSet = 'classic';
+  let wantedMode: ViewMode = 'simple';
   let provider: MaterialProvider = simpleProvider;
   let modeRequest = 0;
 
@@ -1115,19 +1121,24 @@ export function createRenderer(
 
     async setViewMode(mode) {
       const request = ++modeRequest;
+      wantedMode = mode;
       let next: MaterialProvider = simpleProvider;
       if (mode === 'detailed') {
         // One shared load, so quick toggles never create (and leak) a second provider.
         detailedLoad ??= (async () => {
           const mod = await import('./detailed');
-          const p = mod.createDetailedProvider();
+          const set = textureSet;
+          const p = mod.createDetailedProvider(
+            set === 'modernity' ? { atlasPath: 'textures/atlas-modernity.png' } : {},
+          );
           try {
             await p.load();
           } catch (err) {
             p.dispose();
             throw err;
           }
-          if (disposed) p.dispose();
+          // A load for a texture set that was switched away meanwhile is dropped.
+          if (disposed || set !== textureSet) p.dispose();
           else detailedProvider = p;
           return p;
         })();
@@ -1135,6 +1146,13 @@ export function createRenderer(
           next = await detailedLoad;
         } catch (err) {
           detailedLoad = null; // allow a retry later
+          if (textureSet === 'modernity') {
+            // The Modernity atlas is only built when override textures exist: use the classic one.
+            console.warn('Modernity textures are unavailable, using the classic set.', err);
+            textureSet = 'classic';
+            options.onTextureFallback?.();
+            return this.setViewMode(mode);
+          }
           console.warn('DETAILED view is unavailable, falling back to SIMPLE.', err);
           next = simpleProvider;
         }
@@ -1142,6 +1160,16 @@ export function createRenderer(
       if (disposed || request !== modeRequest || next === provider) return;
       provider = next;
       rebuild();
+    },
+
+    async setTextureSet(set) {
+      if (disposed || set === textureSet) return;
+      textureSet = set;
+      const old = detailedProvider;
+      detailedProvider = null;
+      detailedLoad = null;
+      if (wantedMode === 'detailed') await this.setViewMode('detailed');
+      if (old && provider !== old) old.dispose();
     },
 
     setXray(on) {

@@ -1,4 +1,5 @@
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import {
@@ -7,6 +8,7 @@ import {
   TILE,
   TILES,
   buildManifest,
+  buildModernAtlas,
   decodePng,
   encodePng,
   firstFrameTile,
@@ -72,6 +74,23 @@ describe('tiles', () => {
       seen.add(`${x},${y}`);
       expect(image.data[(y * image.width + x) * 4]).toBe(Number(name.slice(1)));
     }
+  });
+});
+
+describe('buildModernAtlas', () => {
+  it('replaces only the tiles that have an override, and is null without any', () => {
+    const dir = mkdtempSync(join(tmpdir(), 'modernity-'));
+    const tiles = { a: solid(TILE, TILE, [1, 2, 3, 255]), b: solid(TILE, TILE, [4, 5, 6, 255]) };
+    expect(buildModernAtlas(tiles, dir)).toBeNull();
+    writeFileSync(
+      join(dir, 'b.png'),
+      encodePng({ width: 16, height: 16, data: solid(16, 16, [9, 9, 9, 255]) }),
+    );
+    const out = buildModernAtlas(tiles, dir)!;
+    expect(out.replaced).toBe(1);
+    expect([...out.image.data.subarray(0, 4)]).toEqual([1, 2, 3, 255]);
+    expect([...out.image.data.subarray(TILE * 4, TILE * 4 + 4)]).toEqual([9, 9, 9, 255]);
+    rmSync(dir, { recursive: true });
   });
 });
 

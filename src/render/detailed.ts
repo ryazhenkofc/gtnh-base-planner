@@ -47,6 +47,8 @@ export interface DetailedProviderOptions {
   /** Atlas loader; defaults to THREE.TextureLoader + canvas readback of `BASE_URL + textures/atlas.png`. */
   loadAtlas?: () => Promise<AtlasPixels>;
   manifest?: TextureManifest;
+  /** Atlas path relative to the site base; defaults to `manifest.atlas.path`. The tile layout must match. */
+  atlasPath?: string;
 }
 
 /** Straight-alpha "over" of `src` onto `dst` (both RGBA8, same size). */
@@ -124,7 +126,8 @@ async function loadAtlasFromUrl(url: string): Promise<AtlasPixels> {
 export function createDetailedProvider(options: DetailedProviderOptions = {}): MaterialProvider {
   const manifest = options.manifest ?? TEXTURES;
   const loadAtlas =
-    options.loadAtlas ?? (() => loadAtlasFromUrl(import.meta.env.BASE_URL + manifest.atlas.path));
+    options.loadAtlas ??
+    (() => loadAtlasFromUrl(import.meta.env.BASE_URL + (options.atlasPath ?? manifest.atlas.path)));
   let atlas: AtlasPixels | null = null;
   let loading: Promise<void> | null = null;
   const textures = new Map<string, THREE.DataTexture>();

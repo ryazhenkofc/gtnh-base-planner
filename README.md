@@ -128,6 +128,8 @@ Structures can be transcribed by hand from the GT5-Unofficial source. Entries ma
 
 DETAILED view uses block textures from [GT5-Unofficial](https://github.com/GTNewHorizons/GT5-Unofficial), licensed under LGPL-3.0. The generated atlas is `public/textures/atlas.png`; its source files (build inputs, not deployed) are in `tools/texture-sources/` (`DUMP_*.png` are GT sprites layered and tinted the way the game draws a block face, see [`tools/game-dump`](tools/game-dump/README.md)). Vanilla Minecraft blocks keep flat colours: their textures are not LGPL. Sources and licence details are in [`ATTRIBUTION.md`](ATTRIBUTION.md). SIMPLE view uses flat colours only.
 
+An optional Modernity set replaces tiles with PNGs from `tools/texture-sources-modernity/` (see its README): `npm run atlas` then also writes `public/textures/atlas-modernity.png`, and the **Modernity textures** toggle in Settings uses it. Without that file the toggle falls back to the classic textures.
+
 ## Privacy
 
 There is no server, account or tracking. Plans are stored in your browser's `localStorage`. A share link carries the compressed plan in the URL fragment (`#p=...`, or `#s=...` for a template); browsers never send the fragment to the server, so the host only sees a request for the page.

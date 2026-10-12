@@ -18,5 +18,6 @@ export type HorizontalDir = 'north' | 'south' | 'east' | 'west';
 export type Rotation = 0 | 1 | 2 | 3;
 
 export type ViewMode = 'simple' | 'detailed';
+export type TextureSet = 'classic' | 'modernity';
 
 export type CellRole = 'casing' | 'controller' | 'air';
