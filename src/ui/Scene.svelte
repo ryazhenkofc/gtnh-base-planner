@@ -4,7 +4,7 @@
   import type { TextureSet, Vec3, ViewMode } from '../model/core/types';
   import type { SceneModel } from '../model/render/types';
   import { createRenderer, type Renderer } from '../render/renderer';
-  import { textureSet as textureSetStore } from '../state/store';
+  import { useClassicTextures } from '../state/store';
   import { notify, warnOnce } from './notices';
   import { t as tx } from '../i18n/en';
 
@@ -80,7 +80,7 @@
         onMoveSelection: (dx, dz) => onmove?.(dx, dz),
         onDragOffset: (o) => ondrag?.(o),
         onTextureFallback: () => {
-          textureSetStore.set('classic');
+          useClassicTextures();
           notify(tx.modernityMissing);
         },
       });
@@ -113,15 +113,16 @@
       untrack(() => onpick([]));
     }
   });
-  $effect(() => {
-    const r = renderer;
-    const m = mode;
-    if (r) guard('setViewMode', () => r.setViewMode(m));
-  });
+  // The texture set first: the first DETAILED load then goes straight to the wanted atlas.
   $effect(() => {
     const r = renderer;
     const set = textureSet;
     if (r) guard('setTextureSet', () => r.setTextureSet(set));
+  });
+  $effect(() => {
+    const r = renderer;
+    const m = mode;
+    if (r) guard('setViewMode', () => r.setViewMode(m));
   });
   $effect(() => {
     const r = renderer;

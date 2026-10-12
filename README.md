@@ -128,7 +128,7 @@ Structures can be transcribed by hand from the GT5-Unofficial source. Entries ma
 
 DETAILED view uses block textures from [GT5-Unofficial](https://github.com/GTNewHorizons/GT5-Unofficial), licensed under LGPL-3.0. The generated atlas is `public/textures/atlas.png`; its source files (build inputs, not deployed) are in `tools/texture-sources/` (`DUMP_*.png` are GT sprites layered and tinted the way the game draws a block face, see [`tools/game-dump`](tools/game-dump/README.md)). Vanilla Minecraft blocks keep flat colours: their textures are not LGPL. Sources and licence details are in [`ATTRIBUTION.md`](ATTRIBUTION.md). SIMPLE view uses flat colours only.
 
-An optional Modernity set replaces tiles with PNGs from `tools/texture-sources-modernity/` (see its README): `npm run atlas` then also writes `public/textures/atlas-modernity.png`, and the **Modernity textures** toggle in Settings uses it. Without that file the toggle falls back to the classic textures. The bundled Modernity art is from [Modernity-GTNH](https://github.com/ModernityGTNH/Modernity-GTNH) and is licensed CC BY-NC-SA 4.0 (non-commercial, share-alike), not MIT: see `ATTRIBUTION.md`.
+An optional Modernity set replaces tiles with PNGs from `tools/texture-sources-modernity/` (see its README): `npm run atlas` then also writes `public/textures/atlas-modernity.png`, and the **Modernity textures** toggle in Settings uses it, and it is on by default. Without that file (run `npm run atlas`) the app falls back to the classic textures for that visit. The bundled Modernity art is from [Modernity-GTNH](https://github.com/ModernityGTNH/Modernity-GTNH) and is licensed CC BY-NC-SA 4.0 (non-commercial, share-alike), not MIT: see `ATTRIBUTION.md`.
 
 ## Privacy
 

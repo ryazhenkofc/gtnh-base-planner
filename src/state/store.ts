@@ -22,16 +22,25 @@ export const showPipes = writable(false);
 export const showCables = writable(false);
 export const xray = writable(false);
 const TEXTURES_KEY = 'gtnh-planner:textures';
+/** Modernity unless the person switched it off. */
 export const textureSet = writable<TextureSet>(storedTextureSet());
 
 function storedTextureSet(): TextureSet {
   try {
-    return globalThis.localStorage?.getItem(TEXTURES_KEY) === 'modernity' ? 'modernity' : 'classic';
+    return globalThis.localStorage?.getItem(TEXTURES_KEY) === 'classic' ? 'classic' : 'modernity';
   } catch {
-    return 'classic';
+    return 'modernity';
   }
 }
+let remember = true;
+/** The Modernity atlas could not load: show the classic set for now without it becoming the saved choice. */
+export function useClassicTextures() {
+  remember = false;
+  textureSet.set('classic');
+  remember = true;
+}
 textureSet.subscribe((set) => {
+  if (!remember) return;
   try {
     globalThis.localStorage?.setItem(TEXTURES_KEY, set);
   } catch {
