@@ -6,3 +6,5 @@ Drop PNGs here named after an atlas tile (the same names as in `tools/texture-so
 toggle in Settings switches the DETAILED view to that atlas.
 
 Only add files whose licence allows redistribution, and list them in `ATTRIBUTION.md`.
+
+The PNGs now here come from [Modernity-GTNH](https://github.com/ModernityGTNH/Modernity-GTNH) under CC BY-NC-SA 4.0 (non-commercial, share-alike); see `ATTRIBUTION.md` and `LICENSE-CC-BY-NC-SA-4.0.txt`.
