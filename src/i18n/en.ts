@@ -118,7 +118,7 @@ export const t = {
   modeLabel: 'Planner mode',
 
   site: {
-    panel: 'Template',
+    panel: 'Edit',
     name: 'Name',
     unnamed: 'Template',
     size: 'Size',
