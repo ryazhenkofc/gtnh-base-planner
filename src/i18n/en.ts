@@ -281,6 +281,7 @@ export const t = {
     paste: 'Paste JSON here',
     openFile: 'Open file',
     read: 'Read',
+    change: 'Change file',
     build: 'Build template',
     building: 'Building…',
     cancel: 'Cancel',

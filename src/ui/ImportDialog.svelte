@@ -132,12 +132,12 @@
       .slice(0, 3);
   }
 
-  /** A large paste is read right away instead of being put into the text box (megabytes of text are slow there). */
+  /** A paste is read right away. A large one is not put into the text box (megabytes of text are slow there). */
   function onpaste(e: ClipboardEvent) {
     const pasted = e.clipboardData?.getData('text') ?? '';
-    if (pasted.length < LARGE_PASTE) return;
+    if (!pasted.trim()) return;
     e.preventDefault();
-    text = '';
+    text = pasted.length < LARGE_PASTE ? pasted : '';
     read(pasted);
   }
 
@@ -155,18 +155,26 @@
     </div>
     <p class="hint">{t.importer.hint}</p>
 
-    <textarea
-      class="paste"
-      placeholder={t.importer.paste}
-      aria-label={t.importer.paste}
-      spellcheck="false"
-      data-testid="import-text"
-      {onpaste}
-      bind:value={text}></textarea>
+    {#if !project}
+      <textarea
+        class="paste"
+        placeholder={t.importer.paste}
+        aria-label={t.importer.paste}
+        spellcheck="false"
+        data-testid="import-text"
+        {onpaste}
+        bind:value={text}></textarea>
+    {/if}
     <div class="actions">
-      <button class="link" data-testid="import-read" disabled={!text.trim()} onclick={() => read(text)}
-        >{t.importer.read}</button
-      >
+      {#if project}
+        <button class="link" data-testid="import-change" onclick={() => (project = null)}
+          >{t.importer.change}</button
+        >
+      {:else}
+        <button class="link" data-testid="import-read" disabled={!text.trim()} onclick={() => read(text)}
+          >{t.importer.read}</button
+        >
+      {/if}
       <button class="link" onclick={() => fileInput?.click()}>{t.importer.openFile}</button>
       <input
         bind:this={fileInput}
@@ -239,44 +247,46 @@
         </tbody>
       </table>
 
-      <div class="fields">
-        <label class="pair check"
-          ><input type="checkbox" bind:checked={fit} /><span>{t.importer.fit}</span></label
-        >
-        <label class="pair check" title={t.importer.optimizeAfterHint}
-          ><input type="checkbox" data-testid="import-optimize" bind:checked={optimizeAfter} /><span
-            >{t.importer.optimizeAfter}</span
-          ></label
-        >
-        {#if !fit}
-          <label class="pair"
-            ><span>{t.site.width}</span><NumberField
-              value={String(width)}
-              label={t.site.width}
-              oncommit={(v) => {
-                const n = clampSize(v);
-                if (n !== null) width = n;
-              }}
-            /></label
+      <div class="footer">
+        <div class="fields">
+          <label class="pair check"
+            ><input type="checkbox" bind:checked={fit} /><span>{t.importer.fit}</span></label
           >
-          <label class="pair"
-            ><span>{t.site.depth}</span><NumberField
-              value={String(depth)}
-              label={t.site.depth}
-              oncommit={(v) => {
-                const n = clampSize(v);
-                if (n !== null) depth = n;
-              }}
-            /></label
+          <label class="pair check" title={t.importer.optimizeAfterHint}
+            ><input type="checkbox" data-testid="import-optimize" bind:checked={optimizeAfter} /><span
+              >{t.importer.optimizeAfter}</span
+            ></label
           >
-          <p class="hint" data-testid="import-fixed-hint">{t.importer.fixedHint}</p>
-        {/if}
-      </div>
-      <div class="actions">
-        <button class="link active" data-testid="import-build" disabled={building} onclick={build}
-          >{building ? t.importer.building : t.importer.build}</button
-        >
-        {#if $site.groups.length}<span class="hint">{t.importer.replaces}</span>{/if}
+          {#if !fit}
+            <label class="pair"
+              ><span>{t.site.width}</span><NumberField
+                value={String(width)}
+                label={t.site.width}
+                oncommit={(v) => {
+                  const n = clampSize(v);
+                  if (n !== null) width = n;
+                }}
+              /></label
+            >
+            <label class="pair"
+              ><span>{t.site.depth}</span><NumberField
+                value={String(depth)}
+                label={t.site.depth}
+                oncommit={(v) => {
+                  const n = clampSize(v);
+                  if (n !== null) depth = n;
+                }}
+              /></label
+            >
+            <p class="hint" data-testid="import-fixed-hint">{t.importer.fixedHint}</p>
+          {/if}
+        </div>
+        <div class="actions">
+          <button class="link active" data-testid="import-build" disabled={building} onclick={build}
+            >{building ? t.importer.building : t.importer.build}</button
+          >
+          {#if $site.groups.length}<span class="hint">{t.importer.replaces}</span>{/if}
+        </div>
       </div>
     {/if}
   </div>
@@ -378,6 +388,15 @@
     letter-spacing: 0.02em;
     max-width: 240px;
     cursor: pointer;
+  }
+  /* The table can be hundreds of rows: keep the way to build in reach. */
+  .footer {
+    position: sticky;
+    bottom: -64px;
+    margin-top: 12px;
+    padding-bottom: 64px;
+    background: var(--bg);
+    border-top: 1px solid var(--line);
   }
   .fields {
     display: flex;

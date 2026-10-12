@@ -429,7 +429,8 @@
 <style>
   .drawer {
     position: fixed;
-    top: 0;
+    /* Below the top bar, whose mode switch and toggles stay in reach. */
+    top: var(--bar-h);
     right: 0;
     bottom: 0;
     width: 340px;
@@ -440,7 +441,7 @@
     padding: 0 var(--gutter) 48px;
   }
   .top {
-    height: var(--bar-h);
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: space-between;
