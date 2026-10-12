@@ -1,4 +1,5 @@
 import { getMultiblock } from '../data/catalog';
+import { DEFAULT_COIL, HEATING_COILS, hasHeatingCoil } from '../model/coil';
 import { effectiveSize } from '../model/resize';
 import type { Rotation, Vec3 } from '../model/core/types';
 import type { HatchKind, PlanLimits, Unit } from '../model/multiblock/types';
@@ -35,6 +36,7 @@ export { MAX_PAYLOAD_BYTES, PlanFormatError } from './binary';
  *   i  [id, ...]                manual unit ids; omitted when they are 0, 1, 2, ...
  *   s  size                     height / length of a resizable multiblock; omitted = `resize.default`
  *                               (so a multiblock's `resize.default` must never change)
+ *   k  coil                     index into HEATING_COILS (append only); omitted = the default coil
  */
 
 export const PLAN_VERSION = 1;
@@ -214,6 +216,15 @@ export function validatePlanState(input: unknown): PlanState {
     const size = effectiveSize(getMultiblock(multiblockId)!, expectInt(sizeRaw, 'Size', 1, MAX_SIZE));
     if (size !== undefined) plan.size = size;
   }
+
+  const coilRaw = field(obj, 'coil');
+  if (coilRaw !== undefined && coilRaw !== null) {
+    if (typeof coilRaw !== 'string' || !HEATING_COILS.some((c) => c.id === coilRaw)) {
+      throw new PlanFormatError('Coil is not a known heating coil.');
+    }
+    // The default coil, and a coil of a multiblock without coils, are dropped like an unusable size.
+    if (coilRaw !== DEFAULT_COIL && hasHeatingCoil(getMultiblock(multiblockId)!)) plan.coil = coilRaw;
+  }
   return plan;
 }
 
@@ -231,9 +242,10 @@ interface CompactPlan {
   u?: number[];
   i?: number[];
   s?: number;
+  k?: number;
 }
 
-const COMPACT_KEYS = new Set(['v', 'm', 'n', 'l', 'h', 'c', 'u', 'i', 's']);
+const COMPACT_KEYS = new Set(['v', 'm', 'n', 'l', 'h', 'c', 'u', 'i', 's', 'k']);
 
 function hatchMask(kinds: readonly HatchKind[]): number {
   let mask = 0;
@@ -265,6 +277,7 @@ function toCompact(plan: PlanState): CompactPlan {
     if (plan.manualUnits.some((u, i) => u.id !== i)) out.i = plan.manualUnits.map((u) => u.id);
   }
   if (plan.size !== undefined) out.s = plan.size;
+  if (plan.coil !== undefined) out.k = HEATING_COILS.findIndex((c) => c.id === plan.coil);
   return out;
 }
 
@@ -336,6 +349,10 @@ function fromCompact(input: unknown): PlanState {
   }
   const size = field(obj, 's');
   if (size !== undefined) plan.size = size;
+  const k = field(obj, 'k');
+  if (k !== undefined) {
+    plan.coil = HEATING_COILS[expectInt(k, 'Coil', 0, HEATING_COILS.length - 1)].id;
+  }
   return validatePlanState(plan);
 }
 

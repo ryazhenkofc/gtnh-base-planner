@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { defaultPlan } from '../state/store';
 import {
+  withCoil,
   withCount,
   withDefaultColors,
   withHatchColor,
@@ -21,6 +22,26 @@ describe('plan transforms', () => {
     const coke = defaultPlan();
     expect(withSize(coke, 8)).toBe(coke);
     expect(withMultiblock(withSize(dt, 8), 'coke-oven').size).toBeUndefined();
+  });
+
+  it('sets a heating coil only where there are coils, and keeps the layout', () => {
+    const kanthal = 'gregtech:gt.blockcasings5@1';
+    const ebf = {
+      ...defaultPlan('electric-blast-furnace'),
+      manualUnits: [{ id: 0, origin: [0, 0, 0] as const, rotation: 0 as const }],
+    };
+    const next = withCoil(ebf, kanthal);
+    expect(next.coil).toBe(kanthal);
+    expect(next.manualUnits).toHaveLength(1);
+    expect(withCoil(next, kanthal)).toBe(next);
+    // The default coil is stored as none.
+    expect(withCoil(next, 'gt.coil.cupronickel').coil).toBeUndefined();
+    expect(withCoil(ebf, 'gt.coil.nonsense')).toBe(ebf);
+    const coke = defaultPlan();
+    expect(withCoil(coke, kanthal)).toBe(coke);
+    // It follows to another multiblock with coils and is dropped for one without.
+    expect(withMultiblock(next, 'multi-smelter').coil).toBe(kanthal);
+    expect(withMultiblock(next, 'coke-oven').coil).toBeUndefined();
   });
 
   it('clamps the count and drops a manual layout', () => {

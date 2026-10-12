@@ -7,12 +7,14 @@
     resetPlan,
     selectMultiblock,
     setHatchColor,
+    setCoil,
     setLimit,
     setSize,
     stackVertical,
     toggleHatch,
   } from './actions';
-  import { catalog } from '../data/catalog';
+  import { catalog, getMultiblock } from '../data/catalog';
+  import { DEFAULT_COIL, HEATING_COILS, hasHeatingCoil } from '../model/coil';
   import { hatchKindsOf, tierSiblings } from './catalogView';
   import { LIMIT_MAX, LIMIT_MIN, formatLimit, parseLimit, parseSize } from './fields';
   import { notify } from './notices';
@@ -36,6 +38,8 @@
 
   const kinds = $derived(def ? hatchKindsOf(def) : []);
   const tiers = $derived(def ? tierSiblings(def, catalog) : []);
+  // The built `def` already has the chosen coil in it: ask the catalog entry.
+  const hasCoil = $derived(hasHeatingCoil(getMultiblock($plan.multiblockId)));
   const resize = $derived(def?.resize);
   const sizeLabel = $derived(resize?.label === 'length' ? t.length : t.height);
 
@@ -95,6 +99,24 @@
               class:active={tier.id === def?.id}
               data-testid={`tier-${tier.id}`}
               onclick={() => selectMultiblock(tier.id)}>{tier.label}</button
+            >
+          </li>
+        {/each}
+      </ul>
+    </section>
+  {/if}
+
+  {#if hasCoil}
+    <section>
+      <h2>{t.coil}</h2>
+      <ul class="coils">
+        {#each HEATING_COILS as coil (coil.id)}
+          <li>
+            <button
+              class="link"
+              class:active={coil.id === ($plan.coil ?? DEFAULT_COIL)}
+              data-testid={`coil-${coil.id}`}
+              onclick={() => setCoil(coil.id)}>{coil.label}</button
             >
           </li>
         {/each}
@@ -306,6 +328,15 @@
     color: var(--muted);
     text-transform: none;
     letter-spacing: 0.02em;
+  }
+  /* Fourteen names: wrapped like a sentence rather than a column that fills the drawer. */
+  .coils {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px 16px;
   }
   .rows {
     list-style: none;

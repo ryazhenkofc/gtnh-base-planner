@@ -35,6 +35,16 @@ const list: BlockInfo[] = [
   { id: 'gt.casing.steelFirebox', name: 'Steel Firebox Casing', color: '#6e747a' },
   { id: 'gt.casing.robustTungstensteel', name: 'Robust Tungstensteel Machine Casing', color: '#4b5058' },
   { id: 'gt.coil.cupronickel', name: 'Cupronickel Coil Block', color: '#c9844f' },
+  { id: 'gregtech:gt.blockcasings5@1', name: 'Kanthal Coil Block', color: '#a8956e' },
+  { id: 'gregtech:gt.blockcasings5@2', name: 'Nichrome Coil Block', color: '#8d8d95' },
+  { id: 'gregtech:gt.blockcasings5@3', name: 'Tungstensteel Coil Block', color: '#5b6068' },
+  { id: 'gregtech:gt.blockcasings5@4', name: 'HSS-G Coil Block', color: '#6f7f86' },
+  { id: 'gregtech:gt.blockcasings5@6', name: 'Naquadah Alloy Coil Block', color: '#3a3a3d' },
+  { id: 'gregtech:gt.blockcasings5@7', name: 'Electrum-Flux Coil Block', color: '#d3b24a' },
+  { id: 'gregtech:gt.blockcasings5@9', name: 'HSS-S Coil Block', color: '#6a6f87' },
+  { id: 'gregtech:gt.blockcasings5@10', name: 'Trinium Coil Block', color: '#9a8fb4' },
+  { id: 'gregtech:gt.blockcasings5@11', name: 'Infinity Coil Block', color: '#c9c9d4' },
+  { id: 'gregtech:gt.blockcasings5@13', name: 'Eternal Coil Block', color: '#2a2a3a' },
   { id: 'gt.glass.reinforced', name: 'Reinforced Glass', color: '#cfe6ee' },
 
   // Generic controllers and hatches (flat colours; hatches are recoloured by kind in SIMPLE view)

@@ -115,6 +115,10 @@ export const HAND_TILES = {
   MACHINE_COIL_HSSS: {},
   MACHINE_COIL_NAQUADAH: {},
   MACHINE_COIL_NAQUADAHALLOY: {},
+  MACHINE_COIL_ELECTRUMFLUX: {},
+  MACHINE_COIL_TRINIUM: {},
+  MACHINE_COIL_INFINITY: {},
+  MACHINE_COIL_ETERNAL: {},
   // Glass
   REINFORCED_GLASS: {},
   // Steel Frame Box: the generic frame icon tinted with the Steel material colour (0x808080)
@@ -244,6 +248,17 @@ export const HAND_BLOCK_MAP = {
   },
   'gt.casing.robustTungstensteel': { side: 'MACHINE_CASING_ROBUST_TUNGSTENSTEEL' },
   'gt.coil.cupronickel': { side: 'MACHINE_COIL_CUPRONICKEL' },
+  // The other heating coils (BlockCasings5; metas 0, 5, 8 and 12 come from the game dump)
+  'gregtech:gt.blockcasings5@1': { side: 'MACHINE_COIL_KANTHAL' },
+  'gregtech:gt.blockcasings5@2': { side: 'MACHINE_COIL_NICHROME' },
+  'gregtech:gt.blockcasings5@3': { side: 'MACHINE_COIL_TUNGSTENSTEEL' },
+  'gregtech:gt.blockcasings5@4': { side: 'MACHINE_COIL_HSSG' },
+  'gregtech:gt.blockcasings5@6': { side: 'MACHINE_COIL_NAQUADAHALLOY' },
+  'gregtech:gt.blockcasings5@7': { side: 'MACHINE_COIL_ELECTRUMFLUX' },
+  'gregtech:gt.blockcasings5@9': { side: 'MACHINE_COIL_HSSS' },
+  'gregtech:gt.blockcasings5@10': { side: 'MACHINE_COIL_TRINIUM' },
+  'gregtech:gt.blockcasings5@11': { side: 'MACHINE_COIL_INFINITY' },
+  'gregtech:gt.blockcasings5@13': { side: 'MACHINE_COIL_ETERNAL' },
   'gt.glass.reinforced': { side: 'REINFORCED_GLASS' },
   'gt.casing.firebricks': { side: 'MACHINE_CASING_DENSEBRICKS' },
   'gt.casing.titaniumPipe': { side: 'MACHINE_CASING_PIPE_TITANIUM' },

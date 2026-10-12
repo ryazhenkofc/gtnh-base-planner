@@ -1,4 +1,5 @@
 import { getMultiblock } from '../data/catalog';
+import { DEFAULT_COIL, HEATING_COILS, hasHeatingCoil } from '../model/coil';
 import { effectiveSize } from '../model/resize';
 import type { HatchKind, PlanLimits } from '../model/multiblock/types';
 import type { PlanState } from '../model/plan/types';
@@ -38,6 +39,19 @@ export function withSize(p: PlanState, n: number): PlanState {
 }
 
 /**
+ * New heating coil for a multiblock that has them. The shape does not change, so a manual layout stays.
+ * The default coil is stored as no coil at all.
+ */
+export function withCoil(p: PlanState, coil: string): PlanState {
+  const def = getMultiblock(p.multiblockId);
+  if (!def || !hasHeatingCoil(def) || !HEATING_COILS.some((c) => c.id === coil)) return p;
+  if ((p.coil ?? DEFAULT_COIL) === coil) return p;
+  const next: PlanState = { ...p, coil };
+  if (coil === DEFAULT_COIL) delete next.coil;
+  return next;
+}
+
+/**
  * Switch multiblock: keep count, limits and colours; take the new default hatches and size; drop manual
  * units.
  */
@@ -47,6 +61,8 @@ export function withMultiblock(p: PlanState, id: string): PlanState {
   if (!def) return p;
   const next: PlanState = { ...withoutManual(p), multiblockId: id, enabledHatches: [...def.defaultHatches] };
   delete next.size;
+  // The coil choice follows to another multiblock with coils and is dropped otherwise.
+  if (!hasHeatingCoil(def)) delete next.coil;
   return next;
 }
 
@@ -88,6 +104,11 @@ export const resetColors = () => plan.update(withDefaultColors);
 export function selectMultiblock(id: string): void {
   selectedUnits.set([]);
   plan.update((p) => withMultiblock(p, id));
+}
+
+/** Heating coil of the plan's multiblock (a `HEATING_COILS` id). */
+export function setCoil(coil: string): void {
+  plan.update((p) => withCoil(p, coil));
 }
 
 /** Reset to the default plan of the current multiblock. */

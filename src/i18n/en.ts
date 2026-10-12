@@ -49,6 +49,7 @@ export const t = {
   stepDown: (label: string) => `Less (${label})`,
   hatches: 'Hatches',
   tier: 'Tier',
+  coil: 'Heating coil',
   modernity: 'Modernity textures',
   modernityMissing: 'Modernity textures are not installed here; showing the classic ones.',
   hatchColor: (name: string) => `${name} colour`,

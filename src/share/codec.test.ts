@@ -34,6 +34,18 @@ describe('encodePlan / decodePlan', () => {
     expect(await decodePlan(encoded)).toEqual(plan);
   });
 
+  it('round-trips a heating coil and drops it where it does not apply', async () => {
+    const coil = 'gregtech:gt.blockcasings5@13';
+    const plan = { ...defaultPlan('electric-blast-furnace'), coil };
+    expect((await decodePlan(await encodePlan(plan))).coil).toBe(coil);
+    // Old links have no coil; the default coil and coils of other multiblocks are dropped.
+    expect((await decodePlan(await encodePlan(defaultPlan('electric-blast-furnace')))).coil).toBeUndefined();
+    expect(validatePlanState({ ...plan, coil: 'gt.coil.cupronickel' }).coil).toBeUndefined();
+    expect(validatePlanState({ ...defaultPlan(), coil }).coil).toBeUndefined();
+    expect(() => validatePlanState({ ...plan, coil: 'gt.coil.nonsense' })).toThrow(PlanFormatError);
+    expect(plansEqual(plan, defaultPlan('electric-blast-furnace'))).toBe(false);
+  });
+
   it('round-trips a size and snaps it to one the multiblock can take', async () => {
     const plan = { ...defaultPlan('distillation-tower'), size: 9 };
     expect(await decodePlan(await encodePlan(plan))).toEqual(plan);
