@@ -9,3 +9,6 @@ node_modules/
 dist/
 test-results/
 playwright-report/
+
+# Built from tools/texture-sources-modernity/ by `npm run atlas`
+public/textures/atlas-modernity.png

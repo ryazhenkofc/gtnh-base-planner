@@ -268,6 +268,8 @@ export function createDetailedProvider(options: DetailedProviderOptions = {}): M
           atlas = pixels;
         },
         (err: unknown) => {
+          // An optional atlas must not degrade to flat colours: the caller falls back to the classic one.
+          if (options.atlasPath) throw err;
           // Keep working with flat colours; the view stays usable without the atlas.
           console.warn('DETAILED view: texture atlas failed to load, using flat colours', err);
         },

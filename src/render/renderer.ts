@@ -371,7 +371,8 @@ export function createRenderer(
 
   const simpleProvider = createSimpleProvider();
   let detailedProvider: MaterialProvider | null = null;
-  let detailedLoad: Promise<MaterialProvider> | null = null;
+  /** The load in flight or done, with the texture set it was started for. */
+  let detailedLoad: { set: TextureSet; promise: Promise<MaterialProvider> } | null = null;
   let textureSet: TextureSet = 'classic';
   let wantedMode: ViewMode = 'simple';
   let provider: MaterialProvider = simpleProvider;
@@ -1125,27 +1126,33 @@ export function createRenderer(
       let next: MaterialProvider = simpleProvider;
       if (mode === 'detailed') {
         // One shared load, so quick toggles never create (and leak) a second provider.
-        detailedLoad ??= (async () => {
-          const mod = await import('./detailed');
-          const set = textureSet;
-          const p = mod.createDetailedProvider(
-            set === 'modernity' ? { atlasPath: 'textures/atlas-modernity.png' } : {},
-          );
-          try {
-            await p.load();
-          } catch (err) {
-            p.dispose();
-            throw err;
-          }
-          // A load for a texture set that was switched away meanwhile is dropped.
-          if (disposed || set !== textureSet) p.dispose();
-          else detailedProvider = p;
-          return p;
-        })();
+        const set = textureSet;
+        detailedLoad ??= {
+          set,
+          promise: (async () => {
+            const mod = await import('./detailed');
+            const p = mod.createDetailedProvider(
+              set === 'modernity' ? { atlasPath: 'textures/atlas-modernity.png' } : {},
+            );
+            try {
+              await p.load();
+            } catch (err) {
+              p.dispose();
+              throw err;
+            }
+            // A load for a texture set that was switched away meanwhile is dropped.
+            if (disposed || set !== textureSet) p.dispose();
+            else detailedProvider = p;
+            return p;
+          })(),
+        };
+        const load = detailedLoad;
         try {
-          next = await detailedLoad;
+          next = await load.promise;
         } catch (err) {
-          detailedLoad = null; // allow a retry later
+          if (detailedLoad === load) detailedLoad = null; // allow a retry later
+          // A load for a texture set that was switched away meanwhile: the newer request decides.
+          if (load.set !== textureSet) return;
           if (textureSet === 'modernity') {
             // The Modernity atlas is only built when override textures exist: use the classic one.
             console.warn('Modernity textures are unavailable, using the classic set.', err);
@@ -1158,7 +1165,10 @@ export function createRenderer(
         }
       }
       if (disposed || request !== modeRequest || next === provider) return;
+      const prev = provider;
       provider = next;
+      // A detailed provider of a texture set that was switched away is not kept for later.
+      if (prev !== simpleProvider && prev !== detailedProvider) prev.dispose();
       rebuild();
     },
 
@@ -1169,7 +1179,8 @@ export function createRenderer(
       detailedProvider = null;
       detailedLoad = null;
       if (wantedMode === 'detailed') await this.setViewMode('detailed');
-      if (old && provider !== old) old.dispose();
+      // In DETAILED view setViewMode disposes it when the new provider takes over.
+      if (old && wantedMode !== 'detailed') old.dispose();
     },
 
     setXray(on) {

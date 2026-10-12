@@ -50,6 +50,7 @@ export const t = {
   hatches: 'Hatches',
   tier: 'Tier',
   modernity: 'Modernity textures',
+  modernityMissing: 'Modernity textures are not installed here; showing the classic ones.',
   hatchColor: (name: string) => `${name} colour`,
   resetColors: 'Reset colours',
   view: 'View',

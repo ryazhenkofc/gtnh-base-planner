@@ -70,6 +70,8 @@ describe('withStack', () => {
     const p = withStack(defaultPlan());
     expect(p.limits).toEqual({ x: 1, y: null, z: 1 });
     expect(withStack(p)).toBe(p);
+    const manual = withStack({ ...defaultPlan(), manualUnits: [{ id: 0, origin: [0, 0, 0], rotation: 0 }] });
+    expect(manual.manualUnits).toBeUndefined();
   });
 });
 

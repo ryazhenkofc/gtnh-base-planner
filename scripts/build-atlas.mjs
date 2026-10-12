@@ -709,7 +709,10 @@ export function buildModernAtlas(tiles, dir) {
   for (const name of Object.keys(tiles)) {
     const file = join(dir, `${name}.png`);
     if (!existsSync(file)) continue;
-    modern[name] = firstFrameTile(decodePng(readFileSync(file)));
+    const img = decodePng(readFileSync(file));
+    if (img.width < TILE || img.width % TILE)
+      throw new Error(`${file}: width ${img.width} is not a multiple of ${TILE}`);
+    modern[name] = firstFrameTile(img);
     replaced++;
   }
   return replaced ? { image: packAtlas(modern).image, replaced } : null;

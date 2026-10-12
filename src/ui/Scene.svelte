@@ -5,7 +5,8 @@
   import type { SceneModel } from '../model/render/types';
   import { createRenderer, type Renderer } from '../render/renderer';
   import { textureSet as textureSetStore } from '../state/store';
-  import { warnOnce } from './notices';
+  import { notify, warnOnce } from './notices';
+  import { t as tx } from '../i18n/en';
 
   interface Props {
     scene: SceneModel | null;
@@ -78,7 +79,10 @@
         onView: (theta) => onview?.(theta),
         onMoveSelection: (dx, dz) => onmove?.(dx, dz),
         onDragOffset: (o) => ondrag?.(o),
-        onTextureFallback: () => textureSetStore.set('classic'),
+        onTextureFallback: () => {
+          textureSetStore.set('classic');
+          notify(tx.modernityMissing);
+        },
       });
     } catch (err) {
       warnOnce('createRenderer', err);
