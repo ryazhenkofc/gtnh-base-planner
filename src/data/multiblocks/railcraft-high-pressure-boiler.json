@@ -1,0 +1,82 @@
+{
+  "id": "railcraft-high-pressure-boiler",
+  "name": "Railcraft High Pressure Boiler",
+  "tier": "Steam",
+  "source": "https://github.com/GTNewHorizons/Railcraft/blob/9.17.31/src/main/java/mods/railcraft/common/blocks/machine/beta/TileBoiler.java",
+  "size": [
+    5,
+    5,
+    5
+  ],
+  "layers": [
+    [
+      "WWWWW",
+      "WWWWW",
+      "WWWWW",
+      "WWWWW",
+      "WWWWW"
+    ],
+    [
+      "WW WW",
+      "WF~FW",
+      "WFFFW",
+      "WFFFW",
+      "WWWWW"
+    ],
+    [
+      "WWWWW",
+      "WHHHW",
+      "WHHHW",
+      "WHHHW",
+      "WWWWW"
+    ],
+    [
+      "WWWWW",
+      "WHHHW",
+      "WHHHW",
+      "WHHHW",
+      "WWWWW"
+    ],
+    [
+      "WWWWW",
+      "WWWWW",
+      "WWWWW",
+      "WWWWW",
+      "WWWWW"
+    ]
+  ],
+  "legend": {
+    "W": {
+      "blockId": "gt.casing.solidSteel"
+    },
+    "F": {
+      "blockId": "railcraft.machine.beta@5"
+    },
+    "H": {
+      "blockId": "railcraft.machine.beta@4"
+    }
+  },
+  "controller": {
+    "pos": [
+      2,
+      1,
+      1
+    ],
+    "facing": "north",
+    "blockId": "railcraft.machine.beta@5"
+  },
+  "hatchBlocks": {},
+  "shareableHatches": [],
+  "defaultHatches": [],
+  "wallshare": false,
+  "resize": {
+    "axis": "y",
+    "from": 2,
+    "to": 3,
+    "min": 5,
+    "max": 7,
+    "default": 5,
+    "label": "height"
+  },
+  "notes": "Railcraft high-pressure steam boiler (Railcraft 9.17.31, the version in GTNH 2.9.0-beta-3). Solid firebox at the base, high-pressure boiler tanks above it; the height grows with the number of tank layers (3x3 firebox, 2 to 4 tanks). Walls are modelled as Solid Steel Machine Casing; in game any non-boiler block works. Hatches are not modelled. Wiki: the boiler cannot wallshare any part of its structure and must be at least one block from another boiler. Only the 3-wide high-pressure boiler is included; low-pressure, 1x1 and 2x2 variants are not."
+}

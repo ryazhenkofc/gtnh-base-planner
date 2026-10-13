@@ -109,6 +109,9 @@ const list: BlockInfo[] = [
   { id: 'site.port.item', name: 'Item Port', color: '#d9a441' },
   { id: 'site.port.fluid', name: 'Fluid Port', color: '#4f9fcf' },
   { id: 'site.port.power', name: 'Power Port', color: '#d8c04a' },
+  // Railcraft high-pressure boiler (railcraft.machine.beta metadata 4 = HP tank, 5 = solid firebox)
+  { id: 'railcraft.machine.beta@4', name: 'Boiler Tank (High Pressure)', color: '#9aa3ab' },
+  { id: 'railcraft.machine.beta@5', name: 'Boiler Firebox (Solid)', color: '#4a4f57' },
 ];
 
 /** Blocks of the generated catalog entries (tools/game-dump); hand-made entries above win. */

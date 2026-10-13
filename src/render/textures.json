@@ -3171,6 +3171,12 @@
     "miscutils:miscutils.blockcasings@9": {
       "side": "DUMP_MATTER_FABRICATOR_CASING"
     },
+    "railcraft.machine.beta@4": {
+      "flat": true
+    },
+    "railcraft.machine.beta@5": {
+      "flat": true
+    },
     "site.machine.alloy-smelter": {
       "side": "MACHINE_LV_SIDE",
       "top": "MACHINE_LV_TOP",

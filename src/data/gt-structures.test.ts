@@ -653,7 +653,10 @@ function sameCell(gt: Cat, ours: Cat): boolean {
 Object.assign(GT, generatedShapes as unknown as typeof GT);
 
 describe('catalog structures match GT5-Unofficial', () => {
-  const checked = catalog.filter((d) => !d.generated || d.id in generatedShapes);
+  // Railcraft entries have no GT5-Unofficial shape to compare with; they are checked by the schema tests only.
+  const checked = catalog.filter(
+    (d) => (!d.generated || d.id in generatedShapes) && !d.source?.includes('/Railcraft/'),
+  );
 
   it('has a GT shape for every hand-made multiblock', () => {
     expect(checked.map((d) => d.id).sort()).toEqual(Object.keys(GT).sort());
