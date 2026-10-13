@@ -1,6 +1,7 @@
 {
   "id": "precise-auto-assembler-mt-3662",
   "name": "Precise Auto-Assembler MT-3662",
+  "tier": "IV",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/goodgenerator/blocks/tileEntity/MTEPreciseAssembler.java",
   "size": [9, 5, 5],

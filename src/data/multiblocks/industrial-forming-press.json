@@ -1,6 +1,7 @@
 {
   "id": "industrial-forming-press",
   "name": "Industrial Forming Press",
+  "tier": "EV",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTEIndustrialFormingPress.java",
   "size": [5, 5, 3],

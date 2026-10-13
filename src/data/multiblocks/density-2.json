@@ -1,6 +1,7 @@
 {
   "id": "density-2",
   "name": "Density^2",
+  "tier": "IV",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTEAdvImplosionCompressor.java",
   "size": [7, 9, 7],

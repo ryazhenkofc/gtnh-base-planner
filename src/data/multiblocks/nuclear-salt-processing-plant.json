@@ -1,6 +1,7 @@
 {
   "id": "nuclear-salt-processing-plant",
   "name": "Nuclear Salt Processing Plant",
+  "tier": "IV",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gtPlusPlus/xmod/gregtech/common/tileentities/machines/multi/processing/MTENuclearSaltProcessingPlant.java",
   "size": [9, 5, 3],

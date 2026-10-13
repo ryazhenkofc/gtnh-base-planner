@@ -1,6 +1,7 @@
 {
   "id": "component-assembly-line",
   "name": "Component Assembly Line",
+  "tier": "UV",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/goodgenerator/blocks/tileEntity/MTEComponentAssemblyLine.java",
   "size": [9, 10, 33],

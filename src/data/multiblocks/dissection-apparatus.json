@@ -1,6 +1,7 @@
 {
   "id": "dissection-apparatus",
   "name": "Dissection Apparatus",
+  "tier": "HV",
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTEIndustrialExtractor.java",
   "size": [5, 5, 5],
   "layers": [

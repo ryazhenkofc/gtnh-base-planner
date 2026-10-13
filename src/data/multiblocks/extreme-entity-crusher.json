@@ -1,6 +1,7 @@
 {
   "id": "extreme-entity-crusher",
   "name": "Extreme Entity Crusher",
+  "tier": "EV",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/kubatech/tileentity/gregtech/multiblock/MTEExtremeEntityCrusher.java",
   "size": [5, 7, 5],

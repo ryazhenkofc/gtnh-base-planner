@@ -1,6 +1,7 @@
 {
   "id": "eye-of-harmony",
   "name": "Eye of Harmony",
+  "tier": "UMV",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/tectech/thing/metaTileEntity/multi/MTEEyeOfHarmony.java",
   "size": [33, 33, 33],

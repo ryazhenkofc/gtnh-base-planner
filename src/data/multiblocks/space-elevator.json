@@ -1,6 +1,7 @@
 {
   "id": "space-elevator",
   "name": "Space Elevator",
+  "tier": "UV",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gtnhintergalactic/tile/multi/elevator/TileEntitySpaceElevator.java",
   "size": [35, 43, 35],

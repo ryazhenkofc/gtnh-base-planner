@@ -1,6 +1,7 @@
 {
   "id": "water-purification-plant",
   "name": "Water Purification Plant",
+  "tier": "LuV",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/purification/MTEPurificationPlant.java",
   "size": [7, 9, 8],

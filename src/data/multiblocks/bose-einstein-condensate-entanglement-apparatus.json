@@ -1,6 +1,7 @@
 {
   "id": "bose-einstein-condensate-entanglement-apparatus",
   "name": "Bose-Einstein Condensate Entanglement Apparatus",
+  "tier": "UIV",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/tectech/thing/metaTileEntity/multi/bec/MTEBECGenerator.java",
   "size": [19, 19, 34],

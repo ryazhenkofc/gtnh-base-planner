@@ -1,6 +1,7 @@
 {
   "id": "bio-vat",
   "name": "Bacterial Vat",
+  "tier": "HV",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/bartworks/common/tileentities/multis/MTEBioVat.java",
   "size": [5, 4, 5],

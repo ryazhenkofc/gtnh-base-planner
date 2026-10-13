@@ -1,6 +1,7 @@
 {
   "id": "semi-stable-antimatter-stabilization-sequencer",
   "name": "Semi-Stable Antimatter Stabilization Sequencer",
+  "tier": "UIV",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/goodgenerator/blocks/tileEntity/AntimatterForge.java",
   "size": [53, 53, 47],

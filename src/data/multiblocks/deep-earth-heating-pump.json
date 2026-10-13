@@ -1,6 +1,7 @@
 {
   "id": "deep-earth-heating-pump",
   "name": "Deep Earth Heating Pump",
+  "tier": "IV",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/bartworks/common/tileentities/multis/MTEDeepEarthHeatingPump.java",
   "size": [3, 7, 3],

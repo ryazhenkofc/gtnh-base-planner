@@ -1,6 +1,7 @@
 {
   "id": "pyrolyse-oven",
   "name": "Pyrolyse Oven",
+  "tier": "MV",
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTEPyrolyseOven.java",
   "size": [7, 6, 5],
   "layers": [

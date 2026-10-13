@@ -1,6 +1,7 @@
 {
   "id": "compact-fusion-computer-mk-iv-prototype",
   "name": "Compact Fusion Computer Mk-IV",
+  "tier": "UHV",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/goodgenerator/blocks/tileEntity/MTELargeFusionComputer4.java",
   "size": [47, 7, 47],

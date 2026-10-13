@@ -1,6 +1,7 @@
 {
   "id": "weighted-network-switch-with-qos",
   "name": "Weighted Network Switch With QoS",
+  "tier": "UV",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/tectech/thing/metaTileEntity/multi/MTENetworkSwitch.java",
   "size": [3, 3, 3],

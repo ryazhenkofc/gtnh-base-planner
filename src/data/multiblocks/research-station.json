@@ -1,6 +1,7 @@
 {
   "id": "research-station",
   "name": "Research Station",
+  "tier": "UV",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/tectech/thing/metaTileEntity/multi/MTEResearchStation.java",
   "size": [3, 7, 7],

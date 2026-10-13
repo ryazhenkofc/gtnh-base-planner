@@ -1,6 +1,7 @@
 {
   "id": "pseudostable-black-hole-containment-field",
   "name": "Pseudostable Black Hole Containment Field",
+  "tier": "UIV",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/compressor/MTEBlackHoleCompressor.java",
   "size": [35, 33, 35],

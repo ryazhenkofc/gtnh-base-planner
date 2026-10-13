@@ -1,6 +1,7 @@
 {
   "id": "beam-crafter",
   "name": "Beam Crafter",
+  "tier": "UV",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/beamcrafting/MTEBeamCrafter.java",
   "size": [17, 5, 11],

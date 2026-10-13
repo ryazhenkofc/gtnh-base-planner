@@ -1,6 +1,7 @@
 {
   "id": "clarifier-purification-unit",
   "name": "Clarifier Purification Unit",
+  "tier": "LuV",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/purification/MTEPurificationUnitClarifier.java",
   "size": [11, 4, 11],

@@ -1,6 +1,7 @@
 {
   "id": "whakawhiti-wera-xl",
   "name": "Whakawhiti Wera XL",
+  "tier": "LuV",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gtPlusPlus/xmod/gregtech/common/tileentities/machines/multi/processing/advanced/MTEAdvHeatExchanger.java",
   "size": [5, 9, 5],

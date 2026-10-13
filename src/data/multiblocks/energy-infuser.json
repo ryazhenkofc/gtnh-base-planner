@@ -1,6 +1,7 @@
 {
   "id": "energy-infuser",
   "name": "Energy Infuser",
+  "tier": "ZPM",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/tectech/thing/metaTileEntity/multi/MTEEnergyInfuser.java",
   "size": [3, 5, 3],

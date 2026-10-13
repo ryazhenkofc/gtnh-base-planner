@@ -1,6 +1,7 @@
 {
   "id": "source-chamber",
   "name": "Source Chamber",
+  "tier": "ZPM",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gtnhlanth/common/tileentity/MTESourceChamber.java",
   "size": [5, 5, 6],

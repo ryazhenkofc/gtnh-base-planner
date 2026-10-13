@@ -1,6 +1,7 @@
 {
   "id": "planetary-gas-siphon",
   "name": "Planetary Gas Siphon",
+  "tier": "LuV",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gtnhintergalactic/tile/multi/MTEPlanetaryGasSiphon.java",
   "size": [13, 23, 13],

@@ -1,6 +1,7 @@
 {
   "id": "lapotronic-supercapacitor",
   "name": "Lapotronic Supercapacitor",
+  "tier": "EV",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/kekztech/common/tileentities/MTELapotronicSuperCapacitor.java",
   "size": [5, 4, 5],
