@@ -9,6 +9,7 @@ export const t = {
   tagline: 'Multiblocks sharing walls, hatches and pipes.',
   repo: 'Source on GitHub',
   repoUrl: 'https://github.com/ryazhenkofc/gtnh-base-planner',
+  gtnhVersion: 'GTNH 2.9.X beta 3',
 
   // Top bar
   countLabel: 'Number of multiblocks',
@@ -26,10 +27,6 @@ export const t = {
   search: 'Search',
   noMatches: 'Nothing matches.',
   wallshareTag: 'Wall-share',
-  /** Picker tag of catalog entries generated from the game (tools/game-dump) rather than checked by hand. */
-  generatedTag: 'From game',
-  generatedHint:
-    'Built by the game itself (the hologram projector of GregTech 5.09.54.133) and not checked by hand: hatch counts are estimated, check the tooltip in game.',
 
   // Settings drawer
   limits: 'Limits',

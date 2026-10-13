@@ -112,6 +112,7 @@ const list: BlockInfo[] = [
   // Railcraft high-pressure boiler (railcraft.machine.beta metadata 4 = HP tank, 5 = solid firebox)
   { id: 'railcraft.machine.beta@4', name: 'Boiler Tank (High Pressure)', color: '#9aa3ab' },
   { id: 'railcraft.machine.beta@5', name: 'Boiler Firebox (Solid)', color: '#4a4f57' },
+  { id: 'railcraft.machine.beta@6', name: 'Boiler Firebox (Liquid)', color: '#5c6470' },
   { id: 'railcraft.machine.beta@3', name: 'Boiler Tank (Low Pressure)', color: '#b5b9bd' },
   { id: 'railcraft.machine.beta@0', name: 'Iron Tank Wall', color: '#8c9196' },
   { id: 'railcraft.machine.beta@1', name: 'Iron Tank Gauge', color: '#7b8087' },

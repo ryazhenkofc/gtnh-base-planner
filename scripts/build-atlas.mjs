@@ -58,6 +58,9 @@ export const HAND_TILES = {
   RC_BOILER_FIREBOX_SOLID: {
     path: 'src/main/resources/assets/railcraft/textures/blocks/boiler.firebox.solid.png',
   },
+  RC_BOILER_FIREBOX_LIQUID: {
+    path: 'src/main/resources/assets/railcraft/textures/blocks/boiler.firebox.liquid.png',
+  },
   RC_BOILER_TANK_HIGH: {
     path: 'src/main/resources/assets/railcraft/textures/blocks/boiler.tank.pressure.high.png',
   },
@@ -240,6 +243,7 @@ export const HAND_TILES = {
 export const HAND_BLOCK_MAP = {
   // Railcraft boiler and tank blocks (railcraft.machine.beta metadata)
   'railcraft.machine.beta@5': { side: 'RC_BOILER_FIREBOX_SOLID' },
+  'railcraft.machine.beta@6': { side: 'RC_BOILER_FIREBOX_LIQUID' },
   'railcraft.machine.beta@4': { side: 'RC_BOILER_TANK_HIGH' },
   'railcraft.machine.beta@3': { side: 'RC_BOILER_TANK_LOW' },
   'railcraft.machine.beta@0': { side: 'RC_TANK_IRON_WALL' },

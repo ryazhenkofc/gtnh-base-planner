@@ -8,6 +8,8 @@
   <a class="link" href={t.repoUrl} target="_blank" rel="noopener noreferrer" data-testid="repo-link"
     >{t.repo}</a
   >
+  <span class="dot" aria-hidden="true">{t.separator}</span>
+  <span data-testid="gtnh-version">{t.gtnhVersion}</span>
 </footer>
 
 <style>

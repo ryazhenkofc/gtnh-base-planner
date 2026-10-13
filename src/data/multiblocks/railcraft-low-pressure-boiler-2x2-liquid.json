@@ -1,0 +1,40 @@
+{
+  "id": "railcraft-low-pressure-boiler-2x2-liquid",
+  "name": "Railcraft Low Pressure Boiler (Liquid Fuel) 2x2",
+  "tier": "Steam",
+  "source": "https://github.com/GTNewHorizons/Railcraft/blob/9.17.31/src/main/java/mods/railcraft/common/blocks/machine/beta/TileBoiler.java",
+  "size": [2, 3, 2],
+  "layers": [
+    ["F~", "FF"],
+    ["LL", "LL"],
+    ["LL", "LL"]
+  ],
+  "legend": {
+    "F": {
+      "blockId": "railcraft.machine.beta@6"
+    },
+    "L": {
+      "blockId": "railcraft.machine.beta@3"
+    }
+  },
+  "controller": {
+    "pos": [1, 0, 0],
+    "facing": "north",
+    "blockId": "railcraft.machine.beta@6"
+  },
+  "hatchBlocks": {},
+  "shareableHatches": [],
+  "defaultHatches": [],
+  "wallshare": false,
+  "resize": {
+    "axis": "y",
+    "from": 1,
+    "to": 2,
+    "min": 3,
+    "max": 4,
+    "default": 3,
+    "label": "height"
+  },
+  "notes": "Railcraft low-pressure steam boiler, liquid fuel (2x2 firebox, Railcraft 9.17.31, the version in GTNH 2.9.0-beta-3). Liquid-fuelled firebox at the base (16,000 L fuel tank, regardless of size), low-pressure tanks above; no walls (fireboxes and tanks only, per the wiki). It cannot wallshare and must be at least one block from another boiler (minGap 1). Height grows with the tank layers (2 to 3). Pipes: fluid and item input only at the firebox base; output only into tank blocks. No hatches are modelled.",
+  "minGap": 1
+}
