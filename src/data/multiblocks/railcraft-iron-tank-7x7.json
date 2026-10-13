@@ -4,20 +4,14 @@
   "source": "https://github.com/GTNewHorizons/Railcraft/blob/9.17.31/src/main/java/mods/railcraft/common/blocks/machine/beta/TileTankBase.java",
   "size": [7, 4, 7],
   "layers": [
-    ["BBB~BBB", "BGGGGGB", "BGGGGGB", "BGGBGGB", "BGGGGGB", "BGGGGGB", "BBBBBBB"],
-    ["BGGGGGB", "G     G", "G     G", "G     G", "G     G", "G     G", "BGGGGGB"],
-    ["BGGGGGB", "G     G", "G     G", "G     G", "G     G", "G     G", "BGGGGGB"],
-    ["BBBBBBB", "BGGGGGB", "BGGGGGB", "BGGVGGB", "BGGGGGB", "BGGGGGB", "BBBBBBB"]
+    ["BBB~BBB", "BBBBBBB", "BBBBBBB", "BBBBBBB", "BBBBBBB", "BBBBBBB", "BBBBBBB"],
+    ["BBBBBBB", "B     B", "B     B", "B     B", "B     B", "B     B", "BBBBBBB"],
+    ["BBBBBBB", "B     B", "B     B", "B     B", "B     B", "B     B", "BBBBBBB"],
+    ["BBBBBBB", "BBBBBBB", "BBBBBBB", "BBBBBBB", "BBBBBBB", "BBBBBBB", "BBBBBBB"]
   ],
   "legend": {
     "B": {
       "blockId": "railcraft.machine.beta@0"
-    },
-    "G": {
-      "blockId": "railcraft.machine.beta@1"
-    },
-    "V": {
-      "blockId": "railcraft.machine.beta@2"
     }
   },
   "controller": {
@@ -38,5 +32,6 @@
     "default": 4,
     "label": "height"
   },
-  "notes": "Railcraft iron tank, 7x7 footprint (Railcraft 9.17.31, the version in GTNH 2.9.0-beta-3). Walls with gauges on the sides and a valve on top, hollow inside. Height 4 to 8 blocks. The default Railcraft config allows only 3x3 tanks; the larger sizes need the maxsize setting raised. Not tiered."
+  "notes": "Railcraft iron tank, 7x7 footprint (Railcraft 9.17.31, the version in GTNH 2.9.0-beta-3). Hollow cube of walls; gauges and valves are optional and may replace any wall that is not on the edge (not modelled here, so all cells are walls). Height 4 to 8 blocks. Must be at least one block from another tank (minGap 1). Not tiered. The default Railcraft config allows only 3x3 tanks; the larger sizes need the maxsize setting raised.",
+  "minGap": 1
 }
