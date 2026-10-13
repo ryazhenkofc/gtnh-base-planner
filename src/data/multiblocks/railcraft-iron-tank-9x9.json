@@ -1,0 +1,82 @@
+{
+  "id": "railcraft-iron-tank-9x9",
+  "name": "Railcraft Iron Tank 9x9",
+  "source": "https://github.com/GTNewHorizons/Railcraft/blob/9.17.31/src/main/java/mods/railcraft/common/blocks/machine/beta/TileTankBase.java",
+  "size": [9, 4, 9],
+  "layers": [
+    [
+      "BBBB~BBBB",
+      "BGGGGGGGB",
+      "BGGGGGGGB",
+      "BGGGGGGGB",
+      "BGGGBGGGB",
+      "BGGGGGGGB",
+      "BGGGGGGGB",
+      "BGGGGGGGB",
+      "BBBBBBBBB"
+    ],
+    [
+      "BGGGGGGGB",
+      "G       G",
+      "G       G",
+      "G       G",
+      "G       G",
+      "G       G",
+      "G       G",
+      "G       G",
+      "BGGGGGGGB"
+    ],
+    [
+      "BGGGGGGGB",
+      "G       G",
+      "G       G",
+      "G       G",
+      "G       G",
+      "G       G",
+      "G       G",
+      "G       G",
+      "BGGGGGGGB"
+    ],
+    [
+      "BBBBBBBBB",
+      "BGGGGGGGB",
+      "BGGGGGGGB",
+      "BGGGGGGGB",
+      "BGGGVGGGB",
+      "BGGGGGGGB",
+      "BGGGGGGGB",
+      "BGGGGGGGB",
+      "BBBBBBBBB"
+    ]
+  ],
+  "legend": {
+    "B": {
+      "blockId": "railcraft.machine.beta@0"
+    },
+    "G": {
+      "blockId": "railcraft.machine.beta@1"
+    },
+    "V": {
+      "blockId": "railcraft.machine.beta@2"
+    }
+  },
+  "controller": {
+    "pos": [4, 0, 0],
+    "facing": "north",
+    "blockId": "railcraft.machine.beta@0"
+  },
+  "hatchBlocks": {},
+  "shareableHatches": [],
+  "defaultHatches": [],
+  "wallshare": false,
+  "resize": {
+    "axis": "y",
+    "from": 1,
+    "to": 2,
+    "min": 4,
+    "max": 8,
+    "default": 4,
+    "label": "height"
+  },
+  "notes": "Railcraft iron tank, 9x9 footprint (Railcraft 9.17.31, the version in GTNH 2.9.0-beta-3). Walls with gauges on the sides and a valve on top, hollow inside. Height 4 to 8 blocks. The default Railcraft config allows only 3x3 tanks; the larger sizes need the maxsize setting raised. Not tiered."
+}

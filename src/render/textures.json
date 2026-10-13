@@ -3171,6 +3171,27 @@
     "miscutils:miscutils.blockcasings@9": {
       "side": "DUMP_MATTER_FABRICATOR_CASING"
     },
+    "railcraft.machine.beta@0": {
+      "flat": true
+    },
+    "railcraft.machine.beta@1": {
+      "flat": true
+    },
+    "railcraft.machine.beta@13": {
+      "flat": true
+    },
+    "railcraft.machine.beta@14": {
+      "flat": true
+    },
+    "railcraft.machine.beta@15": {
+      "flat": true
+    },
+    "railcraft.machine.beta@2": {
+      "flat": true
+    },
+    "railcraft.machine.beta@3": {
+      "flat": true
+    },
     "railcraft.machine.beta@4": {
       "flat": true
     },
