@@ -1,5 +1,6 @@
-/** Voltage tiers in ascending order; a multiblock's `tier` must be one of these. Steam sits below ULV. */
+/** Voltage tiers in ascending order; a multiblock's `tier` must be one of these. Stone and Steam sit below ULV. */
 export const TIER_ORDER = [
+  'Stone',
   'Steam',
   'ULV',
   'LV',

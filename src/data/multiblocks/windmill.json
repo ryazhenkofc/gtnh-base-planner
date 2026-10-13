@@ -1,6 +1,7 @@
 {
   "id": "windmill",
   "name": "Windmill",
+  "tier": "Stone",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/bartworks/common/tileentities/multis/MTEWindmill.java",
   "size": [7, 12, 7],

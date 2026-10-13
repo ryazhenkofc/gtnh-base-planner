@@ -222,7 +222,7 @@ describe('catalog view', () => {
   });
   it('filters by name and tier', () => {
     expect(matchesQuery(coke, 'coke')).toBe(true);
-    expect(matchesQuery(coke, 'steam')).toBe(true);
+    expect(matchesQuery(coke, 'stone')).toBe(true);
     expect(matchesQuery(coke, 'zzz')).toBe(false);
     expect(catalog.every((d) => matchesQuery(d, ''))).toBe(true);
   });
