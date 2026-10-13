@@ -35,5 +35,6 @@
     "default": 3,
     "label": "height"
   },
-  "notes": "Railcraft high-pressure steam boiler (2x2 firebox, Railcraft 9.17.31, the version in GTNH 2.9.0-beta-3). Solid firebox at the base, high-pressure tanks above; no walls (fireboxes and tanks only, per the wiki). It cannot wallshare and must be at least one block from another boiler. Hatches are not modelled. Height grows with the tank layers (2 to 3)."
+  "notes": "Railcraft high-pressure steam boiler (2x2 firebox, Railcraft 9.17.31, the version in GTNH 2.9.0-beta-3). Solid firebox at the base, high-pressure tanks above; no walls (fireboxes and tanks only, per the wiki). It cannot wallshare and must be at least one block from another boiler (minGap 1). Hatches are not modelled. Height grows with the tank layers (2 to 3).",
+  "minGap": 1
 }

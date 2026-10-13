@@ -11,8 +11,16 @@
     ["~", "A"],
     ["A", "A"]
   ],
-  "legend": { "A": { "blockId": "gtnhintergalactic:gt.blockcasingsSE@0" } },
-  "controller": { "pos": [0, 3, 0], "facing": "north", "blockId": "gregtech:gt.blockmachines@14013" },
+  "legend": {
+    "A": {
+      "blockId": "gtnhintergalactic:gt.blockcasingsSE@0"
+    }
+  },
+  "controller": {
+    "pos": [0, 3, 0],
+    "facing": "north",
+    "blockId": "gregtech:gt.blockmachines@14013"
+  },
   "hatchBlocks": {},
   "shareableHatches": [],
   "requiredHatches": {},

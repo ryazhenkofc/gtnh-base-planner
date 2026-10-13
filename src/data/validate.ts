@@ -191,6 +191,8 @@ export function validateMultiblockDef(def: MultiblockDef, fileName?: string): st
   }
 
   if (typeof def.wallshare !== 'boolean') err('wallshare must be a boolean');
+  if (def.minGap !== undefined && !(Number.isInteger(def.minGap) && def.minGap >= 0))
+    err('minGap must be a whole number >= 0');
 
   if (def.resize !== undefined) checkResize(def, err, fileName !== undefined);
 

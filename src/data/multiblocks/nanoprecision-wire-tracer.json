@@ -15,14 +15,31 @@
     ["       ", " EBBBE ", " BDDDB ", " BDDDB ", " BDDDB ", " EBBBE ", "       "]
   ],
   "legend": {
-    "A": { "blockId": "gregtech:gt.blockcasings12@1", "hatches": ["itemIn", "fluidIn", "fluidOut"] },
-    "B": { "blockId": "gregtech:gt.blockcasings12@1" },
-    "C": { "blockId": "gregtech:gt.blockcasings12@2" },
-    "D": { "blockId": "gregtech:gt.blockglass1@8" },
-    "E": { "blockId": "gregtech:gt.blockframes@985" },
-    "F": { "blockId": "gregtech:gt.sheetmetal@974" }
+    "A": {
+      "blockId": "gregtech:gt.blockcasings12@1",
+      "hatches": ["itemIn", "fluidIn", "fluidOut"]
+    },
+    "B": {
+      "blockId": "gregtech:gt.blockcasings12@1"
+    },
+    "C": {
+      "blockId": "gregtech:gt.blockcasings12@2"
+    },
+    "D": {
+      "blockId": "gregtech:gt.blockglass1@8"
+    },
+    "E": {
+      "blockId": "gregtech:gt.blockframes@985"
+    },
+    "F": {
+      "blockId": "gregtech:gt.sheetmetal@974"
+    }
   },
-  "controller": { "pos": [3, 2, 0], "facing": "north", "blockId": "gregtech:gt.blockmachines@9509" },
+  "controller": {
+    "pos": [3, 2, 0],
+    "facing": "north",
+    "blockId": "gregtech:gt.blockmachines@9509"
+  },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",
     "fluidIn": "gt.hatch.inputHatch",
@@ -32,5 +49,6 @@
   "requiredHatches": {},
   "defaultHatches": ["itemIn"],
   "wallshare": true,
-  "notes": "Built by the game itself: MTEWireTracerModule (GT5-Unofficial 5.09.54.133) placed every block with the hologram's construct() (tools/game-dump). Hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows); check the tooltip in game."
+  "notes": "Built by the game itself: MTEWireTracerModule (GT5-Unofficial 5.09.54.133) placed every block with the hologram's construct() (tools/game-dump). Hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows); check the tooltip in game.",
+  "tier": "UEV"
 }

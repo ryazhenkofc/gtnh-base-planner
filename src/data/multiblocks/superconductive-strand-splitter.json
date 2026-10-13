@@ -17,15 +17,34 @@
     ["       ", "       ", "   B   ", "  BBB  ", "   B   ", "       ", "       "]
   ],
   "legend": {
-    "A": { "blockId": "gregtech:gt.blockcasings12@1", "hatches": ["itemIn", "fluidIn", "fluidOut"] },
-    "B": { "blockId": "gregtech:gt.blockcasings12@1" },
-    "C": { "blockId": "gregtech:gt.blockcasings12@2" },
-    "D": { "blockId": "gregtech:gt.blockframes@327" },
-    "E": { "blockId": "gregtech:gt.blockglass1@8" },
-    "F": { "blockId": "gregtech:gt.blockcasings.cyclotron_coils@7" },
-    "G": { "blockId": "gregtech:gt.blockcasings.cyclotron_coils@8" }
+    "A": {
+      "blockId": "gregtech:gt.blockcasings12@1",
+      "hatches": ["itemIn", "fluidIn", "fluidOut"]
+    },
+    "B": {
+      "blockId": "gregtech:gt.blockcasings12@1"
+    },
+    "C": {
+      "blockId": "gregtech:gt.blockcasings12@2"
+    },
+    "D": {
+      "blockId": "gregtech:gt.blockframes@327"
+    },
+    "E": {
+      "blockId": "gregtech:gt.blockglass1@8"
+    },
+    "F": {
+      "blockId": "gregtech:gt.blockcasings.cyclotron_coils@7"
+    },
+    "G": {
+      "blockId": "gregtech:gt.blockcasings.cyclotron_coils@8"
+    }
   },
-  "controller": { "pos": [3, 2, 0], "facing": "north", "blockId": "gregtech:gt.blockmachines@9511" },
+  "controller": {
+    "pos": [3, 2, 0],
+    "facing": "north",
+    "blockId": "gregtech:gt.blockmachines@9511"
+  },
   "hatchBlocks": {
     "itemIn": "gt.hatch.inputBus",
     "fluidIn": "gt.hatch.inputHatch",
@@ -35,5 +54,6 @@
   "requiredHatches": {},
   "defaultHatches": ["itemIn"],
   "wallshare": true,
-  "notes": "Built by the game itself: MTESuperconductorSplitterModule (GT5-Unofficial 5.09.54.133) placed every block with the hologram's construct() (tools/game-dump). Hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows); check the tooltip in game."
+  "notes": "Built by the game itself: MTESuperconductorSplitterModule (GT5-Unofficial 5.09.54.133) placed every block with the hologram's construct() (tools/game-dump). Hatch counts are approximate (energy or dynamo, maintenance and muffler as the structure allows); check the tooltip in game.",
+  "tier": "UEV"
 }
