@@ -3,6 +3,7 @@ import type { MultiblockDef } from '../model/multiblock/types';
 import { localCells } from '../model/geometry';
 import { resizeSteps, sizedDef } from '../model/resize';
 import { catalog, getMultiblock } from './catalog';
+import { tierRank } from './tiers';
 import { validateMultiblockDef } from './validate';
 
 const files = import.meta.glob<MultiblockDef>('./multiblocks/*.json', { eager: true, import: 'default' });
@@ -24,6 +25,14 @@ describe('multiblock catalog', () => {
   it('has unique ids', () => {
     const ids = catalog.map((d) => d.id);
     expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  it('sorts by tier, then name', () => {
+    const keys = catalog.map((d) => [tierRank(d.tier), d.name] as const);
+    for (let i = 1; i < keys.length; i++) {
+      const [prev, cur] = [keys[i - 1], keys[i]];
+      expect(prev[0] < cur[0] || (prev[0] === cur[0] && prev[1].localeCompare(cur[1]) <= 0)).toBe(true);
+    }
   });
 
   describe.each(entries)('$file', ({ file, def }) => {
