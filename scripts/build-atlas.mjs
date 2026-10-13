@@ -54,6 +54,22 @@ const MACHINE_METAL = [210, 220, 255];
  * `ref` is the GT5-Unofficial branch or tag to download from (default `master`).
  */
 export const HAND_TILES = {
+  // Railcraft boilers and tanks (Railcraft 9.17.31 textures, see ATTRIBUTION.md)
+  RC_BOILER_FIREBOX_SOLID: {
+    path: 'src/main/resources/assets/railcraft/textures/blocks/boiler.firebox.solid.png',
+  },
+  RC_BOILER_TANK_HIGH: {
+    path: 'src/main/resources/assets/railcraft/textures/blocks/boiler.tank.pressure.high.png',
+  },
+  RC_BOILER_TANK_LOW: {
+    path: 'src/main/resources/assets/railcraft/textures/blocks/boiler.tank.pressure.low.png',
+  },
+  RC_TANK_IRON_WALL: { path: 'src/main/resources/assets/railcraft/textures/blocks/tank.iron.wall.png' },
+  RC_TANK_IRON_GAUGE: { path: 'src/main/resources/assets/railcraft/textures/blocks/tank.iron.gauge.png' },
+  RC_TANK_IRON_VALVE: { path: 'src/main/resources/assets/railcraft/textures/blocks/tank.iron.valve.png' },
+  RC_TANK_STEEL_WALL: { path: 'src/main/resources/assets/railcraft/textures/blocks/tank.steel.wall.png' },
+  RC_TANK_STEEL_GAUGE: { path: 'src/main/resources/assets/railcraft/textures/blocks/tank.steel.gauge.png' },
+  RC_TANK_STEEL_VALVE: { path: 'src/main/resources/assets/railcraft/textures/blocks/tank.steel.valve.png' },
   // Coke Oven (BlockCasings12 meta 0, MTECokeOven, MTEHatchCokeOven)
   COKE_OVEN_CASING: {},
   COKE_OVEN_OVERLAY_INACTIVE: {},
@@ -222,6 +238,16 @@ export const HAND_TILES = {
  * Hatches (kind "hatch" in the scene) additionally get the overlay of their hatch kind (HATCH_OVERLAYS).
  */
 export const HAND_BLOCK_MAP = {
+  // Railcraft boiler and tank blocks (railcraft.machine.beta metadata)
+  'railcraft.machine.beta@5': { side: 'RC_BOILER_FIREBOX_SOLID' },
+  'railcraft.machine.beta@4': { side: 'RC_BOILER_TANK_HIGH' },
+  'railcraft.machine.beta@3': { side: 'RC_BOILER_TANK_LOW' },
+  'railcraft.machine.beta@0': { side: 'RC_TANK_IRON_WALL' },
+  'railcraft.machine.beta@1': { side: 'RC_TANK_IRON_GAUGE' },
+  'railcraft.machine.beta@2': { side: 'RC_TANK_IRON_VALVE' },
+  'railcraft.machine.beta@13': { side: 'RC_TANK_STEEL_WALL' },
+  'railcraft.machine.beta@14': { side: 'RC_TANK_STEEL_GAUGE' },
+  'railcraft.machine.beta@15': { side: 'RC_TANK_STEEL_VALVE' },
   'gt.cokeOvenBrick': { side: 'COKE_OVEN_CASING' },
   'gt.cokeOvenController': { side: 'COKE_OVEN_CASING', front: 'COKE_OVEN_OVERLAY_INACTIVE' },
   'gt.cokeOvenHatch': { side: 'COKE_OVEN_CASING' },
