@@ -1,6 +1,7 @@
 import type { Dir, HorizontalDir } from '../model/core/types';
 import type { HatchKind, MultiblockDef } from '../model/multiblock/types';
 import { BLOCKS } from './blocks';
+import { TIER_ORDER } from './tiers';
 
 export const HATCH_KINDS: readonly HatchKind[] = [
   'itemIn',
@@ -42,6 +43,8 @@ export function validateMultiblockDef(def: MultiblockDef, fileName?: string): st
     err(`id "${def.id}" does not match file name "${fileName}"`);
   if (typeof def.name !== 'string' || def.name.trim() === '') err('name must be a non-empty string');
   if (def.source !== undefined && !/^https?:\/\//.test(def.source)) err('source must be an http(s) URL');
+  if (def.tier !== undefined && !(TIER_ORDER as readonly string[]).includes(def.tier))
+    err(`tier "${def.tier}" must be one of ${TIER_ORDER.join(', ')}`);
 
   // size and layers
   const size = def.size;
@@ -188,6 +191,8 @@ export function validateMultiblockDef(def: MultiblockDef, fileName?: string): st
   }
 
   if (typeof def.wallshare !== 'boolean') err('wallshare must be a boolean');
+  if (def.minGap !== undefined && !(Number.isInteger(def.minGap) && def.minGap >= 0))
+    err('minGap must be a whole number >= 0');
 
   if (def.resize !== undefined) checkResize(def, err, fileName !== undefined);
 

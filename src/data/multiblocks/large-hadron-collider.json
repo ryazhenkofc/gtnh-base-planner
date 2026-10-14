@@ -1,6 +1,7 @@
 {
   "id": "large-hadron-collider",
   "name": "Large Hadron Collider",
+  "tier": "UV",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/beamcrafting/MTELargeHadronCollider.java",
   "size": [80, 13, 70],

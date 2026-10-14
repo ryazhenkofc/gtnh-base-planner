@@ -1,6 +1,7 @@
 {
   "id": "ore-drilling-plant-iv",
   "name": "Ore Drilling Plant IV",
+  "tier": "IV",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTEOreDrillingPlant4.java",
   "size": [3, 7, 3],

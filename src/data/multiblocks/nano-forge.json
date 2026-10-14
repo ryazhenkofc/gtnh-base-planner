@@ -1,6 +1,7 @@
 {
   "id": "nano-forge",
   "name": "Nano Forge",
+  "tier": "UV",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTENanoForge.java",
   "size": [9, 38, 10],

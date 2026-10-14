@@ -1,6 +1,7 @@
 {
   "id": "flotation-cell-regulator",
   "name": "Flotation Cell Regulator",
+  "tier": "LuV",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTEFrothFlotationCell.java",
   "size": [11, 5, 11],

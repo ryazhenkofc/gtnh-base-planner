@@ -38,9 +38,6 @@
       {def?.name ?? $plan.multiblockId}
     </button>
     {#if def?.tier}<span class="tier">{def.tier}</span>{/if}
-    {#if def?.generated}<span class="unverified" title={t.generatedHint} data-testid="unverified"
-        >{t.generatedTag}</span
-      >{/if}
   </div>
 
   <div class="group count" role="group" aria-label={t.countLabel}>
@@ -127,11 +124,6 @@
   }
   .tier {
     white-space: nowrap;
-  }
-  .unverified {
-    white-space: nowrap;
-    color: var(--muted);
-    cursor: help;
   }
   /* Centred on the page, independent of the side groups' widths. */
   .count {

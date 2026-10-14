@@ -1,0 +1,27 @@
+{
+  "id": "railcraft-high-pressure-boiler-1x1",
+  "name": "Railcraft High Pressure Boiler 1x1",
+  "tier": "Steam",
+  "source": "https://github.com/GTNewHorizons/Railcraft/blob/9.17.31/src/main/java/mods/railcraft/common/blocks/machine/beta/TileBoiler.java",
+  "size": [1, 2, 1],
+  "layers": [["~"], ["H"]],
+  "legend": {
+    "F": {
+      "blockId": "railcraft.machine.beta@5"
+    },
+    "H": {
+      "blockId": "railcraft.machine.beta@4"
+    }
+  },
+  "controller": {
+    "pos": [0, 0, 0],
+    "facing": "north",
+    "blockId": "railcraft.machine.beta@5"
+  },
+  "hatchBlocks": {},
+  "shareableHatches": [],
+  "defaultHatches": [],
+  "wallshare": false,
+  "notes": "Railcraft high-pressure steam boiler (1x1 firebox, Railcraft 9.17.31, the version in GTNH 2.9.0-beta-3). Solid firebox at the base, high-pressure tanks above; no walls (fireboxes and tanks only, per the wiki). It cannot wallshare and must be at least one block from another boiler (minGap 1). One tank layer. Pipes: fluid and item input only at the firebox base; output only into tank blocks. No hatches are modelled.",
+  "minGap": 1
+}

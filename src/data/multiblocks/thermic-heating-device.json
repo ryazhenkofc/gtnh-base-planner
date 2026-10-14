@@ -1,6 +1,7 @@
 {
   "id": "thermic-heating-device",
   "name": "Thermic Heating Device",
+  "tier": "IV",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gtPlusPlus/xmod/gregtech/common/tileentities/machines/multi/processing/MTEIndustrialFluidHeater.java",
   "size": [5, 6, 5],

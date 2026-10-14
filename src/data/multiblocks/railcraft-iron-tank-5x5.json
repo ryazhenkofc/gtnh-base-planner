@@ -1,0 +1,37 @@
+{
+  "id": "railcraft-iron-tank-5x5",
+  "name": "Railcraft Iron Tank 5x5",
+  "source": "https://github.com/GTNewHorizons/Railcraft/blob/9.17.31/src/main/java/mods/railcraft/common/blocks/machine/beta/TileTankBase.java",
+  "size": [5, 4, 5],
+  "layers": [
+    ["BB~BB", "BBBBB", "BBBBB", "BBBBB", "BBBBB"],
+    ["BBBBB", "B   B", "B   B", "B   B", "BBBBB"],
+    ["BBBBB", "B   B", "B   B", "B   B", "BBBBB"],
+    ["BBBBB", "BBBBB", "BBBBB", "BBBBB", "BBBBB"]
+  ],
+  "legend": {
+    "B": {
+      "blockId": "railcraft.machine.beta@0"
+    }
+  },
+  "controller": {
+    "pos": [2, 0, 0],
+    "facing": "north",
+    "blockId": "railcraft.machine.beta@0"
+  },
+  "hatchBlocks": {},
+  "shareableHatches": [],
+  "defaultHatches": [],
+  "wallshare": false,
+  "resize": {
+    "axis": "y",
+    "from": 1,
+    "to": 2,
+    "min": 4,
+    "max": 8,
+    "default": 4,
+    "label": "height"
+  },
+  "notes": "Railcraft iron tank, 5x5 footprint (Railcraft 9.17.31, the version in GTNH 2.9.0-beta-3). Hollow cube of walls; gauges and valves are optional and may replace any wall that is not on the edge (not modelled here, so all cells are walls). Height 4 to 8 blocks. Must be at least one block from another tank (minGap 1). Not tiered. The default Railcraft config allows only 3x3 tanks; the larger sizes need the maxsize setting raised.",
+  "minGap": 1
+}

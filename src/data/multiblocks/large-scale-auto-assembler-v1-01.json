@@ -1,6 +1,7 @@
 {
   "id": "large-scale-auto-assembler-v1-01",
   "name": "Large Scale Auto-Assembler v1.01",
+  "tier": "ZPM",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gtPlusPlus/xmod/gregtech/common/tileentities/machines/multi/production/MTEAutoCrafter.java",
   "size": [3, 3, 3],

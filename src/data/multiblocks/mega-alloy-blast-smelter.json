@@ -1,6 +1,7 @@
 {
   "id": "mega-alloy-blast-smelter",
   "name": "Mega Alloy Blast Smelter",
+  "tier": "UV",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gtPlusPlus/xmod/gregtech/common/tileentities/machines/multi/production/mega/MTEMegaAlloyBlastSmelter.java",
   "size": [11, 20, 11],

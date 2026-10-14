@@ -1,6 +1,7 @@
 {
   "id": "coolant-tower",
   "name": "Coolant Tower",
+  "tier": "EV",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/goodgenerator/blocks/tileEntity/MTECoolantTower.java",
   "size": [11, 13, 11],

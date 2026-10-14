@@ -15,11 +15,9 @@
   let query = $state('');
   const items = $derived(catalog.filter((d) => matchesQuery(d, query)));
 
-  /** Tier, wall-share and "converted from the GT sources" tags under a tile's name. */
+  /** Tier and wall-share tags under a tile's name. */
   function tags(def: MultiblockDef): string[] {
-    return [def.tier, def.wallshare ? t.wallshareTag : '', def.generated ? t.generatedTag : ''].filter(
-      (x): x is string => !!x,
-    );
+    return [def.tier, def.wallshare ? t.wallshareTag : ''].filter((x): x is string => !!x);
   }
 
   function onkeydown(e: KeyboardEvent) {

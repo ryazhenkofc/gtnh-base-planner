@@ -1,6 +1,7 @@
 {
   "id": "large-steel-boiler",
   "name": "Large Steel Boiler",
+  "tier": "HV",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTELargeBoilerSteel.java",
   "size": [5, 6, 3],

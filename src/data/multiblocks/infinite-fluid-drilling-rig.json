@@ -1,6 +1,7 @@
 {
   "id": "infinite-fluid-drilling-rig",
   "name": "Infinite Fluid Drilling Rig",
+  "tier": "UHV",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTEOilDrillInfinite.java",
   "size": [9, 14, 9],

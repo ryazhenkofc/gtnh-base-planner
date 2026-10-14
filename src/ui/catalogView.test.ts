@@ -74,7 +74,7 @@ describe('tierSiblings', () => {
         "fluid-drilling-rig fluid-drilling-rig-ii fluid-drilling-rig-iii fluid-drilling-rig-iv",
         "fusion-control-computer-mark-i fusion-control-computer-mark-ii fusion-control-computer-mark-iii",
         "fusiontech-mk-iv fusiontech-mk-v",
-        "ore-drilling-plant ore-drilling-plant-ii ore-drilling-plant-iii ore-drilling-plant-iv",
+        "ore-drilling-plant-ii ore-drilling-plant ore-drilling-plant-iii ore-drilling-plant-iv",
         "solid-oxide-fuel-cell-mk-i solid-oxide-fuel-cell-mk-ii",
         "space-assembler-module-mk-i space-assembler-module-mk-ii space-assembler-module-mk-iii",
         "space-mining-module-mk-i space-mining-module-mk-ii space-mining-module-mk-iii",

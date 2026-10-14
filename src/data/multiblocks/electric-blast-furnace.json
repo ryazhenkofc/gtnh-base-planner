@@ -1,6 +1,7 @@
 {
   "id": "electric-blast-furnace",
   "name": "Electric Blast Furnace",
+  "tier": "LV",
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTEElectricBlastFurnace.java",
   "size": [3, 4, 3],
   "layers": [

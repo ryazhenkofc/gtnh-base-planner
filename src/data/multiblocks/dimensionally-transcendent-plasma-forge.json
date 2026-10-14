@@ -1,6 +1,7 @@
 {
   "id": "dimensionally-transcendent-plasma-forge",
   "name": "Dimensionally Transcendent Plasma Forge",
+  "tier": "UEV",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTEPlasmaForge.java",
   "size": [33, 24, 33],

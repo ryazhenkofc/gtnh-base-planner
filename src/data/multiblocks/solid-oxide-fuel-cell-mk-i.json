@@ -1,6 +1,7 @@
 {
   "id": "solid-oxide-fuel-cell-mk-i",
   "name": "Solid-Oxide Fuel Cell Mk-I",
+  "tier": "EV",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/kekztech/common/tileentities/MTESOFuelCellMK1.java",
   "size": [3, 3, 5],

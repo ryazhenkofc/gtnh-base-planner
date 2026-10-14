@@ -1,6 +1,7 @@
 {
   "id": "extreme-heat-exchanger",
   "name": "Extreme Heat Exchanger",
+  "tier": "LuV",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/goodgenerator/blocks/tileEntity/MTEExtremeHeatExchanger.java",
   "size": [5, 6, 11],

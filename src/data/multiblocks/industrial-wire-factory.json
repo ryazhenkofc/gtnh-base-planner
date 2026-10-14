@@ -1,6 +1,7 @@
 {
   "id": "industrial-wire-factory",
   "name": "Industrial Wire Factory",
+  "tier": "IV",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTEIndustrialWireMill.java",
   "size": [7, 3, 3],

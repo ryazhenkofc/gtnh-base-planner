@@ -1,6 +1,7 @@
 {
   "id": "large-titanium-boiler",
   "name": "Large Titanium Boiler",
+  "tier": "EV",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTELargeBoilerTitanium.java",
   "size": [5, 6, 3],

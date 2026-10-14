@@ -1,6 +1,7 @@
 {
   "id": "target-chamber",
   "name": "Target Chamber",
+  "tier": "ZPM",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gtnhlanth/common/tileentity/MTETargetChamber.java",
   "size": [5, 5, 6],

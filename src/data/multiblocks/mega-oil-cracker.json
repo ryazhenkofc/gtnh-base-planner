@@ -1,6 +1,7 @@
 {
   "id": "mega-oil-cracker",
   "name": "Mega Oil Cracker",
+  "tier": "LuV",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/MTEMegaOilCracker.java",
   "size": [13, 8, 9],

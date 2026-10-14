@@ -1,6 +1,7 @@
 {
   "id": "space-assembler-module-mk-i",
   "name": "Space Assembler Module Mk-I",
+  "tier": "UHV",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gtnhintergalactic/tile/multi/elevatormodules/TileEntityModuleAssembler.java",
   "size": [1, 5, 2],

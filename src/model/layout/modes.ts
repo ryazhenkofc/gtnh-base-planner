@@ -70,6 +70,12 @@ export function modesFor(def: MultiblockDef, cache: DefCache): Mode[] {
             ];
       const capOf = (sp: Spacing) =>
         Math.max(...PATTERNS.map(({ flip, alt }) => neighbourCap(def, cache, parity, sp, a, flip, alt)));
+      if (def.minGap) {
+        // Units keep at least minGap empty blocks between them: the only pitch allowed is s + minGap.
+        const gap: Spacing = { inner: s + def.minGap, outer: s + def.minGap };
+        options.push([{ sp: gap, cap: capOf(gap), wide: false }]);
+        continue;
+      }
       const axis = uniform.map((sp) => ({ sp, cap: capOf(sp), wide: false }));
       if (a !== 1 && axis[0].cap !== Infinity) {
         const paired: Spacing = { inner: tight, outer: s + 1 };

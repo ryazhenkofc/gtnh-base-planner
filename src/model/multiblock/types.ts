@@ -97,6 +97,8 @@ export interface MultiblockDef {
   defaultHatches: HatchKind[];
   /** Whether casings of two units may overlap (shared walls) when the blocks match. */
   wallshare: boolean;
+  /** Minimum empty blocks between two units (default 0: units may touch). Used when walls are not shared. */
+  minGap?: number;
   /** Present when the structure has a variable size (see `ResizeRule`). */
   resize?: ResizeRule;
   notes?: string;

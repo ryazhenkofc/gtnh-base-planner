@@ -3,6 +3,7 @@ import type { MultiblockDef } from '../model/multiblock/types';
 import { localCells } from '../model/geometry';
 import { resizeSteps, sizedDef } from '../model/resize';
 import { catalog, getMultiblock } from './catalog';
+import { tierRank } from './tiers';
 import { validateMultiblockDef } from './validate';
 
 const files = import.meta.glob<MultiblockDef>('./multiblocks/*.json', { eager: true, import: 'default' });
@@ -24,6 +25,14 @@ describe('multiblock catalog', () => {
   it('has unique ids', () => {
     const ids = catalog.map((d) => d.id);
     expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  it('sorts by tier, then name', () => {
+    const keys = catalog.map((d) => [tierRank(d.tier), d.name] as const);
+    for (let i = 1; i < keys.length; i++) {
+      const [prev, cur] = [keys[i - 1], keys[i]];
+      expect(prev[0] < cur[0] || (prev[0] === cur[0] && prev[1].localeCompare(cur[1]) <= 0)).toBe(true);
+    }
   });
 
   describe.each(entries)('$file', ({ file, def }) => {
@@ -149,5 +158,31 @@ describe('validateMultiblockDef', () => {
     const d = clone(base);
     d.requiredHatches = { ...d.requiredHatches, energy: { min: 2, max: 1 } };
     expect(validateMultiblockDef(d).join()).toMatch(/max must be an integer >= min/);
+  });
+});
+
+describe('Railcraft liquid-fuel boiler twins', () => {
+  // A liquid boiler must match its solid-fuel twin except for the firebox block (@6 vs @5), so a later edit
+  // to one cannot drift from the other.
+  const twins = catalog.filter((d) => d.id.endsWith('-liquid'));
+
+  it('has a solid twin for every liquid boiler', () => {
+    expect(twins.length).toBe(6);
+    for (const liquid of twins)
+      expect(getMultiblock(liquid.id.slice(0, -'-liquid'.length)), liquid.id).toBeDefined();
+  });
+
+  it('matches its solid twin except for the firebox block', () => {
+    const shape = (d: MultiblockDef) => {
+      const { id: _id, name: _name, notes: _notes, ...rest } = d;
+      void _id;
+      void _name;
+      void _notes;
+      return JSON.stringify(rest).replace(/railcraft\.machine\.beta@6/g, 'railcraft.machine.beta@5');
+    };
+    for (const liquid of twins) {
+      const solid = getMultiblock(liquid.id.slice(0, -'-liquid'.length))!;
+      expect(shape(liquid), liquid.id).toBe(shape(solid));
+    }
   });
 });

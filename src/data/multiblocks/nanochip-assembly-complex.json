@@ -1,6 +1,7 @@
 {
   "id": "nanochip-assembly-complex",
   "name": "Nanochip Assembly Complex",
+  "tier": "UEV",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/nanochip/MTENanochipAssemblyComplex.java",
   "size": [63, 49, 63],

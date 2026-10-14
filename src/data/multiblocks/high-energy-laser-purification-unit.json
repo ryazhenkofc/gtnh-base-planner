@@ -1,6 +1,7 @@
 {
   "id": "high-energy-laser-purification-unit",
   "name": "High Energy Laser Purification Unit",
+  "tier": "UV",
   "generated": true,
   "source": "https://github.com/GTNewHorizons/GT5-Unofficial/blob/5.09.54.133/src/main/java/gregtech/common/tileentities/machines/multi/purification/MTEPurificationUnitUVTreatment.java",
   "size": [13, 9, 9],

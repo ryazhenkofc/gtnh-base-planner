@@ -204,9 +204,17 @@ describe('catalog view', () => {
     expect(faces.top.tiles).toEqual(['COKE_OVEN_CASING']);
     expect(faces.left.tiles).toEqual(['COKE_OVEN_CASING', 'COKE_OVEN_OVERLAY_INACTIVE']);
     expect(faces.right.tiles).toEqual(['COKE_OVEN_CASING']);
-    // Hand-made entries are all textured; a generated one may use an untextured (flat) casing.
-    expect(catalog.filter((d) => !d.generated).every((d) => iconFaces(d).left.tiles.length === 2)).toBe(true);
-    expect(catalog.every((d) => [0, 2].includes(iconFaces(d).left.tiles.length))).toBe(true);
+    // Hand-made entries are all textured except Railcraft, which has no art yet; a generated one may use an untextured (flat) casing.
+    expect(
+      catalog
+        .filter((d) => !d.generated && !d.source?.includes('/Railcraft/'))
+        .every((d) => iconFaces(d).left.tiles.length === 2),
+    ).toBe(true);
+    expect(
+      catalog
+        .filter((d) => !d.source?.includes('/Railcraft/'))
+        .every((d) => [0, 2].includes(iconFaces(d).left.tiles.length)),
+    ).toBe(true);
     const bare = iconFaces(coke, {
       atlas: { path: '', width: 0, height: 0, tile: 16 },
       tiles: {},
@@ -222,7 +230,7 @@ describe('catalog view', () => {
   });
   it('filters by name and tier', () => {
     expect(matchesQuery(coke, 'coke')).toBe(true);
-    expect(matchesQuery(coke, 'steam')).toBe(true);
+    expect(matchesQuery(coke, 'stone')).toBe(true);
     expect(matchesQuery(coke, 'zzz')).toBe(false);
     expect(catalog.every((d) => matchesQuery(d, ''))).toBe(true);
   });

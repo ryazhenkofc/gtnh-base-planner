@@ -261,6 +261,18 @@ describe('packUnits', () => {
     expect(footprint(def, r.units)).toEqual([6, 3, 6]);
   });
 
+  it('keeps minGap empty blocks between units of a non-wallshare def', () => {
+    const def = boxDef([3, 3, 3], { wallshare: false, minGap: 1 });
+    for (const n of [2, 4]) {
+      const r = packUnits(def, n, NO_LIMITS);
+      expect(r.placed).toBe(n);
+      expect(problems(def, r.units)).toEqual([]);
+    }
+    // Two units side by side span 3 + 1 + 3 = 7 blocks along the packed axis, never 6.
+    const pair = footprint(def, packUnits(def, 2, NO_LIMITS).units);
+    expect(Math.max(...pair)).toBe(7);
+  });
+
   it('does not share walls made of different blocks', () => {
     const def = boxDef([3, 3, 3]);
     // East wall (x = 2) uses a different block than the west wall (x = 0).

@@ -107,10 +107,6 @@
         : ''}
     </p>{/if}
 
-  {#if def?.generated}<p class="hint unverified" data-testid="unverified">
-      {t.generatedTag}: {t.generatedHint}
-    </p>{/if}
-
   <div class="sub">
     <p class="sub-title"><span>{t.site.machine}</span></p>
     <label class="col">
@@ -283,9 +279,6 @@
 </div>
 
 <style>
-  .unverified {
-    color: var(--pick);
-  }
   .inspector {
     padding: 4px 0 20px;
     border-bottom: 1px solid var(--line);

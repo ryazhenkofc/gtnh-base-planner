@@ -130,8 +130,7 @@ export function candidates(
       !spaced &&
       ((spacing[0].inner !== spacing[0].outer && limits.x === null) ||
         (spacing[2].inner !== spacing[2].outer && limits.z === null) ||
-        isGap(spacing[0], size[0]) ||
-        isGap(spacing[2], size[2]))
+        (!def.minGap && (isGap(spacing[0], size[0]) || isGap(spacing[2], size[2]))))
     )
       continue;
     const caps = modeCaps(mode, limits, n);
